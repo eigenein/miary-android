@@ -56,13 +56,7 @@ public class MainActivity extends FragmentActivity {
         final Fragment fragment;
         switch (position) {
             case 0:
-                fragment = new NetworkFragment();
-                break;
-            case 1:
-                fragment = new KnownNetworksFragment();
-                break;
-            case 2:
-                fragment = new HistoryFragment();
+                fragment = new QrCodeFragment();
                 break;
             default:
                 throw new IllegalArgumentException("Position is out of range.");
@@ -87,13 +81,6 @@ public class MainActivity extends FragmentActivity {
     private void initializeActionBar14() {
         if (AndroidVersion.isIceCreamSandwich()) {
             getActionBar().setHomeButtonEnabled(true);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setTitle(final String title) {
-        if (AndroidVersion.isHoneycomb()) {
-            getActionBar().setTitle(title);
         }
     }
 

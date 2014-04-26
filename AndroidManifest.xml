@@ -4,7 +4,7 @@
           android:versionCode="1"
           android:versionName="0.0.1b"
 >
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="19"/>
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"/>
 
     <!-- Core. -->
     <uses-permission android:name="android.permission.INTERNET"/>

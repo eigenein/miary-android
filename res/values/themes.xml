@@ -2,7 +2,7 @@
 <resources>
     <style
             name="QrWiFi.Theme.Application"
-            parent="@android:style/Theme"
+            parent="android:Theme.Holo"
     >
     </style>
 </resources>
