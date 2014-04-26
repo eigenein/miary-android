@@ -44,6 +44,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void initializeDrawer() {
+        // Initialize drawer list.
         drawerTitles = getResources().getStringArray(R.array.drawer_titles);
         drawerList = (ListView)findViewById(R.id.drawer);
         drawerList.setAdapter(new ArrayAdapter<String>(
@@ -54,7 +55,7 @@ public class MainActivity extends FragmentActivity {
                 selectDrawerItem(position);
             }
         });
-
+        // Initialize drawer layout.
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
@@ -74,7 +75,7 @@ public class MainActivity extends FragmentActivity {
     private void initializeActionBar7() {
         if (AndroidVersion.isHoneycomb()) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
-
+            // Apply style.
             final SpannableString title = new SpannableString(getString(R.string.app_name));
             title.setSpan(new TypefaceSpan(typefaceBold), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             getActionBar().setTitle(title);
