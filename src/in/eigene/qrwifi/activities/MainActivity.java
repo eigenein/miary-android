@@ -2,7 +2,6 @@ package in.eigene.qrwifi.activities;
 
 import android.annotation.*;
 import android.content.res.*;
-import android.graphics.*;
 import android.os.*;
 import android.support.v4.app.*;
 import android.support.v4.widget.*;
@@ -20,9 +19,6 @@ public class MainActivity extends FragmentActivity {
     private String[] drawerTitles;
     private ListView drawerList;
 
-    private Typeface typefaceRegular;
-    private Typeface typefaceBold;
-
     /**
      * Called when the activity is first created.
      */
@@ -30,17 +26,11 @@ public class MainActivity extends FragmentActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        initializeTypefaces();
         initializeDrawer();
         initializeActionBar7();
         initializeActionBar14();
         selectDrawerItem(0); // TODO: read position from saved state.
         // TODO: show the drawer for the first time.
-    }
-
-    private void initializeTypefaces() {
-        this.typefaceRegular = Typeface.createFromAsset(getAssets(), "RobotoCondensed-Regular.ttf");
-        this.typefaceBold = Typeface.createFromAsset(getAssets(), "RobotoCondensed-Bold.ttf");
     }
 
     private void initializeDrawer() {
@@ -77,7 +67,7 @@ public class MainActivity extends FragmentActivity {
             getActionBar().setDisplayHomeAsUpEnabled(true);
             // Apply style.
             final SpannableString title = new SpannableString(getString(R.string.app_name));
-            title.setSpan(new TypefaceSpan(typefaceBold), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            title.setSpan(new TypefaceSpan(TypefaceCache.get(this, TypefaceCache.BOLD)), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             getActionBar().setTitle(title);
         }
     }
