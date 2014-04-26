@@ -27,7 +27,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         initializeDrawer();
-        initializeActionBar7();
+        initializeActionBar11();
         initializeActionBar14();
         selectDrawerItem(0); // TODO: read position from saved state.
         // TODO: show the drawer for the first time.
@@ -62,7 +62,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void initializeActionBar7() {
+    private void initializeActionBar11() {
         if (AndroidVersion.isHoneycomb()) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
             // Apply style.
