@@ -51,18 +51,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void selectDrawerItem(final int position) {
-        setTitle(drawerTitles[position]);
-
-        final Fragment fragment;
-        switch (position) {
-            case 0:
-                fragment = new QrCodeFragment();
-                break;
-            default:
-                throw new IllegalArgumentException("Position is out of range.");
-        }
-        selectFragment(fragment);
-
+        selectFragment(new QrCodeFragment());
         drawerLayout.closeDrawer(drawerList);
     }
 
