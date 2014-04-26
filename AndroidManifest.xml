@@ -6,9 +6,6 @@
 >
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"/>
 
-    <!-- Core. -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-
     <application
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
