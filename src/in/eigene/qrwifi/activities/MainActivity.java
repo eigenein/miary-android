@@ -4,6 +4,7 @@ import android.annotation.*;
 import android.content.res.*;
 import android.os.*;
 import android.support.v4.app.*;
+import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.text.*;
 import android.view.*;
@@ -47,6 +48,7 @@ public class MainActivity extends FragmentActivity {
         });
         // Initialize drawer layout.
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
