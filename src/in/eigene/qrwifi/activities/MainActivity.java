@@ -10,13 +10,15 @@ import android.text.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.qrwifi.*;
+import in.eigene.qrwifi.core.*;
 import in.eigene.qrwifi.fragments.*;
 import in.eigene.qrwifi.helpers.*;
+import in.eigene.qrwifi.widgets.*;
 
 public class MainActivity extends FragmentActivity {
 
     private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+    private DrawerToggle drawerToggle;
     private String[] drawerTitles;
     private ListView drawerList;
 
@@ -49,9 +51,14 @@ public class MainActivity extends FragmentActivity {
         // Initialize drawer layout.
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle = new DrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.setSuccessor(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerOpened(final View drawerView) {
+                new SimpleWifiConfigurationReader().read(MainActivity.this);
+            }
+        });
     }
 
     private void selectDrawerItem(final int position) {
