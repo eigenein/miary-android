@@ -18,5 +18,6 @@
             android:layout_height="fill_parent"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
+            android:background="@android:color/background_dark"
     />
 </android.support.v4.widget.DrawerLayout>
