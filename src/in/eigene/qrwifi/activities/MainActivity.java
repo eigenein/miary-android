@@ -57,10 +57,16 @@ public class MainActivity extends FragmentActivity {
         drawerLayout.closeDrawer(drawerList);
     }
 
+    /**
+     * Replaces current fragment with the specified one.
+     */
     private void selectFragment(final Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 
+    /**
+     * Initializes action bar features for Honeycomb and higher.
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void initializeActionBar11() {
         if (AndroidVersion.isHoneycomb()) {
@@ -72,6 +78,9 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * Initializes action bar features for Ice Cream Sandwich and higher.
+     */
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void initializeActionBar14() {
         if (AndroidVersion.isIceCreamSandwich()) {
