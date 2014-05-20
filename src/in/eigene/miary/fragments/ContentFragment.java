@@ -5,10 +5,10 @@ import android.support.v4.app.*;
 import android.view.*;
 import in.eigene.miary.*;
 
-public class QrCodeFragment extends Fragment {
+public class ContentFragment extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.qr_code_fragment, container, false);
+        return inflater.inflate(R.layout.content_fragment, container, false);
     }
 }

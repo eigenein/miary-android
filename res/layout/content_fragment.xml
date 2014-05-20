@@ -5,10 +5,10 @@
               android:layout_height="fill_parent"
               android:background="@android:color/white"
         >
-    <in.eigene.miary.widgets.CondensedTextView
+    <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="QR Code Here"
+            android:text="Content Here"
             android:textColor="@android:color/darker_gray"
             />
 </LinearLayout>

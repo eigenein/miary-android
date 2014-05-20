@@ -6,11 +6,9 @@ import android.os.*;
 import android.support.v4.app.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
-import android.text.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.*;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
@@ -56,13 +54,13 @@ public class MainActivity extends FragmentActivity {
         drawerToggle.setSuccessor(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(final View drawerView) {
-                new SimpleWifiConfigurationReader().read(MainActivity.this);
+                // TODO.
             }
         });
     }
 
     private void selectDrawerItem(final int position) {
-        selectFragment(new QrCodeFragment());
+        selectFragment(new ContentFragment());
         drawerLayout.closeDrawer(drawerList);
     }
 
@@ -80,10 +78,6 @@ public class MainActivity extends FragmentActivity {
     private void initializeActionBar11() {
         if (AndroidVersion.isHoneycomb()) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
-            // Apply style.
-            final SpannableString title = new SpannableString(getString(R.string.app_name));
-            title.setSpan(new TypefaceSpan(TypefaceCache.get(this, TypefaceCache.BOLD)), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            getActionBar().setTitle(title);
         }
     }
 
