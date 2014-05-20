@@ -1,9 +1,9 @@
-package in.eigene.qrwifi.fragments;
+package in.eigene.miary.fragments;
 
 import android.os.*;
 import android.support.v4.app.*;
 import android.view.*;
-import in.eigene.qrwifi.*;
+import in.eigene.miary.*;
 
 public class QrCodeFragment extends Fragment {
 

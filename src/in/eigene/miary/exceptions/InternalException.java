@@ -1,4 +1,4 @@
-package in.eigene.qrwifi.exceptions;
+package in.eigene.miary.exceptions;
 
 public class InternalException extends Exception {
 

@@ -1,4 +1,4 @@
-package in.eigene.qrwifi.activities;
+package in.eigene.miary.activities;
 
 import android.annotation.*;
 import android.content.res.*;
@@ -9,11 +9,11 @@ import android.support.v4.widget.*;
 import android.text.*;
 import android.view.*;
 import android.widget.*;
-import in.eigene.qrwifi.*;
-import in.eigene.qrwifi.core.*;
-import in.eigene.qrwifi.fragments.*;
-import in.eigene.qrwifi.helpers.*;
-import in.eigene.qrwifi.widgets.*;
+import in.eigene.miary.*;
+import in.eigene.miary.core.*;
+import in.eigene.miary.fragments.*;
+import in.eigene.miary.helpers.*;
+import in.eigene.miary.widgets.*;
 
 public class MainActivity extends FragmentActivity {
 

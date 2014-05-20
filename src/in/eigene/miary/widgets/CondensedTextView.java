@@ -1,9 +1,9 @@
-package in.eigene.qrwifi.widgets;
+package in.eigene.miary.widgets;
 
 import android.content.*;
 import android.util.*;
 import android.widget.*;
-import in.eigene.qrwifi.helpers.*;
+import in.eigene.miary.helpers.*;
 
 public class CondensedTextView extends TextView {
 

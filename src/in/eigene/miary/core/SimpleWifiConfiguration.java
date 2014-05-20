@@ -1,4 +1,4 @@
-package in.eigene.qrwifi.core;
+package in.eigene.miary.core;
 
 public class SimpleWifiConfiguration {
 

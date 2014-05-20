@@ -1,4 +1,4 @@
-package in.eigene.qrwifi.widgets;
+package in.eigene.miary.widgets;
 
 import android.app.*;
 import android.support.v4.app.*;

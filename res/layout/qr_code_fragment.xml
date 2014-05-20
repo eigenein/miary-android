@@ -5,7 +5,7 @@
               android:layout_height="fill_parent"
               android:background="@android:color/white"
         >
-    <in.eigene.qrwifi.widgets.CondensedTextView
+    <in.eigene.miary.widgets.CondensedTextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="QR Code Here"

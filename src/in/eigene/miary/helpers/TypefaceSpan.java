@@ -1,4 +1,4 @@
-package in.eigene.qrwifi.helpers;
+package in.eigene.miary.helpers;
 
 import android.graphics.*;
 import android.text.*;

@@ -15,7 +15,7 @@
             android:theme="@style/QrWiFi.Theme.Application"
     >
         <activity
-                android:name=".activities.MainActivity"
+                android:name="in.eigene.miary.activities.MainActivity"
                 android:label="@string/app_name"
         >
             <intent-filter>
