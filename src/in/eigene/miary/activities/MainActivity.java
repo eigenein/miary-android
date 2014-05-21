@@ -6,14 +6,19 @@ import android.os.*;
 import android.support.v4.app.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.R;
+import in.eigene.miary.core.*;
 import in.eigene.miary.fragments.*;
-import in.eigene.miary.helpers.*;
+
+import java.util.*;
 
 public class MainActivity extends BaseActivity {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -30,7 +35,6 @@ public class MainActivity extends BaseActivity {
         initializeDrawer();
         selectDrawerItem(0); // TODO: read position from savedInstanceState.
         // TODO: show the drawer for the first time.
-        ParseHelper.initialize(this);
         ParseAnalytics.trackAppOpened(getIntent());
     }
 
@@ -85,10 +89,22 @@ public class MainActivity extends BaseActivity {
 
         switch (item.getItemId()) {
             case R.id.menu_item_note_new:
-                startActivity(new Intent().setClass(this, NoteActivity.class));
+                startNoteActivity(new Note()
+                        .setCurrentUser()
+                        .setUuid(UUID.randomUUID().toString())
+                        .setCreationDate(new Date())
+                        .setDraft(true));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startNoteActivity(final Note note) {
+        Log.i(LOG_TAG, "Starting note activity: " + note);
+        note.saveEventually();
+        startActivity(new Intent()
+                .setClass(MainActivity.this, NoteActivity.class)
+                .putExtra(NoteFragment.EXTRA_NOTE_UUID, note.getUuid()));
     }
 }
