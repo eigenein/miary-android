@@ -8,6 +8,9 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         ParseHelper.initialize(this);
-        ParseUser.enableAutomaticUser();
+
+        if (ParseUser.getCurrentUser() != null) {
+            ParseACL.setDefaultACL(new ParseACL(), true);
+        }
     }
 }

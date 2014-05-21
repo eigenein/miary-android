@@ -21,13 +21,13 @@ public class NoteFragment extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final String noteUuid = getArguments().getString(EXTRA_NOTE_UUID);
+        final UUID noteUuid = (UUID)getArguments().getSerializable(EXTRA_NOTE_UUID);
         Log.i(LOG_TAG, "On view creation: " + noteUuid);
         updateView(noteUuid);
         return inflater.inflate(R.layout.note_fragment, container, false);
     }
 
-    private void updateView(final String noteUuid) {
+    private void updateView(final UUID noteUuid) {
         Note.getByUuid(noteUuid, new FindCallback<Note>() {
             @Override
             public void done(final List<Note> notes, final ParseException e) {

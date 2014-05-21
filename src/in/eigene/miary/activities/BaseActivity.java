@@ -4,6 +4,7 @@ import android.annotation.*;
 import android.os.*;
 import android.support.v4.app.*;
 import android.view.*;
+import in.eigene.miary.*;
 import in.eigene.miary.helpers.*;
 
 public abstract class BaseActivity extends FragmentActivity {
@@ -13,6 +14,12 @@ public abstract class BaseActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         initializeActionBar11();
         initializeActionBar14();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override

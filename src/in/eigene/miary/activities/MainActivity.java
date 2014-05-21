@@ -12,6 +12,7 @@ import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.R;
 import in.eigene.miary.core.*;
+import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
 
 import java.util.*;
@@ -36,12 +37,6 @@ public class MainActivity extends BaseActivity {
         selectDrawerItem(0); // TODO: read position from savedInstanceState.
         // TODO: show the drawer for the first time.
         ParseAnalytics.trackAppOpened(getIntent());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     private void initializeDrawer() {
@@ -89,20 +84,38 @@ public class MainActivity extends BaseActivity {
 
         switch (item.getItemId()) {
             case R.id.menu_item_note_new:
-                startNoteActivity(new Note()
-                        .setCurrentUser()
-                        .setUuid(UUID.randomUUID().toString())
+                final Note note = new Note()
+                        .setUuid(UUID.randomUUID())
                         .setCreationDate(new Date())
-                        .setDraft(true));
+                        .setDraft(true);
+                saveNote(note);
+                startNoteActivity(note);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    /**
+     * Saves note to either Parse Cloud or Local Datastore depending on current settings.
+     */
+    private void saveNote(final Note note) {
+        if (ParseUser.getCurrentUser() != null) {
+            note.saveEventually();
+        } else {
+            note.pinInBackground(new SaveCallback() {
+                @Override
+                public void done(final ParseException e) {
+                    if (e != null) {
+                        throw new InternalRuntimeException("Could not pin note.", e);
+                    }
+                }
+            });
+        }
+    }
+
     private void startNoteActivity(final Note note) {
         Log.i(LOG_TAG, "Starting note activity: " + note);
-        note.saveEventually();
         startActivity(new Intent()
                 .setClass(MainActivity.this, NoteActivity.class)
                 .putExtra(NoteFragment.EXTRA_NOTE_UUID, note.getUuid()));
