@@ -3,4 +3,7 @@
     <string name="app_name">Miary</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="note_new">New Note</string>
+    <string name="options">Options</string>
+    <string name="note_activity">Note</string>
 </resources>

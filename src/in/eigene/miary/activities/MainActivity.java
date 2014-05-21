@@ -1,6 +1,6 @@
 package in.eigene.miary.activities;
 
-import android.annotation.*;
+import android.content.*;
 import android.content.res.*;
 import android.os.*;
 import android.support.v4.app.*;
@@ -13,7 +13,7 @@ import in.eigene.miary.R;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -28,12 +28,16 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         initializeDrawer();
-        initializeActionBar11();
-        initializeActionBar14();
-        selectDrawerItem(0); // TODO: read position from saved state.
+        selectDrawerItem(0); // TODO: read position from savedInstanceState.
         // TODO: show the drawer for the first time.
-        Parse.initialize(this, "jpnD20rkM3xxna9OhRtun2IbzE7QjPEULtEmIRKC", "ChviiekJmgXCOcQuuzNnifiIHjQ3vHa2GqYW4yCC");
+        ParseHelper.initialize(this);
         ParseAnalytics.trackAppOpened(getIntent());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     private void initializeDrawer() {
@@ -57,35 +61,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void selectDrawerItem(final int position) {
-        selectFragment(new ContentFragment());
+        selectFragment(R.id.feed_content_frame, new FeedFragment());
         drawerLayout.closeDrawer(drawerList);
-    }
-
-    /**
-     * Replaces current fragment with the specified one.
-     */
-    private void selectFragment(final Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-    }
-
-    /**
-     * Initializes action bar features for Honeycomb and higher.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void initializeActionBar11() {
-        if (AndroidVersion.isHoneycomb()) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    /**
-     * Initializes action bar features for Ice Cream Sandwich and higher.
-     */
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void initializeActionBar14() {
-        if (AndroidVersion.isIceCreamSandwich()) {
-            getActionBar().setHomeButtonEnabled(true);
-        }
     }
 
     @Override
@@ -106,6 +83,12 @@ public class MainActivity extends FragmentActivity {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.menu_item_note_new:
+                startActivity(new Intent().setClass(this, NoteActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
