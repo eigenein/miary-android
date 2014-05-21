@@ -8,15 +8,15 @@ import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
-import in.eigene.miary.*;
+import com.parse.*;
+import in.eigene.miary.R;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
-import in.eigene.miary.widgets.*;
 
 public class MainActivity extends FragmentActivity {
 
     private DrawerLayout drawerLayout;
-    private DrawerToggle drawerToggle;
+    private ActionBarDrawerToggle drawerToggle;
     private String[] drawerTitles;
     private ListView drawerList;
 
@@ -32,6 +32,8 @@ public class MainActivity extends FragmentActivity {
         initializeActionBar14();
         selectDrawerItem(0); // TODO: read position from saved state.
         // TODO: show the drawer for the first time.
+        Parse.initialize(this, "jpnD20rkM3xxna9OhRtun2IbzE7QjPEULtEmIRKC", "ChviiekJmgXCOcQuuzNnifiIHjQ3vHa2GqYW4yCC");
+        ParseAnalytics.trackAppOpened(getIntent());
     }
 
     private void initializeDrawer() {
@@ -49,14 +51,9 @@ public class MainActivity extends FragmentActivity {
         // Initialize drawer layout.
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        drawerToggle = new DrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle = new ActionBarDrawerToggle(
+                this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
-        drawerToggle.setSuccessor(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerOpened(final View drawerView) {
-                // TODO.
-            }
-        });
     }
 
     private void selectDrawerItem(final int position) {
