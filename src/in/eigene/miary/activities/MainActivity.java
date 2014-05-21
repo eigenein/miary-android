@@ -100,17 +100,19 @@ public class MainActivity extends BaseActivity {
      * Saves note to either Parse Cloud or Local Datastore depending on current settings.
      */
     private void saveNote(final Note note) {
-        if (ParseUser.getCurrentUser() != null) {
-            note.saveEventually();
-        } else {
-            note.pinInBackground(new SaveCallback() {
-                @Override
-                public void done(final ParseException e) {
-                    if (e != null) {
-                        throw new InternalRuntimeException("Could not pin note.", e);
-                    }
+        final SaveCallback callback = new SaveCallback() {
+            @Override
+            public void done(final ParseException e) {
+                if (e != null) {
+                    throw new InternalRuntimeException("Could not pin note.", e);
                 }
-            });
+            }
+        };
+
+        if (ParseUser.getCurrentUser() != null) {
+            note.saveEventually(callback);
+        } else {
+            note.pinInBackground(callback);
         }
     }
 
