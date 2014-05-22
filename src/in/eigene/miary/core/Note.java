@@ -1,6 +1,7 @@
 package in.eigene.miary.core;
 
 import com.parse.*;
+import in.eigene.miary.helpers.*;
 
 import java.io.*;
 import java.util.*;
@@ -11,11 +12,16 @@ import java.util.*;
 @ParseClassName("Note")
 public class Note extends ParseObject implements Serializable {
 
-    public static final String UUID_LSB_KEY = "uuid_lsb";
-    public static final String UUID_MSB_KEY = "uuid_msb";
+    public static final String UUID_LSB_KEY = "ul";
+    public static final String UUID_MSB_KEY = "um";
+    public static final String HEADER_KEY = "h";
+    public static final String TEXT_KEY = "t";
     public static final String CREATION_DATE_KEY = "cd";
     public static final String DRAFT_KEY = "d";
 
+    /**
+     * Gets note from Local Datastore by UUID.
+     */
     public static void getByUuid(final UUID uuid, final GetCallback<Note> callback) {
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
@@ -35,6 +41,24 @@ public class Note extends ParseObject implements Serializable {
     public Note setUuid(final UUID uuid) {
         put(UUID_MSB_KEY, uuid.getMostSignificantBits());
         put(UUID_LSB_KEY, uuid.getLeastSignificantBits());
+        return this;
+    }
+
+    public String getHeader() {
+        return Util.coalesce(getString(HEADER_KEY), "");
+    }
+
+    public Note setHeader(final String header) {
+        put(HEADER_KEY, header);
+        return this;
+    }
+
+    public String getText() {
+        return Util.coalesce(getString(TEXT_KEY), "");
+    }
+
+    public Note setText(final String text) {
+        put(TEXT_KEY, text);
         return this;
     }
 

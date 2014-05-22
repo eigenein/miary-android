@@ -39,35 +39,14 @@ public class FeedActivity extends BaseActivity {
         ParseAnalytics.trackAppOpened(getIntent());
     }
 
-    private void initializeDrawer() {
-        // Initialize drawer list.
-        drawerTitles = getResources().getStringArray(R.array.drawer_titles);
-        drawerList = (ListView)findViewById(R.id.drawer);
-        drawerList.setAdapter(new ArrayAdapter<String>(
-                this, R.layout.drawer_item, R.id.drawer_item_title, drawerTitles));
-        drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView adapterView, final View view, final int position, final long id) {
-                selectDrawerItem(position);
-            }
-        });
-        // Initialize drawer layout.
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
-        drawerLayout.setDrawerListener(drawerToggle);
-    }
-
-    private void selectDrawerItem(final int position) {
-        selectFragment(R.id.feed_content_frame, new FeedFragment());
-        drawerLayout.closeDrawer(drawerList);
-    }
-
-    @Override
-    protected void onPostCreate(final Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+    /**
+     * Start note view/edit activity.
+     */
+    public void startNoteActivity(final Note note) {
+        Log.i(LOG_TAG, "Starting note activity: " + note);
+        startActivity(new Intent()
+                .setClass(FeedActivity.this, NoteActivity.class)
+                .putExtra(NoteFragment.EXTRA_NOTE_UUID, note.getUuid()));
     }
 
     @Override
@@ -96,6 +75,37 @@ public class FeedActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onPostCreate(final Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    private void initializeDrawer() {
+        // Initialize drawer list.
+        drawerTitles = getResources().getStringArray(R.array.drawer_titles);
+        drawerList = (ListView)findViewById(R.id.drawer);
+        drawerList.setAdapter(new ArrayAdapter<String>(
+                this, R.layout.drawer_item, R.id.drawer_item_title, drawerTitles));
+        drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView adapterView, final View view, final int position, final long id) {
+                selectDrawerItem(position);
+            }
+        });
+        // Initialize drawer layout.
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        drawerToggle = new ActionBarDrawerToggle(
+                this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    private void selectDrawerItem(final int position) {
+        selectFragment(R.id.feed_content_frame, new FeedFragment());
+        drawerLayout.closeDrawer(drawerList);
+    }
+
     /**
      * Saves note to either Parse Cloud or Local Datastore depending on current settings.
      */
@@ -114,15 +124,5 @@ public class FeedActivity extends BaseActivity {
         } else {
             note.pinInBackground(callback);
         }
-    }
-
-    /**
-     * Start note view/edit activity.
-     */
-    private void startNoteActivity(final Note note) {
-        Log.i(LOG_TAG, "Starting note activity: " + note);
-        startActivity(new Intent()
-                .setClass(FeedActivity.this, NoteActivity.class)
-                .putExtra(NoteFragment.EXTRA_NOTE_UUID, note.getUuid()));
     }
 }

@@ -3,8 +3,8 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:background="@android:color/white"
               android:layout_margin="@dimen/feed_item_margin"
+              android:background="@drawable/feed_item_white"
 >
     <LinearLayout
             android:orientation="vertical"
@@ -14,6 +14,7 @@
             android:padding="@dimen/feed_item_margin"
     >
         <TextView
+                android:id="@+id/feed_item_header"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -22,6 +23,7 @@
                 android:text="Header"
         />
         <TextView
+                android:id="@+id/feed_item_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -35,6 +37,7 @@
                 android:layerType="software"
         />
         <TextView
+                android:id="@+id/feed_item_creation_date"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
