@@ -1,6 +1,7 @@
 package in.eigene.miary.core;
 
 import com.parse.*;
+import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
 
 import java.io.*;
@@ -14,8 +15,8 @@ public class Note extends ParseObject implements Serializable {
 
     public static final String UUID_LSB_KEY = "ul";
     public static final String UUID_MSB_KEY = "um";
-    public static final String HEADER_KEY = "h";
-    public static final String TEXT_KEY = "t";
+    public static final String TITLE_KEY = "t";
+    public static final String TEXT_KEY = "txt";
     public static final String CREATION_DATE_KEY = "cd";
     public static final String DRAFT_KEY = "d";
 
@@ -34,6 +35,27 @@ public class Note extends ParseObject implements Serializable {
         // Do nothing.
     }
 
+    /**
+     * Saves note to either Local Datastore or bot Parse Cloud and Local Datastore depending on current settings.
+     */
+    public void saveEverywhere() {
+        final SaveCallback callback = new SaveCallback() {
+            @Override
+            public void done(final ParseException e) {
+                if (e != null) {
+                    throw new InternalRuntimeException("Could not pin note.", e);
+                }
+            }
+        };
+
+        pinInBackground(callback);
+
+        // TODO: https://www.parse.com/questions/how-do-i-store-parseobject-in-both-local-datastore-and-parse-cloud
+        /* if (ParseUser.getCurrentUser() != null) {
+            saveEventually(callback);
+        } */
+    }
+
     public UUID getUuid() {
         return new UUID(getLong(UUID_MSB_KEY), getLong(UUID_LSB_KEY));
     }
@@ -44,12 +66,12 @@ public class Note extends ParseObject implements Serializable {
         return this;
     }
 
-    public String getHeader() {
-        return Util.coalesce(getString(HEADER_KEY), "");
+    public String getTitle() {
+        return Util.coalesce(getString(TITLE_KEY), "");
     }
 
-    public Note setHeader(final String header) {
-        put(HEADER_KEY, header);
+    public Note setTitle(final String title) {
+        put(TITLE_KEY, title);
         return this;
     }
 

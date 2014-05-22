@@ -4,11 +4,30 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:background="@android:color/white"
->
-    <TextView
+              android:padding="@dimen/note_fragment_padding"
+              android:focusableInTouchMode="true"
+><!-- http://stackoverflow.com/a/8639921/359730 -->
+    <EditText
+            android:id="@+id/note_edit_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Note Here"
-            android:textColor="@android:color/darker_gray"
+            style="@android:style/TextAppearance.Medium"
+            android:hint="@string/note_title_hint"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/note_edit_text_padding"
+            android:textStyle="bold"
+            android:capitalize="sentences"
+    />
+    <EditText
+            android:id="@+id/note_edit_text"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:inputType="textMultiLine|textCapSentences"
+            android:gravity="top|left"
+            android:scrollbars="vertical"
+            style="@android:style/TextAppearance.Medium"
+            android:hint="@string/note_hint"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/note_edit_text_padding"
     />
 </LinearLayout>

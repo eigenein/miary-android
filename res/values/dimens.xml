@@ -4,4 +4,7 @@
     <dimen name="activity_horizontal_margin">8dp</dimen>
     <dimen name="activity_vertical_margin">8dp</dimen>
     <dimen name="feed_item_margin">8dp</dimen>
+    <dimen name="note_edit_text_padding">8dp</dimen>
+    <dimen name="note_fragment_padding">16dp</dimen>
+    <dimen name="feed_item_separator_height">16dp</dimen>
 </resources>

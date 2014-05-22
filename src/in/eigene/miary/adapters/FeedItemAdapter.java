@@ -38,7 +38,7 @@ public class FeedItemAdapter extends ArrayAdapter<Note> {
         }
 
         final Note note = notes.get(position);
-        viewHolder.header.setText(note.getHeader());
+        viewHolder.title.setText(note.getTitle());
         viewHolder.text.setText(note.getText());
         viewHolder.creationDate.setText(note.getCreationDate().toString());
 
@@ -47,12 +47,12 @@ public class FeedItemAdapter extends ArrayAdapter<Note> {
 
     static class ViewHolder {
 
-        public final TextView header;
+        public final TextView title;
         public final TextView text;
         public final TextView creationDate;
 
         public ViewHolder(final View view) {
-            header = (TextView)view.findViewById(R.id.feed_item_header);
+            title = (TextView)view.findViewById(R.id.feed_item_title);
             text = (TextView)view.findViewById(R.id.feed_item_text);
             creationDate = (TextView)view.findViewById(R.id.feed_item_creation_date);
         }

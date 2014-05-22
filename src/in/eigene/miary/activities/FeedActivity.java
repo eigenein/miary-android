@@ -12,7 +12,6 @@ import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.R;
 import in.eigene.miary.core.*;
-import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
 
 import java.util.*;
@@ -67,7 +66,7 @@ public class FeedActivity extends BaseActivity {
                         .setUuid(UUID.randomUUID())
                         .setCreationDate(new Date())
                         .setDraft(true);
-                saveNote(note);
+                note.saveEverywhere();
                 startNoteActivity(note);
                 return true;
             default:
@@ -104,25 +103,5 @@ public class FeedActivity extends BaseActivity {
     private void selectDrawerItem(final int position) {
         selectFragment(R.id.feed_content_frame, new FeedFragment());
         drawerLayout.closeDrawer(drawerList);
-    }
-
-    /**
-     * Saves note to either Parse Cloud or Local Datastore depending on current settings.
-     */
-    private void saveNote(final Note note) {
-        final SaveCallback callback = new SaveCallback() {
-            @Override
-            public void done(final ParseException e) {
-                if (e != null) {
-                    throw new InternalRuntimeException("Could not pin note.", e);
-                }
-            }
-        };
-
-        if (ParseUser.getCurrentUser() != null) {
-            note.saveEventually(callback);
-        } else {
-            note.pinInBackground(callback);
-        }
     }
 }

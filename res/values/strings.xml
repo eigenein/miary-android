@@ -6,4 +6,6 @@
     <string name="note_new">New Note</string>
     <string name="options">Options</string>
     <string name="note_activity">Note</string>
+    <string name="note_title_hint">Title</string>
+    <string name="note_hint">Your Note</string>
 </resources>
