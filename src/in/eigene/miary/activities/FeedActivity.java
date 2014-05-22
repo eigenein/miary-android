@@ -17,9 +17,9 @@ import in.eigene.miary.fragments.*;
 
 import java.util.*;
 
-public class MainActivity extends BaseActivity {
+public class FeedActivity extends BaseActivity {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.feed_activity);
         initializeDrawer();
         selectDrawerItem(0); // TODO: read position from savedInstanceState.
         // TODO: show the drawer for the first time.
@@ -116,10 +116,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * Start note view/edit activity.
+     */
     private void startNoteActivity(final Note note) {
         Log.i(LOG_TAG, "Starting note activity: " + note);
         startActivity(new Intent()
-                .setClass(MainActivity.this, NoteActivity.class)
+                .setClass(FeedActivity.this, NoteActivity.class)
                 .putExtra(NoteFragment.EXTRA_NOTE_UUID, note.getUuid()));
     }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@android:color/white"
+              android:layout_margin="@dimen/feed_item_margin"
+>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/feed_item_border"
+            android:padding="@dimen/feed_item_margin"
+    >
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginBottom="@dimen/feed_item_margin"
+                android:text="Header"
+        />
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Content"
+        />
+        <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/feed_item_margin"
+                android:scaleType="centerInside"
+                android:src="@drawable/feed_item_separator"
+                android:layerType="software"
+        />
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/darker_gray"
+                android:text="When"
+        />
+    </LinearLayout>
+</LinearLayout>

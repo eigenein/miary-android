@@ -28,13 +28,12 @@ public class NoteFragment extends Fragment {
     }
 
     private void updateView(final UUID noteUuid) {
-        Note.getByUuid(noteUuid, new FindCallback<Note>() {
+        Note.getByUuid(noteUuid, new GetCallback<Note>() {
             @Override
-            public void done(final List<Note> notes, final ParseException e) {
+            public void done(final Note note, final ParseException e) {
                 if (e != null) {
                     throw new InternalRuntimeException("Failed to find note.", e);
                 }
-                note = notes.get(0);
                 Log.i(LOG_TAG, "Note: " + note);
             }
         });

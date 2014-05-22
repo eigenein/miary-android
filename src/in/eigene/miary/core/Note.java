@@ -11,18 +11,17 @@ import java.util.*;
 @ParseClassName("Note")
 public class Note extends ParseObject implements Serializable {
 
-    private static final String UUID_LSB_KEY = "uuid_lsb";
-    private static final String UUID_MSB_KEY = "uuid_msb";
-    private static final String CREATION_DATE_KEY = "cd";
-    private static final String DRAFT_KEY = "d";
+    public static final String UUID_LSB_KEY = "uuid_lsb";
+    public static final String UUID_MSB_KEY = "uuid_msb";
+    public static final String CREATION_DATE_KEY = "cd";
+    public static final String DRAFT_KEY = "d";
 
-    public static void getByUuid(final UUID uuid, final FindCallback<Note> callback) {
+    public static void getByUuid(final UUID uuid, final GetCallback<Note> callback) {
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
         query.whereEqualTo(UUID_LSB_KEY, uuid.getLeastSignificantBits());
         query.whereEqualTo(UUID_MSB_KEY, uuid.getMostSignificantBits());
-        query.setLimit(1);
-        query.findInBackground(callback);
+        query.getFirstInBackground(callback);
     }
 
     public Note() {

@@ -17,7 +17,7 @@
             android:name="in.eigene.miary.Application"
     >
         <activity
-                android:name="in.eigene.miary.activities.MainActivity"
+                android:name=".activities.FeedActivity"
                 android:label="@string/app_name"
         >
             <intent-filter>
