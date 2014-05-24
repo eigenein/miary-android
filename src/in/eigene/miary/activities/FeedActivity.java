@@ -20,6 +20,8 @@ public class FeedActivity extends BaseActivity {
 
     private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
+    private static final String KEY_DRAWER_SHOWN = "drawer_shown";
+
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private String[] drawerTitles;
@@ -31,10 +33,13 @@ public class FeedActivity extends BaseActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.feed_activity);
+
         initializeDrawer();
+        showDrawerForFirstTime();
         selectDrawerItem(0); // TODO: read position from savedInstanceState.
-        // TODO: show the drawer for the first time.
+
         ParseAnalytics.trackAppOpened(getIntent());
     }
 
@@ -80,6 +85,9 @@ public class FeedActivity extends BaseActivity {
         drawerToggle.syncState();
     }
 
+    /**
+     * Initializes drawer.
+     */
     private void initializeDrawer() {
         // Initialize drawer list.
         drawerTitles = getResources().getStringArray(R.array.drawer_titles);
@@ -98,6 +106,23 @@ public class FeedActivity extends BaseActivity {
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    /**
+     * Shows drawer if it was not shown since application installed.
+     */
+    private void showDrawerForFirstTime() {
+        if (!getPreferences(0).getBoolean(KEY_DRAWER_SHOWN, false)) {
+            // Open drawer for the first time.
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                    getPreferences(0).edit().putBoolean(KEY_DRAWER_SHOWN, true).commit();
+                }
+            }, 1000);
+        }
     }
 
     private void selectDrawerItem(final int position) {
