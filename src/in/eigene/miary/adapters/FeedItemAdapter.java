@@ -44,7 +44,7 @@ public class FeedItemAdapter extends ArrayAdapter<Note> {
 
         final Note note = notes.get(position);
         final StyleHolder styleHolder = StyleHolders.get(note.getColor());
-        viewHolder.layout.setBackgroundResource(styleHolder.noteBackgroundColorId);
+        viewHolder.layout.setBackgroundResource(styleHolder.feedItemDrawableId);
         viewHolder.title.setText(note.getTitle());
         viewHolder.text.setText(note.getText());
         viewHolder.creationDate.setTextColor(context.getResources().getColor(styleHolder.feedItemFooterColorId));

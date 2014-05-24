@@ -37,7 +37,7 @@ public enum StyleHolder {
             R.color.blue_light,
             R.color.blue_dark),
     VIOLET(
-            R.drawable.feed_item_green,
+            R.drawable.feed_item_violet,
             R.color.violet_light,
             R.color.violet_dark);
 
