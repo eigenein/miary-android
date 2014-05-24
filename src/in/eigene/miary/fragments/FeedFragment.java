@@ -18,6 +18,9 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
+    private static final String KEY_VIEW_ITEM_INDEX = "view_item_index";
+    private static final String KEY_VIEW_ITEM_TOP = "view_item_top";
+
     private ListView feedListView;
 
     @Override
@@ -35,25 +38,31 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        updateFeed();
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.feed, menu);
     }
 
     @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.feed, menu);
+    public void onStart() {
+        super.onStart();
+        updateFeed();
     }
 
     /**
      * Update the feed with notes.
      */
     private void updateFeed() {
+        // Save scroll position.
+        final int scrollIndex = feedListView.getFirstVisiblePosition();
+        final View topView = feedListView.getChildAt(0);
+        final int scrollTop = (topView != null) ? topView.getTop() : 0;
+
         // TODO: limiting, sorting and infinite scrolling.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
         query.orderByDescending(Note.KEY_CREATION_DATE);
         query.findInBackground(new FindCallback<Note>() {
+
             @Override
             public void done(final List<Note> notes, final ParseException e) {
                 if (e != null) {
@@ -61,6 +70,9 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
                 }
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
                 feedListView.setAdapter(new FeedItemAdapter(getActivity(), notes));
+
+                // Restore scroll position.
+                feedListView.setSelectionFromTop(scrollIndex, scrollTop);
             }
         });
     }
