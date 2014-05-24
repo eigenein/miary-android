@@ -15,20 +15,28 @@ import in.eigene.miary.helpers.TextWatcher;
 
 import java.util.*;
 
-public class NoteFragment extends Fragment implements ChooseColorFragment.DialogListener {
+public class NoteFragment extends Fragment {
+
+    public interface ChangedListener {
+
+        public void onNoteRemoved();
+    }
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
     public static final String EXTRA_NOTE_UUID = "note_uuid";
 
-    private static final HashMap<Integer, Integer> COLOR_TO_RESOURCE_ID =
-            new HashMap<Integer, Integer>();
+    private final ChangedListener changedListener;
 
     private LinearLayout editLayout;
     private EditText editTextTitle;
     private EditText editTextText;
 
     private Note note;
+
+    public NoteFragment(final ChangedListener changedListener) {
+        this.changedListener = changedListener;
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -87,17 +95,21 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_note_color:
-                new ChooseColorFragment(this).show(getFragmentManager(), "ChooseColorFragment");
+                new ChooseColorFragment(new ChooseColorFragment.DialogListener() {
+
+                    @Override
+                    public void colorChosen(final int color) {
+                        note.setColor(color).saveEverywhere();
+                        updateLayoutColor();
+                    }
+                }).show(getFragmentManager(), "ChooseColorFragment");
+                return true;
+            case R.id.menu_item_note_remove:
+                changedListener.onNoteRemoved();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void colorChosen(final int color) {
-        note.setColor(color).saveEverywhere();
-        updateLayoutColor();
     }
 
     private void updateView(final UUID noteUuid) {

@@ -6,4 +6,9 @@
             android:title="@string/note_color"
             android:showAsAction="always"
     />
+    <item
+            android:id="@+id/menu_item_note_remove"
+            android:title="@string/note_remove"
+            android:showAsAction="never"
+    />
 </menu>
