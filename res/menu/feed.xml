@@ -4,6 +4,6 @@
             android:id="@+id/menu_item_note_new"
             android:icon="@drawable/ic_action_new"
             android:title="@string/note_new"
-            android:showAsAction="always"
+            android:showAsAction="ifRoom"
     />
 </menu>

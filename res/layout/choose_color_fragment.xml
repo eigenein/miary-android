@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="@dimen/choose_color_dialog_padding"
+              android:paddingRight="@dimen/choose_color_dialog_padding"
+              android:paddingBottom="@dimen/choose_color_dialog_padding"
+>
+    <ImageView
+            android:layout_width="@dimen/choose_color_circle_size"
+            android:layout_height="@dimen/choose_color_circle_size"
+            android:src="@drawable/color_circle_white"
+            android:layout_margin="@dimen/choose_color_circle_margin"
+    />
+    <ImageView
+            android:layout_width="@dimen/choose_color_circle_size"
+            android:layout_height="@dimen/choose_color_circle_size"
+            android:src="@drawable/color_circle_green"
+            android:layout_margin="@dimen/choose_color_circle_margin"
+    />
+</LinearLayout>

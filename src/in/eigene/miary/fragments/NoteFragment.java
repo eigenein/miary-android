@@ -26,6 +26,17 @@ public class NoteFragment extends Fragment {
     private Note note;
 
     @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.note, menu);
+    }
+
+    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.note_fragment, container, false);
 
@@ -59,6 +70,17 @@ public class NoteFragment extends Fragment {
         final UUID noteUuid = (UUID)getArguments().getSerializable(EXTRA_NOTE_UUID);
         Log.i(LOG_TAG, "Start: " + noteUuid);
         updateView(noteUuid);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_note_color:
+                new ChooseColorFragment().show(getFragmentManager(), "ChooseColorFragment");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void updateView(final UUID noteUuid) {
