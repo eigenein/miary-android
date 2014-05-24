@@ -105,7 +105,16 @@ public class NoteFragment extends Fragment {
                 }).show(getFragmentManager(), "ChooseColorFragment");
                 return true;
             case R.id.menu_item_note_remove:
-                changedListener.onNoteRemoved();
+                note.unpinInBackground(new DeleteCallback() {
+
+                    @Override
+                    public void done(final ParseException e) {
+                        if (e != null) {
+                            throw new InternalRuntimeException("Could not unpin note.", e);
+                        }
+                        changedListener.onNoteRemoved();
+                    }
+                });
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
