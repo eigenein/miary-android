@@ -20,10 +20,23 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
 
     public static final String EXTRA_NOTE_UUID = "note_uuid";
 
+    private static final HashMap<Integer, Integer> COLOR_TO_RESOURCE_ID =
+            new HashMap<Integer, Integer>();
+
+    private LinearLayout editLayout;
     private EditText editTextTitle;
     private EditText editTextText;
 
     private Note note;
+
+    static {
+        COLOR_TO_RESOURCE_ID.put(Note.COLOR_WHITE, android.R.color.white);
+        COLOR_TO_RESOURCE_ID.put(Note.COLOR_BLUE, R.color.blue_light);
+        COLOR_TO_RESOURCE_ID.put(Note.COLOR_VIOLET, R.color.violet_light);
+        COLOR_TO_RESOURCE_ID.put(Note.COLOR_GREEN, R.color.green_light);
+        COLOR_TO_RESOURCE_ID.put(Note.COLOR_ORANGE, R.color.orange_light);
+        COLOR_TO_RESOURCE_ID.put(Note.COLOR_RED, R.color.red_light);
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -40,13 +53,17 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.note_fragment, container, false);
 
+        editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
+
         editTextTitle = (EditText)view.findViewById(R.id.note_edit_title);
         editTextTitle.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                note.setTitle(s.toString());
-                note.saveEverywhere();
+                if (note != null) {
+                    note.setTitle(s.toString());
+                    note.saveEverywhere();
+                }
             }
         });
 
@@ -55,8 +72,10 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
 
             @Override
             public void afterTextChanged(final Editable s) {
-                note.setText(s.toString());
-                note.saveEverywhere();
+                if (note != null) {
+                    note.setText(s.toString());
+                    note.saveEverywhere();
+                }
             }
         });
 
@@ -86,6 +105,7 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
     @Override
     public void colorChosen(final int color) {
         note.setColor(color).saveEverywhere();
+        updateLayoutColor();
     }
 
     private void updateView(final UUID noteUuid) {
@@ -99,7 +119,12 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
                 NoteFragment.this.note = note;
                 editTextTitle.setText(note.getTitle());
                 editTextText.setText(note.getText());
+                updateLayoutColor();
             }
         });
+    }
+
+    private void updateLayoutColor() {
+        editLayout.setBackgroundResource(COLOR_TO_RESOURCE_ID.get(note.getColor()));
     }
 }

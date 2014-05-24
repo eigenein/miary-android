@@ -52,7 +52,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         // TODO: limiting, sorting and infinite scrolling.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
-        query.orderByDescending(Note.CREATION_DATE_KEY);
+        query.orderByDescending(Note.KEY_CREATION_DATE);
         query.findInBackground(new FindCallback<Note>() {
             @Override
             public void done(final List<Note> notes, final ParseException e) {

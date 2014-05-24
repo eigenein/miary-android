@@ -16,9 +16,18 @@ public class ChooseColorFragment extends DialogFragment {
         public void colorChosen(final int color);
     }
 
-    private final DialogListener dialogListener;
+    private static final HashMap<Integer, Integer> VIEW_ID_TO_COLOR = new HashMap<Integer, Integer>();
 
-    private final HashMap<Integer, Integer> idToColor = new HashMap<Integer, Integer>();
+    static {
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_white, Note.COLOR_WHITE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_blue, Note.COLOR_BLUE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.COLOR_VIOLET);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_green, Note.COLOR_GREEN);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_orange, Note.COLOR_ORANGE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_red, Note.COLOR_RED);
+    }
+
+    private final DialogListener dialogListener;
 
     public ChooseColorFragment(final DialogListener dialogListener) {
         this.dialogListener = dialogListener;
@@ -41,14 +50,16 @@ public class ChooseColorFragment extends DialogFragment {
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                dialogListener.colorChosen(idToColor.get(view.getId()));
+                dialogListener.colorChosen(VIEW_ID_TO_COLOR.get(view.getId()));
                 dismiss();
             }
         };
 
         view.findViewById(R.id.choose_color_white).setOnClickListener(listener);
-        idToColor.put(R.id.choose_color_white, NoteColor.WHITE);
+        view.findViewById(R.id.choose_color_blue).setOnClickListener(listener);
+        view.findViewById(R.id.choose_color_violet).setOnClickListener(listener);
         view.findViewById(R.id.choose_color_green).setOnClickListener(listener);
-        idToColor.put(R.id.choose_color_green, NoteColor.GREEN);
+        view.findViewById(R.id.choose_color_orange).setOnClickListener(listener);
+        view.findViewById(R.id.choose_color_red).setOnClickListener(listener);
     }
 }

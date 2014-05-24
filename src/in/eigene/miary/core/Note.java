@@ -13,13 +13,20 @@ import java.util.*;
 @ParseClassName("Note")
 public class Note extends ParseObject implements Serializable {
 
-    public static final String UUID_LSB_KEY = "ul";
-    public static final String UUID_MSB_KEY = "um";
-    public static final String TITLE_KEY = "t";
-    public static final String TEXT_KEY = "txt";
-    public static final String CREATION_DATE_KEY = "cd";
-    public static final String DRAFT_KEY = "d";
-    public static final String COLOR_KEY = "c";
+    public static final String KEY_UUID_LSB = "ul";
+    public static final String KEY_UUID_MSB = "um";
+    public static final String KEY_TITLE = "t";
+    public static final String KEY_TEXT = "txt";
+    public static final String KEY_CREATION_DATE = "cd";
+    public static final String KEY_DRAFT = "d";
+    public static final String KEY_COLOR = "c";
+
+    public static final int COLOR_WHITE = 0;
+    public static final int COLOR_BLUE = 1;
+    public static final int COLOR_VIOLET = 2;
+    public static final int COLOR_GREEN = 3;
+    public static final int COLOR_ORANGE = 4;
+    public static final int COLOR_RED = 5;
 
     /**
      * Gets note from Local Datastore by UUID.
@@ -27,8 +34,8 @@ public class Note extends ParseObject implements Serializable {
     public static void getByUuid(final UUID uuid, final GetCallback<Note> callback) {
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
-        query.whereEqualTo(UUID_LSB_KEY, uuid.getLeastSignificantBits());
-        query.whereEqualTo(UUID_MSB_KEY, uuid.getMostSignificantBits());
+        query.whereEqualTo(KEY_UUID_LSB, uuid.getLeastSignificantBits());
+        query.whereEqualTo(KEY_UUID_MSB, uuid.getMostSignificantBits());
         query.getFirstInBackground(callback);
     }
 
@@ -58,57 +65,57 @@ public class Note extends ParseObject implements Serializable {
     }
 
     public UUID getUuid() {
-        return new UUID(getLong(UUID_MSB_KEY), getLong(UUID_LSB_KEY));
+        return new UUID(getLong(KEY_UUID_MSB), getLong(KEY_UUID_LSB));
     }
 
     public Note setUuid(final UUID uuid) {
-        put(UUID_MSB_KEY, uuid.getMostSignificantBits());
-        put(UUID_LSB_KEY, uuid.getLeastSignificantBits());
+        put(KEY_UUID_MSB, uuid.getMostSignificantBits());
+        put(KEY_UUID_LSB, uuid.getLeastSignificantBits());
         return this;
     }
 
     public String getTitle() {
-        return Util.coalesce(getString(TITLE_KEY), "");
+        return Util.coalesce(getString(KEY_TITLE), "");
     }
 
     public Note setTitle(final String title) {
-        put(TITLE_KEY, title);
+        put(KEY_TITLE, title);
         return this;
     }
 
     public String getText() {
-        return Util.coalesce(getString(TEXT_KEY), "");
+        return Util.coalesce(getString(KEY_TEXT), "");
     }
 
     public Note setText(final String text) {
-        put(TEXT_KEY, text);
+        put(KEY_TEXT, text);
         return this;
     }
 
     public Date getCreationDate() {
-        return getDate(CREATION_DATE_KEY);
+        return getDate(KEY_CREATION_DATE);
     }
 
     public Note setCreationDate(final Date date) {
-        put(CREATION_DATE_KEY, date);
+        put(KEY_CREATION_DATE, date);
         return this;
     }
 
     public boolean isDraft() {
-        return getBoolean(DRAFT_KEY);
+        return getBoolean(KEY_DRAFT);
     }
 
     public Note setDraft(boolean isDraft) {
-        put(DRAFT_KEY, isDraft);
+        put(KEY_DRAFT, isDraft);
         return this;
     }
 
     public int getColor() {
-        return getInt(COLOR_KEY);
+        return getInt(KEY_COLOR);
     }
 
     public Note setColor(final int color) {
-        put(COLOR_KEY, color);
+        put(KEY_COLOR, color);
         return this;
     }
 
