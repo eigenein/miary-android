@@ -10,6 +10,7 @@ import com.parse.*;
 import in.eigene.miary.R;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
 import java.util.*;
@@ -28,15 +29,6 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
     private EditText editTextText;
 
     private Note note;
-
-    static {
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_WHITE, android.R.color.white);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_BLUE, R.color.blue_light);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_VIOLET, R.color.violet_light);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_GREEN, R.color.green_light);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_ORANGE, R.color.orange_light);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_RED, R.color.red_light);
-    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -125,6 +117,10 @@ public class NoteFragment extends Fragment implements ChooseColorFragment.Dialog
     }
 
     private void updateLayoutColor() {
-        editLayout.setBackgroundResource(COLOR_TO_RESOURCE_ID.get(note.getColor()));
+        final StyleHolder styleHolder = StyleHolders.get(note.getColor());
+        editLayout.setBackgroundResource(styleHolder.noteBackgroundColorId);
+        final int hintColor = getResources().getColor(styleHolder.hintColorId);
+        editTextTitle.setHintTextColor(hintColor);
+        editTextText.setHintTextColor(hintColor);
     }
 }

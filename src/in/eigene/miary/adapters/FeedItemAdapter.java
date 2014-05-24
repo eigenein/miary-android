@@ -6,6 +6,7 @@ import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
+import in.eigene.miary.helpers.*;
 
 import java.util.*;
 
@@ -20,15 +21,6 @@ public class FeedItemAdapter extends ArrayAdapter<Note> {
     private final Activity context;
 
     private final List<Note> notes;
-
-    static {
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_WHITE, R.drawable.feed_item_white);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_BLUE, R.drawable.feed_item_blue);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_VIOLET, R.drawable.feed_item_violet);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_GREEN, R.drawable.feed_item_green);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_ORANGE, R.drawable.feed_item_orange);
-        COLOR_TO_RESOURCE_ID.put(Note.COLOR_RED, R.drawable.feed_item_red);
-    }
 
     public FeedItemAdapter(final Activity context, final List<Note> notes) {
         super(context, R.layout.feed_item, notes);
@@ -51,9 +43,11 @@ public class FeedItemAdapter extends ArrayAdapter<Note> {
         }
 
         final Note note = notes.get(position);
-        viewHolder.layout.setBackgroundResource(COLOR_TO_RESOURCE_ID.get(note.getColor()));
+        final StyleHolder styleHolder = StyleHolders.get(note.getColor());
+        viewHolder.layout.setBackgroundResource(styleHolder.noteBackgroundColorId);
         viewHolder.title.setText(note.getTitle());
         viewHolder.text.setText(note.getText());
+        viewHolder.creationDate.setTextColor(context.getResources().getColor(styleHolder.feedItemFooterColorId));
         viewHolder.creationDate.setText(DateUtils.getRelativeDateTimeString(
                 context,
                 note.getCreationDate().getTime(),

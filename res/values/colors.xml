@@ -2,6 +2,7 @@
 <resources>
     <color name="background_holo_light">#fff3f3f3</color>
     <color name="lighter_gray">#ddd</color>
+    <color name="hint_foreground_light">#808080</color>
     <color name="darker_gray">#aaa</color>
     <color name="green_light">#99CC00</color>
     <color name="green_dark">#669900</color>

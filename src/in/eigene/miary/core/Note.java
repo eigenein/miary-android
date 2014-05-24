@@ -22,11 +22,13 @@ public class Note extends ParseObject implements Serializable {
     public static final String KEY_COLOR = "c";
 
     public static final int COLOR_WHITE = 0;
-    public static final int COLOR_BLUE = 1;
-    public static final int COLOR_VIOLET = 2;
-    public static final int COLOR_GREEN = 3;
-    public static final int COLOR_ORANGE = 4;
-    public static final int COLOR_RED = 5;
+    public static final int COLOR_RED = 1;
+    public static final int COLOR_ORANGE = 2;
+    public static final int COLOR_YELLOW = 3;
+    public static final int COLOR_GRAY = 4;
+    public static final int COLOR_GREEN = 5;
+    public static final int COLOR_BLUE = 6;
+    public static final int COLOR_VIOLET = 7;
 
     /**
      * Gets note from Local Datastore by UUID.

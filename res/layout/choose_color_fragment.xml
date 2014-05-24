@@ -19,6 +19,47 @@
                 android:layout_margin="@dimen/choose_color_circle_margin"
         />
         <ImageView
+                android:id="@+id/choose_color_red"
+                android:layout_width="@dimen/choose_color_circle_size"
+                android:layout_height="@dimen/choose_color_circle_size"
+                android:src="@drawable/color_circle_red"
+                android:layout_margin="@dimen/choose_color_circle_margin"
+        />
+        <ImageView
+                android:id="@+id/choose_color_orange"
+                android:layout_width="@dimen/choose_color_circle_size"
+                android:layout_height="@dimen/choose_color_circle_size"
+                android:src="@drawable/color_circle_orange"
+                android:layout_margin="@dimen/choose_color_circle_margin"
+        />
+        <ImageView
+                android:id="@+id/choose_color_yellow"
+                android:layout_width="@dimen/choose_color_circle_size"
+                android:layout_height="@dimen/choose_color_circle_size"
+                android:src="@drawable/color_circle_yellow"
+                android:layout_margin="@dimen/choose_color_circle_margin"
+        />
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    >
+        <ImageView
+                android:id="@+id/choose_color_gray"
+                android:layout_width="@dimen/choose_color_circle_size"
+                android:layout_height="@dimen/choose_color_circle_size"
+                android:src="@drawable/color_circle_gray"
+                android:layout_margin="@dimen/choose_color_circle_margin"
+        />
+        <ImageView
+                android:id="@+id/choose_color_green"
+                android:layout_width="@dimen/choose_color_circle_size"
+                android:layout_height="@dimen/choose_color_circle_size"
+                android:src="@drawable/color_circle_green"
+                android:layout_margin="@dimen/choose_color_circle_margin"
+        />
+        <ImageView
                 android:id="@+id/choose_color_blue"
                 android:layout_width="@dimen/choose_color_circle_size"
                 android:layout_height="@dimen/choose_color_circle_size"
@@ -30,33 +71,6 @@
                 android:layout_width="@dimen/choose_color_circle_size"
                 android:layout_height="@dimen/choose_color_circle_size"
                 android:src="@drawable/color_circle_violet"
-                android:layout_margin="@dimen/choose_color_circle_margin"
-        />
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-    >
-        <ImageView
-                android:id="@+id/choose_color_green"
-                android:layout_width="@dimen/choose_color_circle_size"
-                android:layout_height="@dimen/choose_color_circle_size"
-                android:src="@drawable/color_circle_green"
-                android:layout_margin="@dimen/choose_color_circle_margin"
-        />
-        <ImageView
-                android:id="@+id/choose_color_orange"
-                android:layout_width="@dimen/choose_color_circle_size"
-                android:layout_height="@dimen/choose_color_circle_size"
-                android:src="@drawable/color_circle_orange"
-                android:layout_margin="@dimen/choose_color_circle_margin"
-        />
-        <ImageView
-                android:id="@+id/choose_color_red"
-                android:layout_width="@dimen/choose_color_circle_size"
-                android:layout_height="@dimen/choose_color_circle_size"
-                android:src="@drawable/color_circle_red"
                 android:layout_margin="@dimen/choose_color_circle_margin"
         />
     </LinearLayout>

@@ -20,11 +20,13 @@ public class ChooseColorFragment extends DialogFragment {
 
     static {
         VIEW_ID_TO_COLOR.put(R.id.choose_color_white, Note.COLOR_WHITE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_red, Note.COLOR_RED);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_orange, Note.COLOR_ORANGE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_yellow, Note.COLOR_YELLOW);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_gray, Note.COLOR_GRAY);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_green, Note.COLOR_GREEN);
         VIEW_ID_TO_COLOR.put(R.id.choose_color_blue, Note.COLOR_BLUE);
         VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.COLOR_VIOLET);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_green, Note.COLOR_GREEN);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_orange, Note.COLOR_ORANGE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_red, Note.COLOR_RED);
     }
 
     private final DialogListener dialogListener;
@@ -56,10 +58,12 @@ public class ChooseColorFragment extends DialogFragment {
         };
 
         view.findViewById(R.id.choose_color_white).setOnClickListener(listener);
+        view.findViewById(R.id.choose_color_red).setOnClickListener(listener);
+        view.findViewById(R.id.choose_color_orange).setOnClickListener(listener);
+        view.findViewById(R.id.choose_color_yellow).setOnClickListener(listener);
+        view.findViewById(R.id.choose_color_gray).setOnClickListener(listener);
+        view.findViewById(R.id.choose_color_green).setOnClickListener(listener);
         view.findViewById(R.id.choose_color_blue).setOnClickListener(listener);
         view.findViewById(R.id.choose_color_violet).setOnClickListener(listener);
-        view.findViewById(R.id.choose_color_green).setOnClickListener(listener);
-        view.findViewById(R.id.choose_color_orange).setOnClickListener(listener);
-        view.findViewById(R.id.choose_color_red).setOnClickListener(listener);
     }
 }
