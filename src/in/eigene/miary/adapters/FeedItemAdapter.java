@@ -1,6 +1,7 @@
 package in.eigene.miary.adapters;
 
 import android.app.*;
+import android.text.format.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
@@ -40,7 +41,12 @@ public class FeedItemAdapter extends ArrayAdapter<Note> {
         final Note note = notes.get(position);
         viewHolder.title.setText(note.getTitle());
         viewHolder.text.setText(note.getText());
-        viewHolder.creationDate.setText(note.getCreationDate().toString());
+        viewHolder.creationDate.setText(DateUtils.getRelativeDateTimeString(
+                context,
+                note.getCreationDate().getTime(),
+                DateUtils.SECOND_IN_MILLIS,
+                DateUtils.DAY_IN_MILLIS,
+                0));
 
         return view;
     }
