@@ -8,12 +8,14 @@
               android:paddingBottom="@dimen/choose_color_dialog_padding"
 >
     <ImageView
+            android:id="@+id/choose_color_white"
             android:layout_width="@dimen/choose_color_circle_size"
             android:layout_height="@dimen/choose_color_circle_size"
             android:src="@drawable/color_circle_white"
             android:layout_margin="@dimen/choose_color_circle_margin"
     />
     <ImageView
+            android:id="@+id/choose_color_green"
             android:layout_width="@dimen/choose_color_circle_size"
             android:layout_height="@dimen/choose_color_circle_size"
             android:src="@drawable/color_circle_green"

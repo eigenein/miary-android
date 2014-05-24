@@ -14,7 +14,7 @@ import in.eigene.miary.helpers.TextWatcher;
 
 import java.util.*;
 
-public class NoteFragment extends Fragment {
+public class NoteFragment extends Fragment implements ChooseColorFragment.DialogListener {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
@@ -76,11 +76,16 @@ public class NoteFragment extends Fragment {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_note_color:
-                new ChooseColorFragment().show(getFragmentManager(), "ChooseColorFragment");
+                new ChooseColorFragment(this).show(getFragmentManager(), "ChooseColorFragment");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void colorChosen(final int color) {
+        note.setColor(color).saveEverywhere();
     }
 
     private void updateView(final UUID noteUuid) {

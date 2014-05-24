@@ -19,6 +19,7 @@ public class Note extends ParseObject implements Serializable {
     public static final String TEXT_KEY = "txt";
     public static final String CREATION_DATE_KEY = "cd";
     public static final String DRAFT_KEY = "d";
+    public static final String COLOR_KEY = "c";
 
     /**
      * Gets note from Local Datastore by UUID.
@@ -99,6 +100,15 @@ public class Note extends ParseObject implements Serializable {
 
     public Note setDraft(boolean isDraft) {
         put(DRAFT_KEY, isDraft);
+        return this;
+    }
+
+    public int getColor() {
+        return getInt(COLOR_KEY);
+    }
+
+    public Note setColor(final int color) {
+        put(COLOR_KEY, color);
         return this;
     }
 
