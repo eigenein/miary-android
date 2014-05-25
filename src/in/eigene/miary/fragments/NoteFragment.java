@@ -108,8 +108,9 @@ public class NoteFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.menu_item_note_color:
-                new ChooseColorFragment(new ChooseColorFragment.DialogListener() {
+                new ColorPickerDialogFragment(new ColorPickerDialogFragment.DialogListener() {
 
                     @Override
                     public void colorChosen(final int color) {
@@ -119,19 +120,24 @@ public class NoteFragment extends Fragment {
                     }
                 }).show(getFragmentManager(), "ChooseColorFragment");
                 return true;
-            case R.id.menu_item_note_remove:
-                note.unpinInBackground(new DeleteCallback() {
 
+            case R.id.menu_item_note_remove:
+                new RemoveNoteDialogFragment(new RemoveNoteDialogFragment.Listener() {
                     @Override
-                    public void done(final ParseException e) {
-                        if (e != null) {
-                            throw new InternalRuntimeException("Could not unpin note.", e);
-                        }
-                        changedListener.onNoteRemoved();
-                        ParseAnalytics.trackEvent("remove_note");
+                    public void onPositiveButtonClicked() {
+                        note.unpinInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(final ParseException e) {
+                                InternalRuntimeException.throwForException("Could not unpin note.", e);
+                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT);
+                                changedListener.onNoteRemoved();
+                                ParseAnalytics.trackEvent("remove_note");
+                            }
+                        });
                     }
-                });
+                }).show(getFragmentManager(), "RemoveNoteDialogFragment");
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -152,9 +158,7 @@ public class NoteFragment extends Fragment {
         final SaveCallback callback = new SaveCallback() {
             @Override
             public void done(final ParseException e) {
-                if (e != null) {
-                    throw new InternalRuntimeException("Could not pin note.", e);
-                }
+                InternalRuntimeException.throwForException("Could not pin note.", e);
             }
         };
 
@@ -171,9 +175,7 @@ public class NoteFragment extends Fragment {
         Note.getByUuid(noteUuid, new GetCallback<Note>() {
             @Override
             public void done(final Note note, final ParseException e) {
-                if (e != null) {
-                    throw new InternalRuntimeException("Failed to find note.", e);
-                }
+                InternalRuntimeException.throwForException("Failed to find note.", e);
                 Log.i(LOG_TAG, "Note: " + note);
                 NoteFragment.this.note = note;
                 editTextTitle.setText(note.getTitle());

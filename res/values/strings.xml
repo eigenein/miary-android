@@ -11,4 +11,8 @@
     <string name="note_color">Change Color</string>
     <string name="choose_color_message">Choose Color</string>
     <string name="note_remove">Remove Note</string>
+    <string name="button_remove">Remove</string>
+    <string name="dialog_remove_note_title">Remove note?</string>
+    <string name="dialog_remove_note_message">It will be impossible to restore.</string>
+    <string name="note_removed">The note is removed.</string>
 </resources>

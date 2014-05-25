@@ -62,9 +62,8 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
 
             @Override
             public void done(final List<Note> notes, final ParseException e) {
-                if (e != null) {
-                    throw new InternalRuntimeException("Failed to find notes.", e);
-                }
+                InternalRuntimeException.throwForException("Failed to find notes.", e);
+
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
                 feedListView.setAdapter(new FeedItemAdapter(getActivity(), notes));
 

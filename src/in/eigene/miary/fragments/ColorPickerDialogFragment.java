@@ -9,7 +9,7 @@ import in.eigene.miary.core.*;
 
 import java.util.*;
 
-public class ChooseColorFragment extends DialogFragment {
+public class ColorPickerDialogFragment extends DialogFragment {
 
     interface DialogListener {
 
@@ -31,7 +31,7 @@ public class ChooseColorFragment extends DialogFragment {
 
     private final DialogListener dialogListener;
 
-    public ChooseColorFragment(final DialogListener dialogListener) {
+    public ColorPickerDialogFragment(final DialogListener dialogListener) {
         this.dialogListener = dialogListener;
     }
 
