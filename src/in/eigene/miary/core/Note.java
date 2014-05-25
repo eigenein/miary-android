@@ -1,17 +1,15 @@
 package in.eigene.miary.core;
 
 import com.parse.*;
-import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
 
-import java.io.*;
 import java.util.*;
 
 /**
  * Diary note.
  */
 @ParseClassName("Note")
-public class Note extends ParseObject implements Serializable {
+public class Note extends ParseObject {
 
     public static final String KEY_UUID_LSB = "ul";
     public static final String KEY_UUID_MSB = "um";
@@ -30,6 +28,8 @@ public class Note extends ParseObject implements Serializable {
     public static final int COLOR_BLUE = 6;
     public static final int COLOR_VIOLET = 7;
 
+    private static final String LOG_TAG = Note.class.getSimpleName();
+
     /**
      * Gets note from Local Datastore by UUID.
      */
@@ -43,24 +43,6 @@ public class Note extends ParseObject implements Serializable {
 
     public Note() {
         // Do nothing.
-    }
-
-    /**
-     * Saves note.
-     */
-    public void saveEverywhere() {
-
-        final SaveCallback callback = new SaveCallback() {
-            @Override
-            public void done(final ParseException e) {
-                if (e != null) {
-                    throw new InternalRuntimeException("Could not pin note.", e);
-                }
-            }
-        };
-
-        pinInBackground(callback);
-        ParseAnalytics.trackEvent("save_note");
     }
 
     public UUID getUuid() {

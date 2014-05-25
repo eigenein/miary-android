@@ -26,6 +26,8 @@ public class NoteFragment extends Fragment {
 
     public static final String EXTRA_NOTE_UUID = "note_uuid";
 
+    private static final long DEBOUNCE_INTERVAL = 3000L;
+
     private final ChangedListener changedListener;
 
     private LinearLayout editLayout;
@@ -33,6 +35,11 @@ public class NoteFragment extends Fragment {
     private EditText editTextText;
 
     private Note note;
+
+    /**
+     * Contains last note save date.
+     */
+    private long lastSaveDateTime = new Date().getTime();
 
     public NoteFragment(final ChangedListener changedListener) {
         this.changedListener = changedListener;
@@ -62,7 +69,7 @@ public class NoteFragment extends Fragment {
             public void afterTextChanged(final Editable s) {
                 if (note != null) {
                     note.setTitle(s.toString());
-                    note.saveEverywhere();
+                    saveNote(true);
                 }
             }
         });
@@ -74,7 +81,7 @@ public class NoteFragment extends Fragment {
             public void afterTextChanged(final Editable s) {
                 if (note != null) {
                     note.setText(s.toString());
-                    note.saveEverywhere();
+                    saveNote(true);
                 }
             }
         });
@@ -92,6 +99,13 @@ public class NoteFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+
+        saveNote(false);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_note_color:
@@ -99,7 +113,8 @@ public class NoteFragment extends Fragment {
 
                     @Override
                     public void colorChosen(final int color) {
-                        note.setColor(color).saveEverywhere();
+                        note.setColor(color);
+                        saveNote(false);
                         updateLayoutColor();
                     }
                 }).show(getFragmentManager(), "ChooseColorFragment");
@@ -122,6 +137,36 @@ public class NoteFragment extends Fragment {
         }
     }
 
+    /**
+     * Saves the note. This method debounces frequent save calls.
+     */
+    private void saveNote(final boolean debounce) {
+        final long currentDateTime = new Date().getTime();
+        if (debounce) {
+            if (currentDateTime - lastSaveDateTime < DEBOUNCE_INTERVAL) {
+                Log.d(LOG_TAG, "Save debounce. " + (currentDateTime - lastSaveDateTime));
+                return;
+            }
+        }
+
+        final SaveCallback callback = new SaveCallback() {
+            @Override
+            public void done(final ParseException e) {
+                if (e != null) {
+                    throw new InternalRuntimeException("Could not pin note.", e);
+                }
+            }
+        };
+
+        Log.i(LOG_TAG, "Save note.");
+        note.pinInBackground(callback);
+        lastSaveDateTime = currentDateTime;
+        ParseAnalytics.trackEvent("save_note");
+    }
+
+    /**
+     * Updates view with the note.
+     */
     private void updateView(final UUID noteUuid) {
         Note.getByUuid(noteUuid, new GetCallback<Note>() {
             @Override
@@ -138,8 +183,12 @@ public class NoteFragment extends Fragment {
         });
     }
 
+    /**
+     * Updates layout according to the note color.
+     */
     private void updateLayoutColor() {
         final StyleHolder styleHolder = StyleHolders.get(note.getColor());
+
         editLayout.setBackgroundResource(styleHolder.noteBackgroundColorId);
         final int hintColor = getResources().getColor(styleHolder.hintColorId);
         editTextTitle.setHintTextColor(hintColor);

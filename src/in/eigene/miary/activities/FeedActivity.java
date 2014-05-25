@@ -12,6 +12,7 @@ import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.R;
 import in.eigene.miary.core.*;
+import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
 
 import java.util.*;
@@ -71,8 +72,15 @@ public class FeedActivity extends BaseActivity {
                         .setUuid(UUID.randomUUID())
                         .setCreationDate(new Date())
                         .setDraft(true);
-                note.saveEverywhere();
-                startNoteActivity(note);
+                note.pinInBackground(new SaveCallback() {
+                    @Override
+                    public void done(final ParseException e) {
+                        if (e != null) {
+                            throw new InternalRuntimeException("Could not pin a new note.", e);
+                        }
+                        startNoteActivity(note);
+                    }
+                });
                 ParseAnalytics.trackEvent("new_note");
                 return true;
             default:
