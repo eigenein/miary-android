@@ -46,9 +46,10 @@ public class Note extends ParseObject implements Serializable {
     }
 
     /**
-     * Saves note to either Local Datastore or bot Parse Cloud and Local Datastore depending on current settings.
+     * Saves note.
      */
     public void saveEverywhere() {
+
         final SaveCallback callback = new SaveCallback() {
             @Override
             public void done(final ParseException e) {
@@ -59,11 +60,7 @@ public class Note extends ParseObject implements Serializable {
         };
 
         pinInBackground(callback);
-
-        // TODO: https://www.parse.com/questions/how-do-i-store-parseobject-in-both-local-datastore-and-parse-cloud
-        /* if (ParseUser.getCurrentUser() != null) {
-            saveEventually(callback);
-        } */
+        ParseAnalytics.trackEvent("save_note");
     }
 
     public UUID getUuid() {

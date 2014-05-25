@@ -113,6 +113,7 @@ public class NoteFragment extends Fragment {
                             throw new InternalRuntimeException("Could not unpin note.", e);
                         }
                         changedListener.onNoteRemoved();
+                        ParseAnalytics.trackEvent("remove_note");
                     }
                 });
                 return true;

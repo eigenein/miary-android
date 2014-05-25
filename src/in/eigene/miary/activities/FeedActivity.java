@@ -73,6 +73,7 @@ public class FeedActivity extends BaseActivity {
                         .setDraft(true);
                 note.saveEverywhere();
                 startNoteActivity(note);
+                ParseAnalytics.trackEvent("new_note");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
