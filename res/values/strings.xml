@@ -9,7 +9,7 @@
     <string name="note_title_hint">Title</string>
     <string name="note_hint">Your Note</string>
     <string name="note_color">Change Color</string>
-    <string name="choose_color_message">Choose Color</string>
+    <string name="dialog_colorpicker_title">Choose Color</string>
     <string name="note_remove">Remove Note</string>
     <string name="button_remove">Remove</string>
     <string name="dialog_remove_note_title">Remove note?</string>
