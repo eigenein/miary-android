@@ -18,9 +18,6 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
-    private static final String KEY_VIEW_ITEM_INDEX = "view_item_index";
-    private static final String KEY_VIEW_ITEM_TOP = "view_item_top";
-
     private ListView feedListView;
 
     @Override
