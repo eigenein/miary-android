@@ -25,8 +25,7 @@ public class FeedActivity extends BaseActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private String[] drawerTitles;
-    private ListView drawerList;
+    private View drawer;
 
     /**
      * Called when the activity is first created.
@@ -96,23 +95,28 @@ public class FeedActivity extends BaseActivity {
      * Initializes drawer.
      */
     private void initializeDrawer() {
-        // Initialize drawer list.
-        drawerTitles = getResources().getStringArray(R.array.drawer_titles);
-        drawerList = (ListView)findViewById(R.id.drawer);
-        drawerList.setAdapter(new ArrayAdapter<String>(
-                this, R.layout.drawer_item, R.id.drawer_item_title, drawerTitles));
-        drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView adapterView, final View view, final int position, final long id) {
-                selectDrawerItem(position);
-            }
-        });
         // Initialize drawer layout.
+        drawer = findViewById(R.id.drawer);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
+
+        // Initialize drawer items.
+        // TODO: Add click listener and close drawer.
+
+        final View drawerItemFeed = drawer.findViewById(R.id.drawer_item_feed);
+        ((ImageView)drawerItemFeed.findViewById(R.id.drawer_item_icon)).setImageResource(R.drawable.ic_drawer_feed);
+        ((TextView)drawerItemFeed.findViewById(R.id.drawer_item_title)).setText(R.string.drawer_item_feed);
+
+        final View drawerItemStarred = drawer.findViewById(R.id.drawer_item_starred);
+        ((ImageView)drawerItemStarred.findViewById(R.id.drawer_item_icon)).setImageResource(R.drawable.ic_drawer_starred);
+        ((TextView)drawerItemStarred.findViewById(R.id.drawer_item_title)).setText(R.string.drawer_item_starred);
+
+        final View drawerItemDrafts = drawer.findViewById(R.id.drawer_item_drafts);
+        ((ImageView)drawerItemDrafts.findViewById(R.id.drawer_item_icon)).setImageResource(R.drawable.ic_drawer_drafts);
+        ((TextView)drawerItemDrafts.findViewById(R.id.drawer_item_title)).setText(R.string.drawer_item_drafts);
     }
 
     /**
@@ -134,6 +138,6 @@ public class FeedActivity extends BaseActivity {
 
     private void selectDrawerItem(final int position) {
         selectFragment(R.id.feed_content_frame, new FeedFragment());
-        drawerLayout.closeDrawer(drawerList);
+        drawerLayout.closeDrawer(drawer);
     }
 }

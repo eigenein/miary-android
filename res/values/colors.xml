@@ -9,6 +9,7 @@
     <color name="green_dark">#669900</color>
     <color name="blue_light">#6DCAEC</color>
     <color name="blue_dark">#0099CC</color>
+    <color name="counter_background">#5490CC</color>
     <color name="violet_light">#BA75DC</color>
     <color name="violet_dark">#9933CC</color>
     <color name="orange_light">#FFBB33</color>

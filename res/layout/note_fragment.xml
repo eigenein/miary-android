@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/note_edit_layout"
               android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:padding="@dimen/note_fragment_padding"
               android:focusableInTouchMode="true"
 ><!-- http://stackoverflow.com/a/8639921/359730 -->
     <EditText
             android:id="@+id/note_edit_title"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@android:style/TextAppearance.Medium"
             android:hint="@string/note_title_hint"
@@ -20,8 +20,8 @@
     />
     <EditText
             android:id="@+id/note_edit_text"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:inputType="textMultiLine|textCapSentences"
             android:gravity="top|left"
             android:scrollbars="vertical"

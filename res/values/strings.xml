@@ -15,4 +15,7 @@
     <string name="dialog_remove_note_title">Remove note?</string>
     <string name="dialog_remove_note_message">It will be impossible to restore.</string>
     <string name="note_removed">The note is removed.</string>
+    <string name="drawer_item_feed">Feed</string>
+    <string name="drawer_item_starred">Starred</string>
+    <string name="drawer_item_drafts">Drafts</string>
 </resources>
