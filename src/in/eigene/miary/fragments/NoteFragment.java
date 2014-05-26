@@ -111,7 +111,6 @@ public class NoteFragment extends Fragment {
 
             case R.id.menu_item_note_color:
                 new ColorPickerDialogFragment(new ColorPickerDialogFragment.DialogListener() {
-
                     @Override
                     public void colorChosen(final int color) {
                         note.setColor(color);
