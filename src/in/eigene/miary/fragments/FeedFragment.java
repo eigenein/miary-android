@@ -42,18 +42,32 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onStart() {
         super.onStart();
-        updateFeed();
+        refreshFeedItems();
+    }
+
+    @Override
+    public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+        final Note note = (Note)parent.getItemAtPosition(position);
+        // This fragment is always attached to feed activity.
+        final FeedActivity feedActivity = (FeedActivity)getActivity();
+        feedActivity.startNoteActivity(note);
     }
 
     /**
-     * Update the feed with notes.
+     * Refreshes feed by either querying feed items or notifying feed items adapter.
      */
-    private void updateFeed() {
-        // Save scroll position.
-        final int scrollIndex = feedListView.getFirstVisiblePosition();
-        final View topView = feedListView.getChildAt(0);
-        final int scrollTop = (topView != null) ? topView.getTop() : 0;
+    private void refreshFeedItems() {
+        if (feedListView.getAdapter() == null) {
+            queryFeedItems();
+        } else {
+            ((FeedItemsAdapter)feedListView.getAdapter()).notifyDataSetChanged();
+        }
+    }
 
+    /**
+     * Queries feed items and updates feed.
+     */
+    private void queryFeedItems() {
         // TODO: limiting, sorting and infinite scrolling.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
@@ -65,19 +79,8 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
 
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
-                feedListView.setAdapter(new FeedItemAdapter(getActivity(), notes));
-
-                // Restore scroll position.
-                feedListView.setSelectionFromTop(scrollIndex, scrollTop);
+                feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
             }
         });
-    }
-
-    @Override
-    public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-        final Note note = (Note)parent.getItemAtPosition(position);
-        // This fragment is always attached to feed activity.
-        final FeedActivity feedActivity = (FeedActivity)getActivity();
-        feedActivity.startNoteActivity(note);
     }
 }

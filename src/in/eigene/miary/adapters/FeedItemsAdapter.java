@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Used to display a list of notes.
  */
-public class FeedItemAdapter extends ArrayAdapter<Note> {
+public class FeedItemsAdapter extends ArrayAdapter<Note> {
 
     private static final HashMap<Integer, Integer> COLOR_TO_RESOURCE_ID =
             new HashMap<Integer, Integer>();
@@ -22,7 +22,7 @@ public class FeedItemAdapter extends ArrayAdapter<Note> {
 
     private final List<Note> notes;
 
-    public FeedItemAdapter(final Activity context, final List<Note> notes) {
+    public FeedItemsAdapter(final Activity context, final List<Note> notes) {
         super(context, R.layout.feed_item, notes);
         this.context = context;
         this.notes = notes;
