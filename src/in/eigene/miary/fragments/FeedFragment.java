@@ -11,12 +11,15 @@ import in.eigene.miary.activities.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.helpers.*;
 
 import java.util.*;
 
-public class FeedFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class FeedFragment extends Fragment implements AdapterView.OnItemClickListener, EndlessScrollListener.Listener {
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
+
+    private static final int PAGE_SIZE = 6; // for endless scrolling
 
     private ListView feedListView;
 
@@ -42,7 +45,21 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onStart() {
         super.onStart();
-        refreshFeedItems();
+
+        final FeedItemsAdapter adapter = (FeedItemsAdapter)feedListView.getAdapter();
+        if (adapter == null) {
+            // Initially set the adapter.
+            queryFeedItemsPage(null, new Action<List<Note>>() {
+                @Override
+                public void done(final List<Note> notes) {
+                    feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
+                    feedListView.setOnScrollListener(new EndlessScrollListener(FeedFragment.this));
+                }
+            });
+        } else {
+            // Items might be changed.
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -53,25 +70,40 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         feedActivity.startNoteActivity(note);
     }
 
-    /**
-     * Refreshes feed by either querying feed items or notifying feed items adapter.
-     */
-    private void refreshFeedItems() {
-        if (feedListView.getAdapter() == null) {
-            queryFeedItems();
-        } else {
-            ((FeedItemsAdapter)feedListView.getAdapter()).notifyDataSetChanged();
+    @Override
+    public void onScrolledToEnd() {
+        final FeedItemsAdapter adapter = (FeedItemsAdapter)feedListView.getAdapter();
+
+        final List<Note> existingNotes = adapter.getNotes();
+        if (existingNotes.size() == 0) {
+            Log.w(LOG_TAG, "Scrolled to the end of an empty list.");
+            return;
         }
+
+        final Note lastNote = existingNotes.get(existingNotes.size() - 1);
+        queryFeedItemsPage(lastNote.getCreationDate(), new Action<List<Note>>() {
+            @Override
+            public void done(final List<Note> notes) {
+                existingNotes.addAll(notes);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
      * Queries feed items and updates feed.
      */
-    private void queryFeedItems() {
+    private void queryFeedItemsPage(final Date fromCreationDate, final Action<List<Note>> action) {
+        Log.i(LOG_TAG, "Querying notes from " + fromCreationDate);
+
         // TODO: limiting, sorting and infinite scrolling.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
+        if (fromCreationDate != null) {
+            query.whereLessThan(Note.KEY_CREATION_DATE, fromCreationDate);
+        }
         query.orderByDescending(Note.KEY_CREATION_DATE);
+        query.setLimit(PAGE_SIZE);
         query.findInBackground(new FindCallback<Note>() {
 
             @Override
@@ -79,7 +111,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
 
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
-                feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
+                action.done(notes);
             }
         });
     }

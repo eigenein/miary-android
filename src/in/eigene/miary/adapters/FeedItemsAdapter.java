@@ -58,6 +58,10 @@ public class FeedItemsAdapter extends ArrayAdapter<Note> {
         return view;
     }
 
+    public List<Note> getNotes() {
+        return notes;
+    }
+
     static class ViewHolder {
 
         public final LinearLayout layout;
