@@ -19,7 +19,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
-    private static final int PAGE_SIZE = 6; // for endless scrolling
+    private static final int PAGE_SIZE = 10; // for endless scrolling
 
     private ListView feedListView;
 
@@ -46,7 +46,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onStart() {
         super.onStart();
 
-        final FeedItemsAdapter adapter = (FeedItemsAdapter)feedListView.getAdapter();
+        final FeedItemsAdapter adapter = getAdapter();
         if (adapter == null) {
             // Initially set the adapter.
             queryFeedItemsPage(null, new Action<List<Note>>() {
@@ -72,7 +72,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onScrolledToEnd() {
-        final FeedItemsAdapter adapter = (FeedItemsAdapter)feedListView.getAdapter();
+        final FeedItemsAdapter adapter = getAdapter();
 
         final List<Note> existingNotes = adapter.getNotes();
         if (existingNotes.size() == 0) {
@@ -84,10 +84,25 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         queryFeedItemsPage(lastNote.getCreationDate(), new Action<List<Note>>() {
             @Override
             public void done(final List<Note> notes) {
+
                 existingNotes.addAll(notes);
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    /**
+     * https://stackoverflow.com/questions/4404177/classcastexception-with-listview-when-executing-notifydatasetchanged
+     */
+    private FeedItemsAdapter getAdapter() {
+        final ListAdapter adapter = feedListView.getAdapter();
+        if (adapter == null) {
+            return null;
+        }
+        if (adapter instanceof FeedItemsAdapter) {
+            return (FeedItemsAdapter)adapter;
+        }
+        return (FeedItemsAdapter)((HeaderViewListAdapter)adapter).getWrappedAdapter();
     }
 
     /**
@@ -109,7 +124,6 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
             @Override
             public void done(final List<Note> notes, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
-
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
                 action.done(notes);
             }

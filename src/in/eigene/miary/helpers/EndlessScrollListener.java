@@ -8,6 +8,8 @@ import android.widget.*;
  */
 public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
+    private final int THRESHOLD = 5;
+
     public static interface Listener {
         void onScrolledToEnd();
     }
@@ -16,15 +18,20 @@ public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
     private final Listener listener;
 
-    private int lastItemIndex;
-
     public EndlessScrollListener(final Listener listener) {
         this.listener = listener;
     }
 
     @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
-        // Do nothing.
+        if (scrollState != SCROLL_STATE_IDLE) {
+            return;
+        }
+        if (view.getLastVisiblePosition() < view.getCount() - 1 - THRESHOLD) {
+            return;
+        }
+        Log.i(LOG_TAG, "Scrolled to the end.");
+        listener.onScrolledToEnd();
     }
 
     @Override
@@ -33,19 +40,6 @@ public class EndlessScrollListener implements AbsListView.OnScrollListener {
             final int firstVisibleItem,
             final int visibleItemCount,
             final int totalItemCount) {
-        // Get the last visible item index.
-        final int lastItemIndex = firstVisibleItem + visibleItemCount;
-        // Check if the last item is reached.
-        if (lastItemIndex != totalItemCount) {
-            return;
-        }
-        // Prevent double triggering.
-        if (this.lastItemIndex == lastItemIndex) {
-            return;
-        }
-        // Trigger event.
-        this.lastItemIndex = lastItemIndex;
-        Log.i(LOG_TAG, "Scrolled to the end.");
-        listener.onScrolledToEnd();
+        // Do nothing.
     }
 }
