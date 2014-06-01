@@ -116,7 +116,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
             final Date fromCreationDate,
             final Date toCreationDate,
             final Action<List<Note>> action) {
-        Log.i(LOG_TAG, "Querying notes from " + fromCreationDate + " down to " + toCreationDate);
+        Log.i(LOG_TAG, "Querying notes from " + fromCreationDate + " to " + toCreationDate);
 
         // TODO: limiting, sorting and infinite scrolling.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
