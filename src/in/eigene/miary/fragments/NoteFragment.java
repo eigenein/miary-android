@@ -148,11 +148,12 @@ public class NoteFragment extends Fragment {
      * Saves the note. This method debounces frequent save calls.
      */
     private void saveNote(final boolean debounce) {
+        // Check that note is not removed.
         if (note == null) {
             Log.i(LOG_TAG, "Not saving null note.");
             return;
         }
-
+        // Debounce.
         final long currentDateTime = new Date().getTime();
         if (debounce) {
             if (currentDateTime - lastSaveDateTime < DEBOUNCE_INTERVAL) {
@@ -160,14 +161,14 @@ public class NoteFragment extends Fragment {
                 return;
             }
         }
-
+        // Save callback.
         final SaveCallback callback = new SaveCallback() {
             @Override
             public void done(final ParseException e) {
                 InternalRuntimeException.throwForException("Could not pin note.", e);
             }
         };
-
+        // Save, log and track.
         Log.i(LOG_TAG, "Save note.");
         note.pinInBackground(callback);
         lastSaveDateTime = currentDateTime;
