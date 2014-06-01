@@ -45,21 +45,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onStart() {
         super.onStart();
-
-        final FeedItemsAdapter adapter = getAdapter();
-        if (adapter == null) {
-            // Initially set the adapter.
-            queryFeedItemsPage(null, new Action<List<Note>>() {
-                @Override
-                public void done(final List<Note> notes) {
-                    feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
-                    feedListView.setOnScrollListener(new EndlessScrollListener(FeedFragment.this));
-                }
-            });
-        } else {
-            // Items might be changed.
-            adapter.notifyDataSetChanged();
-        }
+        initializeFeed();
     }
 
     @Override
@@ -81,35 +67,56 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         }
 
         final Note lastNote = existingNotes.get(existingNotes.size() - 1);
-        queryFeedItemsPage(lastNote.getCreationDate(), new Action<List<Note>>() {
+        queryFeedItems(lastNote.getCreationDate(), null, new Action<List<Note>>() {
             @Override
             public void done(final List<Note> notes) {
-
                 existingNotes.addAll(notes);
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
-    /**
-     * https://stackoverflow.com/questions/4404177/classcastexception-with-listview-when-executing-notifydatasetchanged
-     */
     private FeedItemsAdapter getAdapter() {
-        final ListAdapter adapter = feedListView.getAdapter();
-        if (adapter == null) {
-            return null;
-        }
-        if (adapter instanceof FeedItemsAdapter) {
-            return (FeedItemsAdapter)adapter;
-        }
-        return (FeedItemsAdapter)((HeaderViewListAdapter)adapter).getWrappedAdapter();
+        return (FeedItemsAdapter)feedListView.getAdapter();
     }
 
     /**
-     * Queries feed items and updates feed.
+     * Initializes feed adapter.
      */
-    private void queryFeedItemsPage(final Date fromCreationDate, final Action<List<Note>> action) {
-        Log.i(LOG_TAG, "Querying notes from " + fromCreationDate);
+    private void initializeFeed() {
+        // Remember scroll location.
+        final int scrollIndex = feedListView.getFirstVisiblePosition();
+        final View topView = feedListView.getChildAt(0);
+        final int scrollTop = (topView != null) ? topView.getTop() : 0;
+        // Remember last note creation time.
+        Date lastNoteCreationTime = null;
+        final FeedItemsAdapter adapter = getAdapter();
+        if (adapter != null) {
+            final List<Note> notes = adapter.getNotes();
+            if (notes.size() != 0) {
+                lastNoteCreationTime = notes.get(notes.size() - 1).getCreationDate();
+            }
+        }
+
+        queryFeedItems(null, lastNoteCreationTime, new Action<List<Note>>() {
+            @Override
+            public void done(final List<Note> notes) {
+                feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
+                // Restore scroll position.
+                feedListView.setSelectionFromTop(scrollIndex, scrollTop);
+                feedListView.setOnScrollListener(new EndlessScrollListener(FeedFragment.this));
+            }
+        });
+    }
+
+    /**
+     * Queries feed items.
+     */
+    private void queryFeedItems(
+            final Date fromCreationDate,
+            final Date toCreationDate,
+            final Action<List<Note>> action) {
+        Log.i(LOG_TAG, "Querying notes from " + fromCreationDate + " down to " + toCreationDate);
 
         // TODO: limiting, sorting and infinite scrolling.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
@@ -118,7 +125,11 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
             query.whereLessThan(Note.KEY_CREATION_DATE, fromCreationDate);
         }
         query.orderByDescending(Note.KEY_CREATION_DATE);
-        query.setLimit(PAGE_SIZE);
+        if (toCreationDate == null) {
+            query.setLimit(PAGE_SIZE);
+        } else {
+            query.whereGreaterThanOrEqualTo(Note.KEY_CREATION_DATE, toCreationDate);
+        }
         query.findInBackground(new FindCallback<Note>() {
 
             @Override

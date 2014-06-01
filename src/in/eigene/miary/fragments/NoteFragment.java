@@ -128,11 +128,13 @@ public class NoteFragment extends Fragment {
                             @Override
                             public void done(final ParseException e) {
                                 InternalRuntimeException.throwForException("Could not unpin note.", e);
+                                note = null;
                                 Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT);
                                 changedListener.onNoteRemoved();
                                 ParseAnalytics.trackEvent("remove_note");
                             }
                         });
+                        note = null;
                     }
                 }).show(getFragmentManager(), "RemoveNoteDialogFragment");
                 return true;
@@ -146,6 +148,11 @@ public class NoteFragment extends Fragment {
      * Saves the note. This method debounces frequent save calls.
      */
     private void saveNote(final boolean debounce) {
+        if (note == null) {
+            Log.i(LOG_TAG, "Not saving null note.");
+            return;
+        }
+
         final long currentDateTime = new Date().getTime();
         if (debounce) {
             if (currentDateTime - lastSaveDateTime < DEBOUNCE_INTERVAL) {
