@@ -34,6 +34,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         final View view = inflater.inflate(R.layout.feed_fragment, container, false);
         feedListView = (ListView)view.findViewById(R.id.feed_list_view);
         feedListView.setOnItemClickListener(this);
+        feedListView.setOnScrollListener(new EndlessScrollListener(FeedFragment.this));
         return view;
     }
 
@@ -45,7 +46,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onStart() {
         super.onStart();
-        initializeFeed();
+        refreshFeed();
     }
 
     @Override
@@ -59,52 +60,55 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onScrolledToEnd() {
         final FeedItemsAdapter adapter = getAdapter();
+        final Note lastNote = getLastNote(adapter);
 
-        final List<Note> existingNotes = adapter.getNotes();
-        if (existingNotes.size() == 0) {
-            Log.w(LOG_TAG, "Scrolled to the end of an empty list.");
-            return;
+        if (lastNote != null) {
+            queryFeedItems(lastNote.getCreationDate(), null, new Action<List<Note>>() {
+                @Override
+                public void done(final List<Note> notes) {
+                    adapter.getNotes().addAll(notes);
+                    adapter.notifyDataSetChanged();
+                }
+            });
         }
-
-        final Note lastNote = existingNotes.get(existingNotes.size() - 1);
-        queryFeedItems(lastNote.getCreationDate(), null, new Action<List<Note>>() {
-            @Override
-            public void done(final List<Note> notes) {
-                existingNotes.addAll(notes);
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
     private FeedItemsAdapter getAdapter() {
         return (FeedItemsAdapter)feedListView.getAdapter();
     }
 
+    private Note getLastNote(final FeedItemsAdapter adapter) {
+        final List<Note> notes = adapter.getNotes();
+        if (notes.size() != 0) {
+            return notes.get(notes.size() - 1);
+        }
+        return null;
+    }
+
     /**
-     * Initializes feed adapter.
+     * Refreshes feed by either initializing adapter or changing data set.
      */
-    private void initializeFeed() {
-        // Remember scroll location.
-        final int scrollIndex = feedListView.getFirstVisiblePosition();
-        final View topView = feedListView.getChildAt(0);
-        final int scrollTop = (topView != null) ? topView.getTop() : 0;
+    private void refreshFeed() {
         // Remember last note creation time.
-        Date lastNoteCreationTime = null;
+        Date lastNoteCreationDate = null;
         final FeedItemsAdapter adapter = getAdapter();
         if (adapter != null) {
-            final List<Note> notes = adapter.getNotes();
-            if (notes.size() != 0) {
-                lastNoteCreationTime = notes.get(notes.size() - 1).getCreationDate();
+            final Note lastNote = getLastNote(adapter);
+            if (lastNote != null) {
+                lastNoteCreationDate = lastNote.getCreationDate();
             }
         }
 
-        queryFeedItems(null, lastNoteCreationTime, new Action<List<Note>>() {
+        queryFeedItems(null, lastNoteCreationDate, new Action<List<Note>>() {
             @Override
             public void done(final List<Note> notes) {
-                feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
-                // Restore scroll position.
-                feedListView.setSelectionFromTop(scrollIndex, scrollTop);
-                feedListView.setOnScrollListener(new EndlessScrollListener(FeedFragment.this));
+                if (adapter != null) {
+                    adapter.getNotes().clear();
+                    adapter.getNotes().addAll(notes);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
+                }
             }
         });
     }
