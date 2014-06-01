@@ -44,9 +44,14 @@ public class FeedItemsAdapter extends ArrayAdapter<Note> {
 
         final Note note = notes.get(position);
         final StyleHolder styleHolder = StyleHolders.get(note.getColor());
+        // Set layout style.
         viewHolder.layout.setBackgroundResource(styleHolder.feedItemDrawableId);
+        // Set title text and visibility.
         viewHolder.title.setText(note.getTitle());
+        viewHolder.title.setVisibility(!note.getTitle().isEmpty() ? View.VISIBLE : View.GONE);
+        // Set text.
         viewHolder.text.setText(note.getText());
+        // Set creation date text and style.
         viewHolder.creationDate.setTextColor(context.getResources().getColor(styleHolder.feedItemFooterColorId));
         viewHolder.creationDate.setText(DateUtils.getRelativeDateTimeString(
                 context,
