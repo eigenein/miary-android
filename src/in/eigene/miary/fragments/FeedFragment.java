@@ -158,17 +158,27 @@ public class FeedFragment
             final Date toCreationDate,
             final Action<List<Note>> action) {
         Log.i(LOG_TAG, "Querying notes from " + fromCreationDate + " to " + toCreationDate);
-
+        // Initialize query.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
+        // Paging.
         if (fromCreationDate != null) {
             query.whereLessThan(Note.KEY_CREATION_DATE, fromCreationDate);
         }
+        // Limiting.
         if (toCreationDate == null) {
             query.setLimit(PAGE_SIZE);
         } else {
             query.whereGreaterThanOrEqualTo(Note.KEY_CREATION_DATE, toCreationDate);
         }
+        // Drafts and Starred.
+        if (drafts) {
+            query.whereEqualTo(Note.KEY_DRAFT, true);
+        }
+        if (starred) {
+            query.whereEqualTo(Note.KEY_STARRED, true);
+        }
+        // Ordering.
         query.orderByDescending(Note.KEY_CREATION_DATE);
 
         query.findInBackground(new FindCallback<Note>() {
