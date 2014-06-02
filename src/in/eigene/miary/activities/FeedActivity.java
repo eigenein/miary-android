@@ -112,21 +112,35 @@ public class FeedActivity extends BaseActivity {
         drawerLayout.setDrawerListener(drawerToggle);
 
         // Initialize drawer items.
-        // TODO: Add click listener and close drawer.
-        // drawerLayout.closeDrawer(drawer);
-
-        initializeDrawerItem(R.id.drawer_item_feed, R.drawable.ic_drawer_feed, R.string.drawer_item_feed);
-        initializeDrawerItem(R.id.drawer_item_starred, R.drawable.ic_drawer_starred, R.string.drawer_item_starred);
-        initializeDrawerItem(R.id.drawer_item_drafts, R.drawable.ic_drawer_drafts, R.string.drawer_item_drafts);
+        initializeDrawerItem(R.id.drawer_item_feed, R.drawable.ic_drawer_feed, R.string.drawer_item_feed, new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                drawerLayout.closeDrawer(drawer);
+            }
+        });
+        initializeDrawerItem(R.id.drawer_item_starred, R.drawable.ic_drawer_starred, R.string.drawer_item_starred, new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                drawerLayout.closeDrawer(drawer);
+            }
+        });
+        initializeDrawerItem(R.id.drawer_item_drafts, R.drawable.ic_drawer_drafts, R.string.drawer_item_drafts, new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                drawerLayout.closeDrawer(drawer);
+            }
+        });
     }
 
     private void initializeDrawerItem(
             final int viewId,
             final int iconResourceId,
-            final int titleResourceId) {
+            final int titleResourceId,
+            final View.OnClickListener listener) {
         final View view = drawer.findViewById(viewId);
         ((ImageView)view.findViewById(R.id.drawer_item_icon)).setImageResource(iconResourceId);
         ((TextView)view.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
+        view.setOnClickListener(listener);
     }
 
     /**
