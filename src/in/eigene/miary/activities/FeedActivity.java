@@ -74,6 +74,7 @@ public class FeedActivity extends BaseActivity {
                     @Override
                     public void done(final ParseException e) {
                         InternalRuntimeException.throwForException("Could not pin a new note.", e);
+                        Log.i(LOG_TAG, "Pinned new note: " + note);
                         startNoteActivity(note);
                     }
                 });
