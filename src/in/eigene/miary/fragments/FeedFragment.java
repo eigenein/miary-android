@@ -15,16 +15,32 @@ import in.eigene.miary.helpers.*;
 
 import java.util.*;
 
-public class FeedFragment extends Fragment implements AdapterView.OnItemClickListener, EndlessScrollListener.Listener {
+public class FeedFragment
+        extends Fragment
+        implements AdapterView.OnItemClickListener, EndlessScrollListener.Listener {
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
     private static final int PAGE_SIZE = 10; // for endless scrolling
 
+    /**
+     * Whether to show drafts only.
+     */
+    private final boolean drafts;
+    /**
+     * Whether to show starred notes only.
+     */
+    private final boolean starred;
+
     private ListView feedListView;
     private EndlessScrollListener scrollListener;
 
     private View feedEmptyView;
+
+    public FeedFragment(final boolean drafts, final boolean starred) {
+        this.drafts = drafts;
+        this.starred = starred;
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

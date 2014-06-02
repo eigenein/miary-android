@@ -34,8 +34,8 @@ public abstract class BaseActivity extends FragmentActivity {
     /**
      * Replaces current fragment with the specified one.
      */
-    protected void selectFragment(final int resource_id, final Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(resource_id, fragment).commit();
+    protected void selectFragment(final int viewId, final Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(viewId, fragment).commit();
     }
 
     /**

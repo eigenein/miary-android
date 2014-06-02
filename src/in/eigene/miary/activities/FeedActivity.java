@@ -22,6 +22,8 @@ public class FeedActivity extends BaseActivity {
     private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
+    private static final String KEY_DRAFTS = "drafts";
+    private static final String KEY_STARRED = "starred";
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -38,7 +40,7 @@ public class FeedActivity extends BaseActivity {
 
         initializeDrawer();
         showDrawerForFirstTime();
-        selectDrawerItem(0); // TODO: read position from savedInstanceState.
+        selectFragment(R.id.feed_content_frame, new FeedFragment(false, false));
 
         ParseAnalytics.trackAppOpened(getIntent());
     }
@@ -85,6 +87,12 @@ public class FeedActivity extends BaseActivity {
         }
     }
 
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        // TODO: save drafts and starred mode.
+    }
+
     @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -105,18 +113,20 @@ public class FeedActivity extends BaseActivity {
 
         // Initialize drawer items.
         // TODO: Add click listener and close drawer.
+        // drawerLayout.closeDrawer(drawer);
 
-        final View drawerItemFeed = drawer.findViewById(R.id.drawer_item_feed);
-        ((ImageView)drawerItemFeed.findViewById(R.id.drawer_item_icon)).setImageResource(R.drawable.ic_drawer_feed);
-        ((TextView)drawerItemFeed.findViewById(R.id.drawer_item_title)).setText(R.string.drawer_item_feed);
+        initializeDrawerItem(R.id.drawer_item_feed, R.drawable.ic_drawer_feed, R.string.drawer_item_feed);
+        initializeDrawerItem(R.id.drawer_item_starred, R.drawable.ic_drawer_starred, R.string.drawer_item_starred);
+        initializeDrawerItem(R.id.drawer_item_drafts, R.drawable.ic_drawer_drafts, R.string.drawer_item_drafts);
+    }
 
-        final View drawerItemStarred = drawer.findViewById(R.id.drawer_item_starred);
-        ((ImageView)drawerItemStarred.findViewById(R.id.drawer_item_icon)).setImageResource(R.drawable.ic_drawer_starred);
-        ((TextView)drawerItemStarred.findViewById(R.id.drawer_item_title)).setText(R.string.drawer_item_starred);
-
-        final View drawerItemDrafts = drawer.findViewById(R.id.drawer_item_drafts);
-        ((ImageView)drawerItemDrafts.findViewById(R.id.drawer_item_icon)).setImageResource(R.drawable.ic_drawer_drafts);
-        ((TextView)drawerItemDrafts.findViewById(R.id.drawer_item_title)).setText(R.string.drawer_item_drafts);
+    private void initializeDrawerItem(
+            final int viewId,
+            final int iconResourceId,
+            final int titleResourceId) {
+        final View view = drawer.findViewById(viewId);
+        ((ImageView)view.findViewById(R.id.drawer_item_icon)).setImageResource(iconResourceId);
+        ((TextView)view.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
     }
 
     /**
@@ -134,10 +144,5 @@ public class FeedActivity extends BaseActivity {
                 }
             }, 1000);
         }
-    }
-
-    private void selectDrawerItem(final int position) {
-        selectFragment(R.id.feed_content_frame, new FeedFragment());
-        drawerLayout.closeDrawer(drawer);
     }
 }
