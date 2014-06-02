@@ -115,18 +115,21 @@ public class FeedActivity extends BaseActivity {
         initializeDrawerItem(R.id.drawer_item_feed, R.drawable.ic_drawer_feed, R.string.drawer_item_feed, new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                selectFragment(R.id.feed_content_frame, new FeedFragment(false, false));
                 drawerLayout.closeDrawer(drawer);
             }
         });
         initializeDrawerItem(R.id.drawer_item_starred, R.drawable.ic_drawer_starred, R.string.drawer_item_starred, new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                selectFragment(R.id.feed_content_frame, new FeedFragment(false, true));
                 drawerLayout.closeDrawer(drawer);
             }
         });
         initializeDrawerItem(R.id.drawer_item_drafts, R.drawable.ic_drawer_drafts, R.string.drawer_item_drafts, new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                selectFragment(R.id.feed_content_frame, new FeedFragment(true, false));
                 drawerLayout.closeDrawer(drawer);
             }
         });
