@@ -11,13 +11,14 @@ import java.util.*;
 @ParseClassName("Note")
 public class Note extends ParseObject {
 
-    public static final String KEY_UUID_LSB = "ul";
-    public static final String KEY_UUID_MSB = "um";
-    public static final String KEY_TITLE = "t";
-    public static final String KEY_TEXT = "txt";
-    public static final String KEY_CREATION_DATE = "cd";
-    public static final String KEY_DRAFT = "d";
-    public static final String KEY_COLOR = "c";
+    public static final String KEY_UUID_LSB = "uuidLsb";
+    public static final String KEY_UUID_MSB = "uuidMsb";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_TEXT = "text";
+    public static final String KEY_CREATION_DATE = "creationDate";
+    public static final String KEY_DRAFT = "draft";
+    public static final String KEY_COLOR = "color";
+    public static final String KEY_STARRED = "starred";
 
     public static final int COLOR_WHITE = 0;
     public static final int COLOR_RED = 1;
@@ -86,7 +87,7 @@ public class Note extends ParseObject {
         return getBoolean(KEY_DRAFT);
     }
 
-    public Note setDraft(boolean isDraft) {
+    public Note setDraft(final boolean isDraft) {
         put(KEY_DRAFT, isDraft);
         return this;
     }
@@ -97,6 +98,15 @@ public class Note extends ParseObject {
 
     public Note setColor(final int color) {
         put(KEY_COLOR, color);
+        return this;
+    }
+
+    public boolean isStarred() {
+        return getBoolean(KEY_STARRED);
+    }
+
+    public Note setStarred(final boolean isStarred) {
+        put(KEY_STARRED, isStarred);
         return this;
     }
 
