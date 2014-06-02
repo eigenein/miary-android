@@ -106,8 +106,29 @@ public class NoteFragment extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(final Menu menu) {
+        if (note == null) {
+            return;
+        }
+        menu.findItem(R.id.menu_item_note_draft).setVisible(!note.isDraft());
+        menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
+    }
+
+    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.menu_item_note_draft:
+                note.setDraft(true);
+                saveNote(false);
+                ParseAnalytics.trackEvent("note_draft");
+                return true;
+
+            case R.id.menu_item_note_not_draft:
+                note.setDraft(false);
+                saveNote(false);
+                ParseAnalytics.trackEvent("note_not_draft");
+                return true;
 
             case R.id.menu_item_note_color:
                 new ColorPickerDialogFragment(new ColorPickerDialogFragment.DialogListener() {

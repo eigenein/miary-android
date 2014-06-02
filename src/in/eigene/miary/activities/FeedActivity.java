@@ -71,7 +71,9 @@ public class FeedActivity extends BaseActivity {
             case R.id.menu_item_note_new:
                 final Note note = new Note()
                         .setUuid(UUID.randomUUID())
-                        .setCreationDate(new Date());
+                        .setCreationDate(new Date())
+                        .setDraft(false)
+                        .setStarred(false);
                 note.pinInBackground(new SaveCallback() {
                     @Override
                     public void done(final ParseException e) {

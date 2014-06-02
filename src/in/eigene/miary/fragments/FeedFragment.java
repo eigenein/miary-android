@@ -172,12 +172,8 @@ public class FeedFragment
             query.whereGreaterThanOrEqualTo(Note.KEY_CREATION_DATE, toCreationDate);
         }
         // Drafts and Starred.
-        if (drafts) {
-            query.whereEqualTo(Note.KEY_DRAFT, true);
-        }
-        if (starred) {
-            query.whereEqualTo(Note.KEY_STARRED, true);
-        }
+        query.whereEqualTo(Note.KEY_DRAFT, drafts);
+        query.whereEqualTo(Note.KEY_STARRED, starred);
         // Ordering.
         query.orderByDescending(Note.KEY_CREATION_DATE);
 

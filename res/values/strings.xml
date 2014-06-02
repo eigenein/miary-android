@@ -19,4 +19,6 @@
     <string name="drawer_item_starred">Starred</string>
     <string name="drawer_item_drafts">Drafts</string>
     <string name="feed_empty">No notes here yet.\nTap «New Note» to write a note.</string>
+    <string name="note_draft">Mark as draft</string>
+    <string name="note_not_draft">Mark as not draft</string>
 </resources>

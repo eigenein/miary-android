@@ -7,6 +7,16 @@
             android:showAsAction="always"
     />
     <item
+            android:id="@+id/menu_item_note_draft"
+            android:title="@string/note_draft"
+            android:showAsAction="never"
+    />
+    <item
+            android:id="@+id/menu_item_note_not_draft"
+            android:title="@string/note_not_draft"
+            android:showAsAction="never"
+    />
+    <item
             android:id="@+id/menu_item_note_remove"
             android:title="@string/note_remove"
             android:showAsAction="never"
