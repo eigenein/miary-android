@@ -13,4 +13,22 @@
             android:divider="@null"
             android:dividerHeight="0dp"
     />
+    <LinearLayout
+            android:id="@+id/feed_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:gravity="center"
+    >
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/feed_empty"
+                style="@android:style/TextAppearance.Medium"
+                android:textStyle="italic"
+                android:textColor="@color/darker_gray"
+                android:gravity="center"
+        />
+    </LinearLayout>
 </LinearLayout>

@@ -23,6 +23,8 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private ListView feedListView;
 
+    private View feedEmptyView;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         feedListView = (ListView)view.findViewById(R.id.feed_list_view);
         feedListView.setOnItemClickListener(this);
         feedListView.setOnScrollListener(new EndlessScrollListener(FeedFragment.this));
+        feedEmptyView = view.findViewById(R.id.feed_empty_view);
         return view;
     }
 
@@ -73,10 +76,16 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         }
     }
 
+    /**
+     * Gets feed items adapter.
+     */
     private FeedItemsAdapter getAdapter() {
         return (FeedItemsAdapter)feedListView.getAdapter();
     }
 
+    /**
+     * Gets last feed item.
+     */
     private Note getLastNote(final FeedItemsAdapter adapter) {
         final List<Note> notes = adapter.getNotes();
         if (notes.size() != 0) {
@@ -109,6 +118,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
                 } else {
                     feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
                 }
+                switchViews();
             }
         });
     }
@@ -143,5 +153,14 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
                 action.done(notes);
             }
         });
+    }
+
+    /**
+     * Checks if feed is empty and switches views.
+     */
+    private void switchViews() {
+        final boolean isEmpty = getAdapter().getNotes().isEmpty();
+        feedEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        feedListView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 }

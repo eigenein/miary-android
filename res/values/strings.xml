@@ -18,4 +18,5 @@
     <string name="drawer_item_feed">Feed</string>
     <string name="drawer_item_starred">Starred</string>
     <string name="drawer_item_drafts">Drafts</string>
+    <string name="feed_empty">No notes here yet.\nTap «New Note» to write a note.</string>
 </resources>
