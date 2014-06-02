@@ -22,6 +22,7 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     private static final int PAGE_SIZE = 10; // for endless scrolling
 
     private ListView feedListView;
+    private EndlessScrollListener scrollListener;
 
     private View feedEmptyView;
 
@@ -111,6 +112,10 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         queryFeedItems(null, lastNoteCreationDate, new Action<List<Note>>() {
             @Override
             public void done(final List<Note> notes) {
+                if (!isAdded()) {
+                    // https://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
+                    return;
+                }
                 if (adapter != null) {
                     adapter.getNotes().clear();
                     adapter.getNotes().addAll(notes);
