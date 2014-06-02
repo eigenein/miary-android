@@ -37,7 +37,8 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
         final View view = inflater.inflate(R.layout.feed_fragment, container, false);
         feedListView = (ListView)view.findViewById(R.id.feed_list_view);
         feedListView.setOnItemClickListener(this);
-        feedListView.setOnScrollListener(new EndlessScrollListener(FeedFragment.this));
+        scrollListener = new EndlessScrollListener(FeedFragment.this);
+        feedListView.setOnScrollListener(scrollListener);
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
         return view;
     }
@@ -51,6 +52,8 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onStart() {
         super.onStart();
         refreshFeed();
+        // Check if the end of page is reached.
+        scrollListener.onScrollStateChanged(feedListView, EndlessScrollListener.SCROLL_STATE_IDLE);
     }
 
     @Override
@@ -64,17 +67,20 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onScrolledToEnd() {
         final FeedItemsAdapter adapter = getAdapter();
-        final Note lastNote = getLastNote(adapter);
-
-        if (lastNote != null) {
-            queryFeedItems(lastNote.getCreationDate(), null, new Action<List<Note>>() {
-                @Override
-                public void done(final List<Note> notes) {
-                    adapter.getNotes().addAll(notes);
-                    adapter.notifyDataSetChanged();
-                }
-            });
+        if (adapter == null) {
+            return;
         }
+        final Note lastNote = getLastNote(adapter);
+        if (lastNote == null) {
+            return;
+        }
+        queryFeedItems(lastNote.getCreationDate(), null, new Action<List<Note>>() {
+            @Override
+            public void done(final List<Note> notes) {
+                adapter.getNotes().addAll(notes);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
