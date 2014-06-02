@@ -132,18 +132,18 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemClickLis
             final Action<List<Note>> action) {
         Log.i(LOG_TAG, "Querying notes from " + fromCreationDate + " to " + toCreationDate);
 
-        // TODO: limiting, sorting and infinite scrolling.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
         query.fromLocalDatastore();
         if (fromCreationDate != null) {
             query.whereLessThan(Note.KEY_CREATION_DATE, fromCreationDate);
         }
-        query.orderByDescending(Note.KEY_CREATION_DATE);
         if (toCreationDate == null) {
             query.setLimit(PAGE_SIZE);
         } else {
             query.whereGreaterThanOrEqualTo(Note.KEY_CREATION_DATE, toCreationDate);
         }
+        query.orderByDescending(Note.KEY_CREATION_DATE);
+
         query.findInBackground(new FindCallback<Note>() {
 
             @Override
