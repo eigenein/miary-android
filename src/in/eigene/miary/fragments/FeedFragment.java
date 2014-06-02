@@ -30,16 +30,16 @@ public class FeedFragment
     /**
      * Whether to show starred notes only.
      */
-    private final boolean starred;
+    private final boolean starredOnly;
 
     private ListView feedListView;
     private EndlessScrollListener scrollListener;
 
     private View feedEmptyView;
 
-    public FeedFragment(final boolean drafts, final boolean starred) {
+    public FeedFragment(final boolean drafts, final boolean starredOnly) {
         this.drafts = drafts;
-        this.starred = starred;
+        this.starredOnly = starredOnly;
     }
 
     @Override
@@ -173,7 +173,7 @@ public class FeedFragment
         }
         // Drafts and Starred.
         query.whereEqualTo(Note.KEY_DRAFT, drafts);
-        if (starred) {
+        if (starredOnly) {
             query.whereEqualTo(Note.KEY_STARRED, true);
         }
         // Ordering.

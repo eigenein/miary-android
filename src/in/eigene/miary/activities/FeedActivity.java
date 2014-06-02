@@ -92,7 +92,7 @@ public class FeedActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
-        // TODO: save drafts and starred mode.
+        // TODO: save drafts and starred only mode.
     }
 
     @Override
