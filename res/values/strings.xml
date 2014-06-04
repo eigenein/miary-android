@@ -8,9 +8,9 @@
     <string name="note_activity">Note</string>
     <string name="note_title_hint">Title</string>
     <string name="note_hint">Your Note</string>
-    <string name="note_color">Change Color</string>
+    <string name="note_color">Change color</string>
     <string name="dialog_colorpicker_title">Choose Color</string>
-    <string name="note_remove">Remove Note</string>
+    <string name="note_remove">Remove note</string>
     <string name="button_remove">Remove</string>
     <string name="dialog_remove_note_title">Remove note?</string>
     <string name="dialog_remove_note_message">It will be impossible to restore.</string>
@@ -19,10 +19,12 @@
     <string name="drawer_item_starred">Starred</string>
     <string name="drawer_item_drafts">Drafts</string>
     <string name="feed_empty">No notes here yet.\nTap «New Note» to write a note.</string>
-    <string name="note_draft">Mark as draft</string>
-    <string name="note_not_draft">Mark as not draft</string>
+    <string name="note_draft">Mark as a draft</string>
+    <string name="note_not_draft">Mark as not a draft</string>
     <string name="note_unstar">Unstar</string>
     <string name="note_star">Star</string>
     <string name="note_starred">Starred</string>
     <string name="note_unstarred">Unstarred</string>
+    <string name="note_drafted">Marked as a draft.</string>
+    <string name="note_undrafted">Marked as not a draft.</string>
 </resources>

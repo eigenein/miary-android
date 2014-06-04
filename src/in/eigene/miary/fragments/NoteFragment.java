@@ -126,12 +126,14 @@ public class NoteFragment extends Fragment {
             case R.id.menu_item_note_draft:
                 note.setDraft(true);
                 saveNote(false);
+                Toast.makeText(getActivity(), R.string.note_drafted, Toast.LENGTH_SHORT).show();
                 ParseAnalytics.trackEvent("note_draft");
                 return true;
 
             case R.id.menu_item_note_not_draft:
                 note.setDraft(false);
                 saveNote(false);
+                Toast.makeText(getActivity(), R.string.note_undrafted, Toast.LENGTH_SHORT).show();
                 ParseAnalytics.trackEvent("note_not_draft");
                 return true;
 

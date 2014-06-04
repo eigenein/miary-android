@@ -14,10 +14,12 @@ import in.eigene.miary.R;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
+import in.eigene.miary.helpers.*;
+import in.eigene.miary.widgets.*;
 
 import java.util.*;
 
-public class FeedActivity extends BaseActivity {
+public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerListener {
 
     private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
@@ -28,6 +30,9 @@ public class FeedActivity extends BaseActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private View drawer;
+
+    private TextView textViewStarredCounter;
+    private TextView textViewDraftCounter;
 
     /**
      * Called when the activity is first created.
@@ -90,6 +95,31 @@ public class FeedActivity extends BaseActivity {
     }
 
     @Override
+    public void onDrawerSlide(final View view, final float v) {
+        // Do nothing.
+    }
+
+    @Override
+    public void onDrawerOpened(final View drawerView) {
+        CounterCache.invalidate(new Action<Object>() {
+            @Override
+            public void done(final Object o) {
+                refreshDrawerCounters();
+            }
+        });
+    }
+
+    @Override
+    public void onDrawerClosed(final View view) {
+        // Do nothing.
+    }
+
+    @Override
+    public void onDrawerStateChanged(final int i) {
+        // Do nothing.
+    }
+
+    @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
@@ -107,8 +137,7 @@ public class FeedActivity extends BaseActivity {
         drawer = findViewById(R.id.drawer);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle = new DrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close, this);
         drawerLayout.setDrawerListener(drawerToggle);
     }
 
@@ -125,7 +154,8 @@ public class FeedActivity extends BaseActivity {
                         drawerLayout.closeDrawer(drawer);
                     }
                 });
-        initializeDrawerItem(
+        // Starred.
+        textViewStarredCounter = (TextView)initializeDrawerItem(
                 R.id.drawer_item_starred,
                 R.drawable.ic_drawer_starred,
                 R.string.drawer_item_starred,
@@ -136,8 +166,10 @@ public class FeedActivity extends BaseActivity {
                         selectFragment(R.id.feed_content_frame, new FeedFragment(false, true));
                         drawerLayout.closeDrawer(drawer);
                     }
-                });
-        initializeDrawerItem(
+                }).findViewById(R.id.drawer_item_counter);
+        textViewStarredCounter.setVisibility(View.GONE);
+        // Drafts.
+        textViewDraftCounter = (TextView)initializeDrawerItem(
                 R.id.drawer_item_drafts,
                 R.drawable.ic_drawer_drafts,
                 R.string.drawer_item_drafts,
@@ -148,10 +180,14 @@ public class FeedActivity extends BaseActivity {
                         selectFragment(R.id.feed_content_frame, new FeedFragment(true, false));
                         drawerLayout.closeDrawer(drawer);
                     }
-                });
+                }).findViewById(R.id.drawer_item_counter);
+        textViewDraftCounter.setVisibility(View.GONE);
     }
 
-    private void initializeDrawerItem(
+    /**
+     * Initializes a drawer item.
+     */
+    private View initializeDrawerItem(
             final int viewId,
             final int iconResourceId,
             final int titleResourceId,
@@ -162,6 +198,7 @@ public class FeedActivity extends BaseActivity {
         ((ImageView)view.findViewById(R.id.drawer_item_icon)).setImageResource(iconResourceId);
         ((TextView)view.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
         view.setOnClickListener(listener);
+        return view;
     }
 
     /**
@@ -179,5 +216,15 @@ public class FeedActivity extends BaseActivity {
                 }
             }, 1000);
         }
+    }
+
+    /**
+     * Refreshes starred and drafts counter values and their visibility.
+     */
+    private void refreshDrawerCounters() {
+        textViewStarredCounter.setText(Integer.toString(CounterCache.getStarredCount()));
+        textViewStarredCounter.setVisibility(CounterCache.getStarredCount() != 0 ? View.VISIBLE : View.GONE);
+        textViewDraftCounter.setText(Integer.toString(CounterCache.getDraftCount()));
+        textViewDraftCounter.setVisibility(CounterCache.getDraftCount() != 0 ? View.VISIBLE : View.GONE);
     }
 }
