@@ -89,12 +89,6 @@ public class FeedActivity extends BaseActivity {
         }
     }
 
-
-    @Override
-    protected void onSaveInstanceState(final Bundle outState) {
-        // TODO: save drafts and starred only mode.
-    }
-
     @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -105,44 +99,66 @@ public class FeedActivity extends BaseActivity {
      * Initializes drawer.
      */
     private void initializeDrawer() {
-        // Initialize drawer layout.
+        initializeDrawerLayout();
+        initializeDrawerItems();
+    }
+
+    private void initializeDrawerLayout() {
         drawer = findViewById(R.id.drawer);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
+    }
 
-        // Initialize drawer items.
-        initializeDrawerItem(R.id.drawer_item_feed, R.drawable.ic_drawer_feed, R.string.drawer_item_feed, new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                selectFragment(R.id.feed_content_frame, new FeedFragment(false, false));
-                drawerLayout.closeDrawer(drawer);
-            }
-        });
-        initializeDrawerItem(R.id.drawer_item_starred, R.drawable.ic_drawer_starred, R.string.drawer_item_starred, new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                selectFragment(R.id.feed_content_frame, new FeedFragment(false, true));
-                drawerLayout.closeDrawer(drawer);
-            }
-        });
-        initializeDrawerItem(R.id.drawer_item_drafts, R.drawable.ic_drawer_drafts, R.string.drawer_item_drafts, new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                selectFragment(R.id.feed_content_frame, new FeedFragment(true, false));
-                drawerLayout.closeDrawer(drawer);
-            }
-        });
+    private void initializeDrawerItems() {
+        initializeDrawerItem(
+                R.id.drawer_item_feed,
+                R.drawable.ic_drawer_feed,
+                R.string.drawer_item_feed,
+                false,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        selectFragment(R.id.feed_content_frame, new FeedFragment(false, false));
+                        drawerLayout.closeDrawer(drawer);
+                    }
+                });
+        initializeDrawerItem(
+                R.id.drawer_item_starred,
+                R.drawable.ic_drawer_starred,
+                R.string.drawer_item_starred,
+                true,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        selectFragment(R.id.feed_content_frame, new FeedFragment(false, true));
+                        drawerLayout.closeDrawer(drawer);
+                    }
+                });
+        initializeDrawerItem(
+                R.id.drawer_item_drafts,
+                R.drawable.ic_drawer_drafts,
+                R.string.drawer_item_drafts,
+                true,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        selectFragment(R.id.feed_content_frame, new FeedFragment(true, false));
+                        drawerLayout.closeDrawer(drawer);
+                    }
+                });
     }
 
     private void initializeDrawerItem(
             final int viewId,
             final int iconResourceId,
             final int titleResourceId,
+            final boolean counterVisible,
             final View.OnClickListener listener) {
         final View view = drawer.findViewById(viewId);
+        view.findViewById(R.id.drawer_item_counter).setVisibility(counterVisible ? View.VISIBLE : View.GONE);
         ((ImageView)view.findViewById(R.id.drawer_item_icon)).setImageResource(iconResourceId);
         ((TextView)view.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
         view.setOnClickListener(listener);
