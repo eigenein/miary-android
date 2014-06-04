@@ -21,4 +21,8 @@
     <string name="feed_empty">No notes here yet.\nTap «New Note» to write a note.</string>
     <string name="note_draft">Mark as draft</string>
     <string name="note_not_draft">Mark as not draft</string>
+    <string name="note_unstar">Unstar</string>
+    <string name="note_star">Star</string>
+    <string name="note_starred">Starred</string>
+    <string name="note_unstarred">Unstarred</string>
 </resources>

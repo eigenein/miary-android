@@ -34,6 +34,9 @@ public class NoteFragment extends Fragment {
     private EditText editTextTitle;
     private EditText editTextText;
 
+    private MenuItem menuItemStar;
+    private MenuItem menuItemUnstar;
+
     private Note note;
 
     /**
@@ -54,6 +57,8 @@ public class NoteFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.note, menu);
+        menuItemStar = menu.findItem(R.id.menu_item_note_not_starred);
+        menuItemUnstar = menu.findItem(R.id.menu_item_note_starred);
     }
 
     @Override
@@ -128,6 +133,24 @@ public class NoteFragment extends Fragment {
                 note.setDraft(false);
                 saveNote(false);
                 ParseAnalytics.trackEvent("note_not_draft");
+                return true;
+
+            case R.id.menu_item_note_not_starred:
+                note.setStarred(true);
+                saveNote(false);
+                Toast.makeText(getActivity(), R.string.note_starred, Toast.LENGTH_SHORT).show();
+                menuItemStar.setVisible(false);
+                menuItemUnstar.setVisible(true);
+                ParseAnalytics.trackEvent("note_star");
+                return true;
+
+            case R.id.menu_item_note_starred:
+                note.setStarred(false);
+                saveNote(false);
+                Toast.makeText(getActivity(), R.string.note_unstarred, Toast.LENGTH_SHORT).show();
+                menuItemUnstar.setVisible(false);
+                menuItemStar.setVisible(true);
+                ParseAnalytics.trackEvent("note_unstar");
                 return true;
 
             case R.id.menu_item_note_color:
@@ -212,6 +235,8 @@ public class NoteFragment extends Fragment {
                 }
                 editTextTitle.setText(note.getTitle());
                 editTextText.setText(note.getText());
+                menuItemStar.setVisible(!note.isStarred());
+                menuItemUnstar.setVisible(note.isStarred());
                 updateLayoutColor();
             }
         });
