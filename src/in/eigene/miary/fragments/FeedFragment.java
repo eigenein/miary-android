@@ -75,9 +75,7 @@ public class FeedFragment
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         final Note note = (Note)parent.getItemAtPosition(position);
-        // This fragment is always attached to feed activity.
-        final FeedActivity feedActivity = (FeedActivity)getActivity();
-        feedActivity.startNoteActivity(note);
+        NoteActivity.start(getActivity(), note);
     }
 
     @Override

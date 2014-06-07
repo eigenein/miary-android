@@ -29,8 +29,11 @@
         </activity>
         <activity
                 android:name="in.eigene.miary.activities.NoteActivity"
-                android:label="@string/note_activity"
-        >
-        </activity>
+                android:label="@string/activity_note"
+        />
+        <activity
+                android:name="in.eigene.miary.activities.SettingsActivity"
+                android:label="@string/activity_settings"
+        />
     </application>
 </manifest>

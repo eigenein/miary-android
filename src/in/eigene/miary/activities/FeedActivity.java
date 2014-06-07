@@ -1,6 +1,5 @@
 package in.eigene.miary.activities;
 
-import android.content.*;
 import android.content.res.*;
 import android.os.*;
 import android.support.v4.app.*;
@@ -50,16 +49,6 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
         ParseAnalytics.trackAppOpened(getIntent());
     }
 
-    /**
-     * Start note view/edit activity.
-     */
-    public void startNoteActivity(final Note note) {
-        Log.i(LOG_TAG, "Starting note activity: " + note);
-        startActivity(new Intent()
-                .setClass(FeedActivity.this, NoteActivity.class)
-                .putExtra(NoteFragment.EXTRA_NOTE_UUID, note.getUuid()));
-    }
-
     @Override
     public void onConfigurationChanged(final Configuration newConfiguration) {
         super.onConfigurationChanged(newConfiguration);
@@ -73,6 +62,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
 
         switch (item.getItemId()) {
+
             case R.id.menu_item_note_new:
                 final Note note = new Note()
                         .setUuid(UUID.randomUUID())
@@ -84,11 +74,16 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                     public void done(final ParseException e) {
                         InternalRuntimeException.throwForException("Could not pin a new note.", e);
                         Log.i(LOG_TAG, "Pinned new note: " + note);
-                        startNoteActivity(note);
+                        NoteActivity.start(FeedActivity.this, note);
                     }
                 });
                 ParseAnalytics.trackEvent("new_note");
                 return true;
+
+            case R.id.menu_item_settings:
+                SettingsActivity.start(FeedActivity.this);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
