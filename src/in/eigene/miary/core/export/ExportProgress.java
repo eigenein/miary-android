@@ -3,8 +3,8 @@ package in.eigene.miary.core.export;
 public class ExportProgress {
 
     private final int max;
-    private final int value;
-    private final String message;
+    private int value;
+    private String message;
 
     public ExportProgress(final int max, final int value, final String message) {
         this.max = max;
@@ -20,7 +20,15 @@ public class ExportProgress {
         return value;
     }
 
+    public void incrementValue(final int value) {
+        this.value += value;
+    }
+
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(final String message) {
+        this.message = message;
     }
 }

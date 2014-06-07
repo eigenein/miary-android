@@ -23,8 +23,8 @@
     <string name="note_not_draft">Mark as not a draft</string>
     <string name="note_unstar">Unstar</string>
     <string name="note_star">Star</string>
-    <string name="note_starred">Starred</string>
-    <string name="note_unstarred">Unstarred</string>
+    <string name="toast_starred">Starred.</string>
+    <string name="toast_unstarred">Unstarred.</string>
     <string name="toast_note_drafted">Marked as a draft.</string>
     <string name="toast_note_undrafted">Marked as not a draft.</string>
     <string name="preference_title_export">Export</string>
@@ -33,7 +33,9 @@
     <string name="activity_settings">Settings</string>
     <string name="toast_cancelled">Cancelled.</string>
     <string name="progress_title_export">Exporting</string>
-    <string name="toast_export_finished">Notes are exported to %s</string>
-    <string name="toast_export_starting">Starting…</string>
+    <string name="toast_export_finished" formatted="false">%s notes are exported to %s</string>
+    <string name="export_message_starting">Starting…</string>
     <string name="export_writer_title_txt">plain text</string>
+    <string name="export_message_progress">Exporting to %s</string>
+    <string name="toast_export_nothing">Nothing to export.</string>
 </resources>

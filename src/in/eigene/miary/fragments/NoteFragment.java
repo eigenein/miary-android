@@ -140,7 +140,7 @@ public class NoteFragment extends Fragment {
             case R.id.menu_item_note_not_starred:
                 note.setStarred(true);
                 saveNote(false);
-                Toast.makeText(getActivity(), R.string.note_starred, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.toast_starred, Toast.LENGTH_SHORT).show();
                 menuItemStar.setVisible(false);
                 menuItemUnstar.setVisible(true);
                 ParseAnalytics.trackEvent("note_star");
@@ -149,7 +149,7 @@ public class NoteFragment extends Fragment {
             case R.id.menu_item_note_starred:
                 note.setStarred(false);
                 saveNote(false);
-                Toast.makeText(getActivity(), R.string.note_unstarred, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.toast_unstarred, Toast.LENGTH_SHORT).show();
                 menuItemUnstar.setVisible(false);
                 menuItemStar.setVisible(true);
                 ParseAnalytics.trackEvent("note_unstar");
