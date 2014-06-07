@@ -3,6 +3,7 @@ package in.eigene.miary.fragments;
 import android.os.*;
 import android.preference.*;
 import in.eigene.miary.*;
+import in.eigene.miary.core.export.*;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -16,6 +17,8 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
+                        // TODO: Check if external storage is available.
+                        Exporter.start(getActivity());
                         return true;
                     }
         });
