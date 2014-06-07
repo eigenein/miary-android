@@ -11,10 +11,10 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.note_activity);
+        setContentView(R.layout.activity_fragment);
         final Fragment fragment = new NoteFragment(this);
         fragment.setArguments(getIntent().getExtras()); // pass note UUID
-        selectFragment(R.id.note_content_frame, fragment);
+        selectFragment(R.id.content_frame, fragment);
     }
 
     @Override

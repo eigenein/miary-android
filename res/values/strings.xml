@@ -27,4 +27,6 @@
     <string name="note_unstarred">Unstarred</string>
     <string name="note_drafted">Marked as a draft.</string>
     <string name="note_undrafted">Marked as not a draft.</string>
+    <string name="preference_title_export">Export</string>
+    <string name="preference_summary_export">Save all your notes on external storage</string>
 </resources>

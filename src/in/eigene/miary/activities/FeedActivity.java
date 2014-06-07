@@ -41,7 +41,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.feed_activity);
+        setContentView(R.layout.activity_feed);
 
         initializeDrawer();
         showDrawerForFirstTime();

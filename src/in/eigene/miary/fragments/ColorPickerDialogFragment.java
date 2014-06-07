@@ -38,7 +38,7 @@ public class ColorPickerDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        final View view = getActivity().getLayoutInflater().inflate(R.layout.choose_color_fragment, null);
+        final View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_choose_color, null);
         builder.setView(view);
         builder.setTitle(R.string.dialog_colorpicker_title);
         setListeners(view);

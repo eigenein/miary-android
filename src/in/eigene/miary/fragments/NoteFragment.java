@@ -63,7 +63,7 @@ public class NoteFragment extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.note_fragment, container, false);
+        final View view = inflater.inflate(R.layout.fragment_note, container, false);
 
         editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
 

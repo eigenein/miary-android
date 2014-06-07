@@ -50,7 +50,7 @@ public class FeedFragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.feed_fragment, container, false);
+        final View view = inflater.inflate(R.layout.fragment_feed, container, false);
         feedListView = (ListView)view.findViewById(R.id.feed_list_view);
         feedListView.setOnItemClickListener(this);
         scrollListener = new EndlessScrollListener(FeedFragment.this);
