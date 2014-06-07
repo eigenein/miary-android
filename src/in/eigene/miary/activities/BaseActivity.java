@@ -4,7 +4,6 @@ import android.annotation.*;
 import android.app.*;
 import android.os.*;
 import android.view.*;
-import in.eigene.miary.*;
 import in.eigene.miary.helpers.*;
 
 public abstract class BaseActivity extends Activity {
@@ -17,15 +16,9 @@ public abstract class BaseActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            super. onBackPressed();
+            super.onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

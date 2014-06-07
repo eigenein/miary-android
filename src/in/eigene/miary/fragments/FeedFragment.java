@@ -65,6 +65,19 @@ public class FeedFragment
     }
 
     @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.menu_item_settings:
+                SettingsActivity.start(getActivity());
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         refreshFeed();
