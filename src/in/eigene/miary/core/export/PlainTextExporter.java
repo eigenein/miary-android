@@ -5,7 +5,7 @@ import in.eigene.miary.core.*;
 
 import java.io.*;
 
-public class TextExportWriter extends ExportWriter {
+public class PlainTextExporter extends Exporter {
 
     @Override
     public int getWriterTitle() {
@@ -20,16 +20,18 @@ public class TextExportWriter extends ExportWriter {
     @Override
     public void putNote(final OutputStream stream, final Note note) {
         if (!note.getTitle().isEmpty()) {
-            print(stream, note.getTitle());
+            print(stream, "Title: " + note.getTitle());
         }
-        print(stream, note.getCreationDate().toString());
+        print(stream, "Date: " + note.getCreationDate());
         if (note.isDraft()) {
-            print(stream, "[draft]");
+            print(stream, "Tag: draft");
         }
         if (note.isStarred()) {
-            print(stream, "[starred]");
+            print(stream, "Tag: starred");
         }
-        print(stream, note.getText());
+        if (!note.getText().isEmpty()) {
+            print(stream, note.getText());
+        }
         print(stream, "--");
     }
 }

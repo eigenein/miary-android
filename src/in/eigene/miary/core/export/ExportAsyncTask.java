@@ -6,12 +6,14 @@ import android.os.*;
 import android.util.*;
 import android.widget.*;
 import com.parse.*;
+import com.parse.ParseException;
 import in.eigene.miary.R;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 import java.util.zip.*;
 
@@ -19,14 +21,25 @@ public class ExportAsyncTask extends AsyncTask<Void, ExportProgress, Integer> {
 
     private static final String LOG_TAG = ExportAsyncTask.class.getSimpleName();
 
-    private static final ExportWriter[] WRITERS = new ExportWriter[] {
-        new TextExportWriter()
+    private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
+    private static final Exporter[] EXPORTERS = new Exporter[] {
+        new PlainTextExporter()
     };
 
     private final Context context;
     private final File file;
 
     private ProgressDialog progressDialog;
+
+    public static void start(final Context context) {
+        // Make file path.
+        final String date = DATE_FORMAT.format(new Date());
+        final File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        final File archive = new File(path, String.format("Miary Export %s.zip", date));
+        // Start export task.
+        new ExportAsyncTask(context, archive).execute();
+    }
 
     public ExportAsyncTask(final Context context, final File file) {
         this.context = context;
@@ -52,28 +65,27 @@ public class ExportAsyncTask extends AsyncTask<Void, ExportProgress, Integer> {
             return noteCount;
         }
 
-        final int max = noteCount * WRITERS.length;
-        final ExportProgress progress = new ExportProgress(max, 0, null);
+        final ExportProgress progress = new ExportProgress(noteCount * EXPORTERS.length, 0, null);
 
         try {
-            final ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(file));
-            for (final ExportWriter writer : WRITERS) {
-                Log.i(LOG_TAG, "Exporting with " + writer.getClass().getSimpleName());
+            final ZipOutputStream stream = new ZipOutputStream(new FileOutputStream(file));
+            for (final Exporter exporter : EXPORTERS) {
+                Log.i(LOG_TAG, "Exporting with " + exporter.getClass().getSimpleName());
                 progress.setMessage(String.format(
                         context.getString(R.string.export_message_progress),
-                        context.getString(writer.getWriterTitle())));
+                        context.getString(exporter.getWriterTitle())));
                 publishProgress(progress);
-                zip.putNextEntry(new ZipEntry("notes." + writer.getExtension()));
-                export(noteCount, writer, zip, new Action<Integer>() {
+                stream.putNextEntry(new ZipEntry("notes." + exporter.getExtension()));
+                export(noteCount, exporter, stream, new Action<Integer>() {
                     @Override
                     public void done(final Integer value) {
                         progress.incrementValue(value);
                         publishProgress(progress);
                     }
                 });
-                zip.flush();
+                stream.flush();
             }
-            zip.close();
+            stream.close();
         } catch (final Exception e) {
             InternalRuntimeException.throwForException("Export failed.", e);
         }
@@ -130,7 +142,7 @@ public class ExportAsyncTask extends AsyncTask<Void, ExportProgress, Integer> {
 
     private void export(
             final int count,
-            final ExportWriter writer,
+            final Exporter writer,
             final OutputStream stream,
             final Action<Integer> incrementProgress) {
         // Query notes.

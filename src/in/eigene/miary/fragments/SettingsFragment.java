@@ -18,7 +18,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
                         // TODO: Check if external storage is available.
-                        Exporter.start(getActivity());
+                        ExportAsyncTask.start(getActivity());
                         return true;
                     }
         });
