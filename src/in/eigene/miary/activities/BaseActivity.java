@@ -1,13 +1,13 @@
 package in.eigene.miary.activities;
 
 import android.annotation.*;
+import android.app.*;
 import android.os.*;
-import android.support.v4.app.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.helpers.*;
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends Activity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public abstract class BaseActivity extends FragmentActivity {
      * Replaces current fragment with the specified one.
      */
     protected void selectFragment(final int viewId, final Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(viewId, fragment).commit();
+        getFragmentManager().beginTransaction().replace(viewId, fragment).commit();
     }
 
     /**

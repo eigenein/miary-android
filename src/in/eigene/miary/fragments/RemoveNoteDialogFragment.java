@@ -3,7 +3,6 @@ package in.eigene.miary.fragments;
 import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.support.v4.app.DialogFragment;
 import in.eigene.miary.*;
 
 public class RemoveNoteDialogFragment extends DialogFragment {

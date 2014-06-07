@@ -1,7 +1,7 @@
 package in.eigene.miary.fragments;
 
+import android.app.*;
 import android.os.*;
-import android.support.v4.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;

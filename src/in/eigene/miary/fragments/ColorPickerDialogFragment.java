@@ -2,7 +2,6 @@ package in.eigene.miary.fragments;
 
 import android.app.*;
 import android.os.*;
-import android.support.v4.app.DialogFragment;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
