@@ -2,6 +2,7 @@ package in.eigene.miary.activities;
 
 import android.content.res.*;
 import android.os.*;
+import android.preference.*;
 import android.support.v4.app.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
@@ -36,6 +37,8 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_feed);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         initializeDrawer();
         showDrawerForFirstTime();

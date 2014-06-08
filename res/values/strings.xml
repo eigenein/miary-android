@@ -38,4 +38,15 @@
     <string name="export_writer_title_txt">plain text</string>
     <string name="export_message_progress">Exporting to %s</string>
     <string name="toast_export_nothing">Nothing to export.</string>
+    <string name="prefcat_title_account">Account</string>
+    <string name="prefcat_title_substitution">Automatic Substitution</string>
+    <string name="preference_title_enabled">Enabled</string>
+    <string name="prefkey_substitution_enabled">substitution_enabled</string>
+    <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character</string>
+    <string name="prefkey_substitution_list">substitution_list</string>
+    <string name="preference_title_substitution_list">View replacement table</string>
+    <string name="prefcat_title_security">Security</string>
+    <string name="prefkey_pin_enabled">pin_enabled</string>
+    <string name="preference_title_pin_enabled">PIN-code protection</string>
+    <string name="preference_summary_pin">Ask a security passcode to access your notes</string>
 </resources>
