@@ -31,9 +31,6 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
     private TextView textViewStarredCounter;
     private TextView textViewDraftCounter;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +39,6 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         initializeDrawer();
         showDrawerForFirstTime();
-        selectFeedFragment(false, false);
 
         ParseAnalytics.trackAppOpened(getIntent());
     }
@@ -143,7 +139,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        selectFeedFragment(false, false);
+                        getFeedFragment().setDrafts(false).setStarredOnly(false).refresh(false);
                         drawerLayout.closeDrawer(drawer);
                     }
                 });
@@ -156,7 +152,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        selectFeedFragment(false, true);
+                        getFeedFragment().setDrafts(false).setStarredOnly(true).refresh(false);
                         drawerLayout.closeDrawer(drawer);
                     }
                 }).findViewById(R.id.drawer_item_counter);
@@ -170,7 +166,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        selectFeedFragment(true, false);
+                        getFeedFragment().setDrafts(true).setStarredOnly(false).refresh(false);
                         drawerLayout.closeDrawer(drawer);
                     }
                 }).findViewById(R.id.drawer_item_counter);
@@ -222,11 +218,9 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
     }
 
     /**
-     * Select feed fragment with the specified arguments.
+     * Gets feed fragment.
      */
-    private void selectFeedFragment(final boolean drafts, final boolean starredOnly) {
-        selectFragment(R.id.feed_content_frame, new FeedFragment()
-                .setDrafts(drafts)
-                .setStarredOnly(starredOnly));
+    private FeedFragment getFeedFragment() {
+        return (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
     }
 }

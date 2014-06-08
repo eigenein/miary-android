@@ -7,6 +7,8 @@ import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.fragments.*;
 
+import java.util.*;
+
 public class NoteActivity extends BaseActivity implements NoteFragment.ChangedListener {
 
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
@@ -25,8 +27,8 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_note);
-        selectFragment(R.id.content_frame, new NoteFragment()
-                .setNoteUuid((java.util.UUID)getIntent().getSerializableExtra(EXTRA_NOTE_UUID)));
+        final UUID noteUuid = (java.util.UUID)getIntent().getSerializableExtra(EXTRA_NOTE_UUID);
+        ((NoteFragment)getFragmentManager().findFragmentById(R.id.fragment_note)).setNoteUuid(noteUuid);
     }
 
     @Override

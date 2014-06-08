@@ -109,14 +109,12 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        updateView(noteUuid);
+        refresh();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
         saveNote(false);
     }
 
@@ -207,6 +205,30 @@ public class NoteFragment extends BaseFragment {
     }
 
     /**
+     * Updates view with the note.
+     */
+    private void refresh() {
+        Log.i(LOG_TAG, "Update view: " + noteUuid);
+        Note.getByUuid(noteUuid, new GetCallback<Note>() {
+            @Override
+            public void done(final Note note, final ParseException e) {
+                InternalRuntimeException.throwForException("Failed to find note.", e);
+                Log.i(LOG_TAG, "Note: " + note);
+                NoteFragment.this.note = note;
+                if (!isAdded()) {
+                    // https://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
+                    return;
+                }
+                editTextTitle.setText(note.getTitle());
+                editTextText.setText(note.getText());
+                menuItemStar.setVisible(!note.isStarred());
+                menuItemUnstar.setVisible(note.isStarred());
+                updateLayoutColor();
+            }
+        });
+    }
+
+    /**
      * Saves the note. This method debounces frequent save calls.
      */
     private void saveNote(final boolean debounce) {
@@ -235,30 +257,6 @@ public class NoteFragment extends BaseFragment {
         note.pinInBackground(callback);
         lastSaveDateTime = currentDateTime;
         ParseAnalytics.trackEvent("save_note");
-    }
-
-    /**
-     * Updates view with the note.
-     */
-    private void updateView(final UUID noteUuid) {
-        Log.i(LOG_TAG, "Update view: " + noteUuid);
-        Note.getByUuid(noteUuid, new GetCallback<Note>() {
-            @Override
-            public void done(final Note note, final ParseException e) {
-                InternalRuntimeException.throwForException("Failed to find note.", e);
-                Log.i(LOG_TAG, "Note: " + note);
-                NoteFragment.this.note = note;
-                if (!isAdded()) {
-                    // https://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
-                    return;
-                }
-                editTextTitle.setText(note.getTitle());
-                editTextText.setText(note.getText());
-                menuItemStar.setVisible(!note.isStarred());
-                menuItemUnstar.setVisible(note.isStarred());
-                updateLayoutColor();
-            }
-        });
     }
 
     /**

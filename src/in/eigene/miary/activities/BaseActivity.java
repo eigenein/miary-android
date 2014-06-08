@@ -25,13 +25,6 @@ public abstract class BaseActivity extends Activity {
     }
 
     /**
-     * Replaces current fragment with the specified one.
-     */
-    protected void selectFragment(final int viewId, final Fragment fragment) {
-        getFragmentManager().beginTransaction().replace(viewId, fragment).commit();
-    }
-
-    /**
      * Initializes action bar features for Honeycomb and higher.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

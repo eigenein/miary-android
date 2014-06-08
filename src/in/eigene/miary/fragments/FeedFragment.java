@@ -87,7 +87,7 @@ public class FeedFragment
     @Override
     public void onStart() {
         super.onStart();
-        refreshFeed();
+        refresh(true);
         // Check if the end of page is reached.
         scrollListener.onScrollStateChanged(feedListView, EndlessScrollListener.SCROLL_STATE_IDLE);
     }
@@ -125,30 +125,12 @@ public class FeedFragment
     }
 
     /**
-     * Gets feed items adapter.
-     */
-    private FeedItemsAdapter getAdapter() {
-        return (FeedItemsAdapter)feedListView.getAdapter();
-    }
-
-    /**
-     * Gets last feed item.
-     */
-    private Note getLastNote(final FeedItemsAdapter adapter) {
-        final List<Note> notes = adapter.getNotes();
-        if (notes.size() != 0) {
-            return notes.get(notes.size() - 1);
-        }
-        return null;
-    }
-
-    /**
      * Refreshes feed by either initializing adapter or changing data set.
      */
-    private void refreshFeed() {
+    public void refresh(final boolean reuseAdapter) {
         // Remember last note creation time.
         Date lastNoteCreationDate = null;
-        final FeedItemsAdapter adapter = getAdapter();
+        final FeedItemsAdapter adapter = reuseAdapter ? getAdapter() : null;
         if (adapter != null) {
             final Note lastNote = getLastNote(adapter);
             if (lastNote != null) {
@@ -173,6 +155,24 @@ public class FeedFragment
                 switchViews();
             }
         });
+    }
+
+    /**
+     * Gets feed items adapter.
+     */
+    private FeedItemsAdapter getAdapter() {
+        return (FeedItemsAdapter)feedListView.getAdapter();
+    }
+
+    /**
+     * Gets last feed item.
+     */
+    private Note getLastNote(final FeedItemsAdapter adapter) {
+        final List<Note> notes = adapter.getNotes();
+        if (notes.size() != 0) {
+            return notes.get(notes.size() - 1);
+        }
+        return null;
     }
 
     /**
