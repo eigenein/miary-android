@@ -2,6 +2,7 @@ package in.eigene.miary.fragments;
 
 import android.app.*;
 import android.os.*;
+import android.preference.*;
 import android.text.*;
 import android.util.*;
 import android.view.*;
@@ -39,6 +40,8 @@ public class NoteFragment extends BaseFragment {
 
     private UUID noteUuid;
     private Note note;
+
+    private boolean substitutionEnabled = true;
 
     /**
      * Contains last note save date.
@@ -99,12 +102,17 @@ public class NoteFragment extends BaseFragment {
                 if (note != null) {
                     // Automatic substitution.
                     final String currentText = editTextText.getText().toString();
-                    final String replacedText = Substitutions.replace(currentText);
-                    if (!currentText.equals(replacedText)) {
-                        Log.d(LOG_TAG, "Setting replaced text.");
-                        final int selectionStart = editTextText.getSelectionStart();
-                        editTextText.setText(replacedText);
-                        editTextText.setSelection(selectionStart + replacedText.length() - currentText.length());
+                    final String replacedText;
+                    if (substitutionEnabled) {
+                        replacedText = Substitutions.replace(currentText);
+                        if (!currentText.equals(replacedText)) {
+                            Log.d(LOG_TAG, "Setting replaced text.");
+                            final int selectionStart = editTextText.getSelectionStart();
+                            editTextText.setText(replacedText);
+                            editTextText.setSelection(selectionStart + replacedText.length() - currentText.length());
+                        }
+                    } else {
+                        replacedText = currentText;
                     }
                     // Update field.
                     note.setText(replacedText);
@@ -119,7 +127,10 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+
         refresh();
+        substitutionEnabled = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(
+                getString(R.string.prefkey_substitution_enabled), true);
     }
 
     @Override
