@@ -109,7 +109,7 @@ public class NoteFragment extends BaseFragment {
                             Log.d(LOG_TAG, "Setting replaced text.");
                             final int selectionStart = editTextText.getSelectionStart();
                             editTextText.setText(replacedText);
-                            editTextText.setSelection(selectionStart + replacedText.length() - currentText.length());
+                            editTextText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
                         }
                     } else {
                         replacedText = currentText;
