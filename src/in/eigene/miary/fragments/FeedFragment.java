@@ -1,6 +1,5 @@
 package in.eigene.miary.fragments;
 
-import android.app.*;
 import android.os.*;
 import android.util.*;
 import android.view.*;
@@ -16,36 +15,44 @@ import in.eigene.miary.helpers.*;
 import java.util.*;
 
 public class FeedFragment
-        extends Fragment
+        extends BaseFragment
         implements AdapterView.OnItemClickListener, EndlessScrollListener.Listener {
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
+    private static final String KEY_DRAFTS = "drafts";
+    private static final String KEY_STARRED_ONLY = "starred_only";
+
     private static final int PAGE_SIZE = 10; // for endless scrolling
 
-    /**
-     * Whether to show drafts only.
-     */
-    private final boolean drafts;
-    /**
-     * Whether to show starred notes only.
-     */
-    private final boolean starredOnly;
+    private boolean drafts;
+    private boolean starredOnly;
 
     private ListView feedListView;
     private EndlessScrollListener scrollListener;
 
     private View feedEmptyView;
 
-    public FeedFragment(final boolean drafts, final boolean starredOnly) {
+    public FeedFragment setDrafts(final boolean drafts) {
         this.drafts = drafts;
+        return this;
+    }
+
+    public FeedFragment setStarredOnly(final boolean starredOnly) {
         this.starredOnly = starredOnly;
+        return this;
     }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
+        if (savedInstanceState != null) {
+            drafts = savedInstanceState.getBoolean(KEY_DRAFTS, drafts);
+            starredOnly = savedInstanceState.getBoolean(KEY_STARRED_ONLY, starredOnly);
+            Log.d(LOG_TAG, "Restore saved state: " + drafts + ", " + starredOnly);
+        }
     }
 
     @Override
@@ -108,6 +115,13 @@ public class FeedFragment
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_DRAFTS, drafts);
+        outState.putBoolean(KEY_STARRED_ONLY, starredOnly);
     }
 
     /**

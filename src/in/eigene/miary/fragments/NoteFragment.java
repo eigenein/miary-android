@@ -15,7 +15,7 @@ import in.eigene.miary.helpers.TextWatcher;
 
 import java.util.*;
 
-public class NoteFragment extends Fragment {
+public class NoteFragment extends BaseFragment {
 
     public interface ChangedListener {
 
@@ -24,11 +24,11 @@ public class NoteFragment extends Fragment {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
-    public static final String EXTRA_NOTE_UUID = "note_uuid";
+    private static final String KEY_NOTE_UUID = "note_uuid";
 
     private static final long DEBOUNCE_INTERVAL = 3000L;
 
-    private final ChangedListener changedListener;
+    private ChangedListener changedListener;
 
     private LinearLayout editLayout;
     private EditText editTextTitle;
@@ -37,6 +37,7 @@ public class NoteFragment extends Fragment {
     private MenuItem menuItemStar;
     private MenuItem menuItemUnstar;
 
+    private UUID noteUuid;
     private Note note;
 
     /**
@@ -44,14 +45,25 @@ public class NoteFragment extends Fragment {
      */
     private long lastSaveDateTime = new Date().getTime();
 
-    public NoteFragment(final ChangedListener changedListener) {
-        this.changedListener = changedListener;
+    public NoteFragment setNoteUuid(final UUID noteUuid) {
+        this.noteUuid = noteUuid;
+        return this;
+    }
+
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        changedListener = (ChangedListener)activity;
     }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
+        if ((savedInstanceState != null) && savedInstanceState.containsKey(KEY_NOTE_UUID)) {
+            noteUuid = (UUID)savedInstanceState.getSerializable(KEY_NOTE_UUID);
+        }
     }
 
     @Override
@@ -98,8 +110,6 @@ public class NoteFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        final UUID noteUuid = (UUID)getArguments().getSerializable(EXTRA_NOTE_UUID);
-        Log.i(LOG_TAG, "Start: " + noteUuid);
         updateView(noteUuid);
     }
 
@@ -190,6 +200,12 @@ public class NoteFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_NOTE_UUID, noteUuid);
+    }
+
     /**
      * Saves the note. This method debounces frequent save calls.
      */
@@ -225,6 +241,7 @@ public class NoteFragment extends Fragment {
      * Updates view with the note.
      */
     private void updateView(final UUID noteUuid) {
+        Log.i(LOG_TAG, "Update view: " + noteUuid);
         Note.getByUuid(noteUuid, new GetCallback<Note>() {
             @Override
             public void done(final Note note, final ParseException e) {

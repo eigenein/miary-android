@@ -23,8 +23,6 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
     private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
-    private static final String KEY_DRAFTS = "drafts";
-    private static final String KEY_STARRED = "starred";
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -44,7 +42,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         initializeDrawer();
         showDrawerForFirstTime();
-        selectFragment(R.id.feed_content_frame, new FeedFragment(false, false));
+        selectFeedFragment(false, false);
 
         ParseAnalytics.trackAppOpened(getIntent());
     }
@@ -145,7 +143,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        selectFragment(R.id.feed_content_frame, new FeedFragment(false, false));
+                        selectFeedFragment(false, false);
                         drawerLayout.closeDrawer(drawer);
                     }
                 });
@@ -158,7 +156,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        selectFragment(R.id.feed_content_frame, new FeedFragment(false, true));
+                        selectFeedFragment(false, true);
                         drawerLayout.closeDrawer(drawer);
                     }
                 }).findViewById(R.id.drawer_item_counter);
@@ -172,7 +170,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        selectFragment(R.id.feed_content_frame, new FeedFragment(true, false));
+                        selectFeedFragment(true, false);
                         drawerLayout.closeDrawer(drawer);
                     }
                 }).findViewById(R.id.drawer_item_counter);
@@ -221,5 +219,14 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
         textViewStarredCounter.setVisibility(CounterCache.getStarredCount() != 0 ? View.VISIBLE : View.GONE);
         textViewDraftCounter.setText(Integer.toString(CounterCache.getDraftCount()));
         textViewDraftCounter.setVisibility(CounterCache.getDraftCount() != 0 ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * Select feed fragment with the specified arguments.
+     */
+    private void selectFeedFragment(final boolean drafts, final boolean starredOnly) {
+        selectFragment(R.id.feed_content_frame, new FeedFragment()
+                .setDrafts(drafts)
+                .setStarredOnly(starredOnly));
     }
 }
