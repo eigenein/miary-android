@@ -5,18 +5,19 @@ package in.eigene.miary.core;
  */
 public class Substitutions {
 
-    public static class TableEntry {
-        public final String regularExpression;
+    private static class TableEntry {
+
+        public final String target;
         public final String replacement;
 
-        public TableEntry(final String regularExpression, final String replacement) {
-            this.regularExpression = regularExpression;
+        public TableEntry(final String target, final String replacement) {
+            this.target = target;
             this.replacement = replacement;
         }
 
         @Override
         public String toString() {
-            return String.format("%s → %s", regularExpression, replacement);
+            return String.format("%s → %s", target, replacement);
         }
     }
 
@@ -27,7 +28,7 @@ public class Substitutions {
      */
     private static final TableEntry[] TABLE = new TableEntry[] {
             new TableEntry("--", "—"),
-            new TableEntry(" - ", "—"),
+            new TableEntry(" - ", " — "),
             new TableEntry(">>", "»"),
             new TableEntry("<<", "«"),
             new TableEntry("...", "…")
@@ -46,7 +47,7 @@ public class Substitutions {
     public static String replace(final String string) {
         String result = string;
         for (final TableEntry entry : TABLE) {
-            result = result.replace(entry.regularExpression, entry.replacement);
+            result = result.replace(entry.target, entry.replacement);
         }
         return result;
     }

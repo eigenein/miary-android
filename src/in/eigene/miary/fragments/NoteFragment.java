@@ -97,7 +97,17 @@ public class NoteFragment extends BaseFragment {
             @Override
             public void afterTextChanged(final Editable s) {
                 if (note != null) {
-                    note.setText(s.toString());
+                    // Automatic substitution.
+                    final String currentText = editTextText.getText().toString();
+                    final String replacedText = Substitutions.replace(currentText);
+                    if (!currentText.equals(replacedText)) {
+                        Log.d(LOG_TAG, "Setting replaced text.");
+                        final int selectionStart = editTextText.getSelectionStart();
+                        editTextText.setText(replacedText);
+                        editTextText.setSelection(selectionStart + replacedText.length() - currentText.length());
+                    }
+                    // Update field.
+                    note.setText(replacedText);
                     saveNote(true);
                 }
             }
