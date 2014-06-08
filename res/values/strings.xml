@@ -31,13 +31,13 @@
     <string name="prefcat_title_reminder">Reminder</string>
     <string name="prefcat_title_security">Security</string>
     <string name="prefcat_title_substitution">Automatic Substitution</string>
-    <string name="preference_summary_export">Save all your notes on external storage</string>
-    <string name="preference_summary_pin">Ask a security passcode to access your notes</string>
-    <string name="preference_summary_reminder">Periodically remind you to write a note</string>
-    <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character</string>
+    <string name="preference_summary_export">Save all your notes on external storage.</string>
+    <string name="preference_summary_pin">We\'ll ask security passcode after 5 minutes of inactivity.</string>
+    <string name="preference_summary_reminder">Periodically remind you to write a note.</string>
+    <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character.</string>
     <string name="preference_title_enabled">Enabled</string>
     <string name="preference_title_export">Export</string>
-    <string name="preference_title_pin_enabled">PIN-code protection</string>
+    <string name="preference_title_pin_enabled">Passcode protection</string>
     <string name="preference_title_substitution_table">View replacement table</string>
     <string name="prefkey_export">export</string>
     <string name="prefkey_pin_enabled">pin_enabled</string>
@@ -54,4 +54,8 @@
     <string name="toast_starred">Starred.</string>
     <string name="toast_unstarred">Unstarred.</string>
     <string name="toast_storage_unready">External storage (memory card) is not ready.</string>
+    <string name="activity_pin">Passcode Required</string>
+    <string name="pin_required">Passcode</string>
+    <string name="app_subname">Personal Diary</string>
+    <string name="pin_incorrect">Incorrect passcode.</string>
 </resources>

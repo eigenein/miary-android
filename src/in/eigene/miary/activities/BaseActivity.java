@@ -3,16 +3,57 @@ package in.eigene.miary.activities;
 import android.annotation.*;
 import android.app.*;
 import android.os.*;
+import android.preference.*;
+import android.util.*;
 import android.view.*;
+import in.eigene.miary.*;
 import in.eigene.miary.helpers.*;
 
+import java.util.*;
+
 public abstract class BaseActivity extends Activity {
+
+    private static final String LOG_TAG = BaseActivity.class.getSimpleName();
+
+    private static long TIMEOUT = 10 * 1000;
+
+    private static long lastActivityTime = 0;
+
+    public static void refreshLastActivityTime() {
+        lastActivityTime = new Date().getTime();
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeActionBar11();
         initializeActionBar14();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Passcode protection.
+        final long currentTime = new Date().getTime();
+        if ((currentTime - lastActivityTime) > TIMEOUT) {
+            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
+                    getString(R.string.prefkey_pin_enabled), false)) {
+                Log.w(LOG_TAG, "Passcode required.");
+                finish();
+                PinActivity.start(this, getIntent());
+            } else {
+                Log.i(LOG_TAG, "Passcode protection is disabled.");
+            }
+        } else {
+            Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms left.");
+            lastActivityTime = currentTime;
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        refreshLastActivityTime();
     }
 
     @Override
