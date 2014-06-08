@@ -128,6 +128,8 @@ public class FeedFragment
      * Refreshes feed by either initializing adapter or changing data set.
      */
     public void refresh(final boolean reuseAdapter) {
+        Log.i(LOG_TAG, "Refresh: reuse adapter: " + reuseAdapter);
+
         // Remember last note creation time.
         Date lastNoteCreationDate = null;
         final FeedItemsAdapter adapter = reuseAdapter ? getAdapter() : null;
