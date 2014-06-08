@@ -53,4 +53,5 @@
     <string name="toast_note_undrafted">Marked as not a draft.</string>
     <string name="toast_starred">Starred.</string>
     <string name="toast_unstarred">Unstarred.</string>
+    <string name="toast_storage_unready">External storage (memory card) is not ready.</string>
 </resources>

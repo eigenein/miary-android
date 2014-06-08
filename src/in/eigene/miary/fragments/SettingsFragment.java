@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
+import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.export.*;
@@ -20,8 +21,11 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        // TODO: Check if external storage is available.
-                        ExportAsyncTask.start(getActivity());
+                        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                            ExportAsyncTask.start(getActivity());
+                        } else {
+                            Toast.makeText(getActivity(), R.string.toast_storage_unready, Toast.LENGTH_LONG).show();
+                        }
                         return true;
                     }
         });
