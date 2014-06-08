@@ -12,6 +12,17 @@
         />
     </PreferenceCategory>
     <PreferenceCategory
+            android:title="@string/prefcat_title_reminder"
+            android:key="prefcat_reminder"
+    >
+        <CheckBoxPreference
+                android:title="@string/preference_title_enabled"
+                android:key="@string/prefkey_reminder_enabled"
+                android:summary="@string/preference_summary_reminder"
+                android:defaultValue="false"
+        />
+    </PreferenceCategory>
+    <PreferenceCategory
             android:title="@string/prefcat_title_substitution"
             android:key="prefcat_substitution"
     >

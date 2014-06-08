@@ -49,4 +49,7 @@
     <string name="prefkey_pin_enabled">pin_enabled</string>
     <string name="preference_title_pin_enabled">PIN-code protection</string>
     <string name="preference_summary_pin">Ask a security passcode to access your notes</string>
+    <string name="prefcat_title_reminder">Reminder</string>
+    <string name="prefkey_reminder_enabled">reminder_enabled</string>
+    <string name="preference_summary_reminder">Periodically remind you to write a note</string>
 </resources>
