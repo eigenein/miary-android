@@ -44,4 +44,10 @@ public class PinActivity extends Activity {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BaseActivity.resetLastActivityTime();
+    }
 }

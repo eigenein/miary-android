@@ -15,12 +15,16 @@ public abstract class BaseActivity extends Activity {
 
     private static final String LOG_TAG = BaseActivity.class.getSimpleName();
 
-    private static long TIMEOUT = 10 * 1000;
+    private static long TIMEOUT = 5 * 60 * 1000;
 
     private static long lastActivityTime = 0;
 
     public static void refreshLastActivityTime() {
         lastActivityTime = new Date().getTime();
+    }
+
+    public static void resetLastActivityTime() {
+        lastActivityTime = 0;
     }
 
     @Override
@@ -47,7 +51,7 @@ public abstract class BaseActivity extends Activity {
             }
         } else {
             Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms left.");
-            lastActivityTime = currentTime;
+            refreshLastActivityTime();
         }
     }
     @Override
