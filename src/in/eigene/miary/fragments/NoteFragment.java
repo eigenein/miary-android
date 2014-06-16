@@ -35,9 +35,6 @@ public class NoteFragment extends BaseFragment {
     private EditText editTextTitle;
     private EditText editTextText;
 
-    private MenuItem menuItemStar;
-    private MenuItem menuItemUnstar;
-
     private UUID noteUuid;
     private Note note;
 
@@ -72,8 +69,6 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.note, menu);
-        menuItemStar = menu.findItem(R.id.menu_item_note_not_starred);
-        menuItemUnstar = menu.findItem(R.id.menu_item_note_starred);
     }
 
     @Override
@@ -146,6 +141,8 @@ public class NoteFragment extends BaseFragment {
         }
         menu.findItem(R.id.menu_item_note_draft).setVisible(!note.isDraft());
         menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
+        menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
+        menu.findItem(R.id.menu_item_note_starred).setVisible(note.isStarred());
     }
 
     @Override
@@ -170,8 +167,7 @@ public class NoteFragment extends BaseFragment {
                 note.setStarred(true);
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_starred, Toast.LENGTH_SHORT).show();
-                menuItemStar.setVisible(false);
-                menuItemUnstar.setVisible(true);
+                invalidateOptionsMenu();
                 ParseAnalytics.trackEvent("note_star");
                 return true;
 
@@ -179,8 +175,7 @@ public class NoteFragment extends BaseFragment {
                 note.setStarred(false);
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_unstarred, Toast.LENGTH_SHORT).show();
-                menuItemUnstar.setVisible(false);
-                menuItemStar.setVisible(true);
+                invalidateOptionsMenu();
                 ParseAnalytics.trackEvent("note_unstar");
                 return true;
 
@@ -242,9 +237,8 @@ public class NoteFragment extends BaseFragment {
                 }
                 editTextTitle.setText(note.getTitle());
                 editTextText.setText(note.getText());
-                menuItemStar.setVisible(!note.isStarred());
-                menuItemUnstar.setVisible(note.isStarred());
                 updateLayoutColor();
+                invalidateOptionsMenu();
             }
         });
     }
