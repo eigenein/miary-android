@@ -76,8 +76,8 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public void onPositiveButtonClicked(final String pin) {
                         if (pin.length() == 4) {
-                            getActivity()
-                                    .getSharedPreferences(PinChecker.PREFS_NAME, Context.MODE_PRIVATE)
+                            PreferenceManager
+                                    .getDefaultSharedPreferences(getActivity())
                                     .edit()
                                     .putString(PinChecker.KEY_PIN, pin)
                                     .commit();
