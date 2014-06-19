@@ -50,7 +50,7 @@ public abstract class BaseActivity extends Activity {
                 Log.i(LOG_TAG, "Passcode protection is disabled.");
             }
         } else {
-            Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms left.");
+            Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms.");
             refreshLastActivityTime();
         }
     }

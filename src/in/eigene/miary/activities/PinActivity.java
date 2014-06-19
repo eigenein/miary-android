@@ -6,6 +6,7 @@ import android.os.*;
 import android.text.*;
 import android.widget.*;
 import in.eigene.miary.*;
+import in.eigene.miary.core.*;
 import in.eigene.miary.helpers.TextWatcher;
 
 public class PinActivity extends Activity {
@@ -29,11 +30,11 @@ public class PinActivity extends Activity {
         pinEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
-                final String text = pinEditText.getText().toString();
-                if (text.length() != 4) {
+                final String pin = pinEditText.getText().toString();
+                if (pin.length() != 4) {
                     return;
                 }
-                if (text.equals("0000")) {
+                if (PinChecker.check(PinActivity.this, pin)) {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(intent);

@@ -187,7 +187,7 @@ public class NoteFragment extends BaseFragment {
                         saveNote(false);
                         updateLayoutColor();
                     }
-                }).show(getFragmentManager(), "ChooseColorFragment");
+                }).show(getFragmentManager(), ColorPickerDialogFragment.class.getSimpleName());
                 return true;
 
             case R.id.menu_item_note_remove:
@@ -206,7 +206,7 @@ public class NoteFragment extends BaseFragment {
                         });
                         note = null;
                     }
-                }).show(getFragmentManager(), "RemoveNoteDialogFragment");
+                }).show(getFragmentManager(), RemoveNoteDialogFragment.class.getSimpleName());
                 return true;
 
             default:

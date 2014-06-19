@@ -49,8 +49,82 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 }
         );
+
+        findPreference(R.string.prefkey_pin_enabled).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        final CheckBoxPreference checkBox = (CheckBoxPreference)preference;
+                        if (!checkBox.isChecked()) {
+                            disablePin(checkBox);
+                        } else {
+                            enablePin(checkBox);
+                        }
+                        return true;
+                    }
+                }
+        );
     }
 
+    /**
+     * Passcode protection enable handler.
+     */
+    private void enablePin(final CheckBoxPreference checkBox) {
+        new PinDialogFragment()
+                .setMessage(R.string.dialog_new_pin_message)
+                .setListener(new PinDialogFragment.Listener() {
+                    @Override
+                    public void onPositiveButtonClicked(final String pin) {
+                        if (pin.length() == 4) {
+                            getActivity()
+                                    .getSharedPreferences(PinChecker.PREFS_NAME, Context.MODE_PRIVATE)
+                                    .edit()
+                                    .putString(PinChecker.KEY_PIN, pin)
+                                    .commit();
+                            Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
+                            checkBox.setChecked(false);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        checkBox.setChecked(false);
+                    }
+                })
+                .show(getFragmentManager(), PinDialogFragment.class.getSimpleName());
+    }
+
+    /**
+     * Passcode protection disable handler.
+     */
+    private void disablePin(final CheckBoxPreference checkBox) {
+        new PinDialogFragment()
+                .setMessage(R.string.dialog_current_pin_message)
+                .setListener(new PinDialogFragment.Listener() {
+
+                    @Override
+                    public void onPositiveButtonClicked(final String pin) {
+                        if (PinChecker.check(getActivity(), pin)) {
+                            Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
+                            checkBox.setChecked(true);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        checkBox.setChecked(true);
+                    }
+                })
+                .show(getFragmentManager(), PinDialogFragment.class.getSimpleName());
+    }
+
+    /**
+     * Find preference by key resource ID.
+     */
     private Preference findPreference(final int keyResourceId) {
         return findPreference(getString(keyResourceId));
     }

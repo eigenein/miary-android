@@ -37,7 +37,7 @@
     <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character.</string>
     <string name="preference_title_enabled">Enabled</string>
     <string name="preference_title_export">Export</string>
-    <string name="preference_title_pin_enabled">Passcode protection</string>
+    <string name="preference_title_pin">Passcode protection</string>
     <string name="preference_title_substitution_table">View replacement table</string>
     <string name="prefkey_export">export</string>
     <string name="prefkey_pin_enabled">pin_enabled</string>
@@ -58,4 +58,9 @@
     <string name="pin_required">Passcode</string>
     <string name="app_subname">Personal Diary</string>
     <string name="pin_incorrect">Incorrect passcode.</string>
+    <string name="dialog_current_pin_message">Current passcode</string>
+    <string name="pin_disabled">Passcode protection is disabled.</string>
+    <string name="dialog_new_pin_message">New 4-digit passcode</string>
+    <string name="pin_too_short">Passcode is too short.</string>
+    <string name="pin_enabled">Passcode protection is enabled.</string>
 </resources>
