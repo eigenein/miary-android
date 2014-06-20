@@ -34,7 +34,7 @@ public class PinActivity extends Activity {
                 if (pin.length() != 4) {
                     return;
                 }
-                if (PinChecker.check(PinActivity.this, pin)) {
+                if (PinManager.check(PinActivity.this, pin)) {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(intent);

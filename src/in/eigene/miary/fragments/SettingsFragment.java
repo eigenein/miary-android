@@ -76,11 +76,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public void onPositiveButtonClicked(final String pin) {
                         if (pin.length() == 4) {
-                            PreferenceManager
-                                    .getDefaultSharedPreferences(getActivity())
-                                    .edit()
-                                    .putString(PinChecker.KEY_PIN, pin)
-                                    .commit();
+                            PinManager.set(getActivity(), pin);
                             Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
@@ -106,7 +102,7 @@ public class SettingsFragment extends PreferenceFragment {
 
                     @Override
                     public void onPositiveButtonClicked(final String pin) {
-                        if (PinChecker.check(getActivity(), pin)) {
+                        if (PinManager.check(getActivity(), pin)) {
                             Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
