@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="days_of_week">
+        <item>@string/dialog_reminder_monday</item>
+        <item>@string/dialog_reminder_tuesday</item>
+        <item>@string/dialog_reminder_wednesday</item>
+        <item>@string/dialog_reminder_thursday</item>
+        <item>@string/dialog_reminder_friday</item>
+        <item>@string/dialog_reminder_saturday</item>
+        <item>@string/dialog_reminder_sunday</item>
+    </string-array>
 </resources>

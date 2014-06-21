@@ -66,4 +66,11 @@
     <string name="note_set_custom_date">Set date and time</string>
     <string name="note_reset_custom_date">Reset</string>
     <string name="dialog_custom_date_title">Set date and time</string>
+    <string name="dialog_reminder_monday">Monday</string>
+    <string name="dialog_reminder_tuesday">Tuesday</string>
+    <string name="dialog_reminder_wednesday">Wednesday</string>
+    <string name="dialog_reminder_thursday">Thursday</string>
+    <string name="dialog_reminder_friday">Friday</string>
+    <string name="dialog_reminder_saturday">Saturday</string>
+    <string name="dialog_reminder_sunday">Sunday</string>
 </resources>
