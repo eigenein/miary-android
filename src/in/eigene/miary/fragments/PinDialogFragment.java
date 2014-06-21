@@ -7,7 +7,7 @@ import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
 
-public class PinDialogFragment extends DialogFragment {
+public class PinDialogFragment extends BaseDialogFragment {
 
     public interface Listener {
 
@@ -15,12 +15,12 @@ public class PinDialogFragment extends DialogFragment {
         void onCancelled();
     }
 
-    private int message;
+    private int title;
 
     private Listener listener;
 
-    public PinDialogFragment setMessage(final int message) {
-        this.message = message;
+    public PinDialogFragment setTitle(final int title) {
+        this.title = title;
         return this;
     }
 
@@ -35,7 +35,7 @@ public class PinDialogFragment extends DialogFragment {
         final View view = getActivity().getLayoutInflater().inflate(
                 R.layout.fragment_dialog_pin, null);
         builder.setView(view);
-        builder.setMessage(message);
+        builder.setTitle(title);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, final int which) {
@@ -49,6 +49,7 @@ public class PinDialogFragment extends DialogFragment {
                 getDialog().cancel();
             }
         });
+        builder.setCancelable(true);
         return builder.create();
     }
 

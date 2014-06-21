@@ -5,7 +5,7 @@ import android.content.*;
 import android.os.*;
 import in.eigene.miary.*;
 
-public class RemoveNoteDialogFragment extends DialogFragment {
+public class RemoveNoteDialogFragment extends BaseDialogFragment {
 
     public interface Listener {
 

@@ -8,7 +8,7 @@ import in.eigene.miary.core.*;
 
 import java.util.*;
 
-public class ColorPickerDialogFragment extends DialogFragment {
+public class ColorPickerDialogFragment extends BaseDialogFragment {
 
     interface DialogListener {
 

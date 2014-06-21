@@ -58,9 +58,12 @@
     <string name="pin_required">Passcode</string>
     <string name="app_subname">Personal Diary</string>
     <string name="pin_incorrect">Incorrect passcode.</string>
-    <string name="dialog_current_pin_message">Current passcode</string>
+    <string name="dialog_current_pin_title">Current passcode</string>
     <string name="pin_disabled">Passcode protection is disabled.</string>
-    <string name="dialog_new_pin_message">New 4-digit passcode</string>
+    <string name="dialog_new_pin_title">New 4-digit passcode</string>
     <string name="pin_too_short">Passcode is too short.</string>
     <string name="pin_enabled">Passcode protection is enabled.</string>
+    <string name="note_set_custom_date">Set date and time</string>
+    <string name="note_reset_custom_date">Reset</string>
+    <string name="dialog_custom_date_title">Set date and time</string>
 </resources>

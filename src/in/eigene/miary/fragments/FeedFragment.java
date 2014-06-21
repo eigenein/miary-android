@@ -108,7 +108,7 @@ public class FeedFragment
         if (lastNote == null) {
             return;
         }
-        queryFeedItems(lastNote.getCreationDate(), null, new Action<List<Note>>() {
+        queryFeedItems(lastNote.getCustomDate(), null, new Action<List<Note>>() {
             @Override
             public void done(final List<Note> notes) {
                 adapter.getNotes().addAll(notes);
@@ -136,7 +136,7 @@ public class FeedFragment
         if (adapter != null) {
             final Note lastNote = getLastNote(adapter);
             if (lastNote != null) {
-                lastNoteCreationDate = lastNote.getCreationDate();
+                lastNoteCreationDate = lastNote.getCustomDate();
             }
         }
 
@@ -190,13 +190,13 @@ public class FeedFragment
         query.fromLocalDatastore();
         // Paging.
         if (fromCreationDate != null) {
-            query.whereLessThan(Note.KEY_CREATION_DATE, fromCreationDate);
+            query.whereLessThan(Note.KEY_CUSTOM_DATE, fromCreationDate);
         }
         // Limiting.
         if (toCreationDate == null) {
             query.setLimit(PAGE_SIZE);
         } else {
-            query.whereGreaterThanOrEqualTo(Note.KEY_CREATION_DATE, toCreationDate);
+            query.whereGreaterThanOrEqualTo(Note.KEY_CUSTOM_DATE, toCreationDate);
         }
         // Drafts and Starred.
         query.whereEqualTo(Note.KEY_DRAFT, drafts);
@@ -204,7 +204,7 @@ public class FeedFragment
             query.whereEqualTo(Note.KEY_STARRED, true);
         }
         // Ordering.
-        query.orderByDescending(Note.KEY_CREATION_DATE);
+        query.orderByDescending(Note.KEY_CUSTOM_DATE);
 
         query.findInBackground(new FindCallback<Note>() {
 

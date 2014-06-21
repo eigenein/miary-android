@@ -64,6 +64,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 final Note note = new Note()
                         .setUuid(UUID.randomUUID())
                         .setCreationDate(new Date())
+                        .setCustomDate(new Date())
                         .setDraft(false)
                         .setStarred(false);
                 note.pinInBackground(new SaveCallback() {

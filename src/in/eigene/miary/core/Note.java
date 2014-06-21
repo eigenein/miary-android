@@ -16,6 +16,7 @@ public class Note extends ParseObject {
     public static final String KEY_TITLE = "title";
     public static final String KEY_TEXT = "text";
     public static final String KEY_CREATION_DATE = "creationDate";
+    public static final String KEY_CUSTOM_DATE = "customDate";
     public static final String KEY_DRAFT = "draft";
     public static final String KEY_COLOR = "color";
     public static final String KEY_STARRED = "starred";
@@ -83,6 +84,15 @@ public class Note extends ParseObject {
         return this;
     }
 
+    public Date getCustomDate() {
+        return Util.coalesce(getDate(KEY_CUSTOM_DATE), getCreationDate());
+    }
+
+    public Note setCustomDate(final Date date) {
+        put(KEY_CUSTOM_DATE, date);
+        return this;
+    }
+
     public boolean isDraft() {
         return getBoolean(KEY_DRAFT);
     }
@@ -113,11 +123,11 @@ public class Note extends ParseObject {
     @Override
     public String toString() {
         return String.format(
-                "%s[id: %s, uuid: %s, creationDate: %s, draft: %s]",
+                "%s[id: %s, uuid: %s, customDate: %s, draft: %s]",
                 Note.class.getSimpleName(),
                 getObjectId(),
                 getUuid(),
-                getCreationDate(),
+                getCustomDate(),
                 isDraft());
     }
 }

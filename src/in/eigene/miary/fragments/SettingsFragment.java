@@ -71,7 +71,7 @@ public class SettingsFragment extends PreferenceFragment {
      */
     private void enablePin(final CheckBoxPreference checkBox) {
         new PinDialogFragment()
-                .setMessage(R.string.dialog_new_pin_message)
+                .setTitle(R.string.dialog_new_pin_title)
                 .setListener(new PinDialogFragment.Listener() {
                     @Override
                     public void onPositiveButtonClicked(final String pin) {
@@ -89,7 +89,7 @@ public class SettingsFragment extends PreferenceFragment {
                         checkBox.setChecked(false);
                     }
                 })
-                .show(getFragmentManager(), PinDialogFragment.class.getSimpleName());
+                .show(getFragmentManager());
     }
 
     /**
@@ -97,7 +97,7 @@ public class SettingsFragment extends PreferenceFragment {
      */
     private void disablePin(final CheckBoxPreference checkBox) {
         new PinDialogFragment()
-                .setMessage(R.string.dialog_current_pin_message)
+                .setTitle(R.string.dialog_current_pin_title)
                 .setListener(new PinDialogFragment.Listener() {
 
                     @Override
@@ -115,7 +115,7 @@ public class SettingsFragment extends PreferenceFragment {
                         checkBox.setChecked(true);
                     }
                 })
-                .show(getFragmentManager(), PinDialogFragment.class.getSimpleName());
+                .show(getFragmentManager());
     }
 
     /**

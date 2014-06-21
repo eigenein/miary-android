@@ -55,7 +55,7 @@ public class FeedItemsAdapter extends ArrayAdapter<Note> {
         viewHolder.creationDate.setTextColor(context.getResources().getColor(styleHolder.feedItemFooterColorId));
         viewHolder.creationDate.setText(DateUtils.getRelativeDateTimeString(
                 context,
-                note.getCreationDate().getTime(),
+                note.getCustomDate().getTime(),
                 DateUtils.SECOND_IN_MILLIS,
                 DateUtils.DAY_IN_MILLIS,
                 0));

@@ -147,7 +147,7 @@ public class ExportAsyncTask extends AsyncTask<Void, ExportProgress, Integer> {
             final Action<Integer> incrementProgress) {
         // Query notes.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class).fromLocalDatastore();
-        query.orderByAscending(Note.KEY_CREATION_DATE);
+        query.orderByAscending(Note.KEY_CUSTOM_DATE);
         query.setLimit(count);
         final List<Note> notes;
         try {

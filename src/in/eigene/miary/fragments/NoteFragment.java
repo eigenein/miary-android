@@ -187,7 +187,7 @@ public class NoteFragment extends BaseFragment {
                         saveNote(false);
                         updateLayoutColor();
                     }
-                }).show(getFragmentManager(), ColorPickerDialogFragment.class.getSimpleName());
+                }).show(getFragmentManager());
                 return true;
 
             case R.id.menu_item_note_remove:
@@ -206,7 +206,21 @@ public class NoteFragment extends BaseFragment {
                         });
                         note = null;
                     }
-                }).show(getFragmentManager(), RemoveNoteDialogFragment.class.getSimpleName());
+                }).show(getFragmentManager());
+                return true;
+
+            case R.id.menu_item_note_custom_date:
+                new CustomDateDialogFragment()
+                        .setListener(new CustomDateDialogFragment.Listener() {
+                            @Override
+                            public void onPositiveButtonClicked(final Date date) {
+                                note.setCustomDate(date);
+                                saveNote(false);
+                            }
+                        })
+                        .setCreationDate(note.getCreationDate())
+                        .setCustomDate(note.getCustomDate())
+                        .show(getFragmentManager());
                 return true;
 
             default:

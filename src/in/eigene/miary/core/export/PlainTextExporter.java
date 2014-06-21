@@ -22,7 +22,7 @@ public class PlainTextExporter extends Exporter {
         if (!note.getTitle().isEmpty()) {
             print(stream, "Title: " + note.getTitle());
         }
-        print(stream, "Date: " + note.getCreationDate());
+        print(stream, "Date: " + note.getCustomDate());
         if (note.isDraft()) {
             print(stream, "Tag: draft");
         }
