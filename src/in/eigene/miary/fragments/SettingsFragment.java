@@ -9,6 +9,8 @@ import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.export.*;
 
+import java.util.Set;
+
 public class SettingsFragment extends PreferenceFragment {
 
     @Override
@@ -60,6 +62,47 @@ public class SettingsFragment extends PreferenceFragment {
                         } else {
                             enablePin(checkBox);
                         }
+                        return true;
+                    }
+                }
+        );
+
+        findPreference(R.string.prefkey_reminder_days).setOnPreferenceChangeListener(
+                new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(final Preference preference, Object newDays) {
+                        final Set days = (Set) newDays;
+
+                        if (days.size() == 0) {
+                            ReminderManager.cancelReminder(getActivity());
+                        } else {
+                            ReminderManager.scheduleReminder(getActivity());
+                        }
+
+                        return true;
+                    }
+                }
+        );
+
+        findPreference(R.string.prefkey_reminder_time).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        new TimePickerDialogFragment()
+                                .setTitle(R.string.dialog_reminder_time_title)
+                                .setTime(ReminderManager.getReminderHour(getActivity()),
+                                        ReminderManager.getReminderMinute(getActivity()))
+                                .setListener(new TimePickerDialogFragment.Listener() {
+                                    @Override
+                                    public void onPositiveButtonClicked(int hour, int minute) {
+                                        ReminderManager.setTime(getActivity(), hour, minute);
+                                        if (ReminderManager.isReminderEnabled(getActivity())) {
+                                            ReminderManager.scheduleReminder(getActivity());
+                                        }
+                                    }
+                                })
+                        .show(getFragmentManager());
+
                         return true;
                     }
                 }
