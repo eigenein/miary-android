@@ -24,8 +24,9 @@ public class NotificationService extends Service {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setAutoCancel(true)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle(getString(R.string.notification_reminder_content_title));
+                        .setSmallIcon(R.drawable.ic_stat)
+                        .setContentTitle(getString(R.string.app_name))
+                        .setContentText(getString(R.string.notification_reminder_content_text));
 
 
         if (!ReminderManager.isReminderDay(this, Calendar.getInstance())) {

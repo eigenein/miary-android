@@ -81,5 +81,5 @@
     <string name="dialog_reminder_saturday">Saturday</string>
     <string name="dialog_reminder_sunday">Sunday</string>
     <string name="dialog_reminder_time_title">Select time to remind</string>
-    <string name="notification_reminder_content_title">Create new note</string>
+    <string name="notification_reminder_content_text">It's time to write something.</string>
 </resources>
