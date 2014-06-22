@@ -17,7 +17,6 @@ public class TimePickerDialogFragment extends BaseDialogFragment {
     }
 
     private int title;
-
     private int hour;
     private int minute;
 
