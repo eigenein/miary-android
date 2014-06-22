@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="days_of_week">
+    <string-array name="empty_array"/>
+    <string-array name="weekdays">
         <item>@string/dialog_reminder_monday</item>
         <item>@string/dialog_reminder_tuesday</item>
         <item>@string/dialog_reminder_wednesday</item>
@@ -8,5 +9,14 @@
         <item>@string/dialog_reminder_friday</item>
         <item>@string/dialog_reminder_saturday</item>
         <item>@string/dialog_reminder_sunday</item>
+    </string-array>
+    <string-array name="weekdays_values">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>1</item>
     </string-array>
 </resources>

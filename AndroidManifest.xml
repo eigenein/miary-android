@@ -40,5 +40,8 @@
                 android:label="@string/activity_pin"
                 android:theme="@android:style/Theme.Holo.NoActionBar"
         />
+        <service
+            android:name=".services.NotificationService"
+            android:enabled="true"/>
     </application>
 </manifest>
