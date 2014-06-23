@@ -82,6 +82,7 @@ public class ReminderManager {
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         calendar.set(Calendar.HOUR_OF_DAY, getReminderHour(context));
         calendar.set(Calendar.MINUTE, getReminderMinute(context));
+        calendar.set(Calendar.SECOND, 0);
 
         return calendar;
     }
