@@ -8,8 +8,8 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import in.eigene.miary.R;
-import in.eigene.miary.activities.FeedActivity;
 import in.eigene.miary.core.ReminderManager;
+import in.eigene.miary.receivers.CreateNewNoteReceiver;
 
 import java.util.Calendar;
 
@@ -34,8 +34,8 @@ public class NotificationService extends Service {
             return START_STICKY;
         }
 
-        Intent myIntent = new Intent(this, FeedActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, myIntent, 0);
+        Intent notificationIntent = new Intent(this, CreateNewNoteReceiver.class);
+        PendingIntent contentIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, 0);
 
         mBuilder.setContentIntent(contentIntent);
 

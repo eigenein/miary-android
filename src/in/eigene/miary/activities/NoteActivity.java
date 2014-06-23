@@ -16,9 +16,14 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
     private static final String EXTRA_NOTE_UUID = "note_uuid";
 
     public static void start(final Context context, final Note note) {
+        start(context, note, 0);
+    }
+
+    public static void start(final Context context, final Note note, final int additionalFlags) {
         Log.i(LOG_TAG, "Starting note activity: " + note);
         context.startActivity(new Intent()
                 .setClass(context, NoteActivity.class)
+                .addFlags(additionalFlags)
                 .putExtra(EXTRA_NOTE_UUID, note.getUuid()));
     }
 
