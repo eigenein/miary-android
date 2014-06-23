@@ -17,8 +17,6 @@ import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
 
-import java.util.*;
-
 public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerListener {
 
     private static final String LOG_TAG = FeedActivity.class.getSimpleName();
@@ -61,12 +59,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
         switch (item.getItemId()) {
 
             case R.id.menu_item_note_new:
-                final Note note = new Note()
-                        .setUuid(UUID.randomUUID())
-                        .setCreationDate(new Date())
-                        .setCustomDate(new Date())
-                        .setDraft(false)
-                        .setStarred(false);
+                final Note note = Note.getNewNote();
                 note.pinInBackground(new SaveCallback() {
                     @Override
                     public void done(final ParseException e) {

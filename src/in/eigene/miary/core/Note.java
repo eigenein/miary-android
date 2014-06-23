@@ -47,6 +47,15 @@ public class Note extends ParseObject {
         // Do nothing.
     }
 
+    public static Note getNewNote() {
+        return new Note()
+                .setUuid(UUID.randomUUID())
+                .setCreationDate(new Date())
+                .setCustomDate(new Date())
+                .setDraft(false)
+                .setStarred(false);
+    }
+
     public UUID getUuid() {
         return new UUID(getLong(KEY_UUID_MSB), getLong(KEY_UUID_LSB));
     }
