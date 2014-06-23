@@ -66,7 +66,7 @@ public class ReminderManager {
         alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, getAlarmPendingIntent(context));
 
-        Log.i(LOG_TAG, "Reminder scheduled");
+        Log.i(LOG_TAG, "Reminder scheduled to " + calendar.getTime());
     }
 
     public static void cancelReminder(final Context context) {
@@ -80,7 +80,7 @@ public class ReminderManager {
     private static Calendar getNextReminderDate(final Context context) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, 1);
-        calendar.set(Calendar.HOUR, getReminderHour(context));
+        calendar.set(Calendar.HOUR_OF_DAY, getReminderHour(context));
         calendar.set(Calendar.MINUTE, getReminderMinute(context));
 
         return calendar;
