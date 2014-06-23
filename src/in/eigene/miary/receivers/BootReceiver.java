@@ -1,0 +1,18 @@
+package in.eigene.miary.receivers;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import in.eigene.miary.core.ReminderManager;
+
+public class BootReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+            if (ReminderManager.isReminderEnabled(context)) {
+                ReminderManager.scheduleReminder(context);
+            }
+        }
+    }
+}
