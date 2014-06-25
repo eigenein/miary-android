@@ -22,7 +22,7 @@ public class CreateNewNoteReceiver extends BroadcastReceiver {
             public void done(final ParseException e) {
                 InternalRuntimeException.throwForException("Could not pin a new note.", e);
                 Log.i(LOG_TAG, "Pinned new note: " + note);
-                NoteActivity.start(context, note, Intent.FLAG_ACTIVITY_NEW_TASK);
+                NoteActivity.start(context, note, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_FROM_BACKGROUND);
             }
         });
 
