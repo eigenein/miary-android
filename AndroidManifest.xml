@@ -46,7 +46,7 @@
 
         <!-- Services -->
         <service
-                android:name=".services.NotificationService"
+                android:name=".services.NotificationIntentService"
                 android:enabled="true"/>
 
         <!-- Receivers -->

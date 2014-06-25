@@ -3,10 +3,9 @@ package in.eigene.miary.core;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import in.eigene.miary.services.NotificationService;
+import in.eigene.miary.services.NotificationIntentService;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -88,7 +87,7 @@ public class ReminderManager {
     }
 
     private static PendingIntent getAlarmPendingIntent(final Context context) {
-        Intent intent = new Intent(context, NotificationService.class);
+        android.content.Intent intent = new android.content.Intent(context, NotificationIntentService.class);
         return PendingIntent.getService(context, 0, intent, 0);
     }
 }
