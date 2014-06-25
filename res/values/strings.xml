@@ -16,11 +16,11 @@
     <string name="export_message_progress">Exporting to %s</string>
     <string name="export_message_starting">Starting…</string>
     <string name="export_writer_title_txt">plain text</string>
-    <string name="feed_empty">No notes here yet.\nTap «New Note» to write a note.</string>
+    <string name="feed_empty">No notes here yet.\nTap «New note» to write a note.</string>
     <string name="note_color">Change color</string>
     <string name="note_draft">Mark as a draft</string>
-    <string name="note_hint">Your Note</string>
-    <string name="note_new">New Note</string>
+    <string name="note_hint">Text</string>
+    <string name="note_new">New note</string>
     <string name="note_not_draft">Mark as not a draft</string>
     <string name="note_remove">Remove note</string>
     <string name="note_removed">The note is removed.</string>
@@ -33,8 +33,6 @@
     <string name="prefcat_title_substitution">Automatic Substitution</string>
     <string name="preference_summary_export">Save all your notes on external storage.</string>
     <string name="preference_summary_pin">We\'ll ask security passcode after 5 minutes of inactivity.</string>
-    <string name="preference_summary_reminder_days">Select days of week when to remind you to write a note.</string>
-    <string name="preference_summary_reminder_time">Select time of reminding.</string>
     <string name="preference_summary_reminder">Periodically remind you to write a note.</string>
     <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character.</string>
     <string name="preference_title_enabled">Enabled</string>
@@ -72,7 +70,7 @@
     <string name="note_set_custom_date">Set date and time</string>
     <string name="note_reset_custom_date">Reset</string>
     <string name="dialog_custom_date_title">Set date and time</string>
-    <string name="dialog_reminder_days_title">Select days to remind</string>
+    <string name="dialog_reminder_days_title">Reminder days</string>
     <string name="dialog_reminder_monday">Monday</string>
     <string name="dialog_reminder_tuesday">Tuesday</string>
     <string name="dialog_reminder_wednesday">Wednesday</string>
@@ -80,6 +78,7 @@
     <string name="dialog_reminder_friday">Friday</string>
     <string name="dialog_reminder_saturday">Saturday</string>
     <string name="dialog_reminder_sunday">Sunday</string>
-    <string name="dialog_reminder_time_title">Select time to remind</string>
+    <string name="dialog_reminder_time_title">Reminder time</string>
     <string name="notification_reminder_content_text">It\'s time to write something.</string>
+    <string name="preference_summary_reminder_never">Never</string>
 </resources>

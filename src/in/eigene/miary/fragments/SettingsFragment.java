@@ -4,14 +4,21 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
+import android.text.*;
+import android.text.format.DateFormat;
 import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.export.*;
 
-import java.util.Set;
+import java.text.*;
+import java.util.*;
 
 public class SettingsFragment extends PreferenceFragment {
+
+    private static final String[] SHORT_WEEKDAYS = new DateFormatSymbols().getShortWeekdays();
+
+    private String[] allWeekdays;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -73,6 +80,8 @@ public class SettingsFragment extends PreferenceFragment {
                     public boolean onPreferenceChange(final Preference preference, Object newDays) {
                         final Set days = (Set) newDays;
 
+                        refreshReminderDaysPreference(days);
+
                         if (days.size() == 0) {
                             ReminderManager.cancelReminder(getActivity());
                         } else {
@@ -96,6 +105,7 @@ public class SettingsFragment extends PreferenceFragment {
                                     @Override
                                     public void onPositiveButtonClicked(int hour, int minute) {
                                         ReminderManager.setTime(getActivity(), hour, minute);
+                                        refreshReminderTimePreference();
                                         if (ReminderManager.isReminderEnabled(getActivity())) {
                                             ReminderManager.scheduleReminder(getActivity());
                                         }
@@ -107,6 +117,11 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 }
         );
+
+        allWeekdays = getActivity().getResources().getStringArray(R.array.weekdays_values);
+
+        refreshReminderDaysPreference();
+        refreshReminderTimePreference();
     }
 
     /**
@@ -159,6 +174,30 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 })
                 .show(getFragmentManager());
+    }
+
+    private void refreshReminderDaysPreference() {
+        refreshReminderDaysPreference(ReminderManager.getReminderDays(getActivity()));
+    }
+
+    private void refreshReminderDaysPreference(final Set<String> reminderDays) {
+        final Preference preference = findPreference(R.string.prefkey_reminder_days);
+        if (!reminderDays.isEmpty()) {
+            final ArrayList<String> dayNames = new ArrayList<String>();
+            for (final String weekday : allWeekdays) {
+                if (reminderDays.contains(weekday)) {
+                    dayNames.add(SHORT_WEEKDAYS[Integer.valueOf(weekday)]);
+                }
+            }
+            preference.setSummary(TextUtils.join(", ", dayNames));
+        } else {
+            preference.setSummary(R.string.preference_summary_reminder_never);
+        }
+    }
+
+    private void refreshReminderTimePreference() {
+        findPreference(R.string.prefkey_reminder_time).setSummary(DateFormat.getTimeFormat(getActivity()).format(
+                ReminderManager.getReminderTime(getActivity()).getTime()));
     }
 
     /**

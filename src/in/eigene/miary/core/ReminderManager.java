@@ -37,14 +37,23 @@ public class ReminderManager {
                 .getInt(KEY_REMINDER_MINUTE, 0);
     }
 
-    public static boolean isReminderDay(final Context context, final Calendar calendar) {
-        final Set<String> days = PreferenceManager
+    public static Calendar getReminderTime(final Context context) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, getReminderHour(context));
+        calendar.set(Calendar.MINUTE, getReminderMinute(context));
+        calendar.set(Calendar.SECOND, 0);
+        return calendar;
+    }
+
+    public static Set<String> getReminderDays(final Context context) {
+        return PreferenceManager
                 .getDefaultSharedPreferences(context)
                 .getStringSet(KEY_REMINDER_DAYS, new HashSet<String>());
+    }
 
+    public static boolean isReminderDay(final Context context, final Calendar calendar) {
         final int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-        return days.contains(String.valueOf(currentDayOfWeek));
+        return getReminderDays(context).contains(String.valueOf(currentDayOfWeek));
     }
 
     public static boolean isReminderEnabled(final Context context) {
@@ -74,15 +83,11 @@ public class ReminderManager {
     }
 
     private static Calendar getNextReminderDate(final Context context) {
-        final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, getReminderHour(context));
-        calendar.set(Calendar.MINUTE, getReminderMinute(context));
-        calendar.set(Calendar.SECOND, 0);
+        final Calendar calendar = getReminderTime(context);
         if (calendar.before(Calendar.getInstance())) {
             // Prevent extra notification on device boot.
             calendar.add(Calendar.DATE, 1);
         }
-
         return calendar;
     }
 
