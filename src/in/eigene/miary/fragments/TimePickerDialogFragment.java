@@ -47,6 +47,7 @@ public class TimePickerDialogFragment extends BaseDialogFragment {
                 R.layout.fragment_dialog_timepicker, null);
 
         timePicker = (TimePicker) view.findViewById(R.id.dialog_reminder_time);
+        timePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
 
         refresh(hour, minute);
 
@@ -60,6 +61,12 @@ public class TimePickerDialogFragment extends BaseDialogFragment {
                 listener.onPositiveButtonClicked(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
             }
         });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, final int which) {
+                dialog.dismiss();
+            }
+        });
 
         return builder.create();
     }
@@ -70,6 +77,5 @@ public class TimePickerDialogFragment extends BaseDialogFragment {
     private void refresh(final int hour, final int minute) {
         timePicker.setCurrentHour(hour);
         timePicker.setCurrentMinute(minute);
-        timePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
     }
 }

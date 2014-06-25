@@ -1,15 +1,12 @@
 package in.eigene.miary.core;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import in.eigene.miary.services.NotificationIntentService;
+import android.app.*;
+import android.content.*;
+import android.preference.*;
+import android.util.*;
+import in.eigene.miary.services.*;
 
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ReminderManager {
 
@@ -77,8 +74,7 @@ public class ReminderManager {
     }
 
     private static Calendar getNextReminderDate(final Context context) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        final Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, getReminderHour(context));
         calendar.set(Calendar.MINUTE, getReminderMinute(context));
         calendar.set(Calendar.SECOND, 0);
@@ -87,7 +83,7 @@ public class ReminderManager {
     }
 
     private static PendingIntent getAlarmPendingIntent(final Context context) {
-        android.content.Intent intent = new android.content.Intent(context, NotificationIntentService.class);
+        final Intent intent = new Intent(context, NotificationIntentService.class);
         return PendingIntent.getService(context, 0, intent, 0);
     }
 }
