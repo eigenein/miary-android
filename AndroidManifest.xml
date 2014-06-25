@@ -42,6 +42,7 @@
                 android:name="in.eigene.miary.activities.PinActivity"
                 android:label="@string/activity_pin"
                 android:theme="@android:style/Theme.Holo.NoActionBar"
+                android:windowSoftInputMode="stateAlwaysVisible"
         />
 
         <!-- Services -->
