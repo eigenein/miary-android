@@ -78,6 +78,10 @@ public class ReminderManager {
         calendar.set(Calendar.HOUR_OF_DAY, getReminderHour(context));
         calendar.set(Calendar.MINUTE, getReminderMinute(context));
         calendar.set(Calendar.SECOND, 0);
+        if (calendar.before(Calendar.getInstance())) {
+            // Prevent extra notification on device boot.
+            calendar.add(Calendar.DATE, 1);
+        }
 
         return calendar;
     }
