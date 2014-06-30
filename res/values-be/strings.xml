@@ -15,7 +15,7 @@
     <string name="export_message_progress">Экспорт в %s</string>
     <string name="export_message_starting">Запуск…</string>
     <string name="export_writer_title_txt">простой текст</string>
-    <string name="feed_empty">Коснитесь «Новая заметка», чтобы написать первую заметку.</string>
+    <string name="feed_empty">Краніце «Новая нататка», каб напісаць першую нататку.</string>
     <string name="note_color">Изменить цвет</string>
     <string name="note_draft">Переместить в черновики</string>
     <string name="note_hint">Текст</string>
