@@ -78,6 +78,7 @@ public class NoteFragment extends BaseFragment {
         editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
 
         editTextTitle = (EditText)view.findViewById(R.id.note_edit_title);
+        editTextTitle.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_BOLD));
         editTextTitle.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -90,6 +91,7 @@ public class NoteFragment extends BaseFragment {
         });
 
         editTextText = (EditText)view.findViewById(R.id.note_edit_text);
+        editTextText.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_REGULAR));
         editTextText.addTextChangedListener(new TextWatcher() {
 
             @Override

@@ -15,9 +15,6 @@ import java.util.*;
  */
 public class FeedItemsAdapter extends ArrayAdapter<Note> {
 
-    private static final HashMap<Integer, Integer> COLOR_TO_RESOURCE_ID =
-            new HashMap<Integer, Integer>();
-
     private final Activity context;
 
     private final List<Note> notes;
@@ -37,6 +34,8 @@ public class FeedItemsAdapter extends ArrayAdapter<Note> {
             final LayoutInflater inflater = context.getLayoutInflater();
             view = inflater.inflate(R.layout.feed_item, parent, false);
             viewHolder = new ViewHolder(view);
+            viewHolder.title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_BOLD));
+            viewHolder.text.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_REGULAR));
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder)view.getTag();
