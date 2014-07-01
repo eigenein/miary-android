@@ -15,7 +15,7 @@
     <string name="export_message_progress">Экспарт у %s</string>
     <string name="export_message_starting">Запуск…</string>
     <string name="export_writer_title_txt">просты тэкст</string>
-    <string name="feed_empty">Краніце «Новая нататка», каб напісаць першую нататку.</string>
+    <string name="feed_empty">Краніце «Новая нататка», каб напісаць нататку.</string>
     <string name="note_color">Змяніць колер</string>
     <string name="note_draft">Перамясціць у чарнавікі</string>
     <string name="note_hint">Тэкст</string>
