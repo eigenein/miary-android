@@ -68,7 +68,6 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
                         NoteActivity.start(FeedActivity.this, note);
                     }
                 });
-                ParseAnalytics.trackEvent("new_note");
                 return true;
 
             case R.id.menu_item_settings:

@@ -78,6 +78,7 @@ public class NoteFragment extends BaseFragment {
         editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
 
         editTextTitle = (EditText)view.findViewById(R.id.note_edit_title);
+        editTextTitle.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_BOLD));
         editTextTitle.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -90,6 +91,7 @@ public class NoteFragment extends BaseFragment {
         });
 
         editTextText = (EditText)view.findViewById(R.id.note_edit_text);
+        editTextText.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_REGULAR));
         editTextText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -153,14 +155,12 @@ public class NoteFragment extends BaseFragment {
                 note.setDraft(true);
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_drafted, Toast.LENGTH_SHORT).show();
-                ParseAnalytics.trackEvent("note_draft");
                 return true;
 
             case R.id.menu_item_note_not_draft:
                 note.setDraft(false);
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_undrafted, Toast.LENGTH_SHORT).show();
-                ParseAnalytics.trackEvent("note_not_draft");
                 return true;
 
             case R.id.menu_item_note_not_starred:
@@ -168,7 +168,6 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_starred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
-                ParseAnalytics.trackEvent("note_star");
                 return true;
 
             case R.id.menu_item_note_starred:
@@ -176,7 +175,6 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_unstarred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
-                ParseAnalytics.trackEvent("note_unstar");
                 return true;
 
             case R.id.menu_item_note_color:
@@ -201,7 +199,6 @@ public class NoteFragment extends BaseFragment {
                                 note = null;
                                 Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT);
                                 changedListener.onNoteRemoved();
-                                ParseAnalytics.trackEvent("remove_note");
                             }
                         });
                         note = null;
@@ -285,7 +282,6 @@ public class NoteFragment extends BaseFragment {
         Log.i(LOG_TAG, "Save note.");
         note.pinInBackground(callback);
         lastSaveDateTime = currentDateTime;
-        ParseAnalytics.trackEvent("save_note");
     }
 
     /**

@@ -15,7 +15,6 @@
             android:hint="@string/note_title_hint"
             android:background="@android:color/transparent"
             android:padding="@dimen/note_edit_text_padding"
-            android:textStyle="bold"
             android:capitalize="sentences"
     />
     <EditText

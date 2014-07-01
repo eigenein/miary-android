@@ -16,7 +16,6 @@
                 android:id="@+id/feed_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginBottom="@dimen/feed_item_margin"
         />

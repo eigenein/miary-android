@@ -12,5 +12,6 @@
             android:inputType="numberPassword"
             android:maxLength="4"
             android:gravity="center"
+            android:hint="@string/dialog_pin_hint"
     />
 </LinearLayout>
