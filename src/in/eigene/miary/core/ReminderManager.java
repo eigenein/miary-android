@@ -28,7 +28,7 @@ public class ReminderManager {
     public static int getReminderHour(final Context context) {
         return PreferenceManager
                 .getDefaultSharedPreferences(context)
-                .getInt(KEY_REMINDER_HOUR, 0);
+                .getInt(KEY_REMINDER_HOUR, 12);
     }
 
     public static int getReminderMinute(final Context context) {
