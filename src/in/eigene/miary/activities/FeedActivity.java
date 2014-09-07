@@ -40,8 +40,6 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         initializeDrawer();
         showDrawerForFirstTime();
-
-        ParseAnalytics.trackAppOpened(getIntent());
     }
 
     @Override

@@ -6,7 +6,8 @@ import android.os.*;
 import android.preference.*;
 import android.util.*;
 import android.view.*;
-import in.eigene.miary.*;
+import com.parse.*;
+import in.eigene.miary.R;
 import in.eigene.miary.helpers.*;
 
 import java.util.*;
@@ -30,8 +31,10 @@ public abstract class BaseActivity extends Activity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initializeActionBar11();
         initializeActionBar14();
+        ParseAnalytics.trackAppOpened(getIntent());
     }
 
     @Override
