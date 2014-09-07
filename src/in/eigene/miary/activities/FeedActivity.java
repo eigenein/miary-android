@@ -6,13 +6,10 @@ import android.preference.*;
 import android.support.v4.app.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
-import android.util.*;
 import android.view.*;
 import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.R;
+import in.eigene.miary.*;
 import in.eigene.miary.core.*;
-import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
@@ -53,28 +50,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-        switch (item.getItemId()) {
-
-            case R.id.menu_item_note_new:
-                final Note note = Note.createNew();
-                note.pinInBackground(new SaveCallback() {
-                    @Override
-                    public void done(final ParseException e) {
-                        InternalRuntimeException.throwForException("Could not pin a new note.", e);
-                        Log.i(LOG_TAG, "Pinned new note: " + note);
-                        NoteActivity.start(FeedActivity.this, note);
-                    }
-                });
-                return true;
-
-            case R.id.menu_item_settings:
-                SettingsActivity.start(FeedActivity.this);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

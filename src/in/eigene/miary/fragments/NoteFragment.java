@@ -23,6 +23,11 @@ public class NoteFragment extends BaseFragment {
         public void onNoteRemoved();
     }
 
+    public interface LeaveFullscreenListener {
+
+        public void onLeave();
+    }
+
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
     private static final String KEY_NOTE_UUID = "note_uuid";
@@ -30,6 +35,7 @@ public class NoteFragment extends BaseFragment {
     private static final long DEBOUNCE_INTERVAL = 3000L;
 
     private ChangedListener changedListener;
+    private LeaveFullscreenListener leaveFullscreenListener;
 
     private LinearLayout editLayout;
     private EditText editTextTitle;
@@ -44,6 +50,11 @@ public class NoteFragment extends BaseFragment {
      * Contains last note save date.
      */
     private long lastSaveDateTime = new Date().getTime();
+
+    public void setOnLeaveFullscreenListener(final LeaveFullscreenListener listener) {
+        this.leaveFullscreenListener = listener;
+        this.getView().findViewById(R.id.note_button_leave_fullscreen).setVisibility(View.VISIBLE);
+    }
 
     public NoteFragment setNoteUuid(final UUID noteUuid) {
         this.noteUuid = noteUuid;
@@ -68,28 +79,28 @@ public class NoteFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.note, menu);
+        inflater.inflate(R.menu.note_fragment, menu);
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_note, container, false);
-
         editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
 
-        editTextTitle = (EditText)view.findViewById(R.id.note_edit_title);
-        editTextTitle.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_BOLD));
-        editTextTitle.addTextChangedListener(new TextWatcher() {
-
+        view.findViewById(R.id.note_button_leave_fullscreen).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void afterTextChanged(final Editable s) {
-                if (note != null) {
-                    note.setTitle(s.toString());
-                    saveNote(true);
-                }
+            public void onClick(final View view) {
+                leaveFullscreenListener.onLeave();
             }
         });
 
+        createTitleView(view);
+        createTextView(view);
+
+        return view;
+    }
+
+    private void createTextView(final View view) {
         editTextText = (EditText)view.findViewById(R.id.note_edit_text);
         editTextText.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_REGULAR));
         editTextText.addTextChangedListener(new TextWatcher() {
@@ -117,8 +128,21 @@ public class NoteFragment extends BaseFragment {
                 }
             }
         });
+    }
 
-        return view;
+    private void createTitleView(final View view) {
+        editTextTitle = (EditText)view.findViewById(R.id.note_edit_title);
+        editTextTitle.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_BOLD));
+        editTextTitle.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(final Editable s) {
+                if (note != null) {
+                    note.setTitle(s.toString());
+                    saveNote(true);
+                }
+            }
+        });
     }
 
     @Override
@@ -264,6 +288,7 @@ public class NoteFragment extends BaseFragment {
             return;
         }
         // Debounce.
+        // TODO: move this code out to a separate debouncer class.
         final long currentDateTime = new Date().getTime();
         if (debounce) {
             if (currentDateTime - lastSaveDateTime < DEBOUNCE_INTERVAL) {

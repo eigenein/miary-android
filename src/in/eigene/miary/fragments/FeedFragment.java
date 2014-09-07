@@ -68,12 +68,24 @@ public class FeedFragment
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.feed, menu);
+        inflater.inflate(R.menu.feed_fragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.menu_item_note_new:
+                final Note note = Note.createNew();
+                note.pinInBackground(new SaveCallback() {
+                    @Override
+                    public void done(final ParseException e) {
+                        InternalRuntimeException.throwForException("Could not pin a new note.", e);
+                        Log.i(LOG_TAG, "Pinned new note: " + note);
+                        NoteActivity.start(getActivity(), note, false);
+                    }
+                });
+                return true;
 
             case R.id.menu_item_settings:
                 SettingsActivity.start(getActivity());
@@ -95,7 +107,7 @@ public class FeedFragment
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         final Note note = (Note)parent.getItemAtPosition(position);
-        NoteActivity.start(getActivity(), note);
+        NoteActivity.start(getActivity(), note, false);
     }
 
     @Override

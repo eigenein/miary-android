@@ -74,4 +74,5 @@
     <string name="notification_reminder_content_text">Время что-нибудь написать.</string>
     <string name="preference_summary_reminder_never">Никогда</string>
     <string name="dialog_pin_hint">4 цифры</string>
+    <string name="note_fullscreen">На весь экран</string>
 </resources>

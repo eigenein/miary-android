@@ -74,4 +74,5 @@
     <string name="notification_reminder_content_text">Час што-небудзь напісаць.</string>
     <string name="preference_summary_reminder_never">Ніколі</string>
     <string name="dialog_pin_hint">4 лічбы</string>
+    <string name="note_fullscreen">На ўвесь экран</string>
 </resources>
