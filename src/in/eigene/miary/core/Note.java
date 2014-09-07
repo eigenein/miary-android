@@ -47,7 +47,8 @@ public class Note extends ParseObject {
         // Do nothing.
     }
 
-    public static Note getNewNote() {
+    public static Note createNew() {
+        ParseAnalytics.trackEvent("createNew");
         return new Note()
                 .setUuid(UUID.randomUUID())
                 .setCreationDate(new Date())
@@ -98,6 +99,7 @@ public class Note extends ParseObject {
     }
 
     public Note setCustomDate(final Date date) {
+        ParseAnalytics.trackEvent("setCustomDate");
         put(KEY_CUSTOM_DATE, date);
         return this;
     }
@@ -116,6 +118,7 @@ public class Note extends ParseObject {
     }
 
     public Note setColor(final int color) {
+        ParseHelper.trackEvent("setColor", "color", Integer.toString(color));
         put(KEY_COLOR, color);
         return this;
     }

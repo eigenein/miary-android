@@ -57,7 +57,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
         switch (item.getItemId()) {
 
             case R.id.menu_item_note_new:
-                final Note note = Note.getNewNote();
+                final Note note = Note.createNew();
                 note.pinInBackground(new SaveCallback() {
                     @Override
                     public void done(final ParseException e) {
