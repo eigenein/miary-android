@@ -4,21 +4,21 @@
             android:id="@+id/menu_item_note_starred"
             android:icon="@drawable/ic_starred"
             android:title="@string/note_unstar"
-            android:showAsAction="always"
+            android:showAsAction="ifRoom"
             android:visible="false"
     />
     <item
             android:id="@+id/menu_item_note_not_starred"
             android:icon="@drawable/ic_not_starred"
             android:title="@string/note_star"
-            android:showAsAction="always"
+            android:showAsAction="ifRoom"
             android:visible="false"
     />
     <item
             android:id="@+id/menu_item_note_color"
             android:icon="@drawable/ic_colorpicker_dark"
             android:title="@string/note_color"
-            android:showAsAction="always"
+            android:showAsAction="ifRoom"
     />
     <item
             android:id="@+id/menu_item_note_draft"

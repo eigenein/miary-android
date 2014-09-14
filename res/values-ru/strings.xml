@@ -32,7 +32,6 @@
     <string name="prefcat_title_substitution">Автоматическая замена</string>
     <string name="preference_summary_export">Сохранить все заметки на карту памяти.</string>
     <string name="preference_summary_pin">Приложение будет запрашивать код доступа через 5 минут после выхода.</string>
-    <string name="preference_summary_reminder">Напоминать добавить заметку.</string>
     <string name="preference_summary_substitution">Автоматически заменять последовательности символов.</string>
     <string name="preference_title_enabled">Включить</string>
     <string name="preference_title_reminder_days">Дни недели</string>

@@ -47,10 +47,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override

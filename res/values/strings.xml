@@ -33,7 +33,6 @@
     <string name="prefcat_title_substitution">Automatic Substitution</string>
     <string name="preference_summary_export">Save all your notes on external storage.</string>
     <string name="preference_summary_pin">We\'ll ask security passcode after 5 minutes of inactivity.</string>
-    <string name="preference_summary_reminder">Periodically remind you to write a note.</string>
     <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character.</string>
     <string name="preference_title_enabled">Enabled</string>
     <string name="preference_title_reminder_days">Days of week</string>
@@ -43,7 +42,6 @@
     <string name="preference_title_substitution_table">View replacement table</string>
     <string name="prefkey_export">export</string>
     <string name="prefkey_pin_enabled">pin_enabled</string>
-    <string name="prefkey_reminder_enabled">reminder_enabled</string>
     <string name="prefkey_reminder_days">reminder_days</string>
     <string name="prefkey_reminder_time">reminder_time</string>
     <string name="prefkey_substitution_enabled">substitution_enabled</string>

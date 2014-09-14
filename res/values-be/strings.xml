@@ -32,7 +32,6 @@
     <string name="prefcat_title_substitution">Аўтаматычная замена</string>
     <string name="preference_summary_export">Захаваць усе нататкі на карту памяці.</string>
     <string name="preference_summary_pin">Дадатак будзе запытваць код доступу праз 5 хвілін пасля выхаду.</string>
-    <string name="preference_summary_reminder">Нагадваць дадаць нататку.</string>
     <string name="preference_summary_substitution">Аўтаматычна замяняць паслядоўнасці знакаў.</string>
     <string name="preference_title_enabled">Уключыць</string>
     <string name="preference_title_reminder_days">Дні тыдня</string>
