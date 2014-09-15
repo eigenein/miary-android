@@ -42,13 +42,13 @@
     <string name="progress_title_export">Экспорт</string>
     <string name="settings">Настройки</string>
     <string name="toast_cancelled">Отменено.</string>
-    <string name="toast_export_finished" formatted="false">%s заметок сохранены в %s</string>
-    <string name="toast_export_nothing">Нет заметок.</string>
+    <string name="toast_backup_finished">%1$d заметок сохранены в %2$s</string>
+    <string name="toast_backup_nothing">Нет заметок.</string>
     <string name="toast_note_drafted">Заметка перемещена в черновики.</string>
     <string name="toast_note_undrafted">Заметка перемещена в ленту.</string>
     <string name="toast_starred">Добавлена отметка.</string>
     <string name="toast_unstarred">Отметка снята.</string>
-    <string name="toast_storage_unready">Карта памяти не готова.</string>
+    <string name="toast_storage_unready">Устройство не готово.</string>
     <string name="activity_pin">Код доступа</string>
     <string name="pin_required">Код доступа</string>
     <string name="app_subname">Личный дневник</string>
@@ -74,4 +74,11 @@
     <string name="preference_summary_reminder_never">Никогда</string>
     <string name="dialog_pin_hint">4 цифры</string>
     <string name="note_fullscreen">На весь экран</string>
+    <string name="preference_summary_backup">Сохранить заметки в файл или облако.</string>
+    <string name="preference_summary_restore">Восстановить заметки из резервной копии.</string>
+    <string name="preference_title_backup_plain_text">Простой текст</string>
+    <string name="preference_summary_backup_plain_text">Простой текстовый файл.</string>
+    <string name="prefcat_title_backup_and_restore">Резервное копирование</string>
+    <string name="preference_title_backup">Сохранить копию</string>
+    <string name="preference_title_restore">Восстановить</string>
 </resources>

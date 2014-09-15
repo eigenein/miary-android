@@ -42,13 +42,13 @@
     <string name="progress_title_export">Экспарт</string>
     <string name="settings">Налады</string>
     <string name="toast_cancelled">Адменена.</string>
-    <string name="toast_export_finished" formatted="false">%s нататкаў захаваны ў %s</string>
-    <string name="toast_export_nothing">Няма нататкаў.</string>
+    <string name="toast_backup_finished">%1$d нататкаў захаваны ў %2$s</string>
+    <string name="toast_backup_nothing">Няма нататкаў.</string>
     <string name="toast_note_drafted">Нататка перамешчаная ў чарнавікі.</string>
     <string name="toast_note_undrafted">Нататка перамешчаная ў стужку.</string>
     <string name="toast_starred">Дададзеная адзнака.</string>
     <string name="toast_unstarred">Знятая адзнака.</string>
-    <string name="toast_storage_unready">Карта памяці не гатовая.</string>
+    <string name="toast_storage_unready">Прылада не гатовая.</string>
     <string name="activity_pin">Код доступу</string>
     <string name="pin_required">Код доступу</string>
     <string name="app_subname">Асабісты дзеннік</string>
@@ -74,4 +74,11 @@
     <string name="preference_summary_reminder_never">Ніколі</string>
     <string name="dialog_pin_hint">4 лічбы</string>
     <string name="note_fullscreen">На ўвесь экран</string>
+    <string name="preference_summary_backup">Захаваць нататкі ў файл або воблака.</string>
+    <string name="preference_summary_restore">Аднавіць нататкі з рэзервовай копіі.</string>
+    <string name="preference_title_backup_plain_text">Просты тэкст</string>
+    <string name="preference_summary_backup_plain_text">Просты тэкставы файл.</string>
+    <string name="prefcat_title_backup_and_restore">Рэзервовае капіраванне</string>
+    <string name="preference_title_backup">Захаваць копію</string>
+    <string name="preference_title_restore">Аднавіць</string>
 </resources>

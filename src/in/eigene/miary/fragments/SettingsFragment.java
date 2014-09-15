@@ -6,10 +6,13 @@ import android.os.*;
 import android.preference.*;
 import android.text.*;
 import android.text.format.DateFormat;
+import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
-import in.eigene.miary.core.export.*;
+import in.eigene.miary.core.backup.*;
+import in.eigene.miary.core.backup.outputs.*;
+import in.eigene.miary.core.backup.storages.*;
 
 import java.text.*;
 import java.util.*;
@@ -25,19 +28,6 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.preferences);
-
-        findPreference(R.string.prefkey_export).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(final Preference preference) {
-                        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                            ExportAsyncTask.start(getActivity());
-                        } else {
-                            Toast.makeText(getActivity(), R.string.toast_storage_unready, Toast.LENGTH_LONG).show();
-                        }
-                        return true;
-                    }
-        });
 
         findPreference(R.string.prefkey_substitution_table).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
@@ -122,6 +112,22 @@ public class SettingsFragment extends PreferenceFragment {
 
         refreshReminderDaysPreference();
         refreshReminderTimePreference();
+
+        setupBackupSettings();
+    }
+
+    /**
+     * http://stackoverflow.com/a/16800527/359730
+     */
+    @Override
+    public boolean onPreferenceTreeClick(final PreferenceScreen preferenceScreen, final Preference preference) {
+        super.onPreferenceTreeClick(preferenceScreen, preference);
+
+        if (preference instanceof PreferenceScreen) {
+            setupActionBar((PreferenceScreen)preference);
+        }
+
+        return false;
     }
 
     /**
@@ -200,10 +206,60 @@ public class SettingsFragment extends PreferenceFragment {
                 ReminderManager.getReminderTime(getActivity()).getTime()));
     }
 
+    private void setupBackupSettings() {
+        // Backup to a plain text file.
+        findPreference(R.string.prefkey_backup_plain_text).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        new BackupAsyncTask(getActivity(), new ExternalBackupStorage(), new PlainTextBackupOutputFactory()).execute();
+                        return true;
+                    }
+                }
+        );
+    }
+
     /**
      * Find preference by key resource ID.
      */
     private Preference findPreference(final int keyResourceId) {
         return findPreference(getString(keyResourceId));
+    }
+
+    /**
+     * Action Bar Home Button not functional with nested PreferenceScreen.
+     * http://stackoverflow.com/a/16800527/359730
+     */
+    private static void setupActionBar(final PreferenceScreen preferenceScreen) {
+        final Dialog dialog = preferenceScreen.getDialog();
+
+        if (dialog != null) {
+            dialog.getActionBar().setDisplayHomeAsUpEnabled(true);
+
+            final View homeButton = dialog.findViewById(android.R.id.home);
+
+            if (homeButton != null) {
+                final View.OnClickListener dismissDialogClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View view) {
+                        dialog.dismiss();
+                    }
+                };
+
+                final ViewParent homeButtonContainer = homeButton.getParent();
+
+                if (homeButtonContainer instanceof FrameLayout) {
+                    final ViewGroup containerParent = (ViewGroup)homeButtonContainer.getParent();
+
+                    if (containerParent instanceof LinearLayout) {
+                        containerParent.setOnClickListener(dismissDialogClickListener);
+                    } else {
+                        ((FrameLayout)homeButtonContainer).setOnClickListener(dismissDialogClickListener);
+                    }
+                } else {
+                    homeButton.setOnClickListener(dismissDialogClickListener);
+                }
+            }
+        }
     }
 }

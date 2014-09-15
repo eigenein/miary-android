@@ -49,13 +49,13 @@
     <string name="progress_title_export">Exporting</string>
     <string name="settings">Settings</string>
     <string name="toast_cancelled">Cancelled.</string>
-    <string name="toast_export_finished" formatted="false">%s notes are exported to %s</string>
-    <string name="toast_export_nothing">Nothing to export.</string>
+    <string name="toast_backup_finished">%1$d notes are exported to %2$s</string>
+    <string name="toast_backup_nothing">Nothing to export.</string>
     <string name="toast_note_drafted">Marked as a draft.</string>
     <string name="toast_note_undrafted">Marked as not a draft.</string>
     <string name="toast_starred">Starred.</string>
     <string name="toast_unstarred">Unstarred.</string>
-    <string name="toast_storage_unready">External storage (memory card) is not ready.</string>
+    <string name="toast_storage_unready">Storage is not ready.</string>
     <string name="activity_pin">Passcode Required</string>
     <string name="pin_required">Passcode</string>
     <string name="app_subname">Personal Diary</string>
@@ -81,4 +81,14 @@
     <string name="preference_summary_reminder_never">Never</string>
     <string name="dialog_pin_hint">4-digit passcode</string>
     <string name="note_fullscreen">Fullscreen</string>
+    <string name="prefcat_title_backup_and_restore">Backup and Restore</string>
+    <string name="preference_title_backup">Backup</string>
+    <string name="prefkey_backup">backup</string>
+    <string name="preference_title_restore">Restore</string>
+    <string name="prefkey_restore">restore</string>
+    <string name="preference_summary_backup">Backup notes into a file or a cloud storage.</string>
+    <string name="preference_summary_restore">Restore your notes from a backup.</string>
+    <string name="prefkey_backup_plain_text">backup_plain_text</string>
+    <string name="preference_title_backup_plain_text">Plain Text</string>
+    <string name="preference_summary_backup_plain_text">Simple plain text file.</string>
 </resources>
