@@ -83,6 +83,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
                         String.format(context.getString(R.string.toast_backup_finished), noteCount, backupName),
                         Toast.LENGTH_LONG
                 ).show();
+                storage.finish(context, backupName);
                 break;
             case STORAGE_NOT_READY:
                 Toast.makeText(context, R.string.toast_storage_unready, Toast.LENGTH_LONG).show();
@@ -120,6 +121,6 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
     }
 
     private String getBackupName() {
-        return String.format("Miary Export %s.%s", DATE_FORMAT.format(new Date()), outputFactory.getExtension());
+        return String.format("Miary Backup %s.%s", DATE_FORMAT.format(new Date()), outputFactory.getExtension());
     }
 }

@@ -1,5 +1,7 @@
 package in.eigene.miary.core.backup;
 
+import android.content.*;
+
 import java.io.*;
 
 /**
@@ -12,5 +14,13 @@ public abstract class BackupStorage {
      */
     public abstract boolean checkReady();
 
+    /**
+     * Gets output stream for the specified backup name.
+     */
     public abstract OutputStream getOutputStream(final String name);
+
+    /**
+     * Performs final actions on the backup.
+     */
+    public abstract void finish(final Context context, final String name);
 }

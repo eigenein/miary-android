@@ -12,6 +12,13 @@ public class AndroidVersion {
     }
 
     /**
+     * API level 12.
+     */
+    public static boolean isHoneycombMr1() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1;
+    }
+
+    /**
      * API level 14.
      */
     public static boolean isIceCreamSandwich() {

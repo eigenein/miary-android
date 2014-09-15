@@ -1,5 +1,6 @@
 package in.eigene.miary.core.backup.storages;
 
+import android.content.*;
 import in.eigene.miary.core.backup.*;
 
 import java.io.*;
@@ -18,5 +19,10 @@ public class DriveBackupStorage extends BackupStorage {
     public OutputStream getOutputStream(final String name) {
         // TODO.
         return null;
+    }
+
+    @Override
+    public void finish(final Context context, final String name) {
+        // Do nothing.
     }
 }

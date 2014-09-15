@@ -1,8 +1,12 @@
 package in.eigene.miary.core.backup.storages;
 
+import android.annotation.*;
+import android.app.*;
+import android.content.*;
 import android.os.*;
 import in.eigene.miary.core.backup.*;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.helpers.*;
 
 import java.io.*;
 
@@ -11,6 +15,8 @@ import java.io.*;
  */
 public class ExternalBackupStorage extends BackupStorage {
 
+    private static final File DOWNLOADS = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
     @Override
     public boolean checkReady() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
@@ -18,14 +24,36 @@ public class ExternalBackupStorage extends BackupStorage {
 
     @Override
     public OutputStream getOutputStream(final String name) {
-        final File downloadsPath = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS);
-        final File file = new File(downloadsPath, name);
+        final File file = new File(DOWNLOADS, name);
         try {
             return new FileOutputStream(file);
         } catch (final FileNotFoundException e) {
             InternalRuntimeException.throwForException("Cound not create output stream.", e);
             return null;
         }
+    }
+
+    @Override
+    public void finish(final Context context, final String name) {
+        if (AndroidVersion.isHoneycombMr1()) {
+            addCompletedBackup(context, name);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+    private void addCompletedBackup(final Context context, final String name) {
+        final File file = new File(DOWNLOADS, name);
+        if (!file.exists()) {
+            return;
+        }
+        final DownloadManager downloadManager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.addCompletedDownload(
+                name,
+                "Miary Backup",
+                true,
+                "application/octet-stream",
+                file.getAbsolutePath(),
+                file.length(),
+                true);
     }
 }
