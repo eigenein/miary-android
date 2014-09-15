@@ -15,4 +15,9 @@ public class PlainTextBackupOutputFactory extends BackupOutputFactory {
     protected String getExtension() {
         return "txt";
     }
+
+    @Override
+    protected String getMimeType() {
+        return "text/plain";
+    }
 }

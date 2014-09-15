@@ -22,7 +22,7 @@ public class DriveBackupStorage extends BackupStorage {
     }
 
     @Override
-    public void finish(final Context context, final String name) {
+    public void finish(final Context context, final String name, final String mimeType) {
         // Do nothing.
     }
 }

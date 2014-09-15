@@ -34,14 +34,14 @@ public class ExternalBackupStorage extends BackupStorage {
     }
 
     @Override
-    public void finish(final Context context, final String name) {
+    public void finish(final Context context, final String name, final String mimeType) {
         if (AndroidVersion.isHoneycombMr1()) {
-            addCompletedBackup(context, name);
+            addCompletedBackup(context, name, mimeType);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    private void addCompletedBackup(final Context context, final String name) {
+    private void addCompletedBackup(final Context context, final String name, String mimeType) {
         final File file = new File(DOWNLOADS, name);
         if (!file.exists()) {
             return;
@@ -51,7 +51,7 @@ public class ExternalBackupStorage extends BackupStorage {
                 name,
                 "Miary Backup",
                 true,
-                "application/octet-stream",
+                mimeType,
                 file.getAbsolutePath(),
                 file.length(),
                 true);

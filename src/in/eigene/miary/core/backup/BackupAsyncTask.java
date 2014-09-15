@@ -83,7 +83,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
                         String.format(context.getString(R.string.toast_backup_finished), noteCount, backupName),
                         Toast.LENGTH_LONG
                 ).show();
-                storage.finish(context, backupName);
+                storage.finish(context, backupName, outputFactory.getMimeType());
                 break;
             case STORAGE_NOT_READY:
                 Toast.makeText(context, R.string.toast_storage_unready, Toast.LENGTH_LONG).show();

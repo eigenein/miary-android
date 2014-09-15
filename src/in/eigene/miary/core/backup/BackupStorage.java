@@ -22,5 +22,5 @@ public abstract class BackupStorage {
     /**
      * Performs final actions on the backup.
      */
-    public abstract void finish(final Context context, final String name);
+    public abstract void finish(final Context context, final String name, final String mimeType);
 }
