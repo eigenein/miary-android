@@ -8,7 +8,8 @@ import android.text.*;
 import android.text.format.DateFormat;
 import android.view.*;
 import android.widget.*;
-import in.eigene.miary.*;
+import com.parse.*;
+import in.eigene.miary.R;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.backup.*;
 import in.eigene.miary.core.backup.outputs.*;
@@ -142,6 +143,7 @@ public class SettingsFragment extends PreferenceFragment {
                         if (pin.length() == 4) {
                             PinManager.set(getActivity(), pin);
                             Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
+                            ParseAnalytics.trackEvent("protectionEnabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(false);
@@ -168,6 +170,7 @@ public class SettingsFragment extends PreferenceFragment {
                     public void onPositiveButtonClicked(final String pin) {
                         if (PinManager.check(getActivity(), pin)) {
                             Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
+                            ParseAnalytics.trackEvent("protectionDisabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(true);
