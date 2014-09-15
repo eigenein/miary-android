@@ -28,20 +28,17 @@ public class PlainTextBackupOutput extends BackupOutput {
 
     @Override
     public void write(final Note note) {
+        writer.println(note.getCustomDate()
+                + (note.isStarred() ? " [starred]": "")
+                + (note.isDraft() ? " [draft]" : ""));
         if (!note.getTitle().isEmpty()) {
             writer.println(note.getTitle());
-        }
-        writer.println("Date: " + note.getCustomDate());
-        if (note.isDraft()) {
-            writer.println("Tag: draft");
-        }
-        if (note.isStarred()) {
-            writer.println("Tag: starred");
+            writer.println(note.getTitle().replaceAll(".", "-"));
         }
         if (!note.getText().isEmpty()) {
             writer.println(note.getText());
         }
-        writer.println("--");
+        writer.println();
     }
 
     @Override
