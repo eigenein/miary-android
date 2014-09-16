@@ -1,24 +1,19 @@
 package in.eigene.miary.core.backup.outputs;
 
 import in.eigene.miary.core.*;
-import in.eigene.miary.core.backup.*;
-import in.eigene.miary.exceptions.*;
 
 import java.io.*;
 
 /**
  * Backups into a plain text file.
  */
-public class PlainTextBackupOutput extends BackupOutput {
+public class PlainTextBackupOutput extends TextBackupOutput {
 
     private PrintWriter writer;
 
     public PlainTextBackupOutput(final OutputStream outputStream) {
-        try {
-            this.writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
-        } catch (final UnsupportedEncodingException e) {
-            InternalRuntimeException.throwForException("Unsupported encoding.", e);
-        }
+        super(outputStream);
+        this.writer = new PrintWriter(streamWriter, true);
     }
 
     @Override

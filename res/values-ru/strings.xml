@@ -81,4 +81,5 @@
     <string name="prefcat_title_backup_and_restore">Резервное копирование</string>
     <string name="preference_title_backup">Сохранить копию</string>
     <string name="preference_title_restore">Восстановить</string>
+    <string name="preference_summary_backup_json">Поддерживает восстановление заметок из резервной копии.</string>
 </resources>

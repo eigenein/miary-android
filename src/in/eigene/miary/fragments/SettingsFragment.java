@@ -210,12 +210,22 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     private void setupBackupSettings() {
-        // Backup to a plain text file.
+        // Plain text.
         findPreference(R.string.prefkey_backup_plain_text).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
                         new BackupAsyncTask(getActivity(), new ExternalBackupStorage(), new PlainTextBackupOutputFactory()).execute();
+                        return true;
+                    }
+                }
+        );
+        // JSON.
+        findPreference(R.string.prefkey_backup_json).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        new BackupAsyncTask(getActivity(), new ExternalBackupStorage(), new JsonBackupOutputFactory()).execute();
                         return true;
                     }
                 }

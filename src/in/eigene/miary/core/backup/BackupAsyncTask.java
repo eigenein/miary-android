@@ -10,6 +10,7 @@ import in.eigene.miary.R;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
@@ -61,7 +62,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         backupName = getBackupName();
         try {
             return backup(outputFactory.createOutput(storage.getOutputStream(backupName)));
-        } catch (final ParseException e) {
+        } catch (final Exception e) {
             InternalRuntimeException.throwForException("Backup failed.", e);
             return BackupResult.FAILURE;
         }
@@ -99,7 +100,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         Toast.makeText(context, R.string.toast_cancelled, Toast.LENGTH_SHORT).show();
     }
 
-    private BackupResult backup(final BackupOutput output) throws ParseException {
+    private BackupResult backup(final BackupOutput output) throws ParseException, IOException {
         noteCount = ParseQuery.getQuery(Note.class).fromLocalDatastore().count();
         if (noteCount == 0) {
             return BackupResult.NOTHING_TO_BACKUP;
@@ -110,6 +111,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         query.setLimit(noteCount);
         final List<Note> notes = query.find();
         // Write notes.
+        output.start();
         int writtenCount = 0;
         for (final Note note : notes) {
             output.write(note);

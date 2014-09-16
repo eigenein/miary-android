@@ -91,4 +91,7 @@
     <string name="prefkey_backup_plain_text">backup_plain_text</string>
     <string name="preference_title_backup_plain_text">Plain Text</string>
     <string name="preference_summary_backup_plain_text">Simple plain text file.</string>
+    <string name="preference_title_backup_json">JSON</string>
+    <string name="prefkey_backup_json">backup_json</string>
+    <string name="preference_summary_backup_json">Supports restoring your notes from backup.</string>
 </resources>

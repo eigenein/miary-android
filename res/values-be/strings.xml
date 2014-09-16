@@ -81,4 +81,5 @@
     <string name="prefcat_title_backup_and_restore">Рэзервовае капіраванне</string>
     <string name="preference_title_backup">Захаваць копію</string>
     <string name="preference_title_restore">Аднавіць</string>
+    <string name="preference_summary_backup_json">Падтрымлівае аднаўленне нататак з рэзервовай копіі.</string>
 </resources>
