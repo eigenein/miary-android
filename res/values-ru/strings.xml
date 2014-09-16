@@ -76,8 +76,8 @@
     <string name="note_fullscreen">На весь экран</string>
     <string name="preference_summary_backup">Сохранить заметки в файл или облако.</string>
     <string name="preference_summary_restore">Восстановить заметки из резервной копии.</string>
-    <string name="preference_title_backup_plain_text">Простой текст</string>
-    <string name="preference_summary_backup_plain_text">Простой текстовый файл.</string>
+    <string name="preference_title_backup_plain_text">Текстовый файл</string>
+    <string name="preference_summary_backup_plain_text">Можно открыть любым текстовым редактором.</string>
     <string name="prefcat_title_backup_and_restore">Резервное копирование</string>
     <string name="preference_title_backup">Сохранить копию</string>
     <string name="preference_title_restore">Восстановить</string>

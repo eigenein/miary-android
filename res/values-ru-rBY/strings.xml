@@ -76,8 +76,8 @@
     <string name="note_fullscreen">На ўвесь экран</string>
     <string name="preference_summary_backup">Захаваць нататкі ў файл або воблака.</string>
     <string name="preference_summary_restore">Аднавіць нататкі з рэзервовай копіі.</string>
-    <string name="preference_title_backup_plain_text">Просты тэкст</string>
-    <string name="preference_summary_backup_plain_text">Просты тэкставы файл.</string>
+    <string name="preference_title_backup_plain_text">Тэкставы файл</string>
+    <string name="preference_summary_backup_plain_text">Можна адкрыць любым тэкставым рэдактарам.</string>
     <string name="prefcat_title_backup_and_restore">Рэзервовае капіраванне</string>
     <string name="preference_title_backup">Захаваць копію</string>
     <string name="preference_title_restore">Аднавіць</string>
