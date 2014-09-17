@@ -21,6 +21,10 @@
 
 -dontwarn com.facebook.**
 -dontwarn com.parse.**
+-dontwarn org.apache.**
+-dontwarn org.bouncycastle.**
 
 -keep class com.facebook.** { *; }
 -keep class com.parse.** { *; }
+-keep class org.apache.** { *; }
+-keep class org.bouncycastle.** { *; }
