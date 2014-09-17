@@ -96,4 +96,5 @@
     <string name="preference_title_backup_dropbox">Dropbox</string>
     <string name="prefkey_backup_dropbox">backup_dropbox</string>
     <string name="preference_summary_backup_dropbox">Backup your notes into Dropbox application folder.</string>
+    <string name="backup_message_finishing">Finishing…</string>
 </resources>

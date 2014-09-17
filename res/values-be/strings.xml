@@ -82,4 +82,5 @@
     <string name="preference_title_restore">Аднавіць</string>
     <string name="preference_summary_backup_json">Падтрымлівае аднаўленне нататак з рэзервовай копіі.</string>
     <string name="preference_summary_backup_dropbox">Капіраванне ў дырэкторыю прыкладання.</string>
+    <string name="backup_message_finishing">Завяршэнне…</string>
 </resources>

@@ -14,7 +14,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
-public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
+public class BackupAsyncTask extends AsyncTask<Void, BackupProgress, BackupResult> {
 
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
@@ -41,7 +41,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle(R.string.progress_title_export);
         progressDialog.setMessage(context.getString(R.string.backup_message_starting));
-        progressDialog.setIndeterminate(false);
+        progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setCancelable(true);
         progressDialog.setCanceledOnTouchOutside(true);
@@ -63,6 +63,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         try {
             final OutputStream outputStream = storage.getOutputStream(backupName);
             final BackupResult result = backup(outputFactory.createOutput(outputStream));
+            publishProgress(BackupProgress.FINISHING);
             storage.finish(context, false, backupName, outputFactory.getMimeType());
             return result;
         } catch (final Exception e) {
@@ -72,10 +73,21 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
     }
 
     @Override
-    protected void onProgressUpdate(final Integer... values) {
-        progressDialog.setMessage(context.getString(R.string.backup_message_progress));
-        progressDialog.setMax(noteCount);
-        progressDialog.setProgress(values[0]);
+    protected void onProgressUpdate(final BackupProgress... values) {
+        final BackupProgress progress = values[0];
+
+        switch (progress.getState()) {
+            case PROGRESS:
+                progressDialog.setMessage(context.getString(R.string.backup_message_progress));
+                progressDialog.setIndeterminate(false);
+                progressDialog.setMax(noteCount);
+                progressDialog.setProgress(progress.getProgress());
+                break;
+            case FINISHING:
+                progressDialog.setMessage(context.getString(R.string.backup_message_finishing));
+                progressDialog.setIndeterminate(true);
+                break;
+        }
     }
 
     @Override
@@ -115,12 +127,16 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         query.setLimit(noteCount);
         final List<Note> notes = query.find();
         // Write notes.
+        final BackupProgress progress = new BackupProgress(BackupProgress.State.PROGRESS, 0);
+        publishProgress(progress);
         output.start();
-        int writtenCount = 0;
         for (final Note note : notes) {
+            if (isCancelled()) {
+                break;
+            }
             output.write(note);
-            writtenCount += 1;
-            publishProgress(writtenCount);
+            progress.incrementProgress();
+            publishProgress(progress);
         }
         output.finish();
         return BackupResult.OK;
