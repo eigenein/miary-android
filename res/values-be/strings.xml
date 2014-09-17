@@ -47,7 +47,7 @@
     <string name="toast_note_undrafted">Нататка перамешчаная ў стужку.</string>
     <string name="toast_starred">Дададзеная адзнака.</string>
     <string name="toast_unstarred">Знятая адзнака.</string>
-    <string name="toast_storage_unready">Прылада не гатовая.</string>
+    <string name="toast_storage_unready">Дыск не гатовы.</string>
     <string name="activity_pin">Код доступу</string>
     <string name="pin_required">Код доступу</string>
     <string name="app_subname">Асабісты дзеннік</string>

@@ -47,7 +47,7 @@
     <string name="toast_note_undrafted">Заметка перемещена в ленту.</string>
     <string name="toast_starred">Добавлена отметка.</string>
     <string name="toast_unstarred">Отметка снята.</string>
-    <string name="toast_storage_unready">Устройство не готово.</string>
+    <string name="toast_storage_unready">Диск не готов.</string>
     <string name="activity_pin">Код доступа</string>
     <string name="pin_required">Код доступа</string>
     <string name="app_subname">Личный дневник</string>
