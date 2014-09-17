@@ -1,6 +1,7 @@
 package in.eigene.miary.core.backup.storages;
 
 import android.content.*;
+import android.util.*;
 import com.dropbox.client2.*;
 import com.dropbox.client2.android.*;
 import com.dropbox.client2.exception.*;
@@ -16,12 +17,11 @@ import java.io.*;
  */
 public class DropboxBackupStorage extends BackupStorage {
 
+    private static final String LOG_TAG = DropboxBackupStorage.class.getSimpleName();
+
     private final DropboxAPI<AndroidAuthSession> api;
 
-    /**
-     * TODO: temporary file on disk because of possibly large size.
-     */
-    private final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    private File tempFile;
 
     public DropboxBackupStorage() {
         final AppKeyPair appKeys = new AppKeyPair("cvklgjd9ykfi561", "2sxel7scug156mz");
@@ -54,8 +54,13 @@ public class DropboxBackupStorage extends BackupStorage {
     }
 
     @Override
-    public OutputStream getOutputStream(final String name) {
-        return stream;
+    public OutputStream getOutputStream(final String name) throws IOException {
+        assert tempFile == null;
+
+        tempFile = File.createTempFile(name, null);
+        tempFile.deleteOnExit();
+        Log.i(LOG_TAG, "Temporary file: " + tempFile.getAbsolutePath());
+        return new FileOutputStream(tempFile);
     }
 
     @Override
@@ -63,12 +68,13 @@ public class DropboxBackupStorage extends BackupStorage {
         if (uiThread) {
             return;
         }
-        ParseHelper.trackEvent("backupToDropbox", "length", Integer.toString(stream.size()));
-        final ByteArrayInputStream inputStream = new ByteArrayInputStream(stream.toByteArray());
+        ParseHelper.trackEvent("backupToDropbox", "length", Long.toString(tempFile.length()));
         try {
-            api.putFileOverwrite(name, inputStream, stream.size(), null);
+            api.putFileOverwrite(name, new FileInputStream(tempFile), tempFile.length(), null);
         } catch (final DropboxException e) {
             InternalRuntimeException.throwForException("Putting file failed.", e);
+        } catch (final FileNotFoundException e) {
+            InternalRuntimeException.throwForException("Could not find temporary file.", e);
         }
     }
 }

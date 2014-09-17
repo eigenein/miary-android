@@ -22,7 +22,7 @@ public abstract class BackupStorage {
     /**
      * Gets output stream for the specified backup name.
      */
-    public abstract OutputStream getOutputStream(final String name);
+    public abstract OutputStream getOutputStream(final String name) throws IOException;
 
     /**
      * Performs final actions on the backup.
