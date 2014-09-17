@@ -22,7 +22,16 @@ public class SettingsFragment extends PreferenceFragment {
 
     private static final String[] SHORT_WEEKDAYS = new DateFormatSymbols().getShortWeekdays();
 
+    /**
+     * Caches weekdays from resources.
+     */
     private String[] allWeekdays;
+
+    /**
+     * Indicates whether Dropbox backup process was started before pausing.
+     */
+    private boolean dropboxBackupActive;
+    private DropboxBackupStorage dropboxBackupStorage;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -115,6 +124,17 @@ public class SettingsFragment extends PreferenceFragment {
         refreshReminderTimePreference();
 
         setupBackupSettings();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (dropboxBackupActive) {
+            dropboxBackupActive = false;
+            dropboxBackupStorage.finishAuthentication();
+            new BackupAsyncTask(getActivity(), dropboxBackupStorage, new JsonBackupOutputFactory()).execute();
+        }
     }
 
     /**
@@ -226,6 +246,18 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
                         new BackupAsyncTask(getActivity(), new ExternalBackupStorage(), new JsonBackupOutputFactory()).execute();
+                        return true;
+                    }
+                }
+        );
+        // Dropbox.
+        findPreference(R.string.prefkey_backup_dropbox).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        dropboxBackupActive = true;
+                        dropboxBackupStorage = new DropboxBackupStorage();
+                        dropboxBackupStorage.authenticate(getActivity());
                         return true;
                     }
                 }

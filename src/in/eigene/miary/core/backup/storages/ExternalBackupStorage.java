@@ -18,6 +18,11 @@ public class ExternalBackupStorage extends BackupStorage {
     private static final File DOWNLOADS = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
     @Override
+    public boolean includeDate() {
+        return true;
+    }
+
+    @Override
     public boolean checkReady() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
@@ -34,12 +39,15 @@ public class ExternalBackupStorage extends BackupStorage {
     }
 
     @Override
-    public void finish(final Context context, final String name, final String mimeType) {
-        if (AndroidVersion.isHoneycombMr1()) {
+    public void finish(final Context context, boolean uiThread, final String name, final String mimeType) {
+        if (AndroidVersion.isHoneycombMr1() && uiThread) {
             addCompletedBackup(context, name, mimeType);
         }
     }
 
+    /**
+     * Adds a completed backup into Downloads App.
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private void addCompletedBackup(final Context context, final String name, String mimeType) {
         final File file = new File(DOWNLOADS, name);

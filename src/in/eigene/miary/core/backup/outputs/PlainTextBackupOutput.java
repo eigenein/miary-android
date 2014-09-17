@@ -38,6 +38,6 @@ public class PlainTextBackupOutput extends TextBackupOutput {
 
     @Override
     public void finish() {
-        // Do nothing.
+        writer.close();
     }
 }

@@ -57,6 +57,12 @@
                 android:persistent="false"
         >
             <Preference
+                    android:title="@string/preference_title_backup_dropbox"
+                    android:key="@string/prefkey_backup_dropbox"
+                    android:summary="@string/preference_summary_backup_dropbox"
+                    android:persistent="false"
+            />
+            <Preference
                     android:title="@string/preference_title_backup_plain_text"
                     android:key="@string/prefkey_backup_plain_text"
                     android:summary="@string/preference_summary_backup_plain_text"

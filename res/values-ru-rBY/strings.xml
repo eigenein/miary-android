@@ -12,9 +12,8 @@
     <string name="drawer_item_feed">Стужка</string>
     <string name="drawer_item_starred">Адзначаныя</string>
     <string name="drawer_open">Адкрыць</string>
-    <string name="export_message_progress">Экспарт у %s</string>
-    <string name="export_message_starting">Запуск…</string>
-    <string name="export_writer_title_txt">просты тэкст</string>
+    <string name="backup_message_progress">Стварэнне рэзервовай копіі…</string>
+    <string name="backup_message_starting">Запуск…</string>
     <string name="feed_empty">Краніце «Новая нататка», каб напісаць нататку.</string>
     <string name="note_color">Змяніць колер</string>
     <string name="note_draft">Перамясціць у чарнавікі</string>
@@ -82,4 +81,5 @@
     <string name="preference_title_backup">Захаваць копію</string>
     <string name="preference_title_restore">Аднавіць</string>
     <string name="preference_summary_backup_json">Падтрымлівае аднаўленне нататак з рэзервовай копіі.</string>
+    <string name="preference_summary_backup_dropbox">Капіраванне ў дырэкторыю прыкладання.</string>
 </resources>

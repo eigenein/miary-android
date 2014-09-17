@@ -12,9 +12,8 @@
     <string name="drawer_item_feed">Лента</string>
     <string name="drawer_item_starred">Отмеченные</string>
     <string name="drawer_open">Открыть</string>
-    <string name="export_message_progress">Экспорт в %s</string>
-    <string name="export_message_starting">Запуск…</string>
-    <string name="export_writer_title_txt">простой текст</string>
+    <string name="backup_message_progress">Создание резервной копии…</string>
+    <string name="backup_message_starting">Запуск…</string>
     <string name="feed_empty">Коснитесь «Новая заметка», чтобы написать заметку.</string>
     <string name="note_color">Изменить цвет</string>
     <string name="note_draft">Переместить в черновики</string>
@@ -82,4 +81,5 @@
     <string name="preference_title_backup">Сохранить копию</string>
     <string name="preference_title_restore">Восстановить</string>
     <string name="preference_summary_backup_json">Поддерживает восстановление заметок из резервной копии.</string>
+    <string name="preference_summary_backup_dropbox">Копирование в папку приложения.</string>
 </resources>

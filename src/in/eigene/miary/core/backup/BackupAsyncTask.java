@@ -40,7 +40,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle(R.string.progress_title_export);
-        progressDialog.setMessage(context.getString(R.string.export_message_starting));
+        progressDialog.setMessage(context.getString(R.string.backup_message_starting));
         progressDialog.setIndeterminate(false);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setCancelable(true);
@@ -59,9 +59,12 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         if (!storage.checkReady()) {
             return BackupResult.STORAGE_NOT_READY;
         }
-        backupName = getBackupName();
+        backupName = getBackupName(storage.includeDate());
         try {
-            return backup(outputFactory.createOutput(storage.getOutputStream(backupName)));
+            final OutputStream outputStream = storage.getOutputStream(backupName);
+            final BackupResult result = backup(outputFactory.createOutput(outputStream));
+            storage.finish(context, false, backupName, outputFactory.getMimeType());
+            return result;
         } catch (final Exception e) {
             InternalRuntimeException.throwForException("Backup failed.", e);
             return BackupResult.FAILURE;
@@ -70,6 +73,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
 
     @Override
     protected void onProgressUpdate(final Integer... values) {
+        progressDialog.setMessage(context.getString(R.string.backup_message_progress));
         progressDialog.setMax(noteCount);
         progressDialog.setProgress(values[0]);
     }
@@ -84,7 +88,7 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
                         String.format(context.getString(R.string.toast_backup_finished), noteCount, backupName),
                         Toast.LENGTH_LONG
                 ).show();
-                storage.finish(context, backupName, outputFactory.getMimeType());
+                storage.finish(context, true, backupName, outputFactory.getMimeType());
                 break;
             case STORAGE_NOT_READY:
                 Toast.makeText(context, R.string.toast_storage_unready, Toast.LENGTH_LONG).show();
@@ -122,7 +126,17 @@ public class BackupAsyncTask extends AsyncTask<Void, Integer, BackupResult> {
         return BackupResult.OK;
     }
 
-    private String getBackupName() {
-        return String.format("Miary Backup %s.%s", DATE_FORMAT.format(new Date()), outputFactory.getExtension());
+    /**
+     * Gets or generates a backup name.
+     */
+    private String getBackupName(boolean includeDate) {
+        final StringBuilder nameBuilder = new StringBuilder("Miary Backup");
+        if (includeDate) {
+            nameBuilder.append(" ");
+            nameBuilder.append(DATE_FORMAT.format(new Date()));
+        }
+        nameBuilder.append(".");
+        nameBuilder.append(outputFactory.getExtension());
+        return nameBuilder.toString();
     }
 }

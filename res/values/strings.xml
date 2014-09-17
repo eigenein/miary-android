@@ -13,9 +13,8 @@
     <string name="drawer_item_feed">Feed</string>
     <string name="drawer_item_starred">Starred</string>
     <string name="drawer_open">Open</string>
-    <string name="export_message_progress">Exporting to %s</string>
-    <string name="export_message_starting">Starting…</string>
-    <string name="export_writer_title_txt">plain text</string>
+    <string name="backup_message_progress">Creating backup…</string>
+    <string name="backup_message_starting">Starting…</string>
     <string name="feed_empty">No notes here yet.\nTap «New note» to write a note.</string>
     <string name="note_color">Change color</string>
     <string name="note_draft">Mark as a draft</string>
@@ -94,4 +93,7 @@
     <string name="preference_title_backup_json">JSON</string>
     <string name="prefkey_backup_json">backup_json</string>
     <string name="preference_summary_backup_json">Supports restoring your notes from backup.</string>
+    <string name="preference_title_backup_dropbox">Dropbox</string>
+    <string name="prefkey_backup_dropbox">backup_dropbox</string>
+    <string name="preference_summary_backup_dropbox">Backup your notes into Dropbox application folder.</string>
 </resources>

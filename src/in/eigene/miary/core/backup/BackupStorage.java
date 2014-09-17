@@ -10,6 +10,11 @@ import java.io.*;
 public abstract class BackupStorage {
 
     /**
+     * Gets whether a backup should not have a constant name.
+     */
+    public abstract boolean includeDate();
+
+    /**
      * Checks if the storage is ready.
      */
     public abstract boolean checkReady();
@@ -21,6 +26,11 @@ public abstract class BackupStorage {
 
     /**
      * Performs final actions on the backup.
+     * Invoked first on non-UI thread and then on UI thread.
      */
-    public abstract void finish(final Context context, final String name, final String mimeType);
+    public abstract void finish(
+            final Context context,
+            boolean uiThread,
+            final String name,
+            final String mimeType);
 }
