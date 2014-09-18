@@ -12,12 +12,12 @@ public class PlainTextBackupOutputFactory extends BackupOutputFactory {
     }
 
     @Override
-    protected String getExtension() {
+    public String getExtension() {
         return "txt";
     }
 
     @Override
-    protected String getMimeType() {
+    public String getMimeType() {
         return "text/plain";
     }
 }

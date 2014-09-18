@@ -12,12 +12,12 @@ public class JsonBackupOutputFactory extends BackupOutputFactory {
     }
 
     @Override
-    protected String getExtension() {
+    public String getExtension() {
         return "json";
     }
 
     @Override
-    protected String getMimeType() {
+    public String getMimeType() {
         return "application/json";
     }
 }

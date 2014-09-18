@@ -9,10 +9,10 @@ public abstract class BackupOutputFactory {
     /**
      * Gets format-specific backup name extension.
      */
-    protected abstract String getExtension();
+    public abstract String getExtension();
 
     /**
      * Gets format-specific MIME type.
      */
-    protected abstract String getMimeType();
+    public abstract String getMimeType();
 }
