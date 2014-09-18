@@ -7,7 +7,7 @@ import android.text.*;
 import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.R;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.managers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
 public class PinActivity extends Activity {

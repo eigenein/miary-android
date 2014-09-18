@@ -5,7 +5,7 @@ import android.content.*;
 import android.support.v4.app.*;
 import android.util.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.managers.*;
 import in.eigene.miary.receivers.*;
 
 import java.util.*;

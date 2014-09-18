@@ -3,7 +3,7 @@ package in.eigene.miary.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import in.eigene.miary.core.ReminderManager;
+import in.eigene.miary.core.managers.ReminderManager;
 
 public class BootReceiver extends BroadcastReceiver {
 
