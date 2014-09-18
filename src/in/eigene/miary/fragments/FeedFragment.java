@@ -10,6 +10,7 @@ import in.eigene.miary.activities.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
 
 import java.util.*;

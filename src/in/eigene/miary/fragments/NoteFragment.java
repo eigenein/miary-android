@@ -11,6 +11,8 @@ import com.parse.*;
 import in.eigene.miary.R;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.fragments.base.*;
+import in.eigene.miary.fragments.dialogs.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
