@@ -9,7 +9,7 @@ import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.caches.*;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
