@@ -2,7 +2,6 @@ package in.eigene.miary.core.backup.tasks;
 
 import android.app.*;
 import android.content.*;
-import android.os.*;
 import android.widget.*;
 import com.parse.ParseException;
 import com.parse.*;
@@ -15,7 +14,10 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
-public class BackupAsyncTask extends AsyncTask<Void, BackupProgress, BackupResult> {
+/**
+ * Used to backup notes.
+ */
+public class BackupAsyncTask extends BaseBackupRestoreAsyncTask {
 
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
