@@ -12,7 +12,7 @@
     <string name="drawer_item_feed">Стужка</string>
     <string name="drawer_item_starred">Адзначаныя</string>
     <string name="drawer_open">Адкрыць</string>
-    <string name="backup_message_progress">Стварэнне рэзервовай копіі…</string>
+    <string name="backup_message_creating">Стварэнне рэзервовай копіі…</string>
     <string name="backup_message_starting">Запуск…</string>
     <string name="feed_empty">Краніце «Новая нататка», каб напісаць нататку.</string>
     <string name="note_color">Змяніць колер</string>
@@ -38,7 +38,6 @@
     <string name="preference_title_export">Экспарт</string>
     <string name="preference_title_pin">Ўсталяваць код доступу</string>
     <string name="preference_title_substitution_table">Табліца замены</string>
-    <string name="progress_title_export">Экспарт</string>
     <string name="settings">Налады</string>
     <string name="toast_cancelled">Адменена.</string>
     <string name="toast_backup_finished">%1$d нататкаў захаваны ў %2$s</string>
@@ -83,4 +82,5 @@
     <string name="preference_summary_backup_json">Падтрымлівае аднаўленне нататак з рэзервовай копіі.</string>
     <string name="preference_summary_backup_dropbox">Капіраванне ў дырэкторыю прыкладання.</string>
     <string name="backup_message_finishing">Завяршэнне…</string>
+    <string name="backup_message_restoring">Аднаўленне з рэзервовай копіі…</string>
 </resources>

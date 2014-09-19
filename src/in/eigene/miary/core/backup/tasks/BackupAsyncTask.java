@@ -1,11 +1,9 @@
 package in.eigene.miary.core.backup.tasks;
 
-import android.app.*;
 import android.content.*;
 import android.widget.*;
 import com.parse.ParseException;
 import com.parse.*;
-import in.eigene.miary.R;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.backup.*;
 import in.eigene.miary.exceptions.*;
@@ -17,44 +15,22 @@ import java.util.*;
 /**
  * Used to backup notes.
  */
-public class BackupAsyncTask extends BaseBackupRestoreAsyncTask {
+public class BackupAsyncTask extends BaseBackupAsyncTask {
 
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
-    private final Context context;
     private final BackupStorage storage;
     private final BackupOutputFactory outputFactory;
 
-    private ProgressDialog progressDialog;
-
     private String backupName;
-    private int noteCount;
 
     public BackupAsyncTask(
             final Context context,
             final BackupStorage storage,
             final BackupOutputFactory outputFactory) {
-        this.context = context;
+        super(context);
         this.storage = storage;
         this.outputFactory = outputFactory;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle(R.string.progress_title_export);
-        progressDialog.setMessage(context.getString(R.string.backup_message_starting));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(true);
-        progressDialog.setCanceledOnTouchOutside(true);
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(final DialogInterface dialog) {
-                cancel(true);
-            }
-        });
-        progressDialog.show();
     }
 
     @Override
@@ -76,47 +52,22 @@ public class BackupAsyncTask extends BaseBackupRestoreAsyncTask {
     }
 
     @Override
-    protected void onProgressUpdate(final BackupProgress... values) {
-        final BackupProgress progress = values[0];
-
-        switch (progress.getState()) {
-            case PROGRESS:
-                progressDialog.setMessage(context.getString(R.string.backup_message_progress));
-                progressDialog.setIndeterminate(false);
-                progressDialog.setMax(noteCount);
-                progressDialog.setProgress(progress.getProgress());
-                break;
-            case FINISHING:
-                progressDialog.setMessage(context.getString(R.string.backup_message_finishing));
-                progressDialog.setIndeterminate(true);
-                break;
-        }
-    }
-
-    @Override
     protected void onPostExecute(final BackupResult result) {
-        progressDialog.hide();
-        switch (result) {
-            case OK:
-                Toast.makeText(
-                        context,
-                        String.format(context.getString(R.string.toast_backup_finished), noteCount, backupName),
-                        Toast.LENGTH_LONG
-                ).show();
-                storage.finish(context, true, backupName, outputFactory.getMimeType());
-                break;
-            case STORAGE_NOT_READY:
-                Toast.makeText(context, R.string.toast_storage_unready, Toast.LENGTH_LONG).show();
-                break;
-            case NOTHING_TO_BACKUP:
-                Toast.makeText(context, R.string.toast_backup_nothing, Toast.LENGTH_LONG).show();
-                break;
+        super.onPostExecute(result);
+
+        if (result == BackupResult.OK) {
+            Toast.makeText(
+                    context,
+                    String.format(context.getString(in.eigene.miary.R.string.toast_backup_finished), noteCount, backupName),
+                    Toast.LENGTH_LONG
+            ).show();
+            storage.finish(context, true, backupName, outputFactory.getMimeType());
         }
     }
 
     @Override
-    protected void onCancelled() {
-        Toast.makeText(context, R.string.toast_cancelled, Toast.LENGTH_SHORT).show();
+    protected int getProgressMessageResourceId() {
+        return in.eigene.miary.R.string.backup_message_creating;
     }
 
     private BackupResult backup(final BackupOutput output) throws ParseException, IOException {

@@ -12,7 +12,7 @@
     <string name="drawer_item_feed">Лента</string>
     <string name="drawer_item_starred">Отмеченные</string>
     <string name="drawer_open">Открыть</string>
-    <string name="backup_message_progress">Создание резервной копии…</string>
+    <string name="backup_message_creating">Создание резервной копии…</string>
     <string name="backup_message_starting">Запуск…</string>
     <string name="feed_empty">Коснитесь «Новая заметка», чтобы написать заметку.</string>
     <string name="note_color">Изменить цвет</string>
@@ -38,7 +38,6 @@
     <string name="preference_title_export">Экспорт</string>
     <string name="preference_title_pin">Установить код доступа</string>
     <string name="preference_title_substitution_table">Таблица замены</string>
-    <string name="progress_title_export">Экспорт</string>
     <string name="settings">Настройки</string>
     <string name="toast_cancelled">Отменено.</string>
     <string name="toast_backup_finished">%1$d заметок сохранены в %2$s</string>
@@ -83,4 +82,5 @@
     <string name="preference_summary_backup_json">Поддерживает восстановление заметок из резервной копии.</string>
     <string name="preference_summary_backup_dropbox">Копирование в папку приложения.</string>
     <string name="backup_message_finishing">Завершение…</string>
+    <string name="backup_message_restoring">Восстановление из резервной копии…</string>
 </resources>

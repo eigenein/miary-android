@@ -13,7 +13,7 @@
     <string name="drawer_item_feed">Feed</string>
     <string name="drawer_item_starred">Starred</string>
     <string name="drawer_open">Open</string>
-    <string name="backup_message_progress">Creating backup…</string>
+    <string name="backup_message_creating">Creating backup…</string>
     <string name="backup_message_starting">Starting…</string>
     <string name="feed_empty">No notes here yet.\nTap «New note» to write a note.</string>
     <string name="note_color">Change color</string>
@@ -45,11 +45,10 @@
     <string name="prefkey_reminder_time">reminder_time</string>
     <string name="prefkey_substitution_enabled">substitution_enabled</string>
     <string name="prefkey_substitution_table">substitution_table</string>
-    <string name="progress_title_export">Exporting</string>
     <string name="settings">Settings</string>
     <string name="toast_cancelled">Cancelled.</string>
     <string name="toast_backup_finished">%1$d notes are exported to %2$s</string>
-    <string name="toast_backup_nothing">Nothing to export.</string>
+    <string name="toast_backup_nothing">Nothing to backup.</string>
     <string name="toast_note_drafted">Marked as a draft.</string>
     <string name="toast_note_undrafted">Marked as not a draft.</string>
     <string name="toast_starred">Starred.</string>
@@ -97,4 +96,5 @@
     <string name="prefkey_backup_dropbox">backup_dropbox</string>
     <string name="preference_summary_backup_dropbox">Backup your notes into Dropbox application folder.</string>
     <string name="backup_message_finishing">Finishing…</string>
+    <string name="backup_message_restoring">Restoring backup…</string>
 </resources>
