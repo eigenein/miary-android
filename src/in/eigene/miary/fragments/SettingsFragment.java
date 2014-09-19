@@ -25,19 +25,24 @@ public class SettingsFragment extends PreferenceFragment {
     private static final String[] SHORT_WEEKDAYS = new DateFormatSymbols().getShortWeekdays();
 
     /**
+     * Fragment state.
+     */
+    private State state = State.DEFAULT;
+    /**
+     * Fragment state object.
+     */
+    private Object stateTag;
+
+    /**
      * Caches weekdays from resources.
      */
     private String[] allWeekdays;
 
-    /**
-     * Indicates whether Dropbox backup process was started before pausing.
-     */
-    private boolean dropboxBackupActive;
-    private DropboxStorage dropboxBackupStorage;
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRetainInstance(true);
 
         addPreferencesFromResource(R.xml.preferences);
 
@@ -132,11 +137,18 @@ public class SettingsFragment extends PreferenceFragment {
     public void onResume() {
         super.onResume();
 
-        if (dropboxBackupActive) {
-            dropboxBackupActive = false;
-            dropboxBackupStorage.finishAuthentication();
-            new BackupAsyncTask(getActivity(), dropboxBackupStorage, new JsonBackupOutputFactory()).execute();
+        switch (state) {
+            case DROPBOX_BACKUP_IN_PROGRESS:
+                final DropboxStorage storage = (DropboxStorage)stateTag;
+                storage.finishAuthentication();
+                new BackupAsyncTask(getActivity(), storage, new JsonBackupOutputFactory()).execute();
+                break;
+            case DEFAULT:
+                // Do nothing.
+                break;
         }
+        // Reset state.
+        state = State.DEFAULT;
     }
 
     /**
@@ -257,9 +269,10 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        dropboxBackupActive = true;
-                        dropboxBackupStorage = new DropboxStorage();
-                        dropboxBackupStorage.authenticate(getActivity());
+                        state = State.DROPBOX_BACKUP_IN_PROGRESS;
+                        final DropboxStorage storage = new DropboxStorage();
+                        stateTag = storage;
+                        storage.authenticate(getActivity());
                         return true;
                     }
                 }
@@ -308,5 +321,13 @@ public class SettingsFragment extends PreferenceFragment {
                 }
             }
         }
+    }
+
+    /**
+     * Settings fragment state.
+     */
+    private enum State {
+        DEFAULT,
+        DROPBOX_BACKUP_IN_PROGRESS
     }
 }

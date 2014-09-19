@@ -98,4 +98,7 @@
     <string name="backup_message_finishing">Finishing…</string>
     <string name="backup_message_restoring">Restoring backup…</string>
     <string name="toast_restore_finished">%1$d notes are restored.</string>
+    <string name="prefkey_restore_dropbox">restore_dropbox</string>
+    <string name="preference_title_restore_dropbox">Dropbox</string>
+    <string name="preference_summary_restore_dropbox">Restore your notes from Dropbox application folder.</string>
 </resources>

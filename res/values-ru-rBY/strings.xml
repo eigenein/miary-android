@@ -84,4 +84,5 @@
     <string name="backup_message_finishing">Завяршэнне…</string>
     <string name="backup_message_restoring">Аднаўленне з рэзервовай копіі…</string>
     <string name="toast_restore_finished">Адноўлена %1$d нататак.</string>
+    <string name="preference_summary_restore_dropbox">Аднавіць з дырэкторыі прыкладання.</string>
 </resources>
