@@ -17,10 +17,15 @@ public class JsonBackupOutput extends TextBackupOutput {
 
     private final JsonWriter writer;
 
-    protected JsonBackupOutput(final OutputStream outputStream) {
-        super(outputStream);
+    protected JsonBackupOutput(final String name, final OutputStream outputStream) {
+        super(name, outputStream);
         writer = new JsonWriter(streamWriter);
         writer.setIndent("  ");
+    }
+
+    @Override
+    public String getMimeType() {
+        return "application/json";
     }
 
     @Override

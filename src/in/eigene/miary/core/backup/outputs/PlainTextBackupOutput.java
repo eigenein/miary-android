@@ -11,9 +11,14 @@ public class PlainTextBackupOutput extends TextBackupOutput {
 
     private PrintWriter writer;
 
-    public PlainTextBackupOutput(final OutputStream outputStream) {
-        super(outputStream);
+    public PlainTextBackupOutput(final String name, final OutputStream outputStream) {
+        super(name, outputStream);
         this.writer = new PrintWriter(streamWriter, true);
+    }
+
+    @Override
+    public String getMimeType() {
+        return "text/plain";
     }
 
     @Override

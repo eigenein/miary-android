@@ -33,7 +33,7 @@ public class SettingsFragment extends PreferenceFragment {
      * Indicates whether Dropbox backup process was started before pausing.
      */
     private boolean dropboxBackupActive;
-    private DropboxBackupStorage dropboxBackupStorage;
+    private DropboxStorage dropboxBackupStorage;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -237,7 +237,7 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        new BackupAsyncTask(getActivity(), new ExternalBackupStorage(), new PlainTextBackupOutputFactory()).execute();
+                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new PlainTextBackupOutputFactory()).execute();
                         return true;
                     }
                 }
@@ -247,7 +247,7 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        new BackupAsyncTask(getActivity(), new ExternalBackupStorage(), new JsonBackupOutputFactory()).execute();
+                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new JsonBackupOutputFactory()).execute();
                         return true;
                     }
                 }
@@ -258,7 +258,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
                         dropboxBackupActive = true;
-                        dropboxBackupStorage = new DropboxBackupStorage();
+                        dropboxBackupStorage = new DropboxStorage();
                         dropboxBackupStorage.authenticate(getActivity());
                         return true;
                     }

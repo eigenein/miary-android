@@ -83,4 +83,5 @@
     <string name="preference_summary_backup_dropbox">Копирование в папку приложения.</string>
     <string name="backup_message_finishing">Завершение…</string>
     <string name="backup_message_restoring">Восстановление из резервной копии…</string>
+    <string name="toast_restore_finished">Восстановлено %1$d заметок.</string>
 </resources>

@@ -9,7 +9,11 @@ public abstract class TextBackupOutput extends BackupOutput {
 
     protected final OutputStreamWriter streamWriter;
 
-    protected TextBackupOutput(final OutputStream outputStream) {
+    private final String name;
+
+    protected TextBackupOutput(final String name, final OutputStream outputStream) {
+        this.name = name;
+
         OutputStreamWriter streamWriter;
         try {
             streamWriter = new OutputStreamWriter(outputStream, "UTF-8");
@@ -18,5 +22,10 @@ public abstract class TextBackupOutput extends BackupOutput {
             streamWriter = null;
         }
         this.streamWriter = streamWriter;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

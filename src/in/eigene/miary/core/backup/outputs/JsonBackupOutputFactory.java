@@ -7,17 +7,8 @@ import java.io.*;
 public class JsonBackupOutputFactory extends BackupOutputFactory {
 
     @Override
-    public BackupOutput createOutput(final OutputStream outputStream) {
-        return new JsonBackupOutput(outputStream);
-    }
-
-    @Override
-    public String getExtension() {
-        return "json";
-    }
-
-    @Override
-    public String getMimeType() {
-        return "application/json";
+    public BackupOutput createOutput(final Storage storage) throws IOException {
+        final String name = storage.getOutputName(".json");
+        return new JsonBackupOutput(name, storage.getOutputStream(name));
     }
 }

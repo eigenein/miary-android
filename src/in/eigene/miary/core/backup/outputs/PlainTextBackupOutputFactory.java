@@ -7,17 +7,8 @@ import java.io.*;
 public class PlainTextBackupOutputFactory extends BackupOutputFactory {
 
     @Override
-    public BackupOutput createOutput(final OutputStream outputStream) {
-        return new PlainTextBackupOutput(outputStream);
-    }
-
-    @Override
-    public String getExtension() {
-        return "txt";
-    }
-
-    @Override
-    public String getMimeType() {
-        return "text/plain";
+    public BackupOutput createOutput(final Storage storage) throws IOException {
+        final String name = storage.getOutputName(".txt");
+        return new PlainTextBackupOutput(name, storage.getOutputStream(name));
     }
 }

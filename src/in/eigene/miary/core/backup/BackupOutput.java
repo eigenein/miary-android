@@ -9,6 +9,10 @@ import java.io.*;
  */
 public abstract class BackupOutput {
 
+    public abstract String getName();
+
+    public abstract String getMimeType();
+
     public abstract void start() throws IOException;
 
     public abstract void write(final Note note) throws IOException;

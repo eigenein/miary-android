@@ -2,66 +2,59 @@ package in.eigene.miary.core.backup.tasks;
 
 import android.content.*;
 import android.widget.*;
-import com.parse.ParseException;
 import com.parse.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.backup.*;
 import in.eigene.miary.exceptions.*;
 
 import java.io.*;
-import java.text.*;
 import java.util.*;
 
 /**
  * Used to backup notes.
  */
-public class BackupAsyncTask extends BaseBackupAsyncTask {
+public class BackupAsyncTask extends BaseAsyncTask {
 
-    private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-
-    private final BackupStorage storage;
     private final BackupOutputFactory outputFactory;
 
-    private String backupName;
+    private BackupOutput output;
 
     public BackupAsyncTask(
             final Context context,
-            final BackupStorage storage,
+            final Storage storage,
             final BackupOutputFactory outputFactory) {
-        super(context);
-        this.storage = storage;
+        super(context, storage);
         this.outputFactory = outputFactory;
     }
 
     @Override
-    protected BackupResult doInBackground(final Void... params) {
+    protected Result doInBackground(final Void... params) {
         if (!storage.checkReady()) {
-            return BackupResult.STORAGE_NOT_READY;
+            return Result.STORAGE_NOT_READY;
         }
-        backupName = getBackupName(storage.includeDate());
         try {
-            final OutputStream outputStream = storage.getOutputStream(backupName);
-            final BackupResult result = backup(outputFactory.createOutput(outputStream));
-            publishProgress(BackupProgress.FINISHING);
-            storage.finish(context, false, backupName, outputFactory.getMimeType());
+            output = outputFactory.createOutput(storage);
+            final Result result = backup();
+            publishProgress(Progress.FINISHING);
+            storage.finish(context, false, output);
             return result;
         } catch (final Exception e) {
             InternalRuntimeException.throwForException("Backup failed.", e);
-            return BackupResult.FAILURE;
+            return Result.FAILURE;
         }
     }
 
     @Override
-    protected void onPostExecute(final BackupResult result) {
+    protected void onPostExecute(final Result result) {
         super.onPostExecute(result);
 
-        if (result == BackupResult.OK) {
+        if (result == Result.OK) {
             Toast.makeText(
                     context,
-                    String.format(context.getString(in.eigene.miary.R.string.toast_backup_finished), noteCount, backupName),
+                    String.format(context.getString(in.eigene.miary.R.string.toast_backup_finished), noteCount, output.getName()),
                     Toast.LENGTH_LONG
             ).show();
-            storage.finish(context, true, backupName, outputFactory.getMimeType());
+            storage.finish(context, true, output);
         }
     }
 
@@ -70,10 +63,10 @@ public class BackupAsyncTask extends BaseBackupAsyncTask {
         return in.eigene.miary.R.string.backup_message_creating;
     }
 
-    private BackupResult backup(final BackupOutput output) throws ParseException, IOException {
+    private Result backup() throws ParseException, IOException {
         noteCount = ParseQuery.getQuery(Note.class).fromLocalDatastore().count();
         if (noteCount == 0) {
-            return BackupResult.NOTHING_TO_BACKUP;
+            return Result.NOTHING_TO_BACKUP;
         }
         // Query notes.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class).fromLocalDatastore();
@@ -81,7 +74,7 @@ public class BackupAsyncTask extends BaseBackupAsyncTask {
         query.setLimit(noteCount);
         final List<Note> notes = query.find();
         // Write notes.
-        final BackupProgress progress = new BackupProgress(BackupProgress.State.PROGRESS, 0);
+        final Progress progress = new Progress(Progress.State.PROGRESS, 0);
         publishProgress(progress);
         output.start();
         for (final Note note : notes) {
@@ -93,20 +86,6 @@ public class BackupAsyncTask extends BaseBackupAsyncTask {
             publishProgress(progress);
         }
         output.finish();
-        return BackupResult.OK;
-    }
-
-    /**
-     * Gets or generates a backup name.
-     */
-    private String getBackupName(boolean includeDate) {
-        final StringBuilder nameBuilder = new StringBuilder("Miary Backup");
-        if (includeDate) {
-            nameBuilder.append(" ");
-            nameBuilder.append(DATE_FORMAT.format(new Date()));
-        }
-        nameBuilder.append(".");
-        nameBuilder.append(outputFactory.getExtension());
-        return nameBuilder.toString();
+        return Result.OK;
     }
 }
