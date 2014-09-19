@@ -4,6 +4,6 @@
             android:id="@+id/menu_item_note_fullscreen"
             android:icon="@drawable/ic_action_full_screen"
             android:title="@string/note_fullscreen"
-            android:showAsAction="ifRoom"
+            android:showAsAction="never"
     />
 </menu>
