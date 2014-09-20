@@ -4,5 +4,5 @@ public enum Result {
     OK,
     STORAGE_NOT_READY,
     NOTHING_TO_BACKUP,
-    FAILURE
+    NOT_FOUND, FAILURE
 }

@@ -101,4 +101,8 @@
     <string name="prefkey_restore_dropbox">restore_dropbox</string>
     <string name="preference_title_restore_dropbox">Dropbox</string>
     <string name="preference_summary_restore_dropbox">Restore your notes from Dropbox application folder.</string>
+    <string name="toast_restore_not_found">Backup is not found.</string>
+    <string name="preference_title_restore_json">JSON</string>
+    <string name="preference_summary_restore_json">Restore from previously created JSON backup.</string>
+    <string name="prefkey_restore_json">restore_json</string>
 </resources>

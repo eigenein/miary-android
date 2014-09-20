@@ -85,4 +85,6 @@
     <string name="backup_message_restoring">Восстановление из резервной копии…</string>
     <string name="toast_restore_finished">Восстановлено %1$d заметок.</string>
     <string name="preference_summary_restore_dropbox">Восстановить из папки приложения.</string>
+    <string name="toast_restore_not_found">Backup is not found.</string>
+    <string name="preference_summary_restore_json">Restore from previously created JSON backup.</string>
 </resources>

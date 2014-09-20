@@ -15,15 +15,17 @@ import java.util.*;
  */
 public class BackupAsyncTask extends BaseAsyncTask {
 
-    private final BackupOutputFactory outputFactory;
+    private final Storage storage;
+    private final BackupOutput.Factory outputFactory;
 
     private BackupOutput output;
 
     public BackupAsyncTask(
             final Context context,
             final Storage storage,
-            final BackupOutputFactory outputFactory) {
-        super(context, storage);
+            final BackupOutput.Factory outputFactory) {
+        super(context);
+        this.storage = storage;
         this.outputFactory = outputFactory;
     }
 

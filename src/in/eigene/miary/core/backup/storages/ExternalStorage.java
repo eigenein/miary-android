@@ -68,4 +68,18 @@ public class ExternalStorage extends Storage {
                 file.length(),
                 true);
     }
+
+    public class Input extends Storage.Input {
+
+        private final File file;
+
+        public Input(final File file) {
+            this.file = file;
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            return new FileInputStream(file);
+        }
+    }
 }

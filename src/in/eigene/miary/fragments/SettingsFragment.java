@@ -11,16 +11,20 @@ import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.R;
 import in.eigene.miary.core.*;
+import in.eigene.miary.core.backup.inputs.*;
 import in.eigene.miary.core.backup.outputs.*;
 import in.eigene.miary.core.backup.storages.*;
 import in.eigene.miary.core.backup.tasks.*;
 import in.eigene.miary.core.managers.*;
 import in.eigene.miary.fragments.dialogs.*;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
 public class SettingsFragment extends PreferenceFragment {
+
+    private static final int RESULT_CODE_RESTORE_JSON = 1;
 
     private static final String[] SHORT_WEEKDAYS = new DateFormatSymbols().getShortWeekdays();
 
@@ -137,18 +141,35 @@ public class SettingsFragment extends PreferenceFragment {
     public void onResume() {
         super.onResume();
 
+        DropboxStorage storage;
+
         switch (state) {
             case DROPBOX_BACKUP_IN_PROGRESS:
-                final DropboxStorage storage = (DropboxStorage)stateTag;
+                state = State.DEFAULT;
+                storage = (DropboxStorage)stateTag;
                 storage.finishAuthentication();
-                new BackupAsyncTask(getActivity(), storage, new JsonBackupOutputFactory()).execute();
+                new BackupAsyncTask(getActivity(), storage, new JsonBackupOutput.Factory()).execute();
+                break;
+            case DROPBOX_RESTORE_IN_PROGRESS:
+                state = State.DEFAULT;
+                storage = (DropboxStorage)stateTag;
+                storage.finishAuthentication();
+                new RestoreAsyncTask(getActivity(), storage.new Input(".json"), new JsonRestoreInput.Factory()).execute();
                 break;
             case DEFAULT:
                 // Do nothing.
                 break;
         }
-        // Reset state.
-        state = State.DEFAULT;
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (requestCode) {
+            case RESULT_CODE_RESTORE_JSON:
+                final File file = new File(data.getData().getPath());
+                new RestoreAsyncTask(getActivity(), new ExternalStorage().new Input(file), new JsonRestoreInput.Factory()).execute();
+                break;
+        }
     }
 
     /**
@@ -244,27 +265,27 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     private void setupBackupSettings() {
-        // Plain text.
+        // Plain text backup.
         findPreference(R.string.prefkey_backup_plain_text).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new PlainTextBackupOutputFactory()).execute();
+                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new PlainTextBackupOutput.Factory()).execute();
                         return true;
                     }
                 }
         );
-        // JSON.
+        // JSON backup.
         findPreference(R.string.prefkey_backup_json).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new JsonBackupOutputFactory()).execute();
+                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new JsonBackupOutput.Factory()).execute();
                         return true;
                     }
                 }
         );
-        // Dropbox.
+        // Dropbox backup.
         findPreference(R.string.prefkey_backup_dropbox).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
@@ -273,6 +294,31 @@ public class SettingsFragment extends PreferenceFragment {
                         final DropboxStorage storage = new DropboxStorage();
                         stateTag = storage;
                         storage.authenticate(getActivity());
+                        return true;
+                    }
+                }
+        );
+        // Dropbox restore.
+        findPreference(R.string.prefkey_restore_dropbox).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        state = State.DROPBOX_RESTORE_IN_PROGRESS;
+                        final DropboxStorage storage = new DropboxStorage();
+                        stateTag = storage;
+                        storage.authenticate(getActivity());
+                        return true;
+                    }
+                }
+        );
+        // JSON restore.
+        findPreference(R.string.prefkey_restore_json).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("application/json");
+                        startActivityForResult(intent, RESULT_CODE_RESTORE_JSON);
                         return true;
                     }
                 }
@@ -328,6 +374,7 @@ public class SettingsFragment extends PreferenceFragment {
      */
     private enum State {
         DEFAULT,
-        DROPBOX_BACKUP_IN_PROGRESS
+        DROPBOX_BACKUP_IN_PROGRESS,
+        DROPBOX_RESTORE_IN_PROGRESS,
     }
 }

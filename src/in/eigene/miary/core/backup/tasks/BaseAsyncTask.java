@@ -13,15 +13,13 @@ import in.eigene.miary.core.backup.*;
 public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
 
     protected final Context context;
-    protected final Storage storage;
 
     protected int noteCount;
 
     private ProgressDialog progressDialog;
 
-    protected BaseAsyncTask(final Context context, final Storage storage) {
+    protected BaseAsyncTask(final Context context) {
         this.context = context;
-        this.storage = storage;
     }
 
     @Override
@@ -70,6 +68,9 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
                 break;
             case NOTHING_TO_BACKUP:
                 Toast.makeText(context, R.string.toast_backup_nothing, Toast.LENGTH_LONG).show();
+                break;
+            case NOT_FOUND:
+                Toast.makeText(context, R.string.toast_restore_not_found, Toast.LENGTH_LONG).show();
                 break;
         }
     }

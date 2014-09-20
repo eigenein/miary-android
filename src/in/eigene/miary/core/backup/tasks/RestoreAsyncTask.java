@@ -6,28 +6,33 @@ import in.eigene.miary.*;
 import in.eigene.miary.core.backup.*;
 import in.eigene.miary.exceptions.*;
 
+import java.io.*;
+
 /**
  * Used to restore a backup.
  */
 public class RestoreAsyncTask extends BaseAsyncTask {
 
-    private final RestoreInputFactory inputFactory;
+    private final Storage.Input storageInput;
+    private final RestoreInput.Factory inputFactory;
 
     public RestoreAsyncTask(
             final Context context,
-            final Storage storage,
-            final RestoreInputFactory inputFactory) {
-        super(context, storage);
+            final Storage.Input storageInput,
+            final RestoreInput.Factory inputFactory) {
+        super(context);
+        this.storageInput = storageInput;
         this.inputFactory = inputFactory;
     }
 
     @Override
     protected Result doInBackground(final Void... params) {
-        if (!storage.checkReady()) {
+        if (!storageInput.checkReady()) {
             return Result.STORAGE_NOT_READY;
         }
         try {
-            final Result result = Result.OK; // TODO.
+            final Result result = restore();
+            publishProgress(Progress.FINISHING);
             return result;
         } catch (final Exception e) {
             InternalRuntimeException.throwForException("Restore failed.", e);
@@ -51,5 +56,15 @@ public class RestoreAsyncTask extends BaseAsyncTask {
     @Override
     protected int getProgressMessageResourceId() {
         return R.string.backup_message_restoring;
+    }
+
+    private Result restore() throws IOException {
+        final InputStream inputStream = storageInput.getInputStream();
+        if (inputStream == null) {
+            return Result.NOT_FOUND;
+        }
+        final RestoreInput input = inputFactory.createInput(inputStream);
+        // TODO.
+        return Result.OK;
     }
 }

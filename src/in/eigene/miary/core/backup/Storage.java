@@ -15,6 +15,11 @@ public abstract class Storage {
     public abstract boolean checkReady();
 
     /**
+     * Gets new backup name.
+     */
+    public abstract String getOutputName(final String suffix);
+
+    /**
      * Gets new output stream.
      */
     public abstract OutputStream getOutputStream(final String name) throws IOException;
@@ -28,8 +33,12 @@ public abstract class Storage {
             boolean uiThread,
             final BackupOutput output);
 
-    /**
-     * Gets new backup name.
-     */
-    public abstract String getOutputName(final String suffix);
+    public abstract class Input {
+
+        public boolean checkReady() {
+            return Storage.this.checkReady();
+        }
+
+        public abstract InputStream getInputStream() throws IOException;
+    }
 }

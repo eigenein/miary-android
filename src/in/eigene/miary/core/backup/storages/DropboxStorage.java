@@ -77,4 +77,35 @@ public class DropboxStorage extends Storage {
     public String getOutputName(final String suffix) {
         return "Miary Backup" + suffix;
     }
+
+    public class Input extends Storage.Input {
+
+        private final String suffix;
+
+        public Input(final String suffix) {
+            this.suffix = suffix;
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            assert tempFile == null;
+
+            final String name = getOutputName(suffix);
+            tempFile = File.createTempFile(name, null);
+            tempFile.deleteOnExit();
+            try {
+                api.getFile(name, null, new FileOutputStream(tempFile), null);
+                return new FileInputStream(tempFile);
+            } catch (final DropboxServerException e) {
+                if (e.error == DropboxServerException._404_NOT_FOUND) {
+                    return null;
+                }
+                InternalRuntimeException.throwForException("Server exception.", e);
+                return null;
+            } catch (final DropboxException e) {
+                InternalRuntimeException.throwForException("Getting file failed.", e);
+                return null;
+            }
+        }
+    }
 }
