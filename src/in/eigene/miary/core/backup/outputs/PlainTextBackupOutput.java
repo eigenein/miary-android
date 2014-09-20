@@ -23,7 +23,7 @@ public class PlainTextBackupOutput extends BackupOutput {
     }
 
     @Override
-    public void start() {
+    public void start(final int count) {
         // Do nothing.
     }
 

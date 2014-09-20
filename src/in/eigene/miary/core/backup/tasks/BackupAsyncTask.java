@@ -78,7 +78,7 @@ public class BackupAsyncTask extends BaseAsyncTask {
         // Write notes.
         final Progress progress = new Progress(Progress.State.PROGRESS, 0);
         publishProgress(progress);
-        output.start();
+        output.start(noteCount);
         for (final Note note : notes) {
             if (isCancelled()) {
                 break;

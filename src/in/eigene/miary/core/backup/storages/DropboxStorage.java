@@ -94,7 +94,9 @@ public class DropboxStorage extends Storage {
             tempFile = File.createTempFile(name, null);
             tempFile.deleteOnExit();
             try {
-                api.getFile(name, null, new FileOutputStream(tempFile), null);
+                final OutputStream outputStream = new FileOutputStream(tempFile);
+                api.getFile(name, null, outputStream, null);
+                outputStream.close();
                 return new FileInputStream(tempFile);
             } catch (final DropboxServerException e) {
                 if (e.error == DropboxServerException._404_NOT_FOUND) {

@@ -16,7 +16,7 @@ public abstract class BackupOutput {
 
     public abstract String getMimeType();
 
-    public abstract void start() throws IOException;
+    public abstract void start(final int count) throws IOException;
 
     public abstract void write(final Note note) throws IOException;
 

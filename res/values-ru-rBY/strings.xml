@@ -86,5 +86,5 @@
     <string name="toast_restore_finished">Адноўлена %1$d нататак.</string>
     <string name="preference_summary_restore_dropbox">Аднавіць з дырэкторыі прыкладання.</string>
     <string name="toast_restore_not_found">Backup is not found.</string>
-    <string name="preference_summary_restore_json">Restore from previously created JSON backup.</string>
+    <string name="preference_summary_restore_json">Аднавіць з раней створанай копіі.</string>
 </resources>
