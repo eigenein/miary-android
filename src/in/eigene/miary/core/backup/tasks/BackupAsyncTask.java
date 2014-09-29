@@ -76,16 +76,16 @@ public class BackupAsyncTask extends BaseAsyncTask {
         query.setLimit(noteCount);
         final List<Note> notes = query.find();
         // Write notes.
-        final Progress progress = new Progress(Progress.State.PROGRESS, 0);
-        publishProgress(progress);
+        publishProgress(new Progress(Progress.State.PROGRESS, 0));
         output.start(noteCount);
+        int progress = 0;
         for (final Note note : notes) {
             if (isCancelled()) {
                 break;
             }
             output.write(note);
-            progress.incrementProgress();
-            publishProgress(progress);
+            progress += 1;
+            publishProgress(new Progress(Progress.State.PROGRESS, progress));
         }
         output.finish();
         return Result.OK;
