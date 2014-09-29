@@ -81,6 +81,14 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
     }
 
     /**
+     * Allows progress dialog to refresh its state at the end of task.
+     * https://github.com/eigenein/miary-android/issues/112
+     */
+    protected void sleepCheat() throws InterruptedException {
+        Thread.sleep(100L);
+    }
+
+    /**
      * Gets progress dialog message resource ID.
      */
     protected abstract int getProgressMessageResourceId();

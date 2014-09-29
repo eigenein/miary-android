@@ -37,6 +37,7 @@ public class BackupAsyncTask extends BaseAsyncTask {
         try {
             output = outputFactory.createOutput(storage);
             final Result result = backup();
+            sleepCheat();
             publishProgress(Progress.FINISHING);
             storage.finish(context, false, output);
             return result;

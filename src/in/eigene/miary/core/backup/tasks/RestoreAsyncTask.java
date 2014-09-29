@@ -38,6 +38,7 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         }
         try {
             final Result result = restore();
+            sleepCheat();
             publishProgress(Progress.FINISHING);
             return result;
         } catch (final Exception e) {
