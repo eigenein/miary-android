@@ -87,6 +87,7 @@ public class FeedActivity extends BaseActivity implements DrawerLayout.DrawerLis
     private void initializeDrawer() {
         initializeDrawerLayout();
         initializeDrawerItems();
+        refreshDrawerCounters();
     }
 
     private void initializeDrawerLayout() {
