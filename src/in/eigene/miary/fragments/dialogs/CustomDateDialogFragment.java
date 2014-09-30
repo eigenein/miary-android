@@ -45,7 +45,7 @@ public class CustomDateDialogFragment extends BaseDialogFragment {
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
-        setRetainInstance(true);
+        super.onCreateDialog(savedInstanceState);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = getActivity().getLayoutInflater().inflate(
@@ -89,14 +89,6 @@ public class CustomDateDialogFragment extends BaseDialogFragment {
                 refresh(creationDate);
             }
         });
-    }
-
-    // https://code.google.com/p/android/issues/detail?id=17423#c23
-    @Override
-    public void onDestroyView() {
-        if (getDialog() != null && getRetainInstance())
-            getDialog().setDismissMessage(null);
-        super.onDestroyView();
     }
 
     /**

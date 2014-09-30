@@ -32,6 +32,8 @@ public class PinDialogFragment extends BaseDialogFragment {
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = getActivity().getLayoutInflater().inflate(
                 R.layout.fragment_dialog_pin, null);

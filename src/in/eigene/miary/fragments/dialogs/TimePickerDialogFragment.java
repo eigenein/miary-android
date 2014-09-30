@@ -43,11 +43,13 @@ public class TimePickerDialogFragment extends BaseDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = getActivity().getLayoutInflater().inflate(
                 R.layout.fragment_dialog_timepicker, null);
 
-        timePicker = (TimePicker) view.findViewById(R.id.dialog_reminder_time);
+        timePicker = (TimePicker)view.findViewById(R.id.dialog_reminder_time);
         timePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
 
         refresh(hour, minute);

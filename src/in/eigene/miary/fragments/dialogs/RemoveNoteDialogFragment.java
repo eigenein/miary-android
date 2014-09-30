@@ -21,6 +21,7 @@ public class RemoveNoteDialogFragment extends BaseDialogFragment {
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dialog_remove_note_title)
                 .setMessage(R.string.dialog_remove_note_message)

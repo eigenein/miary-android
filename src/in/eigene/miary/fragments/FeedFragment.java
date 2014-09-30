@@ -21,9 +21,6 @@ public class FeedFragment
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
-    private static final String KEY_DRAFTS = "drafts";
-    private static final String KEY_STARRED_ONLY = "starred_only";
-
     private static final int PAGE_SIZE = 10; // for endless scrolling
 
     private boolean drafts;
@@ -49,11 +46,6 @@ public class FeedFragment
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        if (savedInstanceState != null) {
-            drafts = savedInstanceState.getBoolean(KEY_DRAFTS, drafts);
-            starredOnly = savedInstanceState.getBoolean(KEY_STARRED_ONLY, starredOnly);
-            Log.d(LOG_TAG, "Restore saved state: " + drafts + ", " + starredOnly);
-        }
     }
 
     @Override
@@ -130,13 +122,6 @@ public class FeedFragment
         });
     }
 
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_DRAFTS, drafts);
-        outState.putBoolean(KEY_STARRED_ONLY, starredOnly);
-    }
-
     /**
      * Refreshes feed by either initializing adapter or changing data set.
      */
@@ -156,10 +141,6 @@ public class FeedFragment
         queryFeedItems(null, lastNoteCreationDate, new Action<List<Note>>() {
             @Override
             public void done(final List<Note> notes) {
-                if (!isAdded()) {
-                    // https://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
-                    return;
-                }
                 if (adapter != null) {
                     adapter.getNotes().clear();
                     adapter.getNotes().addAll(notes);
