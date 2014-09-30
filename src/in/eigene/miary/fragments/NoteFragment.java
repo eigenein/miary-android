@@ -223,7 +223,7 @@ public class NoteFragment extends BaseFragment {
                             public void done(final ParseException e) {
                                 InternalRuntimeException.throwForException("Could not unpin note.", e);
                                 note = null;
-                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT);
+                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
                                 changedListener.onNoteRemoved();
                             }
                         });

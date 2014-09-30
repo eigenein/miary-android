@@ -8,7 +8,7 @@ import in.eigene.miary.core.managers.ReminderManager;
 public class BootReceiver extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (ReminderManager.isReminderEnabled(context)) {
                 ReminderManager.scheduleReminder(context);

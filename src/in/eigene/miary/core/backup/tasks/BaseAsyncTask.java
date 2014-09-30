@@ -45,7 +45,6 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
 
         switch (progress.getState()) {
             case PROGRESS:
-                assert noteCount != 0;
                 progressDialog.setMessage(context.getString(getProgressMessageResourceId()));
                 progressDialog.setIndeterminate(false);
                 progressDialog.setMax(noteCount);

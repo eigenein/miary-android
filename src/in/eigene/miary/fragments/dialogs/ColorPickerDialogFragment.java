@@ -2,12 +2,11 @@ package in.eigene.miary.fragments.dialogs;
 
 import android.app.*;
 import android.os.*;
+import android.util.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.fragments.base.*;
-
-import java.util.*;
 
 public class ColorPickerDialogFragment extends BaseDialogFragment {
 
@@ -16,7 +15,7 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
         public void colorChosen(final int color);
     }
 
-    private static final HashMap<Integer, Integer> VIEW_ID_TO_COLOR = new HashMap<Integer, Integer>();
+    private static final SparseIntArray VIEW_ID_TO_COLOR = new SparseIntArray();
 
     static {
         VIEW_ID_TO_COLOR.put(R.id.choose_color_white, Note.COLOR_WHITE);

@@ -25,17 +25,14 @@
     <string name="note_star">Адзначыць</string>
     <string name="note_title_hint">Загаловак</string>
     <string name="note_unstar">Зняць адзнаку</string>
-    <string name="prefcat_title_account">Уліковы запіс</string>
     <string name="prefcat_title_reminder">Напамінкі</string>
     <string name="prefcat_title_security">Бяспека</string>
     <string name="prefcat_title_substitution">Аўтаматычная замена</string>
-    <string name="preference_summary_export">Захаваць усе нататкі на карту памяці.</string>
     <string name="preference_summary_pin">Дадатак будзе запытваць код доступу праз 5 хвілін пасля выхаду.</string>
     <string name="preference_summary_substitution">Аўтаматычна замяняць паслядоўнасці знакаў.</string>
     <string name="preference_title_enabled">Уключыць</string>
     <string name="preference_title_reminder_days">Дні тыдня</string>
     <string name="preference_title_reminder_time">Час</string>
-    <string name="preference_title_export">Экспарт</string>
     <string name="preference_title_pin">Ўсталяваць код доступу</string>
     <string name="preference_title_substitution_table">Табліца замены</string>
     <string name="settings">Налады</string>

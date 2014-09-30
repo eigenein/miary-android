@@ -19,6 +19,7 @@
             android:icon="@drawable/ic_launcher"
             android:theme="@style/Miary.Theme.Application"
             android:name="in.eigene.miary.Application"
+            android:allowBackup="true"
     >
         <!-- Activities -->
         <activity
