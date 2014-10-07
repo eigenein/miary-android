@@ -7,16 +7,34 @@
               android:padding="@dimen/note_fragment_padding"
               android:focusableInTouchMode="true"
 ><!-- http://stackoverflow.com/a/8639921/359730 -->
-    <EditText
-            android:id="@+id/note_edit_title"
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@android:style/TextAppearance.Medium"
-            android:hint="@string/note_title_hint"
-            android:background="@android:color/transparent"
-            android:padding="@dimen/note_edit_text_padding"
-            android:capitalize="sentences"
-    />
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+    >
+        <EditText
+                android:id="@+id/note_edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@android:style/TextAppearance.Medium"
+                android:hint="@string/note_title_hint"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/note_edit_text_padding"
+                android:capitalize="sentences"
+                android:layout_weight="1"
+        />
+        <ImageButton
+                android:id="@+id/note_button_leave_fullscreen"
+                android:layout_width="@dimen/launcher_icon_size"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_action_return_from_full_screen"
+                android:background="@null"
+                android:visibility="gone"
+                android:scaleType="center"
+        />
+    </LinearLayout>
     <EditText
             android:id="@+id/note_edit_text"
             android:layout_width="match_parent"

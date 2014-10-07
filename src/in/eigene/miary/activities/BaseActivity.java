@@ -6,7 +6,8 @@ import android.os.*;
 import android.preference.*;
 import android.util.*;
 import android.view.*;
-import in.eigene.miary.*;
+import com.parse.*;
+import in.eigene.miary.R;
 import in.eigene.miary.helpers.*;
 
 import java.util.*;
@@ -30,8 +31,10 @@ public abstract class BaseActivity extends Activity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initializeActionBar11();
         initializeActionBar14();
+        ParseAnalytics.trackAppOpened(getIntent());
     }
 
     @Override
@@ -75,7 +78,10 @@ public abstract class BaseActivity extends Activity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void initializeActionBar11() {
         if (AndroidVersion.isHoneycomb()) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+            final ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 
@@ -85,7 +91,10 @@ public abstract class BaseActivity extends Activity {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void initializeActionBar14() {
         if (AndroidVersion.isIceCreamSandwich()) {
-            getActionBar().setHomeButtonEnabled(true);
+            final ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.setHomeButtonEnabled(true);
+            }
         }
     }
 }

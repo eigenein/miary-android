@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="in.eigene.miary"
-          android:versionCode="2"
-          android:versionName="0.2"
+          android:versionCode="10"
+          android:versionName="0.3"
 >
     <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19"/>
 
@@ -19,6 +19,7 @@
             android:icon="@drawable/ic_launcher"
             android:theme="@style/Miary.Theme.Application"
             android:name="in.eigene.miary.Application"
+            android:allowBackup="true"
     >
         <!-- Activities -->
         <activity
@@ -45,10 +46,24 @@
                 android:windowSoftInputMode="stateAlwaysVisible"
         />
 
+        <!-- Dropbox Android Core SDK. -->
+        <activity
+                android:name="com.dropbox.client2.android.AuthActivity"
+                android:launchMode="singleTask"
+                android:configChanges="orientation|keyboard">
+            <intent-filter>
+                <data android:scheme="db-cvklgjd9ykfi561" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- Services -->
         <service
                 android:name=".services.NotificationIntentService"
-                android:enabled="true"/>
+                android:enabled="true"
+        />
 
         <!-- Receivers -->
         <receiver

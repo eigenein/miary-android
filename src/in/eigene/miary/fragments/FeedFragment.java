@@ -10,6 +10,7 @@ import in.eigene.miary.activities.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
 
 import java.util.*;
@@ -19,9 +20,6 @@ public class FeedFragment
         implements AdapterView.OnItemClickListener, EndlessScrollListener.Listener {
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
-
-    private static final String KEY_DRAFTS = "drafts";
-    private static final String KEY_STARRED_ONLY = "starred_only";
 
     private static final int PAGE_SIZE = 10; // for endless scrolling
 
@@ -48,11 +46,6 @@ public class FeedFragment
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        if (savedInstanceState != null) {
-            drafts = savedInstanceState.getBoolean(KEY_DRAFTS, drafts);
-            starredOnly = savedInstanceState.getBoolean(KEY_STARRED_ONLY, starredOnly);
-            Log.d(LOG_TAG, "Restore saved state: " + drafts + ", " + starredOnly);
-        }
     }
 
     @Override
@@ -68,12 +61,24 @@ public class FeedFragment
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.feed, menu);
+        inflater.inflate(R.menu.feed_fragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.menu_item_note_new:
+                final Note note = Note.createNew();
+                note.pinInBackground(new SaveCallback() {
+                    @Override
+                    public void done(final ParseException e) {
+                        InternalRuntimeException.throwForException("Could not pin a new note.", e);
+                        Log.i(LOG_TAG, "Pinned new note: " + note);
+                        NoteActivity.start(getActivity(), note, false);
+                    }
+                });
+                return true;
 
             case R.id.menu_item_settings:
                 SettingsActivity.start(getActivity());
@@ -95,7 +100,7 @@ public class FeedFragment
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         final Note note = (Note)parent.getItemAtPosition(position);
-        NoteActivity.start(getActivity(), note);
+        NoteActivity.start(getActivity(), note, false);
     }
 
     @Override
@@ -117,13 +122,6 @@ public class FeedFragment
         });
     }
 
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_DRAFTS, drafts);
-        outState.putBoolean(KEY_STARRED_ONLY, starredOnly);
-    }
-
     /**
      * Refreshes feed by either initializing adapter or changing data set.
      */
@@ -143,10 +141,6 @@ public class FeedFragment
         queryFeedItems(null, lastNoteCreationDate, new Action<List<Note>>() {
             @Override
             public void done(final List<Note> notes) {
-                if (!isAdded()) {
-                    // https://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
-                    return;
-                }
                 if (adapter != null) {
                     adapter.getNotes().clear();
                     adapter.getNotes().addAll(notes);

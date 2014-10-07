@@ -21,6 +21,22 @@ public class Note extends ParseObject {
     public static final String KEY_COLOR = "color";
     public static final String KEY_STARRED = "starred";
 
+    /**
+     * Used to copy properties.
+     */
+    private static final String[] KEYS = new String[] {
+            KEY_UUID_LSB,
+            KEY_UUID_MSB,
+            KEY_TITLE,
+            KEY_TEXT,
+            KEY_CREATION_DATE,
+            KEY_CUSTOM_DATE,
+            KEY_DRAFT,
+            KEY_COLOR,
+            KEY_STARRED,
+    };
+
+    // TODO: use immediate values: https://github.com/eigenein/miary-android/issues/101
     public static final int COLOR_WHITE = 0;
     public static final int COLOR_RED = 1;
     public static final int COLOR_ORANGE = 2;
@@ -29,8 +45,6 @@ public class Note extends ParseObject {
     public static final int COLOR_GREEN = 5;
     public static final int COLOR_BLUE = 6;
     public static final int COLOR_VIOLET = 7;
-
-    private static final String LOG_TAG = Note.class.getSimpleName();
 
     /**
      * Gets note from Local Datastore by UUID.
@@ -47,7 +61,8 @@ public class Note extends ParseObject {
         // Do nothing.
     }
 
-    public static Note getNewNote() {
+    public static Note createNew() {
+        ParseAnalytics.trackEvent("createNew");
         return new Note()
                 .setUuid(UUID.randomUUID())
                 .setCreationDate(new Date())
@@ -98,6 +113,7 @@ public class Note extends ParseObject {
     }
 
     public Note setCustomDate(final Date date) {
+        ParseAnalytics.trackEvent("setCustomDate");
         put(KEY_CUSTOM_DATE, date);
         return this;
     }
@@ -116,6 +132,7 @@ public class Note extends ParseObject {
     }
 
     public Note setColor(final int color) {
+        ParseHelper.trackEvent("setColor", "color", Integer.toString(color));
         put(KEY_COLOR, color);
         return this;
     }
@@ -127,6 +144,18 @@ public class Note extends ParseObject {
     public Note setStarred(final boolean isStarred) {
         put(KEY_STARRED, isStarred);
         return this;
+    }
+
+    /**
+     * Update note with the other note.
+     */
+    public void update(final Note other) {
+        for (final String key : KEYS) {
+            final Object value = other.get(key);
+            if (value != null) {
+                put(key, value);
+            }
+        }
     }
 
     @Override

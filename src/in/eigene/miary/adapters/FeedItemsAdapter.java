@@ -28,7 +28,7 @@ public class FeedItemsAdapter extends ArrayAdapter<Note> {
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View view = convertView;
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
 
         if (view == null) {
             final LayoutInflater inflater = context.getLayoutInflater();

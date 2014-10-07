@@ -2,7 +2,9 @@ package in.eigene.miary.core;
 
 /**
  * Automatic substitutions helper.
+ * https://github.com/eigenein/miary-android/issues/73
  */
+@Deprecated
 public class Substitutions {
 
     private static class TableEntry {

@@ -5,8 +5,9 @@ import android.content.*;
 import android.os.*;
 import android.text.*;
 import android.widget.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import com.parse.*;
+import in.eigene.miary.R;
+import in.eigene.miary.core.managers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
 public class PinActivity extends Activity {
@@ -38,9 +39,11 @@ public class PinActivity extends Activity {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(intent);
+                    ParseAnalytics.trackEvent("pinCorrect");
                 } else {
                     Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                     pinEditText.setText("");
+                    ParseAnalytics.trackEvent("pinIncorrect");
                 }
             }
         });

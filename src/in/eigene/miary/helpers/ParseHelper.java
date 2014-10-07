@@ -4,6 +4,8 @@ import android.content.*;
 import com.parse.*;
 import in.eigene.miary.core.*;
 
+import java.util.*;
+
 public class ParseHelper {
 
     private static final String APPLICATION_ID = "jpnD20rkM3xxna9OhRtun2IbzE7QjPEULtEmIRKC";
@@ -13,5 +15,11 @@ public class ParseHelper {
         Parse.enableLocalDatastore(context);
         ParseObject.registerSubclass(Note.class);
         Parse.initialize(context, APPLICATION_ID, CLIENT_KEY);
+    }
+
+    public static void trackEvent(final String name, final String dimensionKey, final String dimensionValue) {
+        final HashMap<String, String> dimensions = new HashMap<String, String>();
+        dimensions.put(dimensionKey, dimensionValue);
+        ParseAnalytics.trackEvent(name, dimensions);
     }
 }

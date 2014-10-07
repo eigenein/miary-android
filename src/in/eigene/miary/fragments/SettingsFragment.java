@@ -6,38 +6,49 @@ import android.os.*;
 import android.preference.*;
 import android.text.*;
 import android.text.format.DateFormat;
+import android.view.*;
 import android.widget.*;
-import in.eigene.miary.*;
+import com.parse.*;
+import in.eigene.miary.R;
 import in.eigene.miary.core.*;
-import in.eigene.miary.core.export.*;
+import in.eigene.miary.core.backup.inputs.*;
+import in.eigene.miary.core.backup.outputs.*;
+import in.eigene.miary.core.backup.storages.*;
+import in.eigene.miary.core.backup.tasks.*;
+import in.eigene.miary.core.managers.*;
+import in.eigene.miary.fragments.dialogs.*;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
 public class SettingsFragment extends PreferenceFragment {
 
+    private static final int RESULT_CODE_RESTORE_JSON = 1;
+
     private static final String[] SHORT_WEEKDAYS = new DateFormatSymbols().getShortWeekdays();
 
+    /**
+     * Fragment state.
+     */
+    private State state = State.DEFAULT;
+    /**
+     * Fragment state object.
+     */
+    private Object stateTag;
+
+    /**
+     * Caches weekdays from resources.
+     */
     private String[] allWeekdays;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addPreferencesFromResource(R.xml.preferences);
+        setRetainInstance(true);
 
-        findPreference(R.string.prefkey_export).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(final Preference preference) {
-                        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                            ExportAsyncTask.start(getActivity());
-                        } else {
-                            Toast.makeText(getActivity(), R.string.toast_storage_unready, Toast.LENGTH_LONG).show();
-                        }
-                        return true;
-                    }
-        });
+        addPreferencesFromResource(R.xml.preferences);
 
         findPreference(R.string.prefkey_substitution_table).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
@@ -122,6 +133,57 @@ public class SettingsFragment extends PreferenceFragment {
 
         refreshReminderDaysPreference();
         refreshReminderTimePreference();
+
+        setupBackupSettings();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        DropboxStorage storage;
+
+        switch (state) {
+            case DROPBOX_BACKUP_IN_PROGRESS:
+                state = State.DEFAULT;
+                storage = (DropboxStorage)stateTag;
+                storage.finishAuthentication();
+                new BackupAsyncTask(getActivity(), storage, new JsonBackupOutput.Factory()).execute();
+                break;
+            case DROPBOX_RESTORE_IN_PROGRESS:
+                state = State.DEFAULT;
+                storage = (DropboxStorage)stateTag;
+                storage.finishAuthentication();
+                new RestoreAsyncTask(getActivity(), storage.new Input(".json"), new JsonRestoreInput.Factory()).execute();
+                break;
+            case DEFAULT:
+                // Do nothing.
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (requestCode) {
+            case RESULT_CODE_RESTORE_JSON:
+                final File file = new File(data.getData().getPath());
+                new RestoreAsyncTask(getActivity(), new ExternalStorage().new Input(file), new JsonRestoreInput.Factory()).execute();
+                break;
+        }
+    }
+
+    /**
+     * http://stackoverflow.com/a/16800527/359730
+     */
+    @Override
+    public boolean onPreferenceTreeClick(final PreferenceScreen preferenceScreen, final Preference preference) {
+        super.onPreferenceTreeClick(preferenceScreen, preference);
+
+        if (preference instanceof PreferenceScreen) {
+            setupActionBar((PreferenceScreen)preference);
+        }
+
+        return false;
     }
 
     /**
@@ -136,6 +198,7 @@ public class SettingsFragment extends PreferenceFragment {
                         if (pin.length() == 4) {
                             PinManager.set(getActivity(), pin);
                             Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
+                            ParseAnalytics.trackEvent("protectionEnabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(false);
@@ -162,6 +225,7 @@ public class SettingsFragment extends PreferenceFragment {
                     public void onPositiveButtonClicked(final String pin) {
                         if (PinManager.check(getActivity(), pin)) {
                             Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
+                            ParseAnalytics.trackEvent("protectionDisabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(true);
@@ -200,10 +264,117 @@ public class SettingsFragment extends PreferenceFragment {
                 ReminderManager.getReminderTime(getActivity()).getTime()));
     }
 
+    private void setupBackupSettings() {
+        // Plain text backup.
+        findPreference(R.string.prefkey_backup_plain_text).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new PlainTextBackupOutput.Factory()).execute();
+                        return true;
+                    }
+                }
+        );
+        // JSON backup.
+        findPreference(R.string.prefkey_backup_json).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        new BackupAsyncTask(getActivity(), new ExternalStorage(), new JsonBackupOutput.Factory()).execute();
+                        return true;
+                    }
+                }
+        );
+        // Dropbox backup.
+        findPreference(R.string.prefkey_backup_dropbox).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        state = State.DROPBOX_BACKUP_IN_PROGRESS;
+                        final DropboxStorage storage = new DropboxStorage();
+                        stateTag = storage;
+                        storage.authenticate(getActivity());
+                        return true;
+                    }
+                }
+        );
+        // Dropbox restore.
+        findPreference(R.string.prefkey_restore_dropbox).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        state = State.DROPBOX_RESTORE_IN_PROGRESS;
+                        final DropboxStorage storage = new DropboxStorage();
+                        stateTag = storage;
+                        storage.authenticate(getActivity());
+                        return true;
+                    }
+                }
+        );
+        // JSON restore.
+        findPreference(R.string.prefkey_restore_json).setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("application/json");
+                        startActivityForResult(intent, RESULT_CODE_RESTORE_JSON);
+                        return true;
+                    }
+                }
+        );
+    }
+
     /**
      * Find preference by key resource ID.
      */
     private Preference findPreference(final int keyResourceId) {
         return findPreference(getString(keyResourceId));
+    }
+
+    /**
+     * Action Bar Home Button not functional with nested PreferenceScreen.
+     * http://stackoverflow.com/a/16800527/359730
+     */
+    private static void setupActionBar(final PreferenceScreen preferenceScreen) {
+        final Dialog dialog = preferenceScreen.getDialog();
+
+        if (dialog != null) {
+            dialog.getActionBar().setDisplayHomeAsUpEnabled(true);
+
+            final View homeButton = dialog.findViewById(android.R.id.home);
+
+            if (homeButton != null) {
+                final View.OnClickListener dismissDialogClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View view) {
+                        dialog.dismiss();
+                    }
+                };
+
+                final ViewParent homeButtonContainer = homeButton.getParent();
+
+                if (homeButtonContainer instanceof FrameLayout) {
+                    final ViewGroup containerParent = (ViewGroup)homeButtonContainer.getParent();
+
+                    if (containerParent instanceof LinearLayout) {
+                        containerParent.setOnClickListener(dismissDialogClickListener);
+                    } else {
+                        ((FrameLayout)homeButtonContainer).setOnClickListener(dismissDialogClickListener);
+                    }
+                } else {
+                    homeButton.setOnClickListener(dismissDialogClickListener);
+                }
+            }
+        }
+    }
+
+    /**
+     * Settings fragment state.
+     */
+    private enum State {
+        DEFAULT,
+        DROPBOX_BACKUP_IN_PROGRESS,
+        DROPBOX_RESTORE_IN_PROGRESS,
     }
 }
