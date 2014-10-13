@@ -19,6 +19,8 @@
 #   public *;
 #}
 
+-dontobfuscate
+
 -dontwarn com.facebook.**
 -dontwarn com.parse.**
 -dontwarn org.apache.**
