@@ -113,7 +113,6 @@ public class Note extends ParseObject {
     }
 
     public Note setCustomDate(final Date date) {
-        ParseAnalytics.trackEvent("setCustomDate");
         put(KEY_CUSTOM_DATE, date);
         return this;
     }
