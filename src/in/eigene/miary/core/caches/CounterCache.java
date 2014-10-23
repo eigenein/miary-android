@@ -3,7 +3,7 @@ package in.eigene.miary.core.caches;
 import com.parse.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
-import in.eigene.miary.helpers.*;
+import in.eigene.miary.helpers.lang.*;
 
 public class CounterCache {
 
@@ -21,7 +21,7 @@ public class CounterCache {
     /**
      * Invalidates cache.
      */
-    public static void invalidate(final Action<Object> callback) {
+    public static void invalidate(final Consumer<Object> callback) {
         getQueryPrefix().whereEqualTo(Note.KEY_STARRED, true).countInBackground(new CountCallback() {
             @Override
             public void done(final int count, final ParseException e) {
@@ -34,7 +34,7 @@ public class CounterCache {
                         InternalRuntimeException.throwForException("Could not get draft count.", e);
                         draftCount = count;
 
-                        callback.done(null);
+                        callback.accept(null);
                     }
                 });
             }

@@ -12,6 +12,7 @@ import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
+import in.eigene.miary.helpers.lang.*;
 
 import java.util.*;
 
@@ -113,9 +114,9 @@ public class FeedFragment
         if (lastNote == null) {
             return;
         }
-        queryFeedItems(lastNote.getCustomDate(), null, new Action<List<Note>>() {
+        queryFeedItems(lastNote.getCustomDate(), null, new Consumer<List<Note>>() {
             @Override
-            public void done(final List<Note> notes) {
+            public void accept(final List<Note> notes) {
                 adapter.getNotes().addAll(notes);
                 adapter.notifyDataSetChanged();
             }
@@ -138,9 +139,9 @@ public class FeedFragment
             }
         }
 
-        queryFeedItems(null, lastNoteCreationDate, new Action<List<Note>>() {
+        queryFeedItems(null, lastNoteCreationDate, new Consumer<List<Note>>() {
             @Override
-            public void done(final List<Note> notes) {
+            public void accept(final List<Note> notes) {
                 if (adapter != null) {
                     adapter.getNotes().clear();
                     adapter.getNotes().addAll(notes);
@@ -177,7 +178,7 @@ public class FeedFragment
     private void queryFeedItems(
             final Date fromCreationDate,
             final Date toCreationDate,
-            final Action<List<Note>> action) {
+            final Consumer<List<Note>> action) {
         Log.i(LOG_TAG, "Querying notes from " + fromCreationDate + " to " + toCreationDate);
         // Initialize query.
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
@@ -207,7 +208,7 @@ public class FeedFragment
             public void done(final List<Note> notes, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
-                action.done(notes);
+                action.accept(notes);
             }
         });
     }

@@ -11,7 +11,7 @@ import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.caches.*;
-import in.eigene.miary.helpers.*;
+import in.eigene.miary.helpers.lang.*;
 
 public class Drawer implements DrawerLayout.DrawerListener {
 
@@ -60,9 +60,9 @@ public class Drawer implements DrawerLayout.DrawerListener {
 
     @Override
     public void onDrawerOpened(final View drawerView) {
-        CounterCache.invalidate(new Action<Object>() {
+        CounterCache.invalidate(new Consumer<Object>() {
             @Override
-            public void done(final Object o) {
+            public void accept(final Object o) {
                 refreshCounters();
             }
         });
