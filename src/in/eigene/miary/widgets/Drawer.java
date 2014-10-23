@@ -91,7 +91,6 @@ public class Drawer implements DrawerLayout.DrawerListener {
     private void initializeDrawerItems() {
         initializeDrawerItem(
                 R.id.drawer_item_feed,
-                R.drawable.ic_drawer_feed,
                 R.string.drawer_item_feed,
                 false,
                 new View.OnClickListener() {
@@ -104,7 +103,6 @@ public class Drawer implements DrawerLayout.DrawerListener {
         // Starred.
         textViewStarredCounter = (TextView)initializeDrawerItem(
                 R.id.drawer_item_starred,
-                R.drawable.ic_drawer_starred,
                 R.string.drawer_item_starred,
                 true,
                 new View.OnClickListener() {
@@ -118,7 +116,6 @@ public class Drawer implements DrawerLayout.DrawerListener {
         // Drafts.
         textViewDraftCounter = (TextView)initializeDrawerItem(
                 R.id.drawer_item_drafts,
-                R.drawable.ic_drawer_drafts,
                 R.string.drawer_item_drafts,
                 true,
                 new View.OnClickListener() {
@@ -136,13 +133,11 @@ public class Drawer implements DrawerLayout.DrawerListener {
      */
     private View initializeDrawerItem(
             final int itemViewId,
-            final int iconResourceId,
             final int titleResourceId,
             final boolean counterVisible,
             final View.OnClickListener listener) {
         final View itemView = view.findViewById(itemViewId);
         itemView.findViewById(R.id.drawer_item_counter).setVisibility(counterVisible ? View.VISIBLE : View.GONE);
-        ((ImageView)itemView.findViewById(R.id.drawer_item_icon)).setImageResource(iconResourceId);
         ((TextView)itemView.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
         itemView.setOnClickListener(listener);
         return itemView;
