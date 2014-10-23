@@ -37,8 +37,16 @@ public class Drawer implements DrawerLayout.DrawerListener {
         toggle = new DrawerToggle(activity, layout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close, this);
         layout.setDrawerListener(toggle);
 
-        initializeDrawerItems();
-        refreshDrawerCounters();
+        initializeCounterView(
+                R.id.drawer_item_feed, R.string.drawer_item_feed, new OnClickListener(false, false));
+        textViewStarredCounter = (TextView)initializeCounterView(
+                R.id.drawer_item_starred, R.string.drawer_item_starred, new OnClickListener(true, false)
+        ).findViewById(R.id.drawer_item_counter);
+        textViewDraftCounter = (TextView)initializeCounterView(
+                R.id.drawer_item_drafts, R.string.drawer_item_drafts, new OnClickListener(false, true)
+        ).findViewById(R.id.drawer_item_counter);
+
+        refreshCounters();
     }
 
     public ActionBarDrawerToggle getToggle() {
@@ -55,7 +63,7 @@ public class Drawer implements DrawerLayout.DrawerListener {
         CounterCache.invalidate(new Action<Object>() {
             @Override
             public void done(final Object o) {
-                refreshDrawerCounters();
+                refreshCounters();
             }
         });
     }
@@ -78,7 +86,6 @@ public class Drawer implements DrawerLayout.DrawerListener {
         if (!preferences.getBoolean(KEY_DRAWER_SHOWN, false)) {
             // Open drawer for the first time.
             new Handler().postDelayed(new Runnable() {
-
                 @Override
                 public void run() {
                     layout.openDrawer(Gravity.LEFT);
@@ -88,56 +95,14 @@ public class Drawer implements DrawerLayout.DrawerListener {
         }
     }
 
-    private void initializeDrawerItems() {
-        initializeDrawerItem(
-                R.id.drawer_item_feed,
-                R.string.drawer_item_feed,
-                false,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        listener.onFeedModeChanged(false, false);
-                        layout.closeDrawer(view);
-                    }
-                });
-        // Starred.
-        textViewStarredCounter = (TextView)initializeDrawerItem(
-                R.id.drawer_item_starred,
-                R.string.drawer_item_starred,
-                true,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        listener.onFeedModeChanged(true, false);
-                        layout.closeDrawer(view);
-                    }
-                }).findViewById(R.id.drawer_item_counter);
-        textViewStarredCounter.setVisibility(View.GONE);
-        // Drafts.
-        textViewDraftCounter = (TextView)initializeDrawerItem(
-                R.id.drawer_item_drafts,
-                R.string.drawer_item_drafts,
-                true,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        listener.onFeedModeChanged(false, true);
-                        layout.closeDrawer(view);
-                    }
-                }).findViewById(R.id.drawer_item_counter);
-        textViewDraftCounter.setVisibility(View.GONE);
-    }
-
     /**
      * Initializes a drawer item.
      */
-    private View initializeDrawerItem(
+    private View initializeCounterView(
             final int itemViewId,
             final int titleResourceId,
-            final boolean counterVisible,
             final View.OnClickListener listener) {
         final View itemView = view.findViewById(itemViewId);
-        itemView.findViewById(R.id.drawer_item_counter).setVisibility(counterVisible ? View.VISIBLE : View.GONE);
         ((TextView)itemView.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
         itemView.setOnClickListener(listener);
         return itemView;
@@ -146,7 +111,7 @@ public class Drawer implements DrawerLayout.DrawerListener {
     /**
      * Refreshes starred and drafts counter values and their visibility.
      */
-    private void refreshDrawerCounters() {
+    private void refreshCounters() {
         textViewStarredCounter.setText(Integer.toString(CounterCache.getStarredCount()));
         textViewStarredCounter.setVisibility(CounterCache.getStarredCount() != 0 ? View.VISIBLE : View.GONE);
         textViewDraftCounter.setText(Integer.toString(CounterCache.getDraftCount()));
@@ -156,5 +121,22 @@ public class Drawer implements DrawerLayout.DrawerListener {
     public interface Listener {
 
         public void onFeedModeChanged(final boolean starredOnly, final boolean drafts);
+    }
+
+    private class OnClickListener implements View.OnClickListener {
+
+        private final boolean starredOnly;
+        private final boolean drafts;
+
+        public OnClickListener(final boolean starredOnly, final boolean drafts) {
+            this.starredOnly = starredOnly;
+            this.drafts = drafts;
+        }
+
+        @Override
+        public void onClick(final View view) {
+            listener.onFeedModeChanged(starredOnly, drafts);
+            layout.closeDrawer(Drawer.this.view);
+        }
     }
 }
