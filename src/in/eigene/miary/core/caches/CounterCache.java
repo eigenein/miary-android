@@ -10,7 +10,7 @@ import in.eigene.miary.helpers.lang.*;
  */
 public class CounterCache {
 
-    public static Counter NOTE_COUNTER = new Counter(getQueryPrefix());
+    public static Counter NOTE_COUNTER = new Counter(getQueryPrefix().whereEqualTo(Note.KEY_DRAFT, false));
     public static Counter STARRED_COUNTER = new Counter(getQueryPrefix().whereEqualTo(Note.KEY_STARRED, true));
     public static Counter DRAFT_COUNTER = new Counter(getQueryPrefix().whereEqualTo(Note.KEY_DRAFT, true));
 
