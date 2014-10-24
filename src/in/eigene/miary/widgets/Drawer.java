@@ -8,10 +8,8 @@ import android.support.v4.app.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.view.*;
-import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.caches.*;
-import in.eigene.miary.helpers.lang.*;
 
 public class Drawer implements DrawerLayout.DrawerListener {
 
@@ -24,8 +22,9 @@ public class Drawer implements DrawerLayout.DrawerListener {
     private final ActionBarDrawerToggle toggle;
     private final View view;
 
-    private TextView textViewStarredCounter;
-    private TextView textViewDraftCounter;
+    private final DrawerCounter noteCounter;
+    private final DrawerCounter starredCounter;
+    private final DrawerCounter draftCounter;
 
     public Drawer(final Activity activity, final Listener listener) {
         this.activity = activity;
@@ -37,14 +36,12 @@ public class Drawer implements DrawerLayout.DrawerListener {
         toggle = new DrawerToggle(activity, layout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close, this);
         layout.setDrawerListener(toggle);
 
-        initializeCounterView(
-                R.id.drawer_item_feed, R.string.drawer_item_feed, new OnClickListener(false, false));
-        textViewStarredCounter = (TextView)initializeCounterView(
-                R.id.drawer_item_starred, R.string.drawer_item_starred, new OnClickListener(true, false)
-        ).findViewById(R.id.drawer_item_counter);
-        textViewDraftCounter = (TextView)initializeCounterView(
-                R.id.drawer_item_drafts, R.string.drawer_item_drafts, new OnClickListener(false, true)
-        ).findViewById(R.id.drawer_item_counter);
+        noteCounter = new DrawerCounter(
+                view, R.id.drawer_item_feed, R.string.drawer_item_feed, CounterCache.NOTE_COUNTER, new OnClickListener(false, false));
+        starredCounter = new DrawerCounter(
+                view, R.id.drawer_item_starred, R.string.drawer_item_starred, CounterCache.STARRED_COUNTER, new OnClickListener(true, false));
+        draftCounter = new DrawerCounter(
+                view, R.id.drawer_item_drafts, R.string.drawer_item_drafts, CounterCache.DRAFT_COUNTER, new OnClickListener(false, true));
 
         refreshCounters();
     }
@@ -60,12 +57,7 @@ public class Drawer implements DrawerLayout.DrawerListener {
 
     @Override
     public void onDrawerOpened(final View drawerView) {
-        CounterCache.invalidate(new Consumer<Object>() {
-            @Override
-            public void accept(final Object o) {
-                refreshCounters();
-            }
-        });
+        refreshCounters();
     }
 
     @Override
@@ -96,26 +88,12 @@ public class Drawer implements DrawerLayout.DrawerListener {
     }
 
     /**
-     * Initializes a drawer item.
-     */
-    private View initializeCounterView(
-            final int itemViewId,
-            final int titleResourceId,
-            final View.OnClickListener listener) {
-        final View itemView = view.findViewById(itemViewId);
-        ((TextView)itemView.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
-        itemView.setOnClickListener(listener);
-        return itemView;
-    }
-
-    /**
      * Refreshes starred and drafts counter values and their visibility.
      */
     private void refreshCounters() {
-        textViewStarredCounter.setText(Integer.toString(CounterCache.getStarredCount()));
-        textViewStarredCounter.setVisibility(CounterCache.getStarredCount() != 0 ? View.VISIBLE : View.GONE);
-        textViewDraftCounter.setText(Integer.toString(CounterCache.getDraftCount()));
-        textViewDraftCounter.setVisibility(CounterCache.getDraftCount() != 0 ? View.VISIBLE : View.GONE);
+        noteCounter.refresh();
+        starredCounter.refresh();
+        draftCounter.refresh();
     }
 
     public interface Listener {
