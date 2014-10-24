@@ -23,9 +23,7 @@
             android:background="@color/background_holo_light"
     >
         <include android:id="@+id/drawer_item_feed" layout="@layout/drawer_item"/>
-        <!--<include layout="@layout/drawer_divider"/>-->
         <include android:id="@+id/drawer_item_starred" layout="@layout/drawer_item"/>
-        <!--<include layout="@layout/drawer_divider"/>-->
         <include android:id="@+id/drawer_item_drafts" layout="@layout/drawer_item"/>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
