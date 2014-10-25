@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="in.eigene.miary"
-          android:versionCode="12"
-          android:versionName="0.3"
+          android:versionCode="14"
+          android:versionName="0.4"
 >
     <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19"/>
 
@@ -64,6 +64,15 @@
                 android:name=".services.NotificationIntentService"
                 android:enabled="true"
         />
+        <service android:name=".sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator"
+            />
+        </service>
 
         <!-- Receivers -->
         <receiver

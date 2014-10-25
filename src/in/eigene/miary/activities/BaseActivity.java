@@ -7,7 +7,7 @@ import android.preference.*;
 import android.util.*;
 import android.view.*;
 import com.parse.*;
-import in.eigene.miary.R;
+import in.eigene.miary.*;
 import in.eigene.miary.helpers.*;
 
 import java.util.*;
@@ -38,25 +38,17 @@ public abstract class BaseActivity extends Activity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        checkPassCodeProtection();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-
-        // Passcode protection.
-        final long currentTime = new Date().getTime();
-        if ((currentTime - lastActivityTime) > TIMEOUT) {
-            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
-                    getString(R.string.prefkey_pin_enabled), false)) {
-                Log.w(LOG_TAG, "Passcode required.");
-                finish();
-                PinActivity.start(this, getIntent());
-            } else {
-                Log.i(LOG_TAG, "Passcode protection is disabled.");
-            }
-        } else {
-            Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms.");
-            refreshLastActivityTime();
-        }
+        checkPassCodeProtection();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -95,6 +87,23 @@ public abstract class BaseActivity extends Activity {
             if (actionBar != null) {
                 actionBar.setHomeButtonEnabled(true);
             }
+        }
+    }
+
+    private void checkPassCodeProtection() {
+        final long currentTime = new Date().getTime();
+        if ((currentTime - lastActivityTime) > TIMEOUT) {
+            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
+                    getString(R.string.prefkey_pin_enabled), false)) {
+                Log.w(LOG_TAG, "Passcode required.");
+                finish();
+                PinActivity.start(this, getIntent());
+            } else {
+                Log.i(LOG_TAG, "Passcode protection is disabled.");
+            }
+        } else {
+            Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms.");
+            refreshLastActivityTime();
         }
     }
 }

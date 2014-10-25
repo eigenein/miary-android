@@ -84,4 +84,6 @@
     <string name="preference_summary_restore_dropbox">Восстановить из папки приложения.</string>
     <string name="toast_restore_not_found">Backup is not found.</string>
     <string name="preference_summary_restore_json">Восстановить из ранее созданной копии.</string>
+    <string name="drawer_sign_in">Войти</string>
+    <string name="drawer_basic_account">Базовый аккаунт</string>
 </resources>

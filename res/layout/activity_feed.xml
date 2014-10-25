@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,7 +13,7 @@
               android:layout_height="match_parent"
               android:layout_marginLeft="@dimen/feed_horizontal_margin"
               android:layout_marginRight="@dimen/feed_horizontal_margin"
-    />
+              tools:layout="@layout/fragment_feed"/>
     <!-- Navigation drawer. -->
     <LinearLayout
             android:id="@+id/drawer"
@@ -20,12 +21,66 @@
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@android:color/background_light"
+            android:background="@color/background_holo_light"
+            android:clickable="true"
     >
+        <!--
+        TODO: future features.
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/drawer_item_margin"
+                android:gravity="center_vertical"
+                android:background="@drawable/drawer_item_background"
+                android:clickable="true"
+        >
+            <in.eigene.miary.widgets.RoundedImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/avatar_placeholder_gray"
+            />
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/drawer_item_margin"
+                    android:orientation="vertical"
+            >
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_sign_in"
+                        android:textStyle="bold"
+                        style="@android:style/TextAppearance.Medium"
+                />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_basic_account"
+                        style="@android:style/TextAppearance.Small"
+                />
+            </LinearLayout>
+        </LinearLayout>-->
+
         <include android:id="@+id/drawer_item_feed" layout="@layout/drawer_item"/>
-        <include layout="@layout/divider_horizontal_holo_light"/>
         <include android:id="@+id/drawer_item_starred" layout="@layout/drawer_item"/>
-        <include layout="@layout/divider_horizontal_holo_light"/>
         <include android:id="@+id/drawer_item_drafts" layout="@layout/drawer_item"/>
+
+        <!--
+        TODO: future features.
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/drawer_item_margin"
+                android:layout_marginTop="@dimen/drawer_item_margin"
+                android:textColor="@color/dark_gray_text_color"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:text="Labels"
+                style="@android:style/TextAppearance.Small"
+                />
+        <include layout="@layout/drawer_section"/>
+        -->
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

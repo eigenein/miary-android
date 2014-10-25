@@ -4,31 +4,25 @@
         android:layout_height="48dp"
         android:gravity="center_vertical"
         android:clickable="true"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@drawable/drawer_item_background"
 >
-    <ImageView
-            android:id="@+id/drawer_item_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-    />
     <TextView
             android:id="@+id/drawer_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            style="@android:style/TextAppearance.Medium"
+            android:layout_marginLeft="@dimen/drawer_item_margin"
             android:layout_weight="1"
+            android:textColor="@color/dark_gray_text_color"
+            style="@android:style/TextAppearance.Medium"
     />
     <TextView
             android:id="@+id/drawer_item_counter"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/drawer_counter"
-            android:textColor="@android:color/white"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/drawer_item_margin"
+            android:layout_marginRight="@dimen/drawer_item_margin"
             android:visibility="gone"
-            style="@android:style/TextAppearance.Medium"
+            android:textColor="@color/dark_gray_text_color"
+            style="@android:style/TextAppearance.Small"
     />
 </LinearLayout>
