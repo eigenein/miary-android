@@ -5,7 +5,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.parse.*;
-import in.eigene.miary.R;
+import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.*;
@@ -146,7 +146,7 @@ public class FeedFragment
                     adapter.getNotes().clear();
                     adapter.getNotes().addAll(notes);
                     adapter.notifyDataSetChanged();
-                } else {
+                } else if (isAdded()) {
                     feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
                 }
                 switchViews();
