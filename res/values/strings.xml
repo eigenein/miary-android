@@ -101,4 +101,6 @@
     <string name="preference_title_restore_json">JSON</string>
     <string name="preference_summary_restore_json">Restore from previously created JSON backup.</string>
     <string name="prefkey_restore_json">restore_json</string>
+    <string name="drawer_sign_in">Sign In</string>
+    <string name="drawer_basic_account">Basic account</string>
 </resources>
