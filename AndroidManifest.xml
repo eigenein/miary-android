@@ -64,6 +64,15 @@
                 android:name=".services.NotificationIntentService"
                 android:enabled="true"
         />
+        <service android:name=".sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator"
+            />
+        </service>
 
         <!-- Receivers -->
         <receiver
