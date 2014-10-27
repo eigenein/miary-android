@@ -45,6 +45,7 @@
             android:text="Signing in allows you to use additional functionality such as passcode resetting. There will be more additional abilities for signed in users in future updates."
     />
     <EditText
+            android:id="@+id/auth_email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -62,12 +63,14 @@
             android:hint="Password"
     />
     <Button
+            android:id="@+id/auth_sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="Sign In"
     />
     <Button
+            android:id="@+id/auth_sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
