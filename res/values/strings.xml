@@ -103,4 +103,5 @@
     <string name="prefkey_restore_json">restore_json</string>
     <string name="drawer_sign_in">Sign In</string>
     <string name="drawer_basic_account">Basic account</string>
+    <string name="activity_authenticator">Sign In</string>
 </resources>

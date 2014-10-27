@@ -86,4 +86,5 @@
     <string name="preference_summary_restore_json">Аднавіць з раней створанай копіі.</string>
     <string name="drawer_sign_in">Увайсці</string>
     <string name="drawer_basic_account">Базавы акаўнт</string>
+    <string name="activity_authenticator">Увайсці</string>
 </resources>

@@ -47,6 +47,11 @@
                 android:theme="@android:style/Theme.Holo.NoActionBar"
                 android:windowSoftInputMode="stateAlwaysVisible"
         />
+        <activity
+                android:name=".activities.AuthenticatorActivity"
+                android:label="@string/activity_authenticator"
+                android:theme="@android:style/Theme.Holo.NoActionBar"
+        />
 
         <!-- Dropbox Android Core SDK. -->
         <activity

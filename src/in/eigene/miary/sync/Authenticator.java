@@ -3,11 +3,15 @@ package in.eigene.miary.sync;
 import android.accounts.*;
 import android.content.*;
 import android.os.*;
+import in.eigene.miary.activities.*;
 
 public class Authenticator extends AbstractAccountAuthenticator {
 
+    private final Context context;
+
     public Authenticator(final Context context) {
         super(context);
+        this.context = context;
     }
 
     @Override
@@ -23,7 +27,18 @@ public class Authenticator extends AbstractAccountAuthenticator {
             final String[] requiredFeatures,
             final Bundle options
     ) throws NetworkErrorException {
-        return null;
+
+        final Intent intent = new Intent(context, AuthenticatorActivity.class);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+        if (options != null) {
+            bundle.putAll(options);
+        }
+
+        return bundle;
     }
 
     @Override
@@ -68,6 +83,4 @@ public class Authenticator extends AbstractAccountAuthenticator {
     ) throws NetworkErrorException {
         throw new UnsupportedOperationException();
     }
-
-
 }

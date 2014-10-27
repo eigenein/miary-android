@@ -86,4 +86,5 @@
     <string name="preference_summary_restore_json">Восстановить из ранее созданной копии.</string>
     <string name="drawer_sign_in">Войти</string>
     <string name="drawer_basic_account">Базовый аккаунт</string>
+    <string name="activity_authenticator">Войти</string>
 </resources>
