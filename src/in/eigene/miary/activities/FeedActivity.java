@@ -70,7 +70,7 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
         @Override
         public void onClick(final View view) {
-            // TODO: sign out.
+            // TODO: select account, create new or sign out.
             AccountManager.get(FeedActivity.this)
                     .addAccount("miary.eigene.in", null, null, null, FeedActivity.this, this, null);
         }

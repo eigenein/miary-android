@@ -33,6 +33,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             @Override
             public void onClick(final View view) {
                 if (validate()) {
+                    // TODO: disable controls.
                     // TODO: show progress dialog.
                     credentials = new Credentials(getEmail(), getPassword(), false);
                     new AuthAsyncTask(AuthenticatorActivity.this).execute(credentials);
@@ -44,6 +45,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             @Override
             public void onClick(final View view) {
                 if (validate()) {
+                    // TODO: disable controls.
                     // TODO: show progress dialog.
                     credentials = new Credentials(getEmail(), getPassword(), true);
                     new AuthAsyncTask(AuthenticatorActivity.this).execute(credentials);
