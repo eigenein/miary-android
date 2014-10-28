@@ -87,4 +87,11 @@
     <string name="drawer_sign_in">Войти</string>
     <string name="drawer_basic_account">Базовый аккаунт</string>
     <string name="activity_authenticator">Войти</string>
+    <string name="password_hint">Пароль</string>
+    <string name="toast_email_required">Не заполнен адрес электронной почты.</string>
+    <string name="toast_password_required">Не заполнен пароль.</string>
+    <string name="account_auth_failed">Не удалось выполнить вход. Проверьте правильность ввода данных.</string>
+    <string name="auth_sign_in_button">Войти</string>
+    <string name="auth_sign_up_button">Создать учетную запись</string>
+    <string name="account_auth_success">Вход выполнен успешно.</string>
 </resources>

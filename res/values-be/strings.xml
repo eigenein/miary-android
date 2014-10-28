@@ -87,4 +87,11 @@
     <string name="drawer_sign_in">Увайсці</string>
     <string name="drawer_basic_account">Базавы акаўнт</string>
     <string name="activity_authenticator">Увайсці</string>
+    <string name="password_hint">Пароль</string>
+    <string name="toast_email_required">Не запоўнены адрас электроннай пошты.</string>
+    <string name="toast_password_required">Не запоўнены пароль.</string>
+    <string name="account_auth_failed">Немагчыма выканаць уваход. Калі ласка, праверце правільнасць ўводу дадзеных.</string>
+    <string name="auth_sign_in_button">Увайсці</string>
+    <string name="auth_sign_up_button">Стварыць уліковы запіс</string>
+    <string name="account_auth_success">Уваход выкананы паспяхова.</string>
 </resources>

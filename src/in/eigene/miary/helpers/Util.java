@@ -32,4 +32,8 @@ public class Util {
             return null;
         }
     }
+
+    public static boolean isNullOrEmpty(final String string) {
+        return (string == null) || string.isEmpty();
+    }
 }

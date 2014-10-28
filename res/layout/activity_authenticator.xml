@@ -50,8 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             style="@android:style/TextAppearance.Large"
-            android:hint="Email"
+            android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
+            android:singleLine="true"
             />
     <EditText
             android:id="@+id/auth_password_edit_text"
@@ -60,20 +61,21 @@
             android:layout_margin="8dp"
             style="@android:style/TextAppearance.Large"
             android:inputType="textPassword"
-            android:hint="Password"
+            android:hint="@string/password_hint"
+            android:singleLine="true"
     />
     <Button
             android:id="@+id/auth_sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Sign In"
+            android:text="@string/auth_sign_in_button"
     />
     <Button
             android:id="@+id/auth_sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Sign Up"
+            android:text="@string/auth_sign_up_button"
     />
 </LinearLayout>

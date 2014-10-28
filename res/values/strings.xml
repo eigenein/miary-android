@@ -104,4 +104,12 @@
     <string name="drawer_sign_in">Sign In</string>
     <string name="drawer_basic_account">Basic account</string>
     <string name="activity_authenticator">Sign In</string>
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="toast_email_required">Email is required.</string>
+    <string name="toast_password_required">Password is required.</string>
+    <string name="account_auth_failed">Authentication failed.</string>
+    <string name="auth_sign_in_button">Sign In</string>
+    <string name="auth_sign_up_button">Sign Up</string>
+    <string name="account_auth_success">Successfully signed in.</string>
 </resources>

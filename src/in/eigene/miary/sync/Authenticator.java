@@ -7,6 +7,8 @@ import in.eigene.miary.activities.*;
 
 public class Authenticator extends AbstractAccountAuthenticator {
 
+    private static final String LOG_TAG = Authenticator.class.getSimpleName();
+
     private final Context context;
 
     public Authenticator(final Context context) {
