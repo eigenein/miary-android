@@ -217,8 +217,10 @@ public class FeedFragment
      * Checks if feed is empty and switches views.
      */
     private void switchViews() {
-        final boolean isEmpty = getAdapter().getNotes().isEmpty();
-        feedEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-        feedListView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        if (isAdded()) {
+            final boolean isEmpty = getAdapter().getNotes().isEmpty();
+            feedEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+            feedListView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        }
     }
 }
