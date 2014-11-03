@@ -25,7 +25,7 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
         setContentView(R.layout.activity_feed);
 
-        findViewById(R.id.account_layout).setOnClickListener(new FeedActivity.AccountClickListener());
+        // TODO: findViewById(R.id.account_layout).setOnClickListener(new FeedActivity.AccountClickListener());
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
