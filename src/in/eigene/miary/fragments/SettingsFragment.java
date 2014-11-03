@@ -167,6 +167,10 @@ public class SettingsFragment extends PreferenceFragment {
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (data == null) {
+            // Cancelled.
+            return;
+        }
         switch (requestCode) {
             case RESULT_CODE_RESTORE_JSON:
                 final Uri uri = data.getData();
