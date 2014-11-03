@@ -24,6 +24,8 @@
             android:background="@color/background_holo_light"
             android:clickable="true"
     >
+        <!--
+        TODO: future features.
         <LinearLayout
                 android:id="@+id/account_layout"
                 android:layout_width="match_parent"
@@ -61,6 +63,7 @@
                 />
             </LinearLayout>
         </LinearLayout>
+        -->
 
         <include android:id="@+id/drawer_item_feed" layout="@layout/drawer_item"/>
         <include android:id="@+id/drawer_item_starred" layout="@layout/drawer_item"/>
