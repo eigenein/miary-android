@@ -38,12 +38,6 @@ public abstract class BaseActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        checkPassCodeProtection();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         checkPassCodeProtection();

@@ -3,6 +3,7 @@ package in.eigene.miary.core.backup.storages;
 import android.annotation.*;
 import android.app.*;
 import android.content.*;
+import android.net.*;
 import android.os.*;
 import in.eigene.miary.core.backup.*;
 import in.eigene.miary.exceptions.*;
@@ -71,15 +72,18 @@ public class ExternalStorage extends Storage {
 
     public class Input extends Storage.Input {
 
-        private final File file;
+        private final Context context;
 
-        public Input(final File file) {
-            this.file = file;
+        private final Uri uri;
+
+        public Input(final Context context, final Uri uri) {
+            this.context = context;
+            this.uri = uri;
         }
 
         @Override
         public InputStream getInputStream() throws IOException {
-            return new FileInputStream(file);
+            return context.getContentResolver().openInputStream(uri);
         }
     }
 }

@@ -2,14 +2,16 @@ package in.eigene.miary.fragments;
 
 import android.app.*;
 import android.content.*;
+import android.net.*;
 import android.os.*;
 import android.preference.*;
 import android.text.*;
 import android.text.format.DateFormat;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.parse.*;
-import in.eigene.miary.R;
+import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.backup.inputs.*;
 import in.eigene.miary.core.backup.outputs.*;
@@ -18,11 +20,12 @@ import in.eigene.miary.core.backup.tasks.*;
 import in.eigene.miary.core.managers.*;
 import in.eigene.miary.fragments.dialogs.*;
 
-import java.io.*;
 import java.text.*;
 import java.util.*;
 
 public class SettingsFragment extends PreferenceFragment {
+
+    private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
 
     private static final int RESULT_CODE_RESTORE_JSON = 1;
 
@@ -164,10 +167,16 @@ public class SettingsFragment extends PreferenceFragment {
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (data == null) {
+            // Cancelled.
+            return;
+        }
         switch (requestCode) {
             case RESULT_CODE_RESTORE_JSON:
-                final File file = new File(data.getData().getPath());
-                new RestoreAsyncTask(getActivity(), new ExternalStorage().new Input(file), new JsonRestoreInput.Factory()).execute();
+                final Uri uri = data.getData();
+                Log.i(LOG_TAG, "Activity result URI: " + uri);
+                Log.i(LOG_TAG, "Path: " + uri.getPath());
+                new RestoreAsyncTask(getActivity(), new ExternalStorage().new Input(getActivity(), uri), new JsonRestoreInput.Factory()).execute();
                 break;
         }
     }
