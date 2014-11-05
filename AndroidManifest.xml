@@ -4,7 +4,7 @@
           android:versionCode="17"
           android:versionName="0.5"
 >
-    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19"/>
+    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="21"/>
 
     <!-- Parse SDK. -->
     <uses-permission android:name="android.permission.INTERNET"/>
