@@ -94,4 +94,5 @@
     <string name="auth_sign_in_button">Войти</string>
     <string name="auth_sign_up_button">Создать учетную запись</string>
     <string name="account_auth_success">Вход выполнен успешно.</string>
+    <string name="note_share">Поделиться</string>
 </resources>

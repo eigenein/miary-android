@@ -94,4 +94,5 @@
     <string name="auth_sign_in_button">Увайсці</string>
     <string name="auth_sign_up_button">Стварыць уліковы запіс</string>
     <string name="account_auth_success">Уваход выкананы паспяхова.</string>
+    <string name="note_share">Падзяліцца</string>
 </resources>

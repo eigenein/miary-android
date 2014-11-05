@@ -1,6 +1,7 @@
 package in.eigene.miary.fragments;
 
 import android.app.*;
+import android.content.*;
 import android.os.*;
 import android.preference.*;
 import android.text.*;
@@ -8,7 +9,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.parse.*;
-import in.eigene.miary.R;
+import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.base.*;
@@ -35,6 +36,8 @@ public class NoteFragment extends BaseFragment {
     private static final String KEY_NOTE_UUID = "note_uuid";
 
     private static final long DEBOUNCE_INTERVAL = 3000L;
+
+    private static final String EXTRA_HTML_TEXT = "android.intent.extra.HTML_TEXT";
 
     private ChangedListener changedListener;
     private LeaveFullscreenListener leaveFullscreenListener;
@@ -247,6 +250,10 @@ public class NoteFragment extends BaseFragment {
                         .show(getFragmentManager());
                 return true;
 
+            case R.id.menu_item_note_share:
+                startActivity(Intent.createChooser(getShareIntent(), getString(R.string.note_share)));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -318,5 +325,24 @@ public class NoteFragment extends BaseFragment {
         final int hintColor = getResources().getColor(styleHolder.hintColorId);
         editTextTitle.setHintTextColor(hintColor);
         editTextText.setHintTextColor(hintColor);
+    }
+
+    /**
+     * Gets share intent for share action provider.
+     */
+    private Intent getShareIntent() {
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        // Set title if exists.
+        if (!Util.isNullOrEmpty(note.getTitle())) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle());
+        }
+        // Set plain text.
+        intent.putExtra(Intent.EXTRA_TEXT, String.format(
+                "%s\n\n%s",
+                note.getText().trim(),
+                "https://bitly.com/miaryapp"
+        ));
+        return intent;
     }
 }
