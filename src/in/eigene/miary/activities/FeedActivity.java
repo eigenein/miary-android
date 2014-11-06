@@ -15,8 +15,6 @@ import java.io.*;
 
 public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
-    private static final String LOG_TAG = FeedActivity.class.getSimpleName();
-
     private Drawer drawer;
 
     @Override
@@ -24,12 +22,13 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_feed);
+        initializeToolbar();
 
         // TODO: findViewById(R.id.account_layout).setOnClickListener(new FeedActivity.AccountClickListener());
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        drawer = new Drawer(this, this);
+        drawer = new Drawer(this, getToolbar(), this);
         drawer.showForFirstTime();
     }
 

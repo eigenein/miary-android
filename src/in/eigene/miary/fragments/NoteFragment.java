@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
+import android.support.v4.view.*;
 import android.text.*;
 import android.util.*;
 import android.view.*;
@@ -37,14 +38,14 @@ public class NoteFragment extends BaseFragment {
 
     private static final long DEBOUNCE_INTERVAL = 3000L;
 
-    private static final String EXTRA_HTML_TEXT = "android.intent.extra.HTML_TEXT";
-
     private ChangedListener changedListener;
     private LeaveFullscreenListener leaveFullscreenListener;
 
     private LinearLayout editLayout;
     private EditText editTextTitle;
     private EditText editTextText;
+
+    private android.support.v7.widget.ShareActionProvider shareActionProvider;
 
     private UUID noteUuid;
     private Note note;
@@ -85,6 +86,8 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.note_fragment, menu);
+        shareActionProvider = (android.support.v7.widget.ShareActionProvider)MenuItemCompat.getActionProvider(
+                menu.findItem(R.id.menu_item_note_share));
     }
 
     @Override
@@ -250,10 +253,6 @@ public class NoteFragment extends BaseFragment {
                         .show(getFragmentManager());
                 return true;
 
-            case R.id.menu_item_note_share:
-                startActivity(Intent.createChooser(getShareIntent(), getString(R.string.note_share)));
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -280,6 +279,7 @@ public class NoteFragment extends BaseFragment {
                 editTextText.setText(note.getText());
                 updateLayoutColor();
                 invalidateOptionsMenu();
+                shareActionProvider.setShareIntent(getShareIntent());
             }
         });
     }

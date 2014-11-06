@@ -46,15 +46,17 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
         // Non-distracting mode.
         fullscreen = getIntent().getBooleanExtra(EXTRA_FULLSCREEN, false);
         if (fullscreen) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
+        initializeToolbar();
 
         final NoteFragment noteFragment = (NoteFragment)getFragmentManager().findFragmentById(R.id.fragment_note);
         if (fullscreen) {
+            getSupportActionBar().hide();
             noteFragment.setOnLeaveFullscreenListener(new NoteFragment.LeaveFullscreenListener() {
                 @Override
                 public void onLeave() {

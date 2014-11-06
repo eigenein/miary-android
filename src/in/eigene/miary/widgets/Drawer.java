@@ -4,9 +4,10 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
-import android.support.v4.app.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.caches.*;
@@ -26,14 +27,14 @@ public class Drawer implements DrawerLayout.DrawerListener {
     private final DrawerCounter starredCounter;
     private final DrawerCounter draftCounter;
 
-    public Drawer(final Activity activity, final Listener listener) {
+    public Drawer(final Activity activity, final Toolbar toolbar, final Listener listener) {
         this.activity = activity;
         this.listener = listener;
 
         view = activity.findViewById(R.id.drawer);
         layout = (DrawerLayout)activity.findViewById(R.id.drawer_layout);
         layout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        toggle = new DrawerToggle(activity, layout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close, this);
+        toggle = new DrawerToggle(activity, layout, toolbar, R.string.drawer_open, R.string.drawer_close, this);
         layout.setDrawerListener(toggle);
 
         noteCounter = new DrawerCounter(
