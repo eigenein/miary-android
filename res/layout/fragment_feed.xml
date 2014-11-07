@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="@dimen/feed_item_margin"
+            android:paddingTop="64dp"
             android:divider="@null"
             android:dividerHeight="0dp"
     />
@@ -20,6 +20,7 @@
             android:orientation="vertical"
             android:visibility="gone"
             android:gravity="center"
+            android:paddingTop="?attr/actionBarSize"
     >
         <TextView
                 android:layout_height="wrap_content"

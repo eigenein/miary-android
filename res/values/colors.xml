@@ -2,6 +2,7 @@
 <resources>
     <!-- Toolbar backgrounds. -->
     <color name="toolbar_background_note">#43000000</color>
+    <color name="toolbar_background_feed">#BD0099CC</color>
     <!-- Gmail -->
     <color name="dark_gray_text_color">#ff58585b</color>
     <color name="separator_color">#ffbebebe</color>

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
 >
-    <include layout="@layout/toolbar"/>
     <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
@@ -19,7 +17,8 @@
                   android:layout_height="match_parent"
                   android:layout_marginLeft="@dimen/feed_horizontal_margin"
                   android:layout_marginRight="@dimen/feed_horizontal_margin"
-                  tools:layout="@layout/fragment_feed"/>
+                  tools:layout="@layout/fragment_feed"
+        />
         <!-- Navigation drawer. -->
         <LinearLayout
                 android:id="@+id/drawer"
@@ -29,6 +28,7 @@
                 android:layout_gravity="start"
                 android:background="@color/background_holo_light"
                 android:clickable="true"
+                android:layout_marginTop="?attr/actionBarSize"
         >
             <include android:id="@+id/drawer_item_feed" layout="@layout/drawer_item"/>
             <include android:id="@+id/drawer_item_starred" layout="@layout/drawer_item"/>
@@ -51,4 +51,5 @@
             -->
         </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
-</LinearLayout>
+    <include layout="@layout/toolbar"/>
+</RelativeLayout>

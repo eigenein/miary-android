@@ -23,6 +23,7 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
         setContentView(R.layout.activity_feed);
         initializeToolbar();
+        getToolbar().setBackgroundResource(R.color.toolbar_background_feed);
 
         // TODO: findViewById(R.id.account_layout).setOnClickListener(new FeedActivity.AccountClickListener());
 
