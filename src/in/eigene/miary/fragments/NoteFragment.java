@@ -67,6 +67,13 @@ public class NoteFragment extends BaseFragment {
         return this;
     }
 
+    /**
+     * Sets padding to zeroes.
+     */
+    public void disablePadding() {
+        editLayout.setPadding(0, 0, 0, 0);
+    }
+
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);

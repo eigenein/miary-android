@@ -54,11 +54,12 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
 
         setContentView(R.layout.activity_note);
         initializeToolbar();
-        getToolbar().setBackgroundResource(R.color.toolbar_background_note);
 
         final NoteFragment noteFragment = (NoteFragment)getFragmentManager().findFragmentById(R.id.fragment_note);
+
         if (fullscreen) {
             getSupportActionBar().hide();
+            noteFragment.disablePadding();
             noteFragment.setOnLeaveFullscreenListener(new NoteFragment.LeaveFullscreenListener() {
                 @Override
                 public void onLeave() {
@@ -93,5 +94,11 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
     @Override
     public void onNoteRemoved() {
         finish();
+    }
+
+    @Override
+    protected void initializeToolbar() {
+        super.initializeToolbar();
+        getToolbar().setBackgroundResource(R.color.toolbar_background_note);
     }
 }
