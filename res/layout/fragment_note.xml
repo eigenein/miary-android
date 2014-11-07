@@ -29,7 +29,7 @@
                 android:id="@+id/note_button_leave_fullscreen"
                 android:layout_width="@dimen/launcher_icon_size"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_return_from_full_screen"
+                android:src="@drawable/ic_fullscreen_exit_black_24dp"
                 android:background="@null"
                 android:visibility="gone"
                 android:scaleType="center"
