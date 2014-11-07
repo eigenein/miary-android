@@ -177,6 +177,7 @@ public class NoteFragment extends BaseFragment {
         menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
         menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
         menu.findItem(R.id.menu_item_note_starred).setVisible(note.isStarred());
+        shareActionProvider.setShareIntent(getShareIntent());
     }
 
     @Override
@@ -279,7 +280,6 @@ public class NoteFragment extends BaseFragment {
                 editTextText.setText(note.getText());
                 updateLayoutColor();
                 invalidateOptionsMenu();
-                shareActionProvider.setShareIntent(getShareIntent());
             }
         });
     }
