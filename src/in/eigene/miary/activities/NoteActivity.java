@@ -43,7 +43,7 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        // Non-distracting mode.
+        // Fullscreen mode.
         fullscreen = getIntent().getBooleanExtra(EXTRA_FULLSCREEN, false);
         if (fullscreen) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -51,8 +51,10 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
         }
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_note);
         initializeToolbar();
+        getToolbar().setBackgroundResource(R.color.toolbar_background_note);
 
         final NoteFragment noteFragment = (NoteFragment)getFragmentManager().findFragmentById(R.id.fragment_note);
         if (fullscreen) {

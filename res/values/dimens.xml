@@ -10,5 +10,4 @@
     <dimen name="launcher_icon_size">48dp</dimen>
     <dimen name="navigation_drawer_width">300dp</dimen>
     <dimen name="note_edit_text_padding">8dp</dimen>
-    <dimen name="note_fragment_padding">16dp</dimen>
 </resources>
