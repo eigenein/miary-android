@@ -9,7 +9,7 @@
     <string name="dialog_replacement_table_title">Табліца замены</string>
     <string name="drawer_close">Закрыць</string>
     <string name="drawer_item_drafts">Чарнавікі</string>
-    <string name="drawer_item_feed">Стужка</string>
+    <string name="drawer_item_diary">Дзеннік</string>
     <string name="drawer_item_starred">Адзначаныя</string>
     <string name="drawer_open">Адкрыць</string>
     <string name="backup_message_creating">Стварэнне рэзервовай копіі…</string>

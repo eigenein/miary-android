@@ -9,7 +9,7 @@
             android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background_holo_light"
+            android:background="@android:color/white"
     >
         <fragment android:name="in.eigene.miary.fragments.FeedFragment"
                   android:id="@+id/fragment_feed"
@@ -23,14 +23,15 @@
         <LinearLayout
                 android:id="@+id/drawer"
                 android:orientation="vertical"
-                android:layout_width="@dimen/navigation_drawer_width"
+                android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:background="@color/background_holo_light"
                 android:clickable="true"
                 android:layout_marginTop="?attr/actionBarSize"
+                android:paddingTop="8dp"
         >
-            <include android:id="@+id/drawer_item_feed" layout="@layout/drawer_item"/>
+            <include android:id="@+id/drawer_item_diary" layout="@layout/drawer_item"/>
             <include android:id="@+id/drawer_item_starred" layout="@layout/drawer_item"/>
             <include android:id="@+id/drawer_item_drafts" layout="@layout/drawer_item"/>
 

@@ -16,6 +16,7 @@ public class DrawerCounter<Integer> implements Consumer<Integer> {
     public DrawerCounter(
             final View drawerView,
             final int itemViewId,
+            final int iconResourceId,
             final int titleResourceId,
             final Function<Consumer<Integer>, Integer> valueFunction,
             final View.OnClickListener listener
@@ -24,6 +25,7 @@ public class DrawerCounter<Integer> implements Consumer<Integer> {
 
         final View itemView = drawerView.findViewById(itemViewId);
         ((TextView)itemView.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
+        ((ImageView)itemView.findViewById(R.id.drawer_item_icon)).setImageResource(iconResourceId);
         itemView.setOnClickListener(listener);
         counterValueView = (TextView)itemView.findViewById(R.id.drawer_item_counter);
     }

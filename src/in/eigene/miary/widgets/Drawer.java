@@ -11,8 +11,9 @@ import android.support.v7.widget.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.caches.*;
+import in.eigene.miary.helpers.*;
 
-public class Drawer implements DrawerLayout.DrawerListener {
+public class Drawer extends DrawerListener {
 
     private final Activity activity;
     private final Listener listener;
@@ -38,22 +39,31 @@ public class Drawer implements DrawerLayout.DrawerListener {
         layout.setDrawerListener(toggle);
 
         noteCounter = new DrawerCounter(
-                view, R.id.drawer_item_feed, R.string.drawer_item_feed, CounterCache.NOTE_COUNTER, new OnClickListener(false, false));
+                view,
+                R.id.drawer_item_diary,
+                R.drawable.ic_inbox_grey600_24dp,
+                R.string.drawer_item_diary,
+                CounterCache.NOTE_COUNTER,
+                new OnClickListener(false, false)
+        );
         starredCounter = new DrawerCounter(
-                view, R.id.drawer_item_starred, R.string.drawer_item_starred, CounterCache.STARRED_COUNTER, new OnClickListener(true, false));
+                view,
+                R.id.drawer_item_starred,
+                R.drawable.ic_star_grey600_24dp,
+                R.string.drawer_item_starred,
+                CounterCache.STARRED_COUNTER,
+                new OnClickListener(true, false)
+        );
         draftCounter = new DrawerCounter(
-                view, R.id.drawer_item_drafts, R.string.drawer_item_drafts, CounterCache.DRAFT_COUNTER, new OnClickListener(false, true));
+                view,
+                R.id.drawer_item_drafts,
+                R.drawable.ic_drafts_grey600_24dp,
+                R.string.drawer_item_drafts,
+                CounterCache.DRAFT_COUNTER,
+                new OnClickListener(false, true)
+        );
 
         refreshCounters();
-    }
-
-    public ActionBarDrawerToggle getToggle() {
-        return toggle;
-    }
-
-    @Override
-    public void onDrawerSlide(final View view, final float v) {
-        // Do nothing.
     }
 
     @Override
@@ -61,14 +71,8 @@ public class Drawer implements DrawerLayout.DrawerListener {
         refreshCounters();
     }
 
-    @Override
-    public void onDrawerClosed(final View view) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onDrawerStateChanged(final int i) {
-        // Do nothing.
+    public ActionBarDrawerToggle getToggle() {
+        return toggle;
     }
 
     /**
@@ -97,11 +101,17 @@ public class Drawer implements DrawerLayout.DrawerListener {
         draftCounter.refresh();
     }
 
+    /**
+     * Listens for feed mode changes.
+     */
     public interface Listener {
 
         public void onFeedModeChanged(final boolean starredOnly, final boolean drafts);
     }
 
+    /**
+     * Listens for clicks on feed mode change.
+     */
     private class OnClickListener implements View.OnClickListener {
 
         private final boolean starredOnly;
