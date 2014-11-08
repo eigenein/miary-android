@@ -5,6 +5,7 @@ import android.content.*;
 import android.os.*;
 import android.preference.*;
 import android.support.v4.view.*;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.*;
 import android.util.*;
 import android.view.*;
@@ -181,8 +182,10 @@ public class NoteFragment extends BaseFragment {
         menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
         menu.findItem(R.id.menu_item_note_starred).setVisible(note.isStarred());
 
-        ((android.support.v7.widget.ShareActionProvider)MenuItemCompat.getActionProvider(menu.findItem(R.id.menu_item_note_share)))
-                .setShareIntent(getShareIntent());
+        // Work around NPE.
+        final android.support.v7.widget.ShareActionProvider actionProvider = new ShareActionProvider(getActivity());
+        actionProvider.setShareIntent(getShareIntent());
+        MenuItemCompat.setActionProvider(menu.findItem(R.id.menu_item_note_share), actionProvider);
     }
 
     @Override

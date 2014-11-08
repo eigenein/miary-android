@@ -27,7 +27,6 @@
             android:id="@+id/menu_item_note_share"
             android:title="@string/note_share"
             app:showAsAction="ifRoom"
-            app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
     />
     <item
             android:id="@+id/menu_item_note_draft"
