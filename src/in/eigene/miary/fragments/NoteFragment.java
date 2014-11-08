@@ -45,8 +45,6 @@ public class NoteFragment extends BaseFragment {
     private EditText editTextTitle;
     private EditText editTextText;
 
-    private android.support.v7.widget.ShareActionProvider shareActionProvider;
-
     private UUID noteUuid;
     private Note note;
 
@@ -93,8 +91,6 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.note_fragment, menu);
-        shareActionProvider = (android.support.v7.widget.ShareActionProvider)MenuItemCompat.getActionProvider(
-                menu.findItem(R.id.menu_item_note_share));
     }
 
     @Override
@@ -184,7 +180,9 @@ public class NoteFragment extends BaseFragment {
         menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
         menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
         menu.findItem(R.id.menu_item_note_starred).setVisible(note.isStarred());
-        shareActionProvider.setShareIntent(getShareIntent());
+
+        ((android.support.v7.widget.ShareActionProvider)MenuItemCompat.getActionProvider(menu.findItem(R.id.menu_item_note_share)))
+                .setShareIntent(getShareIntent());
     }
 
     @Override
