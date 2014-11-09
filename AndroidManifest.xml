@@ -48,10 +48,12 @@
                 android:name="in.eigene.miary.activities.PinActivity"
                 android:label="@string/activity_pin"
                 android:windowSoftInputMode="stateAlwaysVisible"
+                android:theme="@style/Miary.Theme.Fullscreen"
         />
         <activity
                 android:name=".activities.AuthenticatorActivity"
                 android:label="@string/activity_authenticator"
+                android:theme="@style/Miary.Theme.Fullscreen"
         />
 
         <!-- Dropbox Android Core SDK. -->
