@@ -3,6 +3,7 @@ package in.eigene.miary.activities;
 import android.accounts.*;
 import android.accounts.OperationCanceledException;
 import android.content.res.*;
+import android.graphics.*;
 import android.os.*;
 import android.preference.*;
 import android.view.*;
@@ -58,6 +59,17 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     @Override
     public void onFeedModeChanged(boolean starredOnly, boolean drafts) {
         getFeedFragment().setDrafts(drafts).setStarredOnly(starredOnly).refresh(false);
+    }
+
+    private void initializeFloatingActionButton() {
+        final View fabView = findViewById(R.id.fab_button);
+        fabView.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(final View view, final Outline outline) {
+                outline.setOval(0, 0, fabView.getWidth(), fabView.getHeight());
+            }
+        });
+        fabView.setClipToOutline(true);
     }
 
     /**
