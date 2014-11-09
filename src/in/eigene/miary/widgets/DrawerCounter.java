@@ -8,7 +8,7 @@ import in.eigene.miary.helpers.lang.*;
 /**
  * Represents counter in the navigation drawer.
  */
-public class DrawerCounter<Integer> implements Consumer<Integer> {
+public class DrawerCounter<Integer> extends DrawerItem implements Consumer<Integer> {
 
     final private Function<Consumer<Integer>, Integer> valueFunction;
     final private TextView counterValueView;
@@ -18,15 +18,12 @@ public class DrawerCounter<Integer> implements Consumer<Integer> {
             final int itemViewId,
             final int iconResourceId,
             final int titleResourceId,
-            final Function<Consumer<Integer>, Integer> valueFunction,
-            final View.OnClickListener listener
+            final View.OnClickListener listener,
+            final Function<Consumer<Integer>, Integer> valueFunction
     ) {
-        this.valueFunction = valueFunction;
+        super(drawerView, itemViewId, iconResourceId, titleResourceId, listener);
 
-        final View itemView = drawerView.findViewById(itemViewId);
-        ((TextView)itemView.findViewById(R.id.drawer_item_title)).setText(titleResourceId);
-        ((ImageView)itemView.findViewById(R.id.drawer_item_icon)).setImageResource(iconResourceId);
-        itemView.setOnClickListener(listener);
+        this.valueFunction = valueFunction;
         counterValueView = (TextView)itemView.findViewById(R.id.drawer_item_counter);
     }
 

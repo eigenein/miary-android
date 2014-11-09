@@ -10,6 +10,7 @@ import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import in.eigene.miary.*;
+import in.eigene.miary.activities.*;
 import in.eigene.miary.core.caches.*;
 import in.eigene.miary.helpers.*;
 
@@ -43,25 +44,32 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_diary,
                 R.drawable.ic_inbox_grey600_24dp,
                 R.string.drawer_item_diary,
-                CounterCache.NOTE_COUNTER,
-                new OnClickListener(false, false)
+                new OnClickListener(false, false),
+                CounterCache.NOTE_COUNTER
         );
         starredCounter = new DrawerCounter(
                 view,
                 R.id.drawer_item_starred,
                 R.drawable.ic_star_grey600_24dp,
                 R.string.drawer_item_starred,
-                CounterCache.STARRED_COUNTER,
-                new OnClickListener(true, false)
+                new OnClickListener(true, false),
+                CounterCache.STARRED_COUNTER
         );
         draftCounter = new DrawerCounter(
                 view,
                 R.id.drawer_item_drafts,
                 R.drawable.ic_drafts_grey600_24dp,
                 R.string.drawer_item_drafts,
-                CounterCache.DRAFT_COUNTER,
-                new OnClickListener(false, true)
+                new OnClickListener(false, true),
+                CounterCache.DRAFT_COUNTER
         );
+        new DrawerItem(view, R.id.drawer_item_settings, R.drawable.ic_settings_grey600_24dp, R.string.settings,
+                new RunnableClickListener(new Runnable() {
+                    @Override
+                    public void run() {
+                        SettingsActivity.start(activity);
+                    }
+                }));
 
         refreshCounters();
     }
@@ -102,6 +110,13 @@ public class Drawer extends DrawerListener {
     }
 
     /**
+     * Closes drawer.
+     */
+    private void close() {
+        layout.closeDrawer(view);
+    }
+
+    /**
      * Listens for feed mode changes.
      */
     public interface Listener {
@@ -125,7 +140,22 @@ public class Drawer extends DrawerListener {
         @Override
         public void onClick(final View view) {
             listener.onFeedModeChanged(starredOnly, drafts);
-            layout.closeDrawer(Drawer.this.view);
+            close();
+        }
+    }
+
+    private class RunnableClickListener implements View.OnClickListener {
+
+        private final Runnable runnable;
+
+        public RunnableClickListener(final Runnable runnable) {
+            this.runnable = runnable;
+        }
+
+        @Override
+        public void onClick(final View view) {
+            new Handler().postDelayed(runnable, 500L);
+            close();
         }
     }
 }
