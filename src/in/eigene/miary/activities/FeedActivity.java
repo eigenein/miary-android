@@ -3,11 +3,13 @@ package in.eigene.miary.activities;
 import android.accounts.*;
 import android.accounts.OperationCanceledException;
 import android.content.res.*;
-import android.graphics.*;
 import android.os.*;
 import android.preference.*;
+import android.util.*;
 import android.view.*;
+import com.parse.*;
 import in.eigene.miary.*;
+import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.widgets.*;
@@ -16,19 +18,21 @@ import java.io.*;
 
 public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
+    private static final String LOG_TAG = FeedActivity.class.getName();
+
     private Drawer drawer;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Initialize view.
         setContentView(R.layout.activity_feed);
         initializeToolbar();
-
+        initializeFloatingActionButton();
         // TODO: findViewById(R.id.account_layout).setOnClickListener(new FeedActivity.AccountClickListener());
-
+        // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
+        // Initialize navigation drawer.
         drawer = new Drawer(this, getToolbar(), this);
         drawer.showForFirstTime();
     }
@@ -62,14 +66,20 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     }
 
     private void initializeFloatingActionButton() {
-        final View fabView = findViewById(R.id.fab_button);
-        fabView.setOutlineProvider(new ViewOutlineProvider() {
+        findViewById(R.id.fab_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void getOutline(final View view, final Outline outline) {
-                outline.setOval(0, 0, fabView.getWidth(), fabView.getHeight());
+            public void onClick(final View view) {
+                final Note note = Note.createNew();
+                note.pinInBackground(new SaveCallback() {
+                    @Override
+                    public void done(final ParseException e) {
+                        InternalRuntimeException.throwForException("Could not pin a new note.", e);
+                        Log.i(LOG_TAG, "Pinned new note: " + note);
+                        NoteActivity.start(FeedActivity.this, note, false);
+                    }
+                });
             }
         });
-        fabView.setClipToOutline(true);
     }
 
     /**

@@ -69,18 +69,6 @@ public class FeedFragment
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.menu_item_note_new:
-                final Note note = Note.createNew();
-                note.pinInBackground(new SaveCallback() {
-                    @Override
-                    public void done(final ParseException e) {
-                        InternalRuntimeException.throwForException("Could not pin a new note.", e);
-                        Log.i(LOG_TAG, "Pinned new note: " + note);
-                        NoteActivity.start(getActivity(), note, false);
-                    }
-                });
-                return true;
-
             case R.id.menu_item_settings:
                 SettingsActivity.start(getActivity());
                 return true;
