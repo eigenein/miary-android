@@ -13,10 +13,11 @@ public class RemoveNoteDialogFragment extends BaseDialogFragment {
         void onPositiveButtonClicked();
     }
 
-    private final Listener listener;
+    private Listener listener;
 
-    public RemoveNoteDialogFragment(final Listener listener) {
+    public RemoveNoteDialogFragment setListener(final Listener listener) {
         this.listener = listener;
+        return this;
     }
 
     @Override

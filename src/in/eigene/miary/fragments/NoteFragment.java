@@ -219,32 +219,36 @@ public class NoteFragment extends BaseFragment {
                 return true;
 
             case R.id.menu_item_note_color:
-                new ColorPickerDialogFragment(new ColorPickerDialogFragment.DialogListener() {
-                    @Override
-                    public void colorChosen(final int color) {
-                        note.setColor(color);
-                        saveNote(false);
-                        updateLayoutColor();
-                    }
-                }).show(getFragmentManager());
+                new ColorPickerDialogFragment()
+                        .setListener(new ColorPickerDialogFragment.Listener() {
+                            @Override
+                            public void colorChosen(final int color) {
+                                note.setColor(color);
+                                saveNote(false);
+                                updateLayoutColor();
+                            }
+                        })
+                        .show(getFragmentManager());
                 return true;
 
             case R.id.menu_item_note_remove:
-                new RemoveNoteDialogFragment(new RemoveNoteDialogFragment.Listener() {
-                    @Override
-                    public void onPositiveButtonClicked() {
-                        note.unpinInBackground(new DeleteCallback() {
+                new RemoveNoteDialogFragment()
+                        .setListener(new RemoveNoteDialogFragment.Listener() {
                             @Override
-                            public void done(final ParseException e) {
-                                InternalRuntimeException.throwForException("Could not unpin note.", e);
+                            public void onPositiveButtonClicked() {
+                                note.unpinInBackground(new DeleteCallback() {
+                                    @Override
+                                    public void done(final ParseException e) {
+                                        InternalRuntimeException.throwForException("Could not unpin note.", e);
+                                        note = null;
+                                        Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
+                                        changedListener.onNoteRemoved();
+                                    }
+                                });
                                 note = null;
-                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
-                                changedListener.onNoteRemoved();
                             }
-                        });
-                        note = null;
-                    }
-                }).show(getFragmentManager());
+                        })
+                        .show(getFragmentManager());
                 return true;
 
             case R.id.menu_item_note_custom_date:

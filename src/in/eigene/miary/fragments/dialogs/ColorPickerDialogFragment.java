@@ -10,7 +10,7 @@ import in.eigene.miary.fragments.base.*;
 
 public class ColorPickerDialogFragment extends BaseDialogFragment {
 
-    public interface DialogListener {
+    public interface Listener {
 
         public void colorChosen(final int color);
     }
@@ -28,10 +28,11 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
         VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.COLOR_VIOLET);
     }
 
-    private final DialogListener dialogListener;
+    private Listener listener;
 
-    public ColorPickerDialogFragment(final DialogListener dialogListener) {
-        this.dialogListener = dialogListener;
+    public ColorPickerDialogFragment setListener(final Listener listener) {
+        this.listener = listener;
+        return this;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                dialogListener.colorChosen(VIEW_ID_TO_COLOR.get(view.getId()));
+                ColorPickerDialogFragment.this.listener.colorChosen(VIEW_ID_TO_COLOR.get(view.getId()));
                 dismiss();
             }
         };
