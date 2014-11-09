@@ -4,61 +4,38 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
+        android:gravity="center"
 >
-    <LinearLayout
-            android:layout_width="match_parent"
+    <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_weight="1"
-    >
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"
-                android:layout_margin="8dp"
-        />
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-        >
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    style="@android:style/TextAppearance.Large"
-                    android:textStyle="bold"
-            />
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_subname"
-            />
-        </LinearLayout>
-    </LinearLayout>
+            android:src="@drawable/ic_launcher"
+            android:layout_marginBottom="8dp"
+    />
     <TextView
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Signing in allows you to use additional functionality such as passcode resetting. There will be more additional abilities for signed in users in future updates."
+            android:layout_width="wrap_content"
+            android:text="@string/app_name"
+            style="@android:style/TextAppearance.Large"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/modal_image_margin"
     />
     <EditText
             android:id="@+id/auth_email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            style="@android:style/TextAppearance.Large"
+            android:layout_marginBottom="8dp"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
             android:singleLine="true"
-            />
+    />
     <EditText
             android:id="@+id/auth_password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            style="@android:style/TextAppearance.Large"
+            android:layout_marginBottom="8dp"
             android:inputType="textPassword"
             android:hint="@string/password_hint"
             android:singleLine="true"
@@ -67,14 +44,13 @@
             android:id="@+id/auth_sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/auth_sign_in_button"
     />
     <Button
             android:id="@+id/auth_sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:text="@string/auth_sign_up_button"
     />
 </LinearLayout>

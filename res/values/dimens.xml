@@ -9,5 +9,5 @@
     <dimen name="feed_item_separator_height">16dp</dimen>
     <dimen name="launcher_icon_size">48dp</dimen>
     <dimen name="note_edit_text_padding">8dp</dimen>
-    <dimen name="pin_margin">60dp</dimen>
+    <dimen name="modal_image_margin">40dp</dimen>
 </resources>
