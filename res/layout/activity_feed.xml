@@ -22,6 +22,7 @@
                       android:layout_marginRight="@dimen/feed_horizontal_margin"
                       tools:layout="@layout/fragment_feed"
             />
+            <include layout="@layout/toolbar"/>
             <ImageButton
                     android:id="@+id/fab_button"
                     android:layout_width="58dp"
@@ -45,7 +46,6 @@
                 android:layout_gravity="start"
                 android:background="@android:color/white"
                 android:clickable="true"
-                android:layout_marginTop="?attr/actionBarSize"
                 android:paddingTop="8dp"
         >
             <include android:id="@+id/drawer_item_diary" layout="@layout/drawer_item"/>
@@ -53,5 +53,4 @@
             <include android:id="@+id/drawer_item_drafts" layout="@layout/drawer_item"/>
         </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
-    <include layout="@layout/toolbar"/>
 </RelativeLayout>
