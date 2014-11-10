@@ -9,6 +9,7 @@ import android.util.*;
 import android.view.*;
 import com.parse.*;
 import in.eigene.miary.*;
+import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
@@ -61,8 +62,8 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     }
 
     @Override
-    public void onFeedModeChanged(boolean starredOnly, boolean drafts) {
-        getFeedFragment().setDrafts(drafts).setStarredOnly(starredOnly).refresh(false);
+    public void onFeedModeChanged(final FeedAdapter.Mode feedMode) {
+        getFeedFragment().getFeedAdapter().setMode(feedMode).refresh();
     }
 
     private void initializeFloatingActionButton() {
