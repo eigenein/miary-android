@@ -93,9 +93,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public ViewHolder(final View view) {
             super(view);
 
+            final Context context = view.getContext();
+
             layout = (LinearLayout)view.findViewById(R.id.feed_item_layout);
             title = (TextView)view.findViewById(R.id.feed_item_title);
+            title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_BOLD));
             text = (TextView)view.findViewById(R.id.feed_item_text);
+            text.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_REGULAR));
             creationDate = (TextView)view.findViewById(R.id.feed_item_creation_date);
             view.setOnClickListener(this);
         }
