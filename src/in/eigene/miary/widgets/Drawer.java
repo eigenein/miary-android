@@ -11,6 +11,7 @@ import android.support.v7.widget.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
+import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.caches.*;
 import in.eigene.miary.helpers.*;
 
@@ -44,7 +45,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_diary,
                 R.drawable.ic_inbox_grey600_24dp,
                 R.string.drawer_item_diary,
-                new OnClickListener(false, false),
+                new OnClickListener(FeedAdapter.Mode.DIARY),
                 CounterCache.NOTE_COUNTER
         );
         starredCounter = new DrawerCounter(
@@ -52,7 +53,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_starred,
                 R.drawable.ic_star_grey600_24dp,
                 R.string.drawer_item_starred,
-                new OnClickListener(true, false),
+                new OnClickListener(FeedAdapter.Mode.STARRED),
                 CounterCache.STARRED_COUNTER
         );
         draftCounter = new DrawerCounter(
@@ -60,7 +61,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_drafts,
                 R.drawable.ic_drafts_grey600_24dp,
                 R.string.drawer_item_drafts,
-                new OnClickListener(false, true),
+                new OnClickListener(FeedAdapter.Mode.DRAFTS),
                 CounterCache.DRAFT_COUNTER
         );
         new DrawerItem(view, R.id.drawer_item_settings, R.drawable.ic_settings_grey600_24dp, R.string.settings,
@@ -121,7 +122,7 @@ public class Drawer extends DrawerListener {
      */
     public interface Listener {
 
-        public void onFeedModeChanged(final boolean starredOnly, final boolean drafts);
+        public void onFeedModeChanged(final FeedAdapter.Mode mode);
     }
 
     /**
@@ -129,17 +130,15 @@ public class Drawer extends DrawerListener {
      */
     private class OnClickListener implements View.OnClickListener {
 
-        private final boolean starredOnly;
-        private final boolean drafts;
+        private final FeedAdapter.Mode feedMode;
 
-        public OnClickListener(final boolean starredOnly, final boolean drafts) {
-            this.starredOnly = starredOnly;
-            this.drafts = drafts;
+        public OnClickListener(final FeedAdapter.Mode feedMode) {
+            this.feedMode = feedMode;
         }
 
         @Override
         public void onClick(final View view) {
-            listener.onFeedModeChanged(starredOnly, drafts);
+            listener.onFeedModeChanged(feedMode);
             close();
         }
     }
