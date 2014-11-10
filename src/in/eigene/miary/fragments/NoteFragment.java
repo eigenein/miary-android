@@ -20,6 +20,7 @@ import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
 import java.util.*;
+import java.util.regex.*;
 
 public class NoteFragment extends BaseFragment {
 
@@ -34,10 +35,9 @@ public class NoteFragment extends BaseFragment {
     }
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
-
     private static final String KEY_NOTE_UUID = "note_uuid";
-
     private static final long DEBOUNCE_INTERVAL = 3000L;
+    private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w\\-]+");
 
     private ChangedListener changedListener;
     private LeaveFullscreenListener leaveFullscreenListener;
@@ -321,9 +321,13 @@ public class NoteFragment extends BaseFragment {
                 InternalRuntimeException.throwForException("Could not pin note.", e);
             }
         };
-        // Save, log and track.
+        // Set hashtags and save.
         Log.i(LOG_TAG, "Save note.");
+        // TODO: final String[] hashtags = PatternHelper.findAll(HASHTAG_PATTERN, note.getText());
+        // TODO: Log.d(LOG_TAG, "Hashtags: " + TextUtils.join(", ", hashtags));
+        // TODO: note.setHashtags(hashtags);
         note.pinInBackground(callback);
+        // Update debouncer.
         lastSaveDateTime = currentDateTime;
     }
 
