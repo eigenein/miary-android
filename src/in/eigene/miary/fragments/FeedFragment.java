@@ -24,6 +24,8 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        feedAdapter = new FeedAdapter();
     }
 
     @Override
@@ -32,7 +34,6 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         feedView = (RecyclerView)view.findViewById(R.id.feed_view);
         feedView.setHasFixedSize(true); // improve performance
         feedView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        feedAdapter = new FeedAdapter();
         feedView.setAdapter(feedAdapter);
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
         return view;
