@@ -14,7 +14,7 @@
     <string name="drawer_open">Адкрыць</string>
     <string name="backup_message_creating">Стварэнне рэзервовай копіі…</string>
     <string name="backup_message_starting">Запуск…</string>
-    <string name="feed_empty">Краніце «Новая нататка», каб напісаць нататку.</string>
+    <string name="feed_empty">Напісаць нататку</string>
     <string name="note_color">Змяніць колер</string>
     <string name="note_draft">Перамясціць у чарнавікі</string>
     <string name="note_hint">Тэкст</string>

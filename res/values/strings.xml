@@ -15,7 +15,7 @@
     <string name="drawer_open">Open</string>
     <string name="backup_message_creating">Creating backup…</string>
     <string name="backup_message_starting">Starting…</string>
-    <string name="feed_empty">No notes here yet.\nTap «New note» to write a note.</string>
+    <string name="feed_empty">Write a note</string>
     <string name="note_color">Change color</string>
     <string name="note_draft">Mark as a draft</string>
     <string name="note_hint">Text</string>

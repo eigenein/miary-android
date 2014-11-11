@@ -5,14 +5,12 @@ import android.accounts.OperationCanceledException;
 import android.content.res.*;
 import android.os.*;
 import android.preference.*;
-import android.util.*;
 import android.view.*;
-import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
-import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
+import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
 
 import java.io.*;
@@ -69,20 +67,8 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     }
 
     private void initializeFloatingActionButton() {
-        findViewById(R.id.fab_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                final Note note = Note.createNew();
-                note.pinInBackground(new SaveCallback() {
-                    @Override
-                    public void done(final ParseException e) {
-                        InternalRuntimeException.throwForException("Could not pin a new note.", e);
-                        Log.i(LOG_TAG, "Pinned new note: " + note);
-                        NoteActivity.start(FeedActivity.this, note, false);
-                    }
-                });
-            }
-        });
+        findViewById(R.id.fab_button).setOnClickListener(new NewNoteClickListener(
+                getFeedFragment().getFeedAdapter()));
     }
 
     /**

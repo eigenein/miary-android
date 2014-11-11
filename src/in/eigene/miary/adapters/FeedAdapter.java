@@ -42,6 +42,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return noteCount;
     }
 
+    public Mode getMode() {
+        return mode;
+    }
+
     public FeedAdapter setMode(final Mode mode) {
         this.mode = mode;
         return this;

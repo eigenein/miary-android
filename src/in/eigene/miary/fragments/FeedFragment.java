@@ -7,6 +7,7 @@ import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.fragments.base.*;
+import in.eigene.miary.helpers.*;
 
 public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
 
@@ -36,6 +37,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         feedView.setLayoutManager(new LinearLayoutManager(getActivity()));
         feedView.setAdapter(feedAdapter);
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
+        feedEmptyView.setOnClickListener(new NewNoteClickListener(getFeedAdapter()));
         return view;
     }
 
