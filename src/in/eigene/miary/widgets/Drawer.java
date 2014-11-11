@@ -45,7 +45,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_diary,
                 R.drawable.ic_inbox_grey600_24dp,
                 R.string.drawer_item_diary,
-                new OnClickListener(FeedAdapter.Mode.DIARY),
+                new FeedModeChangedClickListener(FeedAdapter.Mode.DIARY),
                 CounterCache.NOTE_COUNTER
         );
         starredCounter = new DrawerCounter(
@@ -53,7 +53,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_starred,
                 R.drawable.ic_star_grey600_24dp,
                 R.string.drawer_item_starred,
-                new OnClickListener(FeedAdapter.Mode.STARRED),
+                new FeedModeChangedClickListener(FeedAdapter.Mode.STARRED),
                 CounterCache.STARRED_COUNTER
         );
         draftCounter = new DrawerCounter(
@@ -61,7 +61,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_drafts,
                 R.drawable.ic_drafts_grey600_24dp,
                 R.string.drawer_item_drafts,
-                new OnClickListener(FeedAdapter.Mode.DRAFTS),
+                new FeedModeChangedClickListener(FeedAdapter.Mode.DRAFTS),
                 CounterCache.DRAFT_COUNTER
         );
         new DrawerItem(view, R.id.drawer_item_settings, R.drawable.ic_settings_grey600_24dp, R.string.settings,
@@ -126,23 +126,8 @@ public class Drawer extends DrawerListener {
     }
 
     /**
-     * Listens for clicks on feed mode change.
+     * Listen for clicks on a drawer item.
      */
-    private class OnClickListener implements View.OnClickListener {
-
-        private final FeedAdapter.Mode feedMode;
-
-        public OnClickListener(final FeedAdapter.Mode feedMode) {
-            this.feedMode = feedMode;
-        }
-
-        @Override
-        public void onClick(final View view) {
-            listener.onFeedModeChanged(feedMode);
-            close();
-        }
-    }
-
     private class RunnableClickListener implements View.OnClickListener {
 
         private final Runnable runnable;
@@ -155,6 +140,21 @@ public class Drawer extends DrawerListener {
         public void onClick(final View view) {
             new Handler().postDelayed(runnable, 500L);
             close();
+        }
+    }
+
+    /**
+     * Listens for clicks on feed mode change.
+     */
+    private class FeedModeChangedClickListener extends RunnableClickListener {
+
+        public FeedModeChangedClickListener(final FeedAdapter.Mode feedMode) {
+            super(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onFeedModeChanged(feedMode);
+                }
+            });
         }
     }
 }
