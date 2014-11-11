@@ -20,6 +20,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private static final String LOG_TAG = FeedAdapter.class.getName();
 
     private Mode mode = Mode.DIARY;
+    private SortingOrder sortingOrder = SortingOrder.DESCENDING;
+
     private int noteCount = 0;
     private List<Note> notes;
 
@@ -45,7 +47,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return this;
     }
 
-    public void refresh() {
+    public SortingOrder getSortingOrder() {
+        return sortingOrder;
+    }
+
+    public FeedAdapter swapSortingOrder() {
+        sortingOrder = sortingOrder.opposite();
+        return this;
+    }
+
+    public FeedAdapter refresh() {
         Log.d(LOG_TAG, "refresh");
 
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
@@ -61,7 +72,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 query.whereEqualTo(Note.KEY_DRAFT, true);
                 break;
         }
-        query.orderByDescending(Note.KEY_CUSTOM_DATE);
+        switch (sortingOrder) {
+            case DESCENDING:
+                query.orderByDescending(Note.KEY_CUSTOM_DATE);
+                break;
+            case ASCENDING:
+                query.orderByAscending(Note.KEY_CUSTOM_DATE);
+                break;
+        }
         query.findInBackground(new FindCallback<Note>() {
 
             @Override
@@ -73,12 +91,30 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 notifyDataSetChanged();
             }
         });
+
+        return this;
     }
 
     public static enum Mode {
         DIARY,
         STARRED,
         DRAFTS
+    }
+
+    public static enum SortingOrder {
+        ASCENDING,
+        DESCENDING;
+
+        private SortingOrder opposite;
+
+        static {
+            ASCENDING.opposite = DESCENDING;
+            DESCENDING.opposite = ASCENDING;
+        }
+
+        public SortingOrder opposite() {
+            return opposite;
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -3,6 +3,7 @@ package in.eigene.miary.fragments;
 import android.os.*;
 import android.support.v7.widget.*;
 import android.view.*;
+import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.fragments.base.*;
@@ -46,6 +47,22 @@ public class FeedFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         feedAdapter.refresh();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_feed_change_sort_order:
+                final FeedAdapter.SortingOrder order = feedAdapter.swapSortingOrder().refresh().getSortingOrder();
+                if (order == FeedAdapter.SortingOrder.DESCENDING) {
+                    Toast.makeText(getActivity(), R.string.feed_set_descending, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), R.string.feed_set_ascending, Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public FeedAdapter getFeedAdapter() {

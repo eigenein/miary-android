@@ -95,4 +95,7 @@
     <string name="auth_sign_up_button">Создать учетную запись</string>
     <string name="account_auth_success">Вход выполнен успешно.</string>
     <string name="note_share">Поделиться</string>
+    <string name="feed_change_sorting_order">Изменить порядок сортировки</string>
+    <string name="feed_set_descending">От новых к старым.</string>
+    <string name="feed_set_ascending">От старых к новым.</string>
 </resources>

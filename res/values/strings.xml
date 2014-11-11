@@ -113,4 +113,7 @@
     <string name="auth_sign_up_button">Sign Up</string>
     <string name="account_auth_success">Successfully signed in.</string>
     <string name="note_share">Share</string>
+    <string name="feed_change_sorting_order">Change sorting order</string>
+    <string name="feed_set_descending">Newest first.</string>
+    <string name="feed_set_ascending">Oldest first.</string>
 </resources>

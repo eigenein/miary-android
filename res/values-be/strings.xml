@@ -95,4 +95,7 @@
     <string name="auth_sign_up_button">Стварыць уліковы запіс</string>
     <string name="account_auth_success">Уваход выкананы паспяхова.</string>
     <string name="note_share">Падзяліцца</string>
+    <string name="feed_change_sorting_order">Змяніць парадак сартавання</string>
+    <string name="feed_set_descending">Ад новых да старых.</string>
+    <string name="feed_set_ascending">Ад старых да новых.</string>
 </resources>
