@@ -56,7 +56,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return this;
     }
 
-    public FeedAdapter refresh() {
+    public FeedAdapter refresh(final OnDataChangedListener listener) {
         Log.d(LOG_TAG, "refresh");
 
         final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
@@ -88,6 +88,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 noteCount = notes.size();
                 Log.i(LOG_TAG, "Found notes: " + noteCount);
                 FeedAdapter.this.notes = notes;
+                listener.onDataChanged();
                 notifyDataSetChanged();
             }
         });
@@ -166,5 +167,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public void onClick(final View view) {
             NoteActivity.start(itemView.getContext(), note, false);
         }
+    }
+
+    public interface OnDataChangedListener {
+
+        public void onDataChanged();
     }
 }

@@ -63,7 +63,9 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
     @Override
     public void onFeedModeChanged(final FeedAdapter.Mode feedMode) {
-        getFeedFragment().getFeedAdapter().setMode(feedMode).refresh();
+        final FeedFragment fragment = getFeedFragment();
+        fragment.getFeedAdapter().setMode(feedMode);
+        fragment.refresh();
     }
 
     private void initializeFloatingActionButton() {

@@ -8,7 +8,7 @@ import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.fragments.base.*;
 
-public class FeedFragment extends BaseFragment {
+public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
@@ -46,14 +46,14 @@ public class FeedFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        feedAdapter.refresh();
+        refresh();
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_feed_change_sort_order:
-                final FeedAdapter.SortingOrder order = feedAdapter.swapSortingOrder().refresh().getSortingOrder();
+                final FeedAdapter.SortingOrder order = feedAdapter.swapSortingOrder().refresh(this).getSortingOrder();
                 if (order == FeedAdapter.SortingOrder.DESCENDING) {
                     Toast.makeText(getActivity(), R.string.feed_set_descending, Toast.LENGTH_SHORT).show();
                 } else {
@@ -65,7 +65,23 @@ public class FeedFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDataChanged() {
+        final int count = feedAdapter.getItemCount();
+        if (count != 0) {
+            feedEmptyView.setVisibility(View.GONE);
+            feedView.setVisibility(View.VISIBLE);
+        } else {
+            feedView.setVisibility(View.GONE);
+            feedEmptyView.setVisibility(View.VISIBLE);
+        }
+    }
+
     public FeedAdapter getFeedAdapter() {
         return feedAdapter;
+    }
+
+    public void refresh() {
+        feedAdapter.refresh(this);
     }
 }
