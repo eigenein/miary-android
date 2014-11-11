@@ -192,7 +192,7 @@ public class SettingsFragment extends PreferenceFragment {
                         if (pin.length() == 4) {
                             PinManager.set(getActivity(), pin);
                             Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
-                            ParseAnalytics.trackEvent("protectionEnabled");
+                            ParseAnalytics.trackEventInBackground("protectionEnabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(false);
@@ -219,7 +219,7 @@ public class SettingsFragment extends PreferenceFragment {
                     public void onPositiveButtonClicked(final String pin) {
                         if (PinManager.check(getActivity(), pin)) {
                             Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
-                            ParseAnalytics.trackEvent("protectionDisabled");
+                            ParseAnalytics.trackEventInBackground("protectionDisabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(true);

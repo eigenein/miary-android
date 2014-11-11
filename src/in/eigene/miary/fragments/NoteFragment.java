@@ -258,7 +258,7 @@ public class NoteFragment extends BaseFragment {
                             public void onPositiveButtonClicked(final Date date) {
                                 note.setCustomDate(date);
                                 saveNote(false);
-                                ParseAnalytics.trackEvent("setCustomDate");
+                                ParseAnalytics.trackEventInBackground("setCustomDate");
                             }
                         })
                         .setCreationDate(note.getCreationDate())

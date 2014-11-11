@@ -63,7 +63,7 @@ public class Note extends ParseObject {
     }
 
     public static Note createNew() {
-        ParseAnalytics.trackEvent("createNew");
+        ParseAnalytics.trackEventInBackground("createNew");
         return new Note()
                 .setUuid(UUID.randomUUID())
                 .setCreationDate(new Date())

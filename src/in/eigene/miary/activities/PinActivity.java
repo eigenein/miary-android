@@ -41,11 +41,11 @@ public class PinActivity extends Activity {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(intent);
-                    ParseAnalytics.trackEvent("pinCorrect");
+                    ParseAnalytics.trackEventInBackground("pinCorrect");
                 } else {
                     Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                     pinEditText.setText("");
-                    ParseAnalytics.trackEvent("pinIncorrect");
+                    ParseAnalytics.trackEventInBackground("pinIncorrect");
                 }
             }
         });
