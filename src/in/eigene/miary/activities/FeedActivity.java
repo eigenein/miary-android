@@ -5,6 +5,7 @@ import android.accounts.OperationCanceledException;
 import android.content.res.*;
 import android.os.*;
 import android.preference.*;
+import android.util.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
@@ -28,7 +29,7 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
         setContentView(R.layout.activity_feed);
         initializeToolbar();
         initializeFloatingActionButton();
-        // TODO: findViewById(R.id.account_layout).setOnClickListener(new FeedActivity.AccountClickListener());
+        getFeedFragment().fixFeedViewPadding(getSupportActionBar().getThemedContext());
         // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Initialize navigation drawer.

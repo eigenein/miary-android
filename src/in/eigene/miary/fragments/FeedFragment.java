@@ -1,7 +1,9 @@
 package in.eigene.miary.fragments;
 
+import android.content.*;
 import android.os.*;
 import android.support.v7.widget.*;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
@@ -10,10 +12,6 @@ import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
 
 public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
-
-    private static final String LOG_TAG = FeedFragment.class.getSimpleName();
-
-    private static final int PAGE_SIZE = 10; // for endless scrolling
 
     private FeedAdapter feedAdapter;
 
@@ -34,7 +32,8 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         final View view = inflater.inflate(R.layout.fragment_feed, container, false);
         feedView = (RecyclerView)view.findViewById(R.id.feed_view);
         feedView.setHasFixedSize(true); // improve performance
-        feedView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        feedView.setLayoutManager(new GridLayoutManager(
+                getActivity(), getResources().getInteger(R.integer.feed_columns)));
         feedView.setAdapter(feedAdapter);
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
         feedEmptyView.setOnClickListener(new NewNoteClickListener(getFeedAdapter()));
@@ -77,6 +76,18 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         } else {
             feedView.setVisibility(View.GONE);
             feedEmptyView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Fixes feed view padding on different toolbar sizes.
+     */
+    public void fixFeedViewPadding(final Context context) {
+        final TypedValue value = new TypedValue();
+        if (context.getTheme().resolveAttribute(R.attr.actionBarSize, value, true)) {
+            final int actionBarSize = TypedValue.complexToDimensionPixelSize(value.data, context.getResources().getDisplayMetrics());
+            final int feedItemMargin = context.getResources().getDimensionPixelSize(R.dimen.feed_item_margin);
+            feedView.setPadding(0, actionBarSize + feedItemMargin, 0, 0);
         }
     }
 
