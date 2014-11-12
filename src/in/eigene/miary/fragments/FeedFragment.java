@@ -2,6 +2,7 @@ package in.eigene.miary.fragments;
 
 import android.content.*;
 import android.os.*;
+import android.preference.*;
 import android.support.v7.widget.*;
 import android.util.*;
 import android.view.*;
@@ -12,6 +13,8 @@ import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
 
 public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
+
+    private static final String FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
 
     private FeedAdapter feedAdapter;
 
@@ -25,6 +28,10 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         setHasOptionsMenu(true);
 
         feedAdapter = new FeedAdapter();
+        // Restore sorting order.
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
+                preferences.getString(FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
     }
 
     @Override
@@ -55,12 +62,17 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_feed_change_sort_order:
+                // Swap sorting order.
                 final FeedAdapter.SortingOrder order = feedAdapter.swapSortingOrder().refresh(this).getSortingOrder();
+                // Show toast.
                 if (order == FeedAdapter.SortingOrder.DESCENDING) {
                     Toast.makeText(getActivity(), R.string.feed_set_descending, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), R.string.feed_set_ascending, Toast.LENGTH_SHORT).show();
                 }
+                // Save current sorting order.
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                        .putString(FEED_SORTING_ORDER_NAME, order.name()).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

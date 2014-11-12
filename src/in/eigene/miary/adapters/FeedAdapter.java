@@ -55,6 +55,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return sortingOrder;
     }
 
+    public FeedAdapter setSortingOrder(final SortingOrder sortingOrder) {
+        this.sortingOrder = sortingOrder;
+        return this;
+    }
+
     public FeedAdapter swapSortingOrder() {
         sortingOrder = sortingOrder.opposite();
         return this;
