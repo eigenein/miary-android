@@ -220,6 +220,7 @@ public class NoteFragment extends BaseFragment {
 
             case R.id.menu_item_note_color:
                 new ColorPickerDialogFragment()
+                        .setActiveColor(note.getColor())
                         .setListener(new ColorPickerDialogFragment.Listener() {
                             @Override
                             public void colorChosen(final int color) {
