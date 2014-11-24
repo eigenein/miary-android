@@ -22,7 +22,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private Mode mode = Mode.DIARY;
     private SortingOrder sortingOrder = SortingOrder.DESCENDING;
 
-    private int noteCount = 0;
     private List<Note> notes;
 
     @Override
@@ -39,7 +38,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return noteCount;
+        return notes.size();
     }
 
     public Mode getMode() {
@@ -94,8 +93,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             @Override
             public void done(final List<Note> notes, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
-                noteCount = notes.size();
-                Log.i(LOG_TAG, "Found notes: " + noteCount);
+                Log.i(LOG_TAG, "Found notes: " + notes.size());
                 FeedAdapter.this.notes = notes;
                 listener.onDataChanged();
                 notifyDataSetChanged();
@@ -103,6 +101,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         });
 
         return this;
+    }
+
+    public void removeItem(int index) {
+        Log.i(LOG_TAG, "Remove note at position " + index);
+        notes.remove(index);
+        notifyItemRemoved(index);
     }
 
     public static enum Mode {

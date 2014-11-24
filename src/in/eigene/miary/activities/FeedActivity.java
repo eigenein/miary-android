@@ -5,7 +5,6 @@ import android.accounts.OperationCanceledException;
 import android.content.res.*;
 import android.os.*;
 import android.preference.*;
-import android.util.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;

@@ -3,6 +3,7 @@ package in.eigene.miary.fragments;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
+import android.support.v4.content.*;
 import android.support.v7.widget.*;
 import android.util.*;
 import android.view.*;
@@ -14,12 +15,25 @@ import in.eigene.miary.helpers.*;
 
 public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
 
+    public static final String NOTE_REMOVED_EVENT_NAME = "note_removed";
+
+    private static final String LOG_TAG = FeedFragment.class.getSimpleName();
+
     private static final String FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
 
     private FeedAdapter feedAdapter;
 
     private RecyclerView feedView;
     private View feedEmptyView;
+
+    private BroadcastReceiver mNoteRemovedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(LOG_TAG, "Got broadcast message to remove empty note");
+            feedAdapter.removeItem(0);
+            Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -32,6 +46,9 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
                 preferences.getString(FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mNoteRemovedReceiver,
+                new IntentFilter(NOTE_REMOVED_EVENT_NAME));
     }
 
     @Override
@@ -60,6 +77,12 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     public void onStart() {
         super.onStart();
         refresh();
+    }
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mNoteRemovedReceiver);
+        super.onDestroy();
     }
 
     @Override
