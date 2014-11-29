@@ -170,6 +170,13 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
+
+        // Check that note is not removed.
+        if (note == null) {
+            Log.i(LOG_TAG, "Not processing null note.");
+            return;
+        }
+
         if (note.getText().isEmpty()) {
             if (note.getTitle().isEmpty()) {
                 Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
