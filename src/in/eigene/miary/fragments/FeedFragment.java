@@ -30,7 +30,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(LOG_TAG, "Got broadcast message to remove empty note");
-            feedAdapter.removeItem(0);
+            feedAdapter.removeItem(FeedFragment.this, 0);
         }
     };
 

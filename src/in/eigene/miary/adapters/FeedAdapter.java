@@ -103,9 +103,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return this;
     }
 
-    public void removeItem(int index) {
+    public void removeItem(final OnDataChangedListener listener, int index) {
         Log.i(LOG_TAG, "Remove note at position " + index);
         notes.remove(index);
+        listener.onDataChanged();
         notifyItemRemoved(index);
     }
 
