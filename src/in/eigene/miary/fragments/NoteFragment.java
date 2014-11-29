@@ -177,20 +177,10 @@ public class NoteFragment extends BaseFragment {
             return;
         }
 
-        if (note.getText().isEmpty()) {
-            if (note.getTitle().isEmpty()) {
-                Toast.makeText(getActivity(), R.string.empty_note_removed, Toast.LENGTH_SHORT).show();
-                removeNote();
-                return;
-            } else {
-                if (note.isStarred()) {
-                    Toast.makeText(getActivity(), R.string.note_added_to_draft, Toast.LENGTH_SHORT).show();
-                } else if (!note.isDraft()) {
-                    Toast.makeText(getActivity(), R.string.note_moved_to_draft, Toast.LENGTH_SHORT).show();
-                    sendRemoveNoteFromFeedEvent();
-                }
-                note.setDraft(true);
-            }
+        if (note.getText().isEmpty() && note.getTitle().isEmpty()) {
+            Toast.makeText(getActivity(), R.string.empty_note_removed, Toast.LENGTH_SHORT).show();
+            removeNote();
+            return;
         }
 
         saveNote(false);
