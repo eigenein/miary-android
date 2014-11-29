@@ -26,7 +26,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     private RecyclerView feedView;
     private View feedEmptyView;
 
-    private BroadcastReceiver mNoteRemovedReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver noteRemovedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(LOG_TAG, "Got broadcast message to remove empty note");
@@ -46,7 +46,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
                 preferences.getString(FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
 
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mNoteRemovedReceiver,
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(noteRemovedReceiver,
                 new IntentFilter(NOTE_REMOVED_EVENT_NAME));
     }
 
@@ -78,7 +78,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
     @Override
     public void onDestroy() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mNoteRemovedReceiver);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(noteRemovedReceiver);
         super.onDestroy();
     }
 

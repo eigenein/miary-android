@@ -334,7 +334,7 @@ public class NoteFragment extends BaseFragment {
     }
 
     private void sendRemoveNoteFromFeedEvent() {
-        Intent intent = new Intent(FeedFragment.NOTE_REMOVED_EVENT_NAME);
+        final Intent intent = new Intent(FeedFragment.NOTE_REMOVED_EVENT_NAME);
         LocalBroadcastManager.getInstance(NoteFragment.this.getActivity()).sendBroadcast(intent);
     }
 
