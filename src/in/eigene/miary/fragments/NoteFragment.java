@@ -179,7 +179,7 @@ public class NoteFragment extends BaseFragment {
 
         if (note.getText().isEmpty()) {
             if (note.getTitle().isEmpty()) {
-                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.empty_note_removed, Toast.LENGTH_SHORT).show();
                 removeNote();
                 return;
             } else {
