@@ -39,12 +39,10 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         final View view = inflater.inflate(R.layout.fragment_feed, container, false);
         feedView = (RecyclerView)view.findViewById(R.id.feed_view);
         feedView.setHasFixedSize(true); // improve performance
-        /*
-        TODO:
-        feedView.setLayoutManager(new GridLayoutManager(
-                getActivity(), getResources().getInteger(R.integer.feed_columns)));
-        */
-        feedView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        feedView.setLayoutManager(new StaggeredGridLayoutManager(
+                getResources().getInteger(R.integer.feed_columns),
+                StaggeredGridLayoutManager.VERTICAL
+        ));
         feedView.setAdapter(feedAdapter);
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
         feedEmptyView.setOnClickListener(new NewNoteClickListener(getFeedAdapter()));
