@@ -17,6 +17,8 @@
     <string name="feed_empty">Напісаць нататку</string>
     <string name="note_color">Змяніць колер</string>
     <string name="note_draft">Перамясціць у чарнавікі</string>
+    <string name="note_moved_to_draft">Нататка перамешчаная ў Чарнавікі.</string>
+    <string name="note_added_to_draft">Нататка дададзеная ў Чарнавікі.</string>
     <string name="note_hint">Тэкст</string>
     <string name="note_new">Новая нататка</string>
     <string name="note_not_draft">Перамясціць у стужку</string>

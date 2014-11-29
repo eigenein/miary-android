@@ -31,7 +31,6 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         public void onReceive(Context context, Intent intent) {
             Log.d(LOG_TAG, "Got broadcast message to remove empty note");
             feedAdapter.removeItem(0);
-            Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
         }
     };
 

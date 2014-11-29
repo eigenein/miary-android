@@ -20,6 +20,8 @@
     <string name="note_hint">Текст</string>
     <string name="note_new">Новая заметка</string>
     <string name="note_not_draft">Переместить в ленту</string>
+    <string name="note_moved_to_draft">Заметка перемещена в Черновики.</string>
+    <string name="note_added_to_draft">Заметка добавлена в Черновики.</string>
     <string name="note_remove">Удалить заметку</string>
     <string name="note_removed">Заметка удалена.</string>
     <string name="note_star">Отметить</string>

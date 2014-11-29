@@ -172,9 +172,16 @@ public class NoteFragment extends BaseFragment {
         super.onStop();
         if (note.getText().isEmpty()) {
             if (note.getTitle().isEmpty()) {
+                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
                 removeNote();
                 return;
             } else {
+                if (note.isStarred()) {
+                    Toast.makeText(getActivity(), R.string.note_added_to_draft, Toast.LENGTH_SHORT).show();
+                } else if (!note.isDraft()) {
+                    Toast.makeText(getActivity(), R.string.note_moved_to_draft, Toast.LENGTH_SHORT).show();
+                    sendRemoveNoteFromFeedEvent();
+                }
                 note.setDraft(true);
             }
         }
@@ -313,11 +320,15 @@ public class NoteFragment extends BaseFragment {
             public void done(ParseException e) {
                 InternalRuntimeException.throwForException("Could not unpin note.", e);
                 note = null;
-                Log.d(LOG_TAG, "Broadcasting message to remove empty note");
-                Intent intent = new Intent(FeedFragment.NOTE_REMOVED_EVENT_NAME);
-                LocalBroadcastManager.getInstance(NoteFragment.this.getActivity()).sendBroadcast(intent);
+                Log.d(LOG_TAG, "Broadcasting message to remove note from feed");
+                sendRemoveNoteFromFeedEvent();
             }
         });
+    }
+
+    private void sendRemoveNoteFromFeedEvent() {
+        Intent intent = new Intent(FeedFragment.NOTE_REMOVED_EVENT_NAME);
+        LocalBroadcastManager.getInstance(NoteFragment.this.getActivity()).sendBroadcast(intent);
     }
 
 
