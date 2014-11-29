@@ -38,7 +38,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return notes != null ? notes.size() : 0;
     }
 
     public Mode getMode() {
