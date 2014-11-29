@@ -22,7 +22,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private Mode mode = Mode.DIARY;
     private SortingOrder sortingOrder = SortingOrder.DESCENDING;
 
-    private List<Note> notes;
+    private List<Note> notes = new ArrayList<Note>();
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -38,7 +38,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return notes != null ? notes.size() : 0;
+        return notes.size();
     }
 
     public Mode getMode() {
