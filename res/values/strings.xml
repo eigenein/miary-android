@@ -10,17 +10,19 @@
     <string name="dialog_replacement_table_title">Replacement Table</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_item_drafts">Drafts</string>
-    <string name="drawer_item_feed">Feed</string>
+    <string name="drawer_item_diary">Diary</string>
     <string name="drawer_item_starred">Starred</string>
     <string name="drawer_open">Open</string>
     <string name="backup_message_creating">Creating backup…</string>
     <string name="backup_message_starting">Starting…</string>
-    <string name="feed_empty">No notes here yet.\nTap «New note» to write a note.</string>
+    <string name="feed_empty">Write a note</string>
     <string name="note_color">Change color</string>
     <string name="note_draft">Mark as a draft</string>
     <string name="note_hint">Text</string>
     <string name="note_new">New note</string>
     <string name="note_not_draft">Mark as not a draft</string>
+    <string name="note_moved_to_draft">Note moved to Drafts.</string>
+    <string name="note_added_to_draft">Note added to Drafts.</string>
     <string name="note_remove">Remove note</string>
     <string name="note_removed">The note is removed.</string>
     <string name="note_star">Star</string>
@@ -112,4 +114,9 @@
     <string name="auth_sign_in_button">Sign In</string>
     <string name="auth_sign_up_button">Sign Up</string>
     <string name="account_auth_success">Successfully signed in.</string>
+    <string name="note_share">Share</string>
+    <string name="feed_change_sorting_order">Change sorting order</string>
+    <string name="feed_set_descending">Newest first.</string>
+    <string name="feed_set_ascending">Oldest first.</string>
+    <string name="empty_note_removed">Empty note is removed.</string>
 </resources>

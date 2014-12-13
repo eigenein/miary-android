@@ -19,7 +19,7 @@ public class Substitutions {
 
         @Override
         public String toString() {
-            return String.format("%s → %s", target, replacement);
+            return String.format("%s \u2192 %s", target, replacement);
         }
     }
 
@@ -29,11 +29,11 @@ public class Substitutions {
      * Replacement table.
      */
     private static final TableEntry[] TABLE = new TableEntry[] {
-            new TableEntry("--", "—"),
-            new TableEntry(" - ", " — "),
-            new TableEntry(">>", "»"),
-            new TableEntry("<<", "«"),
-            new TableEntry("...", "…")
+            new TableEntry("--", "\u2014"),
+            new TableEntry(" - ", " \u2014 "),
+            new TableEntry(">>", "\u00BB"),
+            new TableEntry("<<", "\u00AB"),
+            new TableEntry("...", "\u2026")
     };
 
     /**

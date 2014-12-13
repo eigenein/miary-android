@@ -2,6 +2,7 @@ package in.eigene.miary.activities;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.*;
 import android.os.*;
 import android.text.*;
 import android.widget.*;
@@ -28,6 +29,7 @@ public class PinActivity extends Activity {
         intent = getIntent().getParcelableExtra(EXTRA_INTENT);
 
         final EditText pinEditText = (EditText)findViewById(R.id.pin_edit_text);
+        pinEditText.setTypeface(Typeface.DEFAULT);
         pinEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
@@ -39,11 +41,11 @@ public class PinActivity extends Activity {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(intent);
-                    ParseAnalytics.trackEvent("pinCorrect");
+                    ParseAnalytics.trackEventInBackground("pinCorrect");
                 } else {
                     Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                     pinEditText.setText("");
-                    ParseAnalytics.trackEvent("pinIncorrect");
+                    ParseAnalytics.trackEventInBackground("pinIncorrect");
                 }
             }
         });

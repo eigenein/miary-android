@@ -3,6 +3,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/feed_item_margin_half"
+              android:layout_marginRight="@dimen/feed_item_margin_half"
               android:background="@color/background_holo_light"
 >
     <LinearLayout

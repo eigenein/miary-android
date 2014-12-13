@@ -7,29 +7,32 @@ import android.os.*;
 import android.preference.*;
 import android.view.*;
 import in.eigene.miary.*;
+import in.eigene.miary.adapters.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
+import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
 
 import java.io.*;
 
 public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
-    private static final String LOG_TAG = FeedActivity.class.getSimpleName();
+    private static final String LOG_TAG = FeedActivity.class.getName();
 
     private Drawer drawer;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Initialize view.
         setContentView(R.layout.activity_feed);
-
-        // TODO: findViewById(R.id.account_layout).setOnClickListener(new FeedActivity.AccountClickListener());
-
+        initializeToolbar();
+        initializeFloatingActionButton();
+        getFeedFragment().fixFeedViewPadding(getSupportActionBar().getThemedContext());
+        // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-        drawer = new Drawer(this, this);
+        // Initialize navigation drawer.
+        drawer = new Drawer(this, getToolbar(), this);
         drawer.showForFirstTime();
     }
 
@@ -51,8 +54,21 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     }
 
     @Override
-    public void onFeedModeChanged(boolean starredOnly, boolean drafts) {
-        getFeedFragment().setDrafts(drafts).setStarredOnly(starredOnly).refresh(false);
+    protected void initializeToolbar() {
+        super.initializeToolbar();
+        getToolbar().setBackgroundResource(R.color.toolbar_background_feed);
+    }
+
+    @Override
+    public void onFeedModeChanged(final FeedAdapter.Mode feedMode) {
+        final FeedFragment fragment = getFeedFragment();
+        fragment.getFeedAdapter().setMode(feedMode);
+        fragment.refresh();
+    }
+
+    private void initializeFloatingActionButton() {
+        findViewById(R.id.fab_button).setOnClickListener(new NewNoteClickListener(
+                getFeedFragment().getFeedAdapter()));
     }
 
     /**

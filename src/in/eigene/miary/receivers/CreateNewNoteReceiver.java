@@ -22,6 +22,6 @@ public class CreateNewNoteReceiver extends BroadcastReceiver {
                 NoteActivity.start(context, note, false, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_FROM_BACKGROUND);
             }
         });
-        ParseAnalytics.trackEvent("createNewFromNotification");
+        ParseAnalytics.trackEventInBackground("createNewFromNotification");
     }
 }

@@ -1,8 +1,9 @@
 package in.eigene.miary.widgets;
 
 import android.app.*;
-import android.support.v4.app.*;
 import android.support.v4.widget.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
 import android.view.*;
 
 public class DrawerToggle extends ActionBarDrawerToggle {
@@ -12,14 +13,14 @@ public class DrawerToggle extends ActionBarDrawerToggle {
     public DrawerToggle(
             final Activity activity,
             final DrawerLayout drawerLayout,
-            final int drawerImageRes,
+            final Toolbar toolbar,
             final int openDrawerContentDescRes,
             final int closeDrawerContentDescRes,
             final DrawerLayout.DrawerListener successor) {
         super(
                 activity,
                 drawerLayout,
-                drawerImageRes,
+                toolbar,
                 openDrawerContentDescRes,
                 closeDrawerContentDescRes
         );

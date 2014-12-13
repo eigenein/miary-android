@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background_holo_light_transparent">#00f3f3f3</color>
-    <color name="lighter_gray">#ddd</color>
-    <color name="darker_gray">#aaa</color>
-    <color name="hint_foreground_light">#808080</color>
+    <!-- Toolbar backgrounds. -->
+    <color name="toolbar_background_note">#43000000</color>
+    <color name="toolbar_background_feed">#BD0099CC</color>
     <!-- Gmail -->
     <color name="dark_gray_text_color">#ff58585b</color>
-    <color name="separator_color">#ffbebebe</color>
     <!-- Standard Android colors. -->
     <color name="background_holo_light">#fff3f3f3</color>
     <color name="holo_blue_light">#ff33b5e5</color>
+    <color name="holo_blue_dark">#0099CC</color>
     <!-- Standard note colors. -->
     <color name="green_light">#99CC00</color>
     <color name="green_dark">#669900</color>
@@ -23,4 +22,9 @@
     <color name="red_dark">#CC0000</color>
     <color name="yellow_light">#FFFF44</color>
     <color name="yellow_dark">#dd0</color>
+    <!-- Misc. Refactor these. -->
+    <color name="lighter_gray">#ddd</color>
+    <color name="darker_gray">#aaa</color>
+    <color name="background_holo_light_transparent">#00f3f3f3</color>
+    <color name="hint_foreground_light">#808080</color>
 </resources>

@@ -1,62 +1,67 @@
 package in.eigene.miary.fragments;
 
+import android.content.*;
 import android.os.*;
+import android.preference.*;
+import android.support.v4.content.*;
+import android.support.v7.widget.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
-import com.parse.*;
 import in.eigene.miary.*;
-import in.eigene.miary.activities.*;
 import in.eigene.miary.adapters.*;
-import in.eigene.miary.core.*;
-import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
-import in.eigene.miary.helpers.lang.*;
 
-import java.util.*;
+public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
 
-public class FeedFragment
-        extends BaseFragment
-        implements AdapterView.OnItemClickListener, EndlessScrollListener.Listener {
+    public static final String NOTE_REMOVED_EVENT_NAME = "note_removed";
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
-    private static final int PAGE_SIZE = 10; // for endless scrolling
+    private static final String FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
 
-    private boolean drafts;
-    private boolean starredOnly;
+    private FeedAdapter feedAdapter;
 
-    private ListView feedListView;
-    private EndlessScrollListener scrollListener;
-
+    private RecyclerView feedView;
     private View feedEmptyView;
 
-    public FeedFragment setDrafts(final boolean drafts) {
-        this.drafts = drafts;
-        return this;
-    }
-
-    public FeedFragment setStarredOnly(final boolean starredOnly) {
-        this.starredOnly = starredOnly;
-        return this;
-    }
+    private final BroadcastReceiver noteRemovedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(LOG_TAG, "Got broadcast message to remove empty note");
+            feedAdapter.removeItem(FeedFragment.this, 0);
+        }
+    };
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        feedAdapter = new FeedAdapter();
+        // Restore sorting order.
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
+                preferences.getString(FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(noteRemovedReceiver,
+                new IntentFilter(NOTE_REMOVED_EVENT_NAME));
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_feed, container, false);
-        feedListView = (ListView)view.findViewById(R.id.feed_list_view);
-        feedListView.setOnItemClickListener(this);
-        scrollListener = new EndlessScrollListener(FeedFragment.this);
-        feedListView.setOnScrollListener(scrollListener);
+        feedView = (RecyclerView)view.findViewById(R.id.feed_view);
+        feedView.setHasFixedSize(true); // improve performance
+        feedView.setLayoutManager(new StaggeredGridLayoutManager(
+                getResources().getInteger(R.integer.feed_columns),
+                StaggeredGridLayoutManager.VERTICAL
+        ));
+        feedView.setAdapter(feedAdapter);
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
+        feedEmptyView.setOnClickListener(new NewNoteClickListener(getFeedAdapter()));
         return view;
     }
 
@@ -66,161 +71,67 @@ public class FeedFragment
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        refresh();
+    }
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(noteRemovedReceiver);
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-
-            case R.id.menu_item_note_new:
-                final Note note = Note.createNew();
-                note.pinInBackground(new SaveCallback() {
-                    @Override
-                    public void done(final ParseException e) {
-                        InternalRuntimeException.throwForException("Could not pin a new note.", e);
-                        Log.i(LOG_TAG, "Pinned new note: " + note);
-                        NoteActivity.start(getActivity(), note, false);
-                    }
-                });
+            case R.id.menu_item_feed_change_sort_order:
+                // Swap sorting order.
+                final FeedAdapter.SortingOrder order = feedAdapter.swapSortingOrder().refresh(this).getSortingOrder();
+                // Show toast.
+                if (order == FeedAdapter.SortingOrder.DESCENDING) {
+                    Toast.makeText(getActivity(), R.string.feed_set_descending, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), R.string.feed_set_ascending, Toast.LENGTH_SHORT).show();
+                }
+                // Save current sorting order.
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                        .putString(FEED_SORTING_ORDER_NAME, order.name()).commit();
                 return true;
-
-            case R.id.menu_item_settings:
-                SettingsActivity.start(getActivity());
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        refresh(true);
-        // Check if the end of page is reached.
-        scrollListener.onScrollStateChanged(feedListView, EndlessScrollListener.SCROLL_STATE_IDLE);
-    }
-
-    @Override
-    public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-        final Note note = (Note)parent.getItemAtPosition(position);
-        NoteActivity.start(getActivity(), note, false);
-    }
-
-    @Override
-    public void onScrolledToEnd() {
-        final FeedItemsAdapter adapter = getAdapter();
-        if (adapter == null) {
-            return;
-        }
-        final Note lastNote = getLastNote(adapter);
-        if (lastNote == null) {
-            return;
-        }
-        queryFeedItems(lastNote.getCustomDate(), null, new Consumer<List<Note>>() {
-            @Override
-            public void accept(final List<Note> notes) {
-                adapter.getNotes().addAll(notes);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    /**
-     * Refreshes feed by either initializing adapter or changing data set.
-     */
-    public void refresh(final boolean reuseAdapter) {
-        Log.i(LOG_TAG, "Refresh: reuse adapter: " + reuseAdapter);
-
-        // Remember last note creation time.
-        Date lastNoteCreationDate = null;
-        final FeedItemsAdapter adapter = reuseAdapter ? getAdapter() : null;
-        if (adapter != null) {
-            final Note lastNote = getLastNote(adapter);
-            if (lastNote != null) {
-                lastNoteCreationDate = lastNote.getCustomDate();
-            }
-        }
-
-        queryFeedItems(null, lastNoteCreationDate, new Consumer<List<Note>>() {
-            @Override
-            public void accept(final List<Note> notes) {
-                if (adapter != null) {
-                    adapter.getNotes().clear();
-                    adapter.getNotes().addAll(notes);
-                    adapter.notifyDataSetChanged();
-                } else if (isAdded()) {
-                    feedListView.setAdapter(new FeedItemsAdapter(getActivity(), notes));
-                }
-                switchViews();
-            }
-        });
-    }
-
-    /**
-     * Gets feed items adapter.
-     */
-    private FeedItemsAdapter getAdapter() {
-        return (FeedItemsAdapter)feedListView.getAdapter();
-    }
-
-    /**
-     * Gets last feed item.
-     */
-    private Note getLastNote(final FeedItemsAdapter adapter) {
-        final List<Note> notes = adapter.getNotes();
-        if (notes.size() != 0) {
-            return notes.get(notes.size() - 1);
-        }
-        return null;
-    }
-
-    /**
-     * Queries feed items.
-     */
-    private void queryFeedItems(
-            final Date fromCreationDate,
-            final Date toCreationDate,
-            final Consumer<List<Note>> action) {
-        Log.i(LOG_TAG, "Querying notes from " + fromCreationDate + " to " + toCreationDate);
-        // Initialize query.
-        final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
-        query.fromLocalDatastore();
-        // Paging.
-        if (fromCreationDate != null) {
-            query.whereLessThan(Note.KEY_CUSTOM_DATE, fromCreationDate);
-        }
-        // Limiting.
-        if (toCreationDate == null) {
-            query.setLimit(PAGE_SIZE);
+    public void onDataChanged() {
+        final int count = feedAdapter.getItemCount();
+        if (count != 0) {
+            feedEmptyView.setVisibility(View.GONE);
+            feedView.setVisibility(View.VISIBLE);
         } else {
-            query.whereGreaterThanOrEqualTo(Note.KEY_CUSTOM_DATE, toCreationDate);
+            feedView.setVisibility(View.GONE);
+            feedEmptyView.setVisibility(View.VISIBLE);
         }
-        // Drafts and Starred.
-        if (starredOnly) {
-            query.whereEqualTo(Note.KEY_STARRED, true);
-        } else {
-            query.whereEqualTo(Note.KEY_DRAFT, drafts);
-        }
-        // Ordering.
-        query.orderByDescending(Note.KEY_CUSTOM_DATE);
-
-        query.findInBackground(new FindCallback<Note>() {
-
-            @Override
-            public void done(final List<Note> notes, final ParseException e) {
-                InternalRuntimeException.throwForException("Failed to find notes.", e);
-                Log.i(LOG_TAG, "Found notes: " + notes.size());
-                action.accept(notes);
-            }
-        });
     }
 
     /**
-     * Checks if feed is empty and switches views.
+     * Fixes feed view padding on different toolbar sizes.
      */
-    private void switchViews() {
-        if (isAdded()) {
-            final boolean isEmpty = getAdapter().getNotes().isEmpty();
-            feedEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-            feedListView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+    public void fixFeedViewPadding(final Context context) {
+        final TypedValue value = new TypedValue();
+        if (context.getTheme().resolveAttribute(R.attr.actionBarSize, value, true)) {
+            final int actionBarSize = TypedValue.complexToDimensionPixelSize(value.data, context.getResources().getDisplayMetrics());
+            final int feedItemMargin = context.getResources().getDimensionPixelSize(R.dimen.feed_item_margin);
+            feedView.setPadding(0, actionBarSize + feedItemMargin, 0, 0);
         }
+    }
+
+    public FeedAdapter getFeedAdapter() {
+        return feedAdapter;
+    }
+
+    public void refresh() {
+        feedAdapter.refresh(this);
     }
 }

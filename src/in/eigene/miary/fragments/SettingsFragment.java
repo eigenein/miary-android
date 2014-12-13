@@ -8,7 +8,6 @@ import android.preference.*;
 import android.text.*;
 import android.text.format.DateFormat;
 import android.util.*;
-import android.view.*;
 import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.*;
@@ -182,20 +181,6 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     /**
-     * http://stackoverflow.com/a/16800527/359730
-     */
-    @Override
-    public boolean onPreferenceTreeClick(final PreferenceScreen preferenceScreen, final Preference preference) {
-        super.onPreferenceTreeClick(preferenceScreen, preference);
-
-        if (preference instanceof PreferenceScreen) {
-            setupActionBar((PreferenceScreen)preference);
-        }
-
-        return false;
-    }
-
-    /**
      * Passcode protection enable handler.
      */
     private void enablePin(final CheckBoxPreference checkBox) {
@@ -207,7 +192,7 @@ public class SettingsFragment extends PreferenceFragment {
                         if (pin.length() == 4) {
                             PinManager.set(getActivity(), pin);
                             Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
-                            ParseAnalytics.trackEvent("protectionEnabled");
+                            ParseAnalytics.trackEventInBackground("protectionEnabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(false);
@@ -234,7 +219,7 @@ public class SettingsFragment extends PreferenceFragment {
                     public void onPositiveButtonClicked(final String pin) {
                         if (PinManager.check(getActivity(), pin)) {
                             Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
-                            ParseAnalytics.trackEvent("protectionDisabled");
+                            ParseAnalytics.trackEventInBackground("protectionDisabled");
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(true);
@@ -339,43 +324,6 @@ public class SettingsFragment extends PreferenceFragment {
      */
     private Preference findPreference(final int keyResourceId) {
         return findPreference(getString(keyResourceId));
-    }
-
-    /**
-     * Action Bar Home Button not functional with nested PreferenceScreen.
-     * http://stackoverflow.com/a/16800527/359730
-     */
-    private static void setupActionBar(final PreferenceScreen preferenceScreen) {
-        final Dialog dialog = preferenceScreen.getDialog();
-
-        if (dialog != null) {
-            dialog.getActionBar().setDisplayHomeAsUpEnabled(true);
-
-            final View homeButton = dialog.findViewById(android.R.id.home);
-
-            if (homeButton != null) {
-                final View.OnClickListener dismissDialogClickListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View view) {
-                        dialog.dismiss();
-                    }
-                };
-
-                final ViewParent homeButtonContainer = homeButton.getParent();
-
-                if (homeButtonContainer instanceof FrameLayout) {
-                    final ViewGroup containerParent = (ViewGroup)homeButtonContainer.getParent();
-
-                    if (containerParent instanceof LinearLayout) {
-                        containerParent.setOnClickListener(dismissDialogClickListener);
-                    } else {
-                        ((FrameLayout)homeButtonContainer).setOnClickListener(dismissDialogClickListener);
-                    }
-                } else {
-                    homeButton.setOnClickListener(dismissDialogClickListener);
-                }
-            }
-        }
     }
 
     /**

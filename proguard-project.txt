@@ -30,3 +30,5 @@
 -keep class com.parse.** { *; }
 -keep class org.apache.** { *; }
 -keep class org.bouncycastle.** { *; }
+
+-keep class android.support.v7.widget.SearchView { *; }

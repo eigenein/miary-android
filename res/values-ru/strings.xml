@@ -9,17 +9,19 @@
     <string name="dialog_replacement_table_title">Таблица замены</string>
     <string name="drawer_close">Закрыть</string>
     <string name="drawer_item_drafts">Черновики</string>
-    <string name="drawer_item_feed">Лента</string>
+    <string name="drawer_item_diary">Дневник</string>
     <string name="drawer_item_starred">Отмеченные</string>
     <string name="drawer_open">Открыть</string>
     <string name="backup_message_creating">Создание резервной копии…</string>
     <string name="backup_message_starting">Запуск…</string>
-    <string name="feed_empty">Коснитесь «Новая заметка», чтобы написать заметку.</string>
+    <string name="feed_empty">Написать заметку</string>
     <string name="note_color">Изменить цвет</string>
     <string name="note_draft">Переместить в черновики</string>
     <string name="note_hint">Текст</string>
     <string name="note_new">Новая заметка</string>
     <string name="note_not_draft">Переместить в ленту</string>
+    <string name="note_moved_to_draft">Заметка перемещена в Черновики.</string>
+    <string name="note_added_to_draft">Заметка добавлена в Черновики.</string>
     <string name="note_remove">Удалить заметку</string>
     <string name="note_removed">Заметка удалена.</string>
     <string name="note_star">Отметить</string>
@@ -94,4 +96,9 @@
     <string name="auth_sign_in_button">Войти</string>
     <string name="auth_sign_up_button">Создать учетную запись</string>
     <string name="account_auth_success">Вход выполнен успешно.</string>
+    <string name="note_share">Поделиться</string>
+    <string name="feed_change_sorting_order">Изменить порядок сортировки</string>
+    <string name="feed_set_descending">От новых к старым.</string>
+    <string name="feed_set_ascending">От старых к новым.</string>
+    <string name="empty_note_removed">Пустая заметка удалена.</string>
 </resources>

@@ -1,14 +1,18 @@
 package in.eigene.miary.fragments;
 
 import android.app.*;
+import android.content.*;
 import android.os.*;
 import android.preference.*;
+import android.support.v4.content.*;
+import android.support.v4.view.*;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.parse.*;
-import in.eigene.miary.R;
+import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.base.*;
@@ -17,6 +21,7 @@ import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
 import java.util.*;
+import java.util.regex.*;
 
 public class NoteFragment extends BaseFragment {
 
@@ -31,10 +36,9 @@ public class NoteFragment extends BaseFragment {
     }
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
-
     private static final String KEY_NOTE_UUID = "note_uuid";
-
     private static final long DEBOUNCE_INTERVAL = 3000L;
+    private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w\\-]+");
 
     private ChangedListener changedListener;
     private LeaveFullscreenListener leaveFullscreenListener;
@@ -61,6 +65,13 @@ public class NoteFragment extends BaseFragment {
     public NoteFragment setNoteUuid(final UUID noteUuid) {
         this.noteUuid = noteUuid;
         return this;
+    }
+
+    /**
+     * Sets padding to zeroes.
+     */
+    public void disablePadding() {
+        editLayout.setPadding(0, 0, 0, 0);
     }
 
     @Override
@@ -159,6 +170,19 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
+
+        // Check that note is not removed.
+        if (note == null) {
+            Log.i(LOG_TAG, "Not processing null note.");
+            return;
+        }
+
+        if (note.getText().isEmpty() && note.getTitle().isEmpty()) {
+            Toast.makeText(getActivity(), R.string.empty_note_removed, Toast.LENGTH_SHORT).show();
+            removeNote();
+            return;
+        }
+
         saveNote(false);
     }
 
@@ -171,6 +195,11 @@ public class NoteFragment extends BaseFragment {
         menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
         menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
         menu.findItem(R.id.menu_item_note_starred).setVisible(note.isStarred());
+
+        // Work around NPE.
+        final android.support.v7.widget.ShareActionProvider actionProvider = new ShareActionProvider(getActivity());
+        actionProvider.setShareIntent(getShareIntent());
+        MenuItemCompat.setActionProvider(menu.findItem(R.id.menu_item_note_share), actionProvider);
     }
 
     @Override
@@ -204,32 +233,37 @@ public class NoteFragment extends BaseFragment {
                 return true;
 
             case R.id.menu_item_note_color:
-                new ColorPickerDialogFragment(new ColorPickerDialogFragment.DialogListener() {
-                    @Override
-                    public void colorChosen(final int color) {
-                        note.setColor(color);
-                        saveNote(false);
-                        updateLayoutColor();
-                    }
-                }).show(getFragmentManager());
+                new ColorPickerDialogFragment()
+                        .setActiveColor(note.getColor())
+                        .setListener(new ColorPickerDialogFragment.Listener() {
+                            @Override
+                            public void colorChosen(final int color) {
+                                note.setColor(color);
+                                saveNote(false);
+                                updateLayoutColor();
+                            }
+                        })
+                        .show(getFragmentManager());
                 return true;
 
             case R.id.menu_item_note_remove:
-                new RemoveNoteDialogFragment(new RemoveNoteDialogFragment.Listener() {
-                    @Override
-                    public void onPositiveButtonClicked() {
-                        note.unpinInBackground(new DeleteCallback() {
+                new RemoveNoteDialogFragment()
+                        .setListener(new RemoveNoteDialogFragment.Listener() {
                             @Override
-                            public void done(final ParseException e) {
-                                InternalRuntimeException.throwForException("Could not unpin note.", e);
+                            public void onPositiveButtonClicked() {
+                                note.unpinInBackground(new DeleteCallback() {
+                                    @Override
+                                    public void done(final ParseException e) {
+                                        InternalRuntimeException.throwForException("Could not unpin note.", e);
+                                        note = null;
+                                        Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
+                                        changedListener.onNoteRemoved();
+                                    }
+                                });
                                 note = null;
-                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
-                                changedListener.onNoteRemoved();
                             }
-                        });
-                        note = null;
-                    }
-                }).show(getFragmentManager());
+                        })
+                        .show(getFragmentManager());
                 return true;
 
             case R.id.menu_item_note_custom_date:
@@ -239,7 +273,7 @@ public class NoteFragment extends BaseFragment {
                             public void onPositiveButtonClicked(final Date date) {
                                 note.setCustomDate(date);
                                 saveNote(false);
-                                ParseAnalytics.trackEvent("setCustomDate");
+                                ParseAnalytics.trackEventInBackground("setCustomDate");
                             }
                         })
                         .setCreationDate(note.getCreationDate())
@@ -277,6 +311,24 @@ public class NoteFragment extends BaseFragment {
         });
     }
 
+    private void removeNote() {
+        note.unpinInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                InternalRuntimeException.throwForException("Could not unpin note.", e);
+                note = null;
+                Log.d(LOG_TAG, "Broadcasting message to remove note from feed");
+                sendRemoveNoteFromFeedEvent();
+            }
+        });
+    }
+
+    private void sendRemoveNoteFromFeedEvent() {
+        final Intent intent = new Intent(FeedFragment.NOTE_REMOVED_EVENT_NAME);
+        LocalBroadcastManager.getInstance(NoteFragment.this.getActivity()).sendBroadcast(intent);
+    }
+
+
     /**
      * Saves the note. This method debounces frequent save calls.
      */
@@ -302,9 +354,13 @@ public class NoteFragment extends BaseFragment {
                 InternalRuntimeException.throwForException("Could not pin note.", e);
             }
         };
-        // Save, log and track.
+        // Set hashtags and save.
         Log.i(LOG_TAG, "Save note.");
+        // TODO: final String[] hashtags = PatternHelper.findAll(HASHTAG_PATTERN, note.getText());
+        // TODO: Log.d(LOG_TAG, "Hashtags: " + TextUtils.join(", ", hashtags));
+        // TODO: note.setHashtags(hashtags);
         note.pinInBackground(callback);
+        // Update debouncer.
         lastSaveDateTime = currentDateTime;
     }
 
@@ -318,5 +374,24 @@ public class NoteFragment extends BaseFragment {
         final int hintColor = getResources().getColor(styleHolder.hintColorId);
         editTextTitle.setHintTextColor(hintColor);
         editTextText.setHintTextColor(hintColor);
+    }
+
+    /**
+     * Gets share intent for share action provider.
+     */
+    private Intent getShareIntent() {
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        // Set title if exists.
+        if (!Util.isNullOrEmpty(note.getTitle())) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle());
+        }
+        // Set plain text.
+        intent.putExtra(Intent.EXTRA_TEXT, String.format(
+                "%s\n\n%s",
+                note.getText().trim(),
+                "https://bitly.com/miaryapp"
+        ));
+        return intent;
     }
 }

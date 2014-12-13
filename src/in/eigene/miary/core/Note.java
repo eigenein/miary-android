@@ -20,6 +20,7 @@ public class Note extends ParseObject {
     public static final String KEY_DRAFT = "draft";
     public static final String KEY_COLOR = "color";
     public static final String KEY_STARRED = "starred";
+    public static final String KEY_HASHTAGS = "hashtags";
 
     /**
      * Used to copy properties.
@@ -34,9 +35,9 @@ public class Note extends ParseObject {
             KEY_DRAFT,
             KEY_COLOR,
             KEY_STARRED,
+            KEY_HASHTAGS,
     };
 
-    // TODO: use immediate values: https://github.com/eigenein/miary-android/issues/101
     public static final int COLOR_WHITE = 0;
     public static final int COLOR_RED = 1;
     public static final int COLOR_ORANGE = 2;
@@ -62,7 +63,7 @@ public class Note extends ParseObject {
     }
 
     public static Note createNew() {
-        ParseAnalytics.trackEvent("createNew");
+        ParseAnalytics.trackEventInBackground("createNew");
         return new Note()
                 .setUuid(UUID.randomUUID())
                 .setCreationDate(new Date())
@@ -142,6 +143,11 @@ public class Note extends ParseObject {
 
     public Note setStarred(final boolean isStarred) {
         put(KEY_STARRED, isStarred);
+        return this;
+    }
+
+    public Note setHashtags(final String[] hashtags) {
+        put(KEY_HASHTAGS, hashtags);
         return this;
     }
 
