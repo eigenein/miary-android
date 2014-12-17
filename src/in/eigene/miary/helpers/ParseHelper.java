@@ -12,6 +12,7 @@ public class ParseHelper {
     private static final String CLIENT_KEY = "ChviiekJmgXCOcQuuzNnifiIHjQ3vHa2GqYW4yCC";
 
     public static void initialize(final Context context) {
+        ParseCrashReporting.enable(context);
         Parse.enableLocalDatastore(context);
         ParseObject.registerSubclass(Note.class);
         Parse.initialize(context, APPLICATION_ID, CLIENT_KEY);
