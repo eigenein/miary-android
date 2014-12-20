@@ -134,7 +134,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final LinearLayout layout;
+        public final CardView layout;
         public final TextView title;
         public final TextView text;
         public final TextView creationDate;
@@ -146,7 +146,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
             final Context context = view.getContext();
 
-            layout = (LinearLayout)view.findViewById(R.id.feed_item_layout);
+            layout = (CardView)view.findViewById(R.id.feed_item_layout);
             title = (TextView)view.findViewById(R.id.feed_item_title);
             title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_BOLD));
             text = (TextView)view.findViewById(R.id.feed_item_text);
@@ -158,16 +158,17 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public void bindNote(final Note note) {
             this.note = note;
 
+            final Context context = itemView.getContext();
+
             final StyleHolder styleHolder = StyleHolders.get(note.getColor());
             // Set layout style.
-            layout.setBackgroundResource(styleHolder.feedItemDrawableId);
+            layout.setCardBackgroundColor(context.getResources().getColor(styleHolder.noteBackgroundColorId));
             // Set title text and visibility.
             title.setText(note.getTitle());
             title.setVisibility(!note.getTitle().isEmpty() ? View.VISIBLE : View.GONE);
             // Set text.
             text.setText(note.getText());
             // Set creation date text and style.
-            final Context context = itemView.getContext();
             creationDate.setTextColor(context.getResources().getColor(styleHolder.feedItemFooterColorId));
             creationDate.setText(DateUtils.getRelativeDateTimeString(
                     context,
