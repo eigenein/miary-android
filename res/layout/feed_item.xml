@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/feed_item_external_margin"
         cardview:cardBackgroundColor="@color/background_holo_light"
-        cardview:cardCornerRadius="@dimen/feed_item_external_margin"
+        cardview:cardCornerRadius="0dp"
         cardview:contentPadding="@dimen/feed_item_internal_margin"
         cardview:cardUseCompatPadding="true"
 >
