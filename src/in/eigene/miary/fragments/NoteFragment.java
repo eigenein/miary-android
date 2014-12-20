@@ -170,20 +170,25 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
-
-        // Check that note is not removed.
-        if (note == null) {
-            Log.i(LOG_TAG, "Not processing null note.");
-            return;
-        }
-
-        if (note.getText().isEmpty() && note.getTitle().isEmpty()) {
-            Toast.makeText(getActivity(), R.string.empty_note_removed, Toast.LENGTH_SHORT).show();
-            removeNote();
-            return;
-        }
-
         saveNote(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if ((note != null) && note.getText().isEmpty() && note.getTitle().isEmpty()) {
+            Toast.makeText(getActivity(), R.string.empty_note_removed, Toast.LENGTH_SHORT).show();
+            note.unpinInBackground(new DeleteCallback() {
+                @Override
+                public void done(final ParseException e) {
+                    InternalRuntimeException.throwForException("Could not unpin note.", e);
+                    note = null;
+                    Log.d(LOG_TAG, "Broadcasting message to remove note from feed");
+                    sendRemoveNoteFromFeedEvent();
+                }
+            });
+        }
     }
 
     @Override
@@ -307,18 +312,6 @@ public class NoteFragment extends BaseFragment {
                 editTextText.setText(note.getText());
                 updateLayoutColor();
                 invalidateOptionsMenu();
-            }
-        });
-    }
-
-    private void removeNote() {
-        note.unpinInBackground(new DeleteCallback() {
-            @Override
-            public void done(ParseException e) {
-                InternalRuntimeException.throwForException("Could not unpin note.", e);
-                note = null;
-                Log.d(LOG_TAG, "Broadcasting message to remove note from feed");
-                sendRemoveNoteFromFeedEvent();
             }
         });
     }

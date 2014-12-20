@@ -45,9 +45,6 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
                 preferences.getString(FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
-
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(noteRemovedReceiver,
-                new IntentFilter(NOTE_REMOVED_EVENT_NAME));
     }
 
     @Override
@@ -71,15 +68,19 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
+
         refresh();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                noteRemovedReceiver,
+                new IntentFilter(NOTE_REMOVED_EVENT_NAME));
     }
 
     @Override
-    public void onDestroy() {
+    public void onPause() {
+        super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(noteRemovedReceiver);
-        super.onDestroy();
     }
 
     @Override
