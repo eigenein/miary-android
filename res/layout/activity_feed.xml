@@ -20,6 +20,7 @@
                       android:layout_height="match_parent"
                       android:layout_marginLeft="@dimen/feed_item_external_margin"
                       android:layout_marginRight="@dimen/feed_item_external_margin"
+                      android:layout_marginBottom="@dimen/feed_item_external_margin"
                       tools:layout="@layout/fragment_feed"
             />
             <include layout="@layout/toolbar"/>
