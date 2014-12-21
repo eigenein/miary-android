@@ -8,7 +8,7 @@
         android:layout_margin="@dimen/feed_item_external_margin"
         android:clickable="true"
         android:foreground="@drawable/feed_item_foreground"
-        cardview:cardCornerRadius="0dp"
+        cardview:cardCornerRadius="1dp"
         cardview:contentPadding="@dimen/feed_item_internal_margin"
         cardview:cardUseCompatPadding="true"
 >
