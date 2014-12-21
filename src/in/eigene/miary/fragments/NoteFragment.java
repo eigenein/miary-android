@@ -368,12 +368,13 @@ public class NoteFragment extends BaseFragment {
      * Updates layout according to the note color.
      */
     private void updateLayoutColor() {
-        final StyleHolder styleHolder = StyleHolders.get(note.getColor());
+        final NoteColorHelper color = NoteColorHelper.fromIndex(getActivity(), note.getColor());
 
-        editLayout.setBackgroundResource(styleHolder.noteBackgroundColorId);
-        final int hintColor = getResources().getColor(styleHolder.hintColorId);
-        editTextTitle.setHintTextColor(hintColor);
-        editTextText.setHintTextColor(hintColor);
+        editLayout.setBackgroundColor(color.primaryColor);
+        editTextTitle.setTextColor(color.foregroundColor);
+        editTextTitle.setHintTextColor(color.secondaryColor);
+        editTextText.setTextColor(color.foregroundColor);
+        editTextText.setHintTextColor(color.secondaryColor);
     }
 
     /**

@@ -160,16 +160,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
             final Context context = itemView.getContext();
 
-            final StyleHolder styleHolder = StyleHolders.get(note.getColor());
+            final NoteColorHelper color = NoteColorHelper.fromIndex(context, note.getColor());
             // Set layout style.
-            layout.setCardBackgroundColor(context.getResources().getColor(styleHolder.noteBackgroundColorId));
+            layout.setCardBackgroundColor(color.primaryColor);
             // Set title text and visibility.
             title.setText(note.getTitle());
+            title.setTextColor(color.foregroundColor);
             title.setVisibility(!note.getTitle().isEmpty() ? View.VISIBLE : View.GONE);
             // Set text.
             text.setText(note.getText());
+            text.setTextColor(color.foregroundColor);
             // Set creation date text and style.
-            creationDate.setTextColor(context.getResources().getColor(styleHolder.feedItemFooterColorId));
+            creationDate.setTextColor(color.secondaryColor);
             creationDate.setText(DateUtils.getRelativeDateTimeString(
                     context,
                     note.getCustomDate().getTime(),
