@@ -123,7 +123,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         final TypedValue value = new TypedValue();
         if (context.getTheme().resolveAttribute(R.attr.actionBarSize, value, true)) {
             final int actionBarSize = TypedValue.complexToDimensionPixelSize(value.data, context.getResources().getDisplayMetrics());
-            final int feedItemMargin = context.getResources().getDimensionPixelSize(R.dimen.feed_item_margin);
+            final int feedItemMargin = context.getResources().getDimensionPixelSize(R.dimen.feed_item_external_margin);
             feedView.setPadding(0, actionBarSize + feedItemMargin, 0, 0);
         }
     }
