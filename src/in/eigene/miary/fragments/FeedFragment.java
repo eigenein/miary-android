@@ -3,7 +3,6 @@ package in.eigene.miary.fragments;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
-import android.support.v4.content.*;
 import android.support.v7.widget.*;
 import android.util.*;
 import android.view.*;
@@ -15,8 +14,6 @@ import in.eigene.miary.helpers.*;
 
 public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
 
-    public static final String NOTE_REMOVED_EVENT_NAME = "note_removed";
-
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
     private static final String FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
@@ -25,14 +22,6 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
     private RecyclerView feedView;
     private View feedEmptyView;
-
-    private final BroadcastReceiver noteRemovedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d(LOG_TAG, "Got broadcast message to remove empty note");
-            feedAdapter.removeItem(FeedFragment.this, 0);
-        }
-    };
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -70,17 +59,12 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     @Override
     public void onResume() {
         super.onResume();
-
         refresh();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
-                noteRemovedReceiver,
-                new IntentFilter(NOTE_REMOVED_EVENT_NAME));
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(noteRemovedReceiver);
     }
 
     @Override
@@ -123,7 +107,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         final TypedValue value = new TypedValue();
         if (context.getTheme().resolveAttribute(R.attr.actionBarSize, value, true)) {
             final int actionBarSize = TypedValue.complexToDimensionPixelSize(value.data, context.getResources().getDisplayMetrics());
-            final int feedItemMargin = context.getResources().getDimensionPixelSize(R.dimen.feed_item_margin);
+            final int feedItemMargin = context.getResources().getDimensionPixelSize(R.dimen.feed_item_external_margin);
             feedView.setPadding(0, actionBarSize + feedItemMargin, 0, 0);
         }
     }

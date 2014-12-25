@@ -58,7 +58,7 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
     private void selectActiveColor(final View view) {
         int colorIndex = VIEW_ID_TO_COLOR.indexOfValue(color);
 
-        ImageView activeColorView = (ImageView) view.findViewById(VIEW_ID_TO_COLOR.keyAt(colorIndex));
+        final ImageView activeColorView = (ImageView)view.findViewById(VIEW_ID_TO_COLOR.keyAt(colorIndex));
         activeColorView.setScaleType(ImageView.ScaleType.CENTER);
         activeColorView.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
     }

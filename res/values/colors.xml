@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="dark_shading">#43000000</color>
     <!-- Toolbar backgrounds. -->
-    <color name="toolbar_background_note">#43000000</color>
-    <color name="toolbar_background_feed">#BD0099CC</color>
+    <color name="toolbar_background_note">@color/dark_shading</color>
+    <color name="toolbar_background_feed">#CC0099CC</color>
     <!-- Gmail -->
-    <color name="dark_gray_text_color">#ff58585b</color>
+    <color name="drawer_item_foreground">#ff58585b</color>
     <!-- Standard Android colors. -->
     <color name="background_holo_light">#fff3f3f3</color>
     <color name="holo_blue_light">#ff33b5e5</color>
     <color name="holo_blue_dark">#0099CC</color>
     <!-- Standard note colors. -->
-    <color name="green_light">#99CC00</color>
-    <color name="green_dark">#669900</color>
-    <color name="blue_light">#6DCAEC</color>
-    <color name="blue_dark">#0099CC</color>
-    <color name="violet_light">#BA75DC</color>
-    <color name="violet_dark">#9933CC</color>
-    <color name="orange_light">#FFBB33</color>
-    <color name="orange_dark">#FF8800</color>
-    <color name="red_light">#FF5F5F</color>
-    <color name="red_dark">#CC0000</color>
-    <color name="yellow_light">#FFFF44</color>
-    <color name="yellow_dark">#dd0</color>
+    <color name="note_green">#99CC00</color>
+    <color name="note_blue">#6DCAEC</color>
+    <color name="note_violet">#BA75DC</color>
+    <color name="note_orange">#FFBB33</color>
+    <color name="note_red">#FF5F5F</color>
+    <color name="note_yellow">#FFFF44</color>
+    <color name="note_gray">#F3F3F3</color>
+    <color name="note_white">#FFFFFF</color>
     <!-- Misc. Refactor these. -->
     <color name="lighter_gray">#ddd</color>
     <color name="darker_gray">#aaa</color>
-    <color name="background_holo_light_transparent">#00f3f3f3</color>
-    <color name="hint_foreground_light">#808080</color>
 </resources>
