@@ -118,5 +118,4 @@
     <string name="feed_change_sorting_order">Change sorting order</string>
     <string name="feed_set_descending">Newest first.</string>
     <string name="feed_set_ascending">Oldest first.</string>
-    <string name="empty_note_removed">Empty note is removed.</string>
 </resources>

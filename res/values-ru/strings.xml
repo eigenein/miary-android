@@ -100,5 +100,4 @@
     <string name="feed_change_sorting_order">Изменить порядок сортировки</string>
     <string name="feed_set_descending">От новых к старым.</string>
     <string name="feed_set_ascending">От старых к новым.</string>
-    <string name="empty_note_removed">Пустая заметка удалена.</string>
 </resources>

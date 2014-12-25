@@ -4,7 +4,6 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
-import android.support.v4.content.*;
 import android.support.v4.view.*;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.*;
@@ -174,24 +173,6 @@ public class NoteFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if ((note != null) && note.getText().isEmpty() && note.getTitle().isEmpty()) {
-            Toast.makeText(getActivity(), R.string.empty_note_removed, Toast.LENGTH_SHORT).show();
-            note.unpinInBackground(new DeleteCallback() {
-                @Override
-                public void done(final ParseException e) {
-                    InternalRuntimeException.throwForException("Could not unpin note.", e);
-                    note = null;
-                    Log.d(LOG_TAG, "Broadcasting message to remove note from feed");
-                    sendRemoveNoteFromFeedEvent();
-                }
-            });
-        }
-    }
-
-    @Override
     public void onPrepareOptionsMenu(final Menu menu) {
         if (note == null) {
             return;
@@ -315,12 +296,6 @@ public class NoteFragment extends BaseFragment {
             }
         });
     }
-
-    private void sendRemoveNoteFromFeedEvent() {
-        final Intent intent = new Intent(FeedFragment.NOTE_REMOVED_EVENT_NAME);
-        LocalBroadcastManager.getInstance(NoteFragment.this.getActivity()).sendBroadcast(intent);
-    }
-
 
     /**
      * Saves the note. This method debounces frequent save calls.
