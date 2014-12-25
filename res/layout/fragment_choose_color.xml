@@ -49,7 +49,7 @@
                 android:id="@+id/choose_color_gray"
                 android:layout_width="@dimen/choose_color_circle_size"
                 android:layout_height="@dimen/choose_color_circle_size"
-                android:background="@drawable/color_circle_gray"
+                android:background="@drawable/color_circle_grey"
                 android:layout_margin="@dimen/choose_color_circle_margin"
         />
         <ImageView
@@ -70,7 +70,7 @@
                 android:id="@+id/choose_color_violet"
                 android:layout_width="@dimen/choose_color_circle_size"
                 android:layout_height="@dimen/choose_color_circle_size"
-                android:background="@drawable/color_circle_violet"
+                android:background="@drawable/color_circle_purple"
                 android:layout_margin="@dimen/choose_color_circle_margin"
         />
     </LinearLayout>

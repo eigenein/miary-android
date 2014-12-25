@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:text="@string/feed_empty"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/light_disabled"
                     android:textSize="24dp"
                     android:gravity="center"
             />

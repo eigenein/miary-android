@@ -26,7 +26,7 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
         VIEW_ID_TO_COLOR.put(R.id.choose_color_gray, Note.COLOR_GRAY);
         VIEW_ID_TO_COLOR.put(R.id.choose_color_green, Note.COLOR_GREEN);
         VIEW_ID_TO_COLOR.put(R.id.choose_color_blue, Note.COLOR_BLUE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.COLOR_VIOLET);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.COLOR_PURPLE);
     }
 
     private Listener listener;
