@@ -2,7 +2,7 @@ package in.eigene.miary.helpers;
 
 import android.content.*;
 import com.parse.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.classes.*;
 
 import java.util.*;
 

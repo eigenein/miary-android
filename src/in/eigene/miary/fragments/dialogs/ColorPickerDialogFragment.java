@@ -6,7 +6,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.classes.*;
 import in.eigene.miary.fragments.base.*;
 
 public class ColorPickerDialogFragment extends BaseDialogFragment {

@@ -9,7 +9,7 @@ import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.classes.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
 

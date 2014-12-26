@@ -1,4 +1,4 @@
-package in.eigene.miary.core;
+package in.eigene.miary.core.classes;
 
 import com.parse.*;
 import in.eigene.miary.helpers.*;

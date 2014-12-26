@@ -5,7 +5,7 @@ import android.content.res.*;
 import android.graphics.*;
 import android.util.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.classes.*;
 
 /**
  * Used to get note background, foreground, footer and hint colors.
