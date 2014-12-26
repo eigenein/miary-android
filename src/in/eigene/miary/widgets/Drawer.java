@@ -71,6 +71,13 @@ public class Drawer extends DrawerListener {
                         SettingsActivity.start(activity);
                     }
                 }));
+        new DrawerItem(view, R.id.drawer_item_feedback, R.drawable.ic_help_grey600_24dp, R.string.feedback,
+                new RunnableClickListener(new Runnable() {
+                    @Override
+                    public void run() {
+                        FeedbackActivity.start(activity);
+                    }
+                }));
 
         refreshCounters();
     }

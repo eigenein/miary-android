@@ -37,15 +37,19 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="in.eigene.miary.activities.NoteActivity"
+                android:name=".activities.NoteActivity"
                 android:label="@string/activity_note"
         />
         <activity
-                android:name="in.eigene.miary.activities.SettingsActivity"
+                android:name=".activities.SettingsActivity"
                 android:label="@string/activity_settings"
         />
         <activity
-                android:name="in.eigene.miary.activities.PinActivity"
+                android:name=".activities.FeedbackActivity"
+                android:label="@string/feedback"
+        />
+        <activity
+                android:name=".activities.PinActivity"
                 android:label="@string/activity_pin"
                 android:windowSoftInputMode="stateAlwaysVisible"
                 android:theme="@style/Miary.Theme.Modal"
