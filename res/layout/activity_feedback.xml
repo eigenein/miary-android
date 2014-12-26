@@ -6,5 +6,40 @@
         android:layout_height="match_parent"
 >
     <include layout="@layout/toolbar"/>
-    
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+    >
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/text_field_vertical_padding"
+                android:paddingBottom="@dimen/text_field_vertical_padding"
+                android:hint="@string/email_hint"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="@dimen/text_field_divider_padding"
+                android:textColor="@color/light_text_helper"
+                android:text="@string/helper_optional"
+                style="@android:style/TextAppearance.Small"
+        />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/text_field_vertical_padding"
+                android:paddingBottom="@dimen/text_field_vertical_padding"
+                android:inputType="textMultiLine|textCapSentences"
+                android:gravity="top|left"
+                android:scrollbars="vertical"
+                style="@android:style/TextAppearance.Medium"
+        />
+    </LinearLayout>
 </LinearLayout>

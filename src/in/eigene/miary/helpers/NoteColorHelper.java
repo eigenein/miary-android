@@ -41,13 +41,13 @@ public class NoteColorHelper {
         if (getSaturation(primaryColor) >= 128) {
             return new NoteColorHelper(
                     primaryColor,
-                    resources.getColor(R.color.light_hint),
-                    resources.getColor(R.color.light_foreground_primary));
+                    resources.getColor(R.color.light_text_hint),
+                    resources.getColor(R.color.light_text_primary));
         } else {
             return new NoteColorHelper(
                     primaryColor,
-                    resources.getColor(R.color.dark_hint),
-                    resources.getColor(R.color.dark_foreground_primary));
+                    resources.getColor(R.color.dark_text_hint),
+                    resources.getColor(R.color.dark_text_primary));
         }
     }
 

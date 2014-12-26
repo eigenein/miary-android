@@ -4,9 +4,12 @@
     <dimen name="choose_color_circle_size">44dp</dimen>
     <dimen name="choose_color_dialog_padding">20dp</dimen>
     <dimen name="drawer_item_margin">16dp</dimen>
-    <dimen name="feed_item_internal_margin">8dp</dimen>
     <dimen name="feed_item_external_margin">4dp</dimen>
+    <dimen name="feed_item_internal_margin">8dp</dimen>
     <dimen name="launcher_icon_size">48dp</dimen>
-    <dimen name="note_edit_text_padding">8dp</dimen>
     <dimen name="modal_image_margin">40dp</dimen>
+    <dimen name="note_edit_text_padding">8dp</dimen>
+    <!-- Material. -->
+    <dimen name="text_field_vertical_padding">16dp</dimen>
+    <dimen name="text_field_divider_padding">8dp</dimen>
 </resources>

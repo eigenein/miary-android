@@ -46,7 +46,7 @@
         />
         <activity
                 android:name=".activities.FeedbackActivity"
-                android:label="@string/feedback"
+                android:label="@string/activity_feedback"
         />
         <activity
                 android:name=".activities.PinActivity"
