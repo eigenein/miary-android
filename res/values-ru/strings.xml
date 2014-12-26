@@ -43,6 +43,7 @@
     <string name="feed_empty">Написать заметку</string>
     <string name="feed_set_ascending">От старых к новым.</string>
     <string name="feed_set_descending">От новых к старым.</string>
+    <string name="feedback_hint">Ваш отзыв</string>
     <string name="helper_optional">Необязательно</string>
     <string name="note_added_to_draft">Заметка добавлена в Черновики.</string>
     <string name="note_color">Изменить цвет</string>
@@ -102,5 +103,6 @@
     <string name="toast_restore_not_found">Backup is not found.</string>
     <string name="toast_starred">Добавлена отметка.</string>
     <string name="toast_storage_unready">Диск не готов.</string>
+    <string name="toast_thank_you">Спасибо!</string>
     <string name="toast_unstarred">Отметка снята.</string>
 </resources>

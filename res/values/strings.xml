@@ -45,6 +45,7 @@
     <string name="feed_empty">Write a note</string>
     <string name="feed_set_ascending">Oldest first.</string>
     <string name="feed_set_descending">Newest first.</string>
+    <string name="feedback_hint">Your feedback</string>
     <string name="helper_optional">Optional</string>
     <string name="note_added_to_draft">Note added to Drafts.</string>
     <string name="note_color">Change color</string>
@@ -120,5 +121,6 @@
     <string name="toast_restore_not_found">Backup is not found.</string>
     <string name="toast_starred">Starred.</string>
     <string name="toast_storage_unready">Storage is not ready.</string>
+    <string name="toast_thank_you">Thank you!</string>
     <string name="toast_unstarred">Unstarred.</string>
 </resources>

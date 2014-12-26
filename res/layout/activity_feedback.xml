@@ -10,9 +10,10 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="@dimen/fullscreen_dialog_padding"
     >
         <EditText
+                android:id="@+id/feedback_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/text_field_vertical_padding"
@@ -32,12 +33,13 @@
                 style="@android:style/TextAppearance.Small"
         />
         <EditText
+                android:id="@+id/feedback_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/text_field_vertical_padding"
                 android:paddingBottom="@dimen/text_field_vertical_padding"
                 android:inputType="textMultiLine|textCapSentences"
-                android:gravity="top|left"
+                android:hint="@string/feedback_hint"
                 android:scrollbars="vertical"
                 style="@android:style/TextAppearance.Medium"
         />
