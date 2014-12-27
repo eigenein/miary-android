@@ -49,6 +49,10 @@
                 android:label="@string/activity_feedback"
         />
         <activity
+                android:name=".activities.AboutActivity"
+                android:label="@string/activity_about"
+        />
+        <activity
                 android:name=".activities.PinActivity"
                 android:label="@string/activity_pin"
                 android:windowSoftInputMode="stateAlwaysVisible"

@@ -65,19 +65,11 @@ public class Drawer extends DrawerListener {
                 CounterCache.DRAFT_COUNTER
         );
         new DrawerItem(view, R.id.drawer_item_settings, R.drawable.ic_settings_grey600_24dp, R.string.settings,
-                new RunnableClickListener(new Runnable() {
-                    @Override
-                    public void run() {
-                        SettingsActivity.start(activity);
-                    }
-                }));
+                new StartActivityClickListener(activity, SettingsActivity.class));
         new DrawerItem(view, R.id.drawer_item_feedback, R.drawable.ic_help_grey600_24dp, R.string.activity_feedback,
-                new RunnableClickListener(new Runnable() {
-                    @Override
-                    public void run() {
-                        FeedbackActivity.start(activity);
-                    }
-                }));
+                new StartActivityClickListener(activity, FeedbackActivity.class));
+        new DrawerItem(view, R.id.drawer_item_about, R.drawable.ic_info_grey600_24dp, R.string.activity_about,
+                new StartActivityClickListener(activity, AboutActivity.class));
 
         refreshCounters();
     }
@@ -133,7 +125,7 @@ public class Drawer extends DrawerListener {
     }
 
     /**
-     * Listen for clicks on a drawer item.
+     * Posts runnable when clicked.
      */
     private class RunnableClickListener implements View.OnClickListener {
 
@@ -151,7 +143,7 @@ public class Drawer extends DrawerListener {
     }
 
     /**
-     * Listens for clicks on feed mode change.
+     * Changes feed mode on clicked.
      */
     private class FeedModeChangedClickListener extends RunnableClickListener {
 
@@ -160,6 +152,21 @@ public class Drawer extends DrawerListener {
                 @Override
                 public void run() {
                     listener.onFeedModeChanged(feedMode);
+                }
+            });
+        }
+    }
+
+    /**
+     * Starts activity when clicked.
+     */
+    private class StartActivityClickListener extends RunnableClickListener {
+
+        public StartActivityClickListener(final Context context, final Class<?> activityClass) {
+            super(new Runnable() {
+                @Override
+                public void run() {
+                    context.startActivity(new Intent().setClass(context, activityClass));
                 }
             });
         }

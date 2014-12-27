@@ -1,6 +1,5 @@
 package in.eigene.miary.activities;
 
-import android.content.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
@@ -8,10 +7,6 @@ import in.eigene.miary.*;
 import in.eigene.miary.core.classes.*;
 
 public class FeedbackActivity extends FullscreenDialogActivity {
-
-    public static void start(final Context context) {
-        context.startActivity(new Intent().setClass(context, FeedbackActivity.class));
-    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

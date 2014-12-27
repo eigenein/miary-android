@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="about_copyright">© 2014–2015\nПавел Пересторонин, Андрей Меньков</string>
+    <string name="about_facebook">Фейсбук</string>
+    <string name="about_version">Version %1$s\nBuild %2$d</string>
+    <string name="about_vkontakte">ВКонтакте</string>
     <string name="account_auth_failed">Не удалось выполнить вход. Проверьте правильность ввода данных.</string>
     <string name="account_auth_success">Вход выполнен успешно.</string>
+    <string name="activity_about">О приложении</string>
     <string name="activity_authenticator">Войти</string>
     <string name="activity_feedback">Отправить отзыв</string>
     <string name="activity_note">Заметка</string>
