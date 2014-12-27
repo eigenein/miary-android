@@ -23,12 +23,12 @@ public class NoteColorHelper {
 
     static {
         COLOR_RESOURCES.put(Note.COLOR_WHITE, R.color.white);
-        COLOR_RESOURCES.put(Note.COLOR_RED, R.color.red_300);
+        COLOR_RESOURCES.put(Note.COLOR_RED, R.color.red_400);
         COLOR_RESOURCES.put(Note.COLOR_ORANGE, R.color.orange_400);
         COLOR_RESOURCES.put(Note.COLOR_YELLOW, R.color.yellow_500);
         COLOR_RESOURCES.put(Note.COLOR_GRAY, R.color.grey_100);
         COLOR_RESOURCES.put(Note.COLOR_GREEN, R.color.light_green_500);
-        COLOR_RESOURCES.put(Note.COLOR_BLUE, R.color.light_blue_300);
+        COLOR_RESOURCES.put(Note.COLOR_BLUE, R.color.blue_200);
         COLOR_RESOURCES.put(Note.COLOR_PURPLE, R.color.purple_200);
     }
 
