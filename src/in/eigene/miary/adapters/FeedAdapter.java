@@ -18,16 +18,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private static final String LOG_TAG = FeedAdapter.class.getName();
 
-    private final boolean rateItemShown;
+    private boolean rateItemShown;
 
     private Mode mode = Mode.DIARY;
     private SortingOrder sortingOrder = SortingOrder.DESCENDING;
 
     private List<Item> items = new ArrayList<Item>();
-
-    public FeedAdapter(final boolean rateItemShown) {
-        this.rateItemShown = rateItemShown;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -78,6 +74,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public FeedAdapter swapSortingOrder() {
         sortingOrder = sortingOrder.opposite();
         return this;
+    }
+
+    public void setRateItemShown(final boolean rateItemShown) {
+        this.rateItemShown = rateItemShown;
     }
 
     public void removeItem(final int position) {

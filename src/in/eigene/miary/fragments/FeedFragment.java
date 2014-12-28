@@ -32,7 +32,8 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        feedAdapter = new FeedAdapter(preferences.getBoolean(RateViewHolder.KEY_RATE_ITEM_SHOWN, false));
+        feedAdapter = new FeedAdapter();
+        feedAdapter.setRateItemShown(preferences.getBoolean(RateViewHolder.KEY_RATE_ITEM_SHOWN, false));
         // Restore sorting order.
         feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
                 preferences.getString(KEY_FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));

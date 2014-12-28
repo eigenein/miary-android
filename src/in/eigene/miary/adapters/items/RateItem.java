@@ -22,6 +22,7 @@ public class RateItem extends FeedAdapter.Item {
 
     public void remove() {
         adapter.removeItem(POSITION);
+        adapter.setRateItemShown(true);
     }
 
     public static enum Type {
