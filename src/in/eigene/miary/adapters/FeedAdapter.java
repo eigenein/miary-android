@@ -1,17 +1,14 @@
 package in.eigene.miary.adapters;
 
-import android.content.*;
 import android.support.v7.widget.*;
-import android.text.format.*;
 import android.util.*;
 import android.view.*;
-import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.*;
-import in.eigene.miary.activities.*;
+import in.eigene.miary.adapters.items.*;
+import in.eigene.miary.adapters.viewholders.*;
 import in.eigene.miary.core.classes.*;
 import in.eigene.miary.exceptions.*;
-import in.eigene.miary.helpers.*;
 
 import java.util.*;
 
@@ -22,23 +19,32 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private Mode mode = Mode.DIARY;
     private SortingOrder sortingOrder = SortingOrder.DESCENDING;
 
-    private List<Note> notes = new ArrayList<Note>();
+    private List<Item> items = new ArrayList<Item>();
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item, parent, false);
-        return new ViewHolder(view);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+        switch (viewType) {
+            case R.layout.note_feed_item:
+                return new NoteViewHolder(view);
+            default:
+                throw new InternalRuntimeException("Unknown view type " + viewType);
+        }
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        Log.d(LOG_TAG, "Bind note " + position);
-        viewHolder.bindNote(notes.get(position));
+        viewHolder.bind(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return items.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return items.get(position).viewType;
     }
 
     public Mode getMode() {
@@ -94,7 +100,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             public void done(final List<Note> notes, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
-                FeedAdapter.this.notes = notes;
+                items = new ArrayList<Item>();
+                for (final Note note : notes) {
+                    items.add(new NoteItem(note));
+                }
                 listener.onDataChanged();
                 notifyDataSetChanged();
             }
@@ -125,58 +134,28 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    /**
+     * Abstract feed item.
+     */
+    public abstract static class Item {
 
-        public final CardView layout;
-        public final TextView title;
-        public final TextView text;
-        public final TextView creationDate;
+        public final int viewType;
 
-        private Note note;
+        public Item(final int viewType) {
+            this.viewType = viewType;
+        }
+    }
 
-        public ViewHolder(final View view) {
-            super(view);
+    /**
+     * Abstract view holder.
+     */
+    public abstract static class ViewHolder extends RecyclerView.ViewHolder {
 
-            final Context context = view.getContext();
-
-            layout = (CardView)view.findViewById(R.id.feed_item_layout);
-            title = (TextView)view.findViewById(R.id.feed_item_title);
-            title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_BOLD));
-            text = (TextView)view.findViewById(R.id.feed_item_text);
-            text.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_REGULAR));
-            creationDate = (TextView)view.findViewById(R.id.feed_item_creation_date);
-            view.setOnClickListener(this);
+        public ViewHolder(final View itemView) {
+            super(itemView);
         }
 
-        public void bindNote(final Note note) {
-            this.note = note;
-
-            final Context context = itemView.getContext();
-
-            final NoteColorHelper color = NoteColorHelper.fromIndex(context, note.getColor());
-            // Set layout style.
-            layout.setCardBackgroundColor(color.primaryColor);
-            // Set title text and visibility.
-            title.setText(note.getTitle());
-            title.setTextColor(color.foregroundColor);
-            title.setVisibility(!note.getTitle().isEmpty() ? View.VISIBLE : View.GONE);
-            // Set text.
-            text.setText(note.getText());
-            text.setTextColor(color.foregroundColor);
-            // Set creation date text and style.
-            creationDate.setTextColor(color.secondaryColor);
-            creationDate.setText(DateUtils.getRelativeDateTimeString(
-                    context,
-                    note.getCustomDate().getTime(),
-                    DateUtils.SECOND_IN_MILLIS,
-                    DateUtils.DAY_IN_MILLIS,
-                    0));
-        }
-
-        @Override
-        public void onClick(final View view) {
-            NoteActivity.start(itemView.getContext(), note, false);
-        }
+        public abstract void bind(final Item item);
     }
 
     public interface OnDataChangedListener {

@@ -11,6 +11,10 @@ public class InternalRuntimeException extends RuntimeException {
         }
     }
 
+    public InternalRuntimeException(final String message) {
+        super(message);
+    }
+
     private InternalRuntimeException(final String message, final Throwable cause) {
         super(message, cause);
     }
