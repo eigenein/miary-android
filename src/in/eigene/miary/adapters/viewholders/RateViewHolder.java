@@ -111,6 +111,7 @@ public class RateViewHolder extends FeedAdapter.ViewHolder {
                 item.type = RateItem.Type.FEEDBACK;
             }
             item.notifyItemChanged();
+            ParseHelper.trackEvent("enjoying", "positive", Boolean.toString(positive));
         }
     }
 
@@ -149,6 +150,7 @@ public class RateViewHolder extends FeedAdapter.ViewHolder {
             }
             setRateItemShown();
             item.remove();
+            ParseHelper.trackEvent("rate", "positive", Boolean.toString(positive));
         }
     }
 
@@ -171,6 +173,7 @@ public class RateViewHolder extends FeedAdapter.ViewHolder {
             }
             setRateItemShown();
             item.remove();
+            ParseHelper.trackEvent("feedback", "positive", Boolean.toString(positive));
         }
     }
 }
