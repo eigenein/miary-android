@@ -50,6 +50,8 @@
     <string name="feed_set_descending">От новых к старым.</string>
     <string name="feedback_hint">Ваш отзыв</string>
     <string name="helper_optional">Необязательно</string>
+    <string name="no_button">Нет</string>
+    <string name="not_really_button">Не очень</string>
     <string name="note_added_to_draft">Заметка добавлена в Черновики.</string>
     <string name="note_color">Изменить цвет</string>
     <string name="note_draft">Переместить в черновики</string>
@@ -95,6 +97,10 @@
     <string name="preference_title_reminder_time">Время</string>
     <string name="preference_title_restore">Восстановить</string>
     <string name="preference_title_substitution_table">Таблица замены</string>
+    <string name="rate_item_enjoying">Вам нравится Miary?</string>
+    <string name="rate_item_feedback">Не могли бы вы отправить нам какой-нибудь отзыв?</string>
+    <string name="rate_item_rating">Не хотите ли оценить приложение на Google Play?</string>
+    <string name="rate_item_welcome">Добро пожаловать!</string>
     <string name="send">Отправить</string>
     <string name="settings">Настройки</string>
     <string name="toast_backup_finished">%1$d заметок сохранены в %2$s</string>
@@ -110,11 +116,5 @@
     <string name="toast_storage_unready">Диск не готов.</string>
     <string name="toast_thank_you">Спасибо!</string>
     <string name="toast_unstarred">Отметка снята.</string>
-    <string name="rate_item_welcome">Добро пожаловать!</string>
-    <string name="rate_item_enjoying">Вам нравится Miary?</string>
-    <string name="not_really_button">Не очень</string>
     <string name="yes_button">Да</string>
-    <string name="rate_item_rating">Не хотите ли оценить приложение на Google Play?</string>
-    <string name="no_button">Нет</string>
-    <string name="rate_item_feedback">Не могли бы вы отправить нам какой-нибудь отзыв?</string>
 </resources>

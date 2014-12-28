@@ -53,6 +53,8 @@
     <string name="feed_set_descending">Newest first.</string>
     <string name="feedback_hint">Your feedback</string>
     <string name="helper_optional">Optional</string>
+    <string name="no_button">No</string>
+    <string name="not_really_button">Not really</string>
     <string name="note_added_to_draft">Note added to Drafts.</string>
     <string name="note_color">Change color</string>
     <string name="note_draft">Mark as a draft</string>
@@ -114,6 +116,10 @@
     <string name="prefkey_restore_json">restore_json</string>
     <string name="prefkey_substitution_enabled">substitution_enabled</string>
     <string name="prefkey_substitution_table">substitution_table</string>
+    <string name="rate_item_enjoying">Enjoying Miary?</string>
+    <string name="rate_item_feedback">Would you mind giving us some feedback?</string>
+    <string name="rate_item_rating">How about rating on Google Play, then?</string>
+    <string name="rate_item_welcome">Welcome back!</string>
     <string name="send">Send</string>
     <string name="settings">Settings</string>
     <string name="toast_backup_finished">%1$d notes are saved to %2$s</string>
@@ -129,11 +135,5 @@
     <string name="toast_storage_unready">Storage is not ready.</string>
     <string name="toast_thank_you">Thank you!</string>
     <string name="toast_unstarred">Unstarred.</string>
-    <string name="rate_item_welcome">Welcome back!</string>
-    <string name="rate_item_enjoying">Enjoying Miary?</string>
-    <string name="not_really_button">Not really</string>
     <string name="yes_button">Yes</string>
-    <string name="rate_item_rating">How about rating on Google Play, then?</string>
-    <string name="no_button">No</string>
-    <string name="rate_item_feedback">Would you mind giving us some feedback?</string>
 </resources>
