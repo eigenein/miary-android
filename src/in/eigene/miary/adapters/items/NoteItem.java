@@ -9,7 +9,7 @@ public class NoteItem extends FeedAdapter.Item {
     public final Note note;
 
     public NoteItem(final Note note) {
-        super(R.layout.note_feed_item);
+        super(R.layout.feed_item_note);
         this.note = note;
     }
 }

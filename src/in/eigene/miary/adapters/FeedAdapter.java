@@ -25,8 +25,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         switch (viewType) {
-            case R.layout.note_feed_item:
+            case R.layout.feed_item_note:
                 return new NoteViewHolder(view);
+            case R.layout.feed_item_rate:
+                return new RateViewHolder(view);
             default:
                 throw new InternalRuntimeException("Unknown view type " + viewType);
         }
@@ -101,6 +103,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
                 items = new ArrayList<Item>();
+                items.add(new RateItem());
                 for (final Note note : notes) {
                     items.add(new NoteItem(note));
                 }

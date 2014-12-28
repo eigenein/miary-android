@@ -22,7 +22,7 @@
     <application
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
-            android:theme="@style/Miary.Theme.Application"
+            android:theme="@style/Miary.Theme"
             android:name="in.eigene.miary.Application"
             android:allowBackup="true"
     >
