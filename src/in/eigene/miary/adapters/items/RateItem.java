@@ -5,11 +5,7 @@ import in.eigene.miary.adapters.*;
 
 public class RateItem extends FeedAdapter.Item {
 
-    public static enum Type {
-        ENJOYING,
-        RATING,
-        FEEDBACK
-    }
+    public static final int POSITION = 0;
 
     public Type type = Type.ENJOYING;
 
@@ -20,7 +16,17 @@ public class RateItem extends FeedAdapter.Item {
         this.adapter = adapter;
     }
 
-    public void notifyChanged() {
-        adapter.notifyItemChanged(0);
+    public void notifyItemChanged() {
+        adapter.notifyItemChanged(POSITION);
+    }
+
+    public void remove() {
+        adapter.removeItem(POSITION);
+    }
+
+    public static enum Type {
+        ENJOYING,
+        RATING,
+        FEEDBACK
     }
 }

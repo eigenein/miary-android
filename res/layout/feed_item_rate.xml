@@ -26,7 +26,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/feed_item_internal_margin"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Welcome back!"
                     android:textColor="@color/blue_500"
             />
             <TextView
@@ -35,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/feed_item_internal_margin"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Enjoying Miary?"
             />
         </LinearLayout>
         <View

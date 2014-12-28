@@ -110,4 +110,11 @@
     <string name="toast_storage_unready">Диск не готов.</string>
     <string name="toast_thank_you">Спасибо!</string>
     <string name="toast_unstarred">Отметка снята.</string>
+    <string name="rate_item_welcome">Добро пожаловать!</string>
+    <string name="rate_item_enjoying">Вам нравится Miary?</string>
+    <string name="not_really_button">Не очень</string>
+    <string name="yes_button">Да</string>
+    <string name="rate_item_rating">Не хотите ли оценить приложение на Google Play?</string>
+    <string name="no_button">Нет</string>
+    <string name="rate_item_feedback">Не могли бы вы отправить нам какой-нибудь отзыв?</string>
 </resources>

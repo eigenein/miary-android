@@ -9,6 +9,8 @@ import in.eigene.miary.adapters.items.*;
 import in.eigene.miary.adapters.viewholders.*;
 import in.eigene.miary.core.classes.*;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.helpers.*;
+import in.eigene.miary.helpers.lang.*;
 
 import java.util.*;
 
@@ -16,10 +18,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private static final String LOG_TAG = FeedAdapter.class.getName();
 
+    private final boolean rateItemShown;
+
     private Mode mode = Mode.DIARY;
     private SortingOrder sortingOrder = SortingOrder.DESCENDING;
 
     private List<Item> items = new ArrayList<Item>();
+
+    public FeedAdapter(final boolean rateItemShown) {
+        this.rateItemShown = rateItemShown;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -72,6 +80,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return this;
     }
 
+    public void removeItem(final int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public FeedAdapter refresh(final OnDataChangedListener listener) {
         Log.d(LOG_TAG, "refresh");
 
@@ -103,9 +116,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
                 items = new ArrayList<Item>();
-                items.add(new RateItem(FeedAdapter.this));
-                for (final Note note : notes) {
-                    items.add(new NoteItem(note));
+                items.addAll(Util.map(notes, new Function<Note, Item>() {
+                    @Override
+                    public Item apply(final Note note) {
+                        return new NoteItem(note);
+                    }
+                }));
+                if (!rateItemShown && (notes.size() >= 10)) {
+                    // Ask user to rate app or give us some feedback.
+                    items.add(RateItem.POSITION, new RateItem(FeedAdapter.this));
                 }
                 listener.onDataChanged();
                 notifyDataSetChanged();

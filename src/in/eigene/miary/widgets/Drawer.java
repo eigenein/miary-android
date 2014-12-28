@@ -166,7 +166,7 @@ public class Drawer extends DrawerListener {
             super(new Runnable() {
                 @Override
                 public void run() {
-                    context.startActivity(new Intent().setClass(context, activityClass));
+                    ActivityHelper.start(context, activityClass);
                 }
             });
         }

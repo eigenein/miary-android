@@ -129,4 +129,11 @@
     <string name="toast_storage_unready">Storage is not ready.</string>
     <string name="toast_thank_you">Thank you!</string>
     <string name="toast_unstarred">Unstarred.</string>
+    <string name="rate_item_welcome">Welcome back!</string>
+    <string name="rate_item_enjoying">Enjoying Miary?</string>
+    <string name="not_really_button">Not really</string>
+    <string name="yes_button">Yes</string>
+    <string name="rate_item_rating">How about rating on Google Play, then?</string>
+    <string name="no_button">No</string>
+    <string name="rate_item_feedback">Would you mind giving us some feedback?</string>
 </resources>

@@ -10,10 +10,6 @@ import in.eigene.miary.*;
 
 public class AboutActivity extends BaseActivity {
 
-    public static void start(final Context context) {
-        context.startActivity(new Intent().setClass(context, AboutActivity.class));
-    }
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
