@@ -4,6 +4,7 @@ import android.content.*;
 import android.content.pm.*;
 import android.net.*;
 import android.os.*;
+import android.preference.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
@@ -31,6 +32,25 @@ public class AboutActivity extends BaseActivity {
                 new StartUriOnClickListener(Uri.parse("http://www.facebook.com/miaryapp")));
         findViewById(R.id.about_google_plus_text).setOnClickListener(
                 new StartUriOnClickListener(Uri.parse("http://plus.google.com/communities/105005072306337762911")));
+
+        registerForContextMenu(findViewById(R.id.about_version));
+    }
+
+    @Override
+    public void onCreateContextMenu(final ContextMenu menu, final View view,final ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        getMenuInflater().inflate(R.menu.developer, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_clear_shared_preferences:
+                PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     private class StartUriOnClickListener implements View.OnClickListener {
