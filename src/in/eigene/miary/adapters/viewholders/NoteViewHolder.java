@@ -21,18 +21,18 @@ public class NoteViewHolder extends FeedAdapter.ViewHolder implements View.OnCli
 
     private Note note;
 
-    public NoteViewHolder(final View view) {
-        super(view);
+    public NoteViewHolder(final View itemView) {
+        super(itemView);
 
-        final Context context = view.getContext();
+        final Context context = itemView.getContext();
 
-        layout = (CardView)view.findViewById(R.id.feed_item_layout);
-        title = (TextView)view.findViewById(R.id.feed_item_title);
+        layout = (CardView)itemView.findViewById(R.id.feed_item_layout);
+        title = (TextView)itemView.findViewById(R.id.feed_item_title);
         title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_BOLD));
-        text = (TextView)view.findViewById(R.id.feed_item_text);
+        text = (TextView)itemView.findViewById(R.id.feed_item_text);
         text.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_REGULAR));
-        creationDate = (TextView)view.findViewById(R.id.feed_item_creation_date);
-        view.setOnClickListener(this);
+        creationDate = (TextView)itemView.findViewById(R.id.feed_item_creation_date);
+        itemView.setOnClickListener(this);
     }
 
     @Override

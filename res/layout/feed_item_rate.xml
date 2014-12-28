@@ -21,6 +21,7 @@
                 android:layout_margin="@dimen/feed_item_internal_margin"
         >
             <TextView
+                    android:id="@+id/rate_item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/feed_item_internal_margin"
@@ -29,6 +30,7 @@
                     android:textColor="@color/blue_500"
             />
             <TextView
+                    android:id="@+id/rate_item_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/feed_item_internal_margin"
@@ -48,12 +50,14 @@
                 android:layout_margin="@dimen/feed_item_internal_margin"
         >
             <Button
+                    android:id="@+id/rate_item_negative"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Not really"
                     style="@style/Miary.Theme.Button.Flat"
             />
             <Button
+                    android:id="@+id/rate_item_positive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yes"

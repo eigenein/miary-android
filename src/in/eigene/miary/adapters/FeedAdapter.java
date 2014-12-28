@@ -103,7 +103,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
                 Log.i(LOG_TAG, "Found notes: " + notes.size());
                 items = new ArrayList<Item>();
-                items.add(new RateItem());
+                items.add(new RateItem(FeedAdapter.this));
                 for (final Note note : notes) {
                     items.add(new NoteItem(note));
                 }
