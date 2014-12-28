@@ -7,7 +7,11 @@ import android.os.*;
 import android.preference.*;
 import android.view.*;
 import android.widget.*;
+import com.parse.*;
+import com.parse.ParseException;
 import in.eigene.miary.*;
+import in.eigene.miary.core.classes.*;
+import in.eigene.miary.exceptions.*;
 
 public class AboutActivity extends BaseActivity {
 
@@ -45,8 +49,17 @@ public class AboutActivity extends BaseActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_clear_shared_preferences:
+            case R.id.menu_item_developer_clear_shared_preferences:
                 PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+                return true;
+            case R.id.menu_item_developer_delete_all_notes:
+                Note.unpinAllInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(final ParseException e) {
+                        InternalRuntimeException.throwForException("could not unpin all notes", e);
+                        Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
+                    }
+                });
                 return true;
             default:
                 return super.onContextItemSelected(item);
