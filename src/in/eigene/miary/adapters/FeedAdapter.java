@@ -122,7 +122,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                         return new NoteItem(note);
                     }
                 }));
-                if (!rateItemShown && (notes.size() >= 10)) {
+                if (!rateItemShown && (notes.size() >= 1000000)) {
                     // Ask user to rate app or give us some feedback.
                     items.add(RateItem.POSITION, new RateItem(FeedAdapter.this));
                 }
