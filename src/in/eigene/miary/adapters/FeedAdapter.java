@@ -18,6 +18,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private static final String LOG_TAG = FeedAdapter.class.getName();
 
+    /**
+     * Whether rate item was already shown to the user.
+     */
     private boolean rateItemShown;
 
     private Mode mode = Mode.DIARY;
@@ -114,18 +117,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             @Override
             public void done(final List<Note> notes, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
-                Log.i(LOG_TAG, "Found notes: " + notes.size());
-                items = new ArrayList<Item>();
-                items.addAll(Util.map(notes, new Function<Note, Item>() {
+                items = Util.map(notes, new Function<Note, Item>() {
                     @Override
                     public Item apply(final Note note) {
                         return new NoteItem(note);
                     }
-                }));
+                });
+                // Update statistics.
+                ParseHelper.trackStatistics(notes.size());
+                // Ask user to rate app or give us some feedback.
                 if (!rateItemShown && (notes.size() >= 1000000)) {
-                    // Ask user to rate app or give us some feedback.
                     items.add(RateItem.POSITION, new RateItem(FeedAdapter.this));
                 }
+                // Notify listeners.
                 listener.onDataChanged();
                 notifyDataSetChanged();
             }
