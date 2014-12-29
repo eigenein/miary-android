@@ -11,7 +11,7 @@ public class Debouncer {
     private final String name;
     private final long interval;
 
-    private long lastActionTime;
+    private long lastActionTime = getTime();
 
     public Debouncer(final String name, final long interval) {
         this.name = name;

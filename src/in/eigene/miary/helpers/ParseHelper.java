@@ -11,7 +11,7 @@ public class ParseHelper {
     private static final String APPLICATION_ID = "jpnD20rkM3xxna9OhRtun2IbzE7QjPEULtEmIRKC";
     private static final String CLIENT_KEY = "ChviiekJmgXCOcQuuzNnifiIHjQ3vHa2GqYW4yCC";
 
-    private static final String KEY_NOTE_COUNT = "noteCount";
+    private static final Debouncer saveStatisticsDebouncer = new Debouncer("saveStatistics", 60000L);
 
     public static void initialize(final Context context) {
         ParseCrashReporting.enable(context);
@@ -29,7 +29,11 @@ public class ParseHelper {
 
     public static void trackStatistics(final int noteCount) {
         final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put(KEY_NOTE_COUNT, noteCount);
-        installation.saveEventually();
+        installation.put("noteCount", noteCount);
+        // Debounce installation save.
+        if (saveStatisticsDebouncer.isActionAllowed()) {
+            installation.saveEventually();
+            saveStatisticsDebouncer.ping();
+        }
     }
 }
