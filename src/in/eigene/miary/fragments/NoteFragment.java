@@ -39,7 +39,7 @@ public class NoteFragment extends BaseFragment {
     private static final String KEY_NOTE_UUID = "note_uuid";
     private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w\\-]+");
 
-    private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L);
+    private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
 
     private ChangedListener changedListener;
     private LeaveFullscreenListener leaveFullscreenListener;

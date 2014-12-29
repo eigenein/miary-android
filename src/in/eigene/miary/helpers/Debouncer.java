@@ -11,11 +11,14 @@ public class Debouncer {
     private final String name;
     private final long interval;
 
-    private long lastActionTime = getTime();
+    private long lastActionTime;
 
-    public Debouncer(final String name, final long interval) {
+    public Debouncer(final String name, final long interval, final boolean allowInstantly) {
         this.name = name;
         this.interval = interval;
+        if (!allowInstantly) {
+            lastActionTime = getTime();
+        }
     }
 
     public boolean isActionAllowed() {

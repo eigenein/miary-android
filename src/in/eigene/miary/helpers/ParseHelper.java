@@ -11,7 +11,7 @@ public class ParseHelper {
     private static final String APPLICATION_ID = "jpnD20rkM3xxna9OhRtun2IbzE7QjPEULtEmIRKC";
     private static final String CLIENT_KEY = "ChviiekJmgXCOcQuuzNnifiIHjQ3vHa2GqYW4yCC";
 
-    private static final Debouncer saveStatisticsDebouncer = new Debouncer("saveStatistics", 60000L);
+    private static final Debouncer saveStatisticsDebouncer = new Debouncer("saveStatistics", 60000L, true);
 
     public static void initialize(final Context context) {
         ParseCrashReporting.enable(context);
