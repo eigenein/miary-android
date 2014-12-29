@@ -33,7 +33,7 @@ public class NoteColorHelper {
     }
 
     public static NoteColorHelper fromIndex(final Context context, final int index) {
-        return fromPrimaryColor(context, context.getResources().getColor(COLOR_RESOURCES.get(index)));
+        return fromPrimaryColor(context, context.getResources().getColor(COLOR_RESOURCES.get(index, R.color.white)));
     }
 
     public static NoteColorHelper fromPrimaryColor(final Context context, final int primaryColor) {
