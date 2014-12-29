@@ -37,7 +37,6 @@ public class NoteFragment extends BaseFragment {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
     private static final String KEY_NOTE_UUID = "note_uuid";
-    private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w\\-]+");
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
 
@@ -316,9 +315,6 @@ public class NoteFragment extends BaseFragment {
         };
         // Set hashtags and save.
         Log.i(LOG_TAG, "Save note.");
-        // TODO: final String[] hashtags = PatternHelper.findAll(HASHTAG_PATTERN, note.getText());
-        // TODO: Log.d(LOG_TAG, "Hashtags: " + TextUtils.join(", ", hashtags));
-        // TODO: note.setHashtags(hashtags);
         note.pinInBackground(callback);
         // Update debouncer.
         saveDebouncer.ping();
