@@ -9,6 +9,7 @@ import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
+import in.eigene.miary.adapters.viewholders.*;
 import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
 
@@ -16,7 +17,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
-    private static final String FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
+    private static final String KEY_FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
 
     private FeedAdapter feedAdapter;
 
@@ -29,11 +30,13 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
         setHasOptionsMenu(true);
 
-        feedAdapter = new FeedAdapter();
-        // Restore sorting order.
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        feedAdapter = new FeedAdapter();
+        feedAdapter.setRateItemShown(preferences.getBoolean(RateViewHolder.KEY_RATE_ITEM_SHOWN, false));
+        // Restore sorting order.
         feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
-                preferences.getString(FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
+                preferences.getString(KEY_FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
     }
 
     @Override
@@ -81,7 +84,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
                 }
                 // Save current sorting order.
                 PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                        .putString(FEED_SORTING_ORDER_NAME, order.name()).commit();
+                        .putString(KEY_FEED_SORTING_ORDER_NAME, order.name()).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

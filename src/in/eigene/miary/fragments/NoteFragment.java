@@ -13,6 +13,7 @@ import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
+import in.eigene.miary.core.classes.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.fragments.dialogs.*;
@@ -36,8 +37,8 @@ public class NoteFragment extends BaseFragment {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
     private static final String KEY_NOTE_UUID = "note_uuid";
-    private static final long DEBOUNCE_INTERVAL = 3000L;
-    private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w\\-]+");
+
+    private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
 
     private ChangedListener changedListener;
     private LeaveFullscreenListener leaveFullscreenListener;
@@ -50,11 +51,6 @@ public class NoteFragment extends BaseFragment {
     private Note note;
 
     private boolean substitutionEnabled = true;
-
-    /**
-     * Contains last note save date.
-     */
-    private long lastSaveDateTime = new Date().getTime();
 
     public void setOnLeaveFullscreenListener(final LeaveFullscreenListener listener) {
         this.leaveFullscreenListener = listener;
@@ -307,13 +303,8 @@ public class NoteFragment extends BaseFragment {
             return;
         }
         // Debounce.
-        // TODO: move this code out to a separate debouncer class.
-        final long currentDateTime = new Date().getTime();
-        if (debounce) {
-            if (currentDateTime - lastSaveDateTime < DEBOUNCE_INTERVAL) {
-                Log.d(LOG_TAG, "Save debounce. " + (currentDateTime - lastSaveDateTime));
-                return;
-            }
+        if (debounce && !saveDebouncer.isActionAllowed()) {
+            return;
         }
         // Save callback.
         final SaveCallback callback = new SaveCallback() {
@@ -324,12 +315,9 @@ public class NoteFragment extends BaseFragment {
         };
         // Set hashtags and save.
         Log.i(LOG_TAG, "Save note.");
-        // TODO: final String[] hashtags = PatternHelper.findAll(HASHTAG_PATTERN, note.getText());
-        // TODO: Log.d(LOG_TAG, "Hashtags: " + TextUtils.join(", ", hashtags));
-        // TODO: note.setHashtags(hashtags);
         note.pinInBackground(callback);
         // Update debouncer.
-        lastSaveDateTime = currentDateTime;
+        saveDebouncer.ping();
     }
 
     /**

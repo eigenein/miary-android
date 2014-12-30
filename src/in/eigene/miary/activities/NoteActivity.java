@@ -5,7 +5,7 @@ import android.os.*;
 import android.util.*;
 import android.view.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.core.classes.*;
 import in.eigene.miary.fragments.*;
 
 import java.util.*;

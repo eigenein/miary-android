@@ -1,4 +1,4 @@
-package in.eigene.miary.core;
+package in.eigene.miary.core.classes;
 
 import com.parse.*;
 import in.eigene.miary.helpers.*;
@@ -45,7 +45,7 @@ public class Note extends ParseObject {
     public static final int COLOR_GRAY = 4;
     public static final int COLOR_GREEN = 5;
     public static final int COLOR_BLUE = 6;
-    public static final int COLOR_VIOLET = 7;
+    public static final int COLOR_PURPLE = 7;
 
     /**
      * Gets note from Local Datastore by UUID.
