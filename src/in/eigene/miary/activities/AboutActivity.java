@@ -51,9 +51,13 @@ public class AboutActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.developer, menu);
     }
 
+    /**
+     * Developer features.
+     */
     @Override
     public boolean onContextItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.menu_item_developer_clear_shared_preferences:
                 PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
                 return true;
@@ -101,6 +105,10 @@ public class AboutActivity extends BaseActivity {
                         Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
                     }
                 });
+                return true;
+
+            case R.id.menu_item_developer_log_out:
+                ParseUser.logOut();
                 return true;
 
             default:

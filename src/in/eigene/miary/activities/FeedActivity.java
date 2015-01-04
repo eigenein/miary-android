@@ -1,19 +1,14 @@
 package in.eigene.miary.activities;
 
-import android.accounts.*;
-import android.accounts.OperationCanceledException;
 import android.content.res.*;
 import android.os.*;
 import android.preference.*;
 import android.view.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
-import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
-
-import java.io.*;
 
 public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
@@ -76,32 +71,5 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
      */
     private FeedFragment getFeedFragment() {
         return (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
-    }
-
-    private void onAccountChanged(final String name) {
-        // TODO: update profile info.
-    }
-
-    private class AccountClickListener implements View.OnClickListener, AccountManagerCallback<Bundle> {
-
-        @Override
-        public void onClick(final View view) {
-            // TODO: select account, create new or sign out.
-            AccountManager.get(FeedActivity.this)
-                    .addAccount("miary.eigene.in", null, null, null, FeedActivity.this, this, null);
-        }
-
-        @Override
-        public void run(final AccountManagerFuture<Bundle> future) {
-            try {
-                onAccountChanged(future.getResult().getString(AccountManager.KEY_ACCOUNT_NAME));
-            } catch (final OperationCanceledException e) {
-                // Do nothing.
-            } catch (final IOException e) {
-                InternalRuntimeException.throwForException("Could not add account.", e);
-            } catch (final AuthenticatorException e) {
-                InternalRuntimeException.throwForException("Could not add account.", e);
-            }
-        }
     }
 }

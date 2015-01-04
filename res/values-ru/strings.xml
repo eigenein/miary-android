@@ -6,6 +6,8 @@
     <string name="about_vkontakte">ВКонтакте</string>
     <string name="account_auth_failed">Не удалось выполнить вход. Проверьте правильность ввода данных.</string>
     <string name="account_auth_success">Вход выполнен успешно.</string>
+    <string name="account_basic">Базовый аккаунт</string>
+    <string name="account_offline">Локальный аккаунт</string>
     <string name="activity_about">О приложении</string>
     <string name="activity_feedback">Отправить отзыв</string>
     <string name="activity_note">Заметка</string>

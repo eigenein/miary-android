@@ -7,6 +7,8 @@
     <string name="about_vkontakte">VKontakte</string>
     <string name="account_auth_failed">Authentication failed.</string>
     <string name="account_auth_success">Successfully signed in.</string>
+    <string name="account_basic">Basic Account</string>
+    <string name="account_offline">Offline Account</string>
     <string name="activity_about">About</string>
     <string name="activity_authenticator">@string/app_name</string>
     <string name="activity_feedback">Feedback</string>
