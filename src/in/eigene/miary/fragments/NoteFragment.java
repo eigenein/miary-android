@@ -21,7 +21,6 @@ import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
 import java.util.*;
-import java.util.regex.*;
 
 public class NoteFragment extends BaseFragment {
 
