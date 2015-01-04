@@ -51,16 +51,16 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
                 if (validate()) {
                     // TODO: disable controls.
                     // TODO: show progress dialog.
-                    credentials = new Credentials(getEmail(), getPassword(), false);
-                    new AuthAsyncTask(AuthenticatorActivity.this).execute(credentials);
+                    credentials = new Credentials(getEmail(), getPassword());
+                    new SignInAsyncTask(AuthenticatorActivity.this).execute(credentials);
                 }
                 return true;
             case R.id.menu_item_auth_sign_up:
                 if (validate()) {
                     // TODO: disable controls.
                     // TODO: show progress dialog.
-                    credentials = new Credentials(getEmail(), getPassword(), true);
-                    new AuthAsyncTask(AuthenticatorActivity.this).execute(credentials);
+                    credentials = new Credentials(getEmail(), getPassword());
+                    new SignUpAsyncTask(AuthenticatorActivity.this).execute(credentials);
                 }
                 return true;
             default:

@@ -4,7 +4,7 @@ import android.os.*;
 import com.parse.*;
 import in.eigene.miary.helpers.lang.*;
 
-public class AuthAsyncTask extends AsyncTask<Credentials, Void, String> {
+public abstract class AuthAsyncTask extends AsyncTask<Credentials, Void, String> {
 
     private final Consumer<String> authTokenConsumer;
 
@@ -14,18 +14,8 @@ public class AuthAsyncTask extends AsyncTask<Credentials, Void, String> {
 
     @Override
     protected String doInBackground(final Credentials... params) {
-        final Credentials credentials = params[0];
-
         try {
-            if (!credentials.getSignUp()) {
-                return ParseUser.logIn(credentials.getEmail(), credentials.getPassword()).getSessionToken();
-            } else {
-                final ParseUser user = new ParseUser();
-                user.setUsername(credentials.getEmail());
-                user.setPassword(credentials.getPassword());
-                user.signUp();
-                return user.getSessionToken();
-            }
+            return doAuth(params[0]);
         } catch (final ParseException e) {
             return null;
         }
@@ -35,4 +25,9 @@ public class AuthAsyncTask extends AsyncTask<Credentials, Void, String> {
     protected void onPostExecute(final String authToken) {
         authTokenConsumer.accept(authToken);
     }
+
+    /**
+     * Authenticates user and returns authentication token.
+     */
+    protected abstract String doAuth(final Credentials credentials) throws ParseException;
 }
