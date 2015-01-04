@@ -61,6 +61,7 @@
         <activity
                 android:name=".activities.AuthenticatorActivity"
                 android:label="@string/activity_authenticator"
+                android:windowSoftInputMode="stateAlwaysVisible"
                 android:theme="@style/Miary.Theme.Modal"
         />
 

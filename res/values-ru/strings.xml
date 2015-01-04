@@ -7,14 +7,13 @@
     <string name="account_auth_failed">Не удалось выполнить вход. Проверьте правильность ввода данных.</string>
     <string name="account_auth_success">Вход выполнен успешно.</string>
     <string name="activity_about">О приложении</string>
-    <string name="activity_authenticator">Войти</string>
     <string name="activity_feedback">Отправить отзыв</string>
     <string name="activity_note">Заметка</string>
     <string name="activity_pin">Код доступа</string>
     <string name="activity_settings">Настройки</string>
     <string name="app_subname">Личный дневник</string>
-    <string name="auth_sign_in_button">Войти</string>
-    <string name="auth_sign_up_button">Создать учетную запись</string>
+    <string name="auth_sign_in">Войти</string>
+    <string name="auth_sign_up">Создать</string>
     <string name="backup_message_creating">Создание резервной копии…</string>
     <string name="backup_message_finishing">Завершение…</string>
     <string name="backup_message_restoring">Восстановление из резервной копии…</string>
