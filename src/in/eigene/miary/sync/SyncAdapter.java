@@ -63,8 +63,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         filterChanges(remoteChanges, localChanges);
         // Saving changes.
         try {
-            Log.i(LOG_TAG, "Saving remote changes.");
-            Note.pinAll(new ArrayList<ParseObject>(remoteChanges.values()));
+            saveRemoteChanges(remoteChanges);
             saveLocalChanges(localChanges);
         } catch (final ParseException e) {
             Log.e(LOG_TAG, "Failed to save changes.", e);
@@ -161,12 +160,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
+    private void saveRemoteChanges(final NoteMap remoteChanges) throws ParseException {
+        Log.i(LOG_TAG, "Saving remote changes.");
+        final List<Note> remoteNotes = new ArrayList<Note>(remoteChanges.values());
+        for (final Note note : remoteNotes) {
+            note.setLocalUpdatedAt(note.getUpdatedAt());
+        }
+        Note.pinAll(remoteNotes);
+    }
+
     private void saveLocalChanges(final NoteMap localChanges) throws ParseException {
         Log.i(LOG_TAG, "Saving local changes.");
         final ParseACL defaultACL = new ParseACL(ParseUser.getCurrentUser());
         final List<Note> localNotes = new ArrayList<Note>(localChanges.values());
         for (final Note note : localNotes) {
-            note.setLocalUpdatedAt(note.getUpdatedAt()).setACL(defaultACL);
+            note.setACL(defaultACL);
         }
         Note.saveAll(localNotes);
     }

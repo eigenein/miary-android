@@ -52,16 +52,12 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
         switch (item.getItemId()) {
             case R.id.menu_item_auth_sign_in:
                 if (validate()) {
-                    // TODO: disable controls.
-                    // TODO: show progress dialog.
                     credentials = new Credentials(getEmail(), getPassword());
                     new SignInAsyncTask(this, this).execute(credentials);
                 }
                 return true;
             case R.id.menu_item_auth_sign_up:
                 if (validate()) {
-                    // TODO: disable controls.
-                    // TODO: show progress dialog.
                     credentials = new Credentials(getEmail(), getPassword());
                     new SignUpAsyncTask(this, this).execute(credentials);
                 }

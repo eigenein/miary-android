@@ -18,8 +18,7 @@ import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.caches.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
-
-import java.io.*;
+import in.eigene.miary.sync.*;
 
 public class Drawer extends DrawerListener {
 
@@ -210,18 +209,24 @@ public class Drawer extends DrawerListener {
             super(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO: check if already logged in and open account activity.
-                    AccountManager.get(activity).addAccount(
-                            "miary.eigene.in", null, null, null, activity, new AccountManagerCallback(), null);
+                    final ParseUser user = ParseUser.getCurrentUser();
+                    if (user != null) {
+                        // TODO.
+                    } else {
+                        final AccountManager accountManager = AccountManager.get(activity);
+                        final Account[] accounts = accountManager.getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
+                        if (accounts.length != 0) {
+                            accountManager.getAuthToken(accounts[0], SyncAdapter.ACCOUNT_TYPE, false, new GetAuthTokenCallback(), null);
+                        } else {
+                            accountManager.addAccount(SyncAdapter.ACCOUNT_TYPE, null, null, null, activity, new AddAccountCallback(), null);
+                        }
+                    }
                 }
             });
         }
     }
 
-    /**
-     * Processes authentication result.
-     */
-    private class AccountManagerCallback implements android.accounts.AccountManagerCallback<Bundle> {
+    private class AddAccountCallback implements AccountManagerCallback<Bundle> {
 
         @Override
         public void run(final AccountManagerFuture<Bundle> future) {
@@ -229,11 +234,30 @@ public class Drawer extends DrawerListener {
                 future.getResult();
             } catch (final android.accounts.OperationCanceledException e) {
                 // Do nothing.
-            } catch (final IOException e) {
-                InternalRuntimeException.throwForException("Failed to add account.", e);
-            } catch (final AuthenticatorException e) {
+            } catch (final Exception e) {
                 InternalRuntimeException.throwForException("Failed to add account.", e);
             }
+        }
+    }
+
+    private class GetAuthTokenCallback implements AccountManagerCallback<Bundle> {
+
+        @Override
+        public void run(final AccountManagerFuture<Bundle> future) {
+            final String authToken;
+            try {
+                authToken = future.getResult().getString(AccountManager.KEY_AUTHTOKEN);
+            } catch (final Exception e) {
+                InternalRuntimeException.throwForException("Failed to get auth token.", e);
+                return;
+            }
+            ParseUser.becomeInBackground(authToken, new LogInCallback() {
+                @Override
+                public void done(final ParseUser user, final ParseException e) {
+                    InternalRuntimeException.throwForException("Failed to become a user.", e);
+                    Toast.makeText(activity, R.string.account_auth_success, Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 }
