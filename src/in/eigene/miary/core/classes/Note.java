@@ -59,6 +59,17 @@ public class Note extends ParseObject {
                 .setDeleted(false);
     }
 
+    /**
+     * Synonym for getUpdatedAt.
+     */
+    public Date getRemoteUpdatedAt() {
+        return getUpdatedAt();
+    }
+
+    public Date getLocalUpdatedAt() {
+        return getDate(KEY_LOCAL_UPDATED_AT);
+    }
+
     public Note setLocalUpdatedAt(final Date updatedAt) {
         put(KEY_LOCAL_UPDATED_AT, updatedAt);
         return this;

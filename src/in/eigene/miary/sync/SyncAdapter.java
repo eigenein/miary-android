@@ -57,10 +57,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             return;
         }
         // Remove outdated changes.
-        Log.i(LOG_TAG, "Filtering remote changes.");
-        filterChanges(localChanges, Note.KEY_LOCAL_UPDATED_AT, remoteChanges, Note.KEY_REMOTE_UPDATED_AT);
-        Log.i(LOG_TAG, "Filtering local changes.");
-        filterChanges(remoteChanges, Note.KEY_REMOTE_UPDATED_AT, localChanges, Note.KEY_LOCAL_UPDATED_AT);
+        Log.i(LOG_TAG, "Merging changes.");
+        mergeChanges(localChanges, remoteChanges);
         // Saving changes.
         try {
             saveRemoteChanges(remoteChanges);
@@ -108,12 +106,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static List<Note> getLocalChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
         Log.i(LOG_TAG, "Getting local changes.");
-        return whereUpdateAtBetween(
+        final ParseQuery<Note> oldNotesQuery = getChangesQuery().fromLocalDatastore()
+                .whereDoesNotExist(Note.KEY_LOCAL_UPDATED_AT);
+        final ParseQuery<Note> newNotesQuery = whereUpdateAtBetween(
                 getChangesQuery().fromLocalDatastore(),
                 lastSyncTime,
                 currentSyncTime,
                 Note.KEY_LOCAL_UPDATED_AT
-        ).find();
+        );
+        final ArrayList<ParseQuery<Note>> queries = new ArrayList<ParseQuery<Note>>();
+        queries.add(oldNotesQuery);
+        queries.add(newNotesQuery);
+        return ParseQuery.or(queries).find();
     }
 
     private static List<Note> getRemoteChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
@@ -142,44 +146,55 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     /**
-     * Filters outdated changes from the target.
+     * Merges local and remote changes. All sync magic comes here.
      */
-    private static void filterChanges(
-            final NoteMap source,
-            final String sourceFieldName,
-            final NoteMap target,
-            final String targetFieldName
-    ) {
-        for (final NoteMap.Entry<UUID, Note> entry : source.entrySet()) {
-            final Note targetNote = target.get(entry.getKey());
-            if (targetNote == null) {
-                continue;
+    private static void mergeChanges(final NoteMap localChanges, final NoteMap remoteChanges) {
+        final ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
+        // Remove outdated remote changes.
+        for (final NoteMap.Entry<UUID, Note> localEntry : localChanges.entrySet()) {
+            final Note localNote = localEntry.getValue();
+            // Fix ACL.
+            localNote.setACL(acl);
+            // Fix old notes without localUpdatedAt field set.
+            if (localNote.getLocalUpdatedAt() == null) {
+                localNote.setLocalUpdatedAt(new Date(0L));
             }
-            if (targetNote.getDate(targetFieldName).before(entry.getValue().getDate(sourceFieldName))) {
-                Log.i(LOG_TAG, "Remove outdated change " + entry.getKey());
-                target.remove(entry.getKey());
+            // Search matching remote change.
+            final Note remoteNote = remoteChanges.get(localEntry.getKey());
+            if (remoteNote != null) {
+                if (remoteNote.getRemoteUpdatedAt().before(localNote.getLocalUpdatedAt())) {
+                    // Remote change is outdated.
+                    remoteChanges.remove(localEntry.getKey());
+                }
+            }
+        }
+        // Remove outdated local changes.
+        for (final NoteMap.Entry<UUID, Note> remoteEntry : remoteChanges.entrySet()) {
+            final Note remoteNote = remoteEntry.getValue();
+            // Set remote update date as local update date.
+            remoteNote.setLocalUpdatedAt(remoteNote.getRemoteUpdatedAt());
+            // Search matching local change.
+            final Note localNote = localChanges.get(remoteEntry.getKey());
+            if (localNote != null) {
+                if (localNote.getLocalUpdatedAt().before(remoteNote.getRemoteUpdatedAt())) {
+                    // Local change is outdated.
+                    localChanges.remove(remoteEntry.getKey());
+                }
             }
         }
     }
 
     private void saveRemoteChanges(final NoteMap remoteChanges) throws ParseException {
-        Log.i(LOG_TAG, "Saving remote changes.");
-        final List<Note> remoteNotes = new ArrayList<Note>(remoteChanges.values());
-        for (final Note note : remoteNotes) {
-            note.setLocalUpdatedAt(note.getUpdatedAt());
-        }
-        Note.pinAll(remoteNotes);
+        Log.i(LOG_TAG, "Saving remote changes locally.");
+        Note.pinAll(new ArrayList<Note>(remoteChanges.values()));
     }
 
     private void saveLocalChanges(final NoteMap localChanges) throws ParseException {
-        Log.i(LOG_TAG, "Saving local changes.");
-        final ParseACL defaultACL = new ParseACL(ParseUser.getCurrentUser());
+        Log.i(LOG_TAG, "Saving local changes remotely.");
+
         final List<Note> localNotes = new ArrayList<Note>(localChanges.values());
-        for (final Note note : localNotes) {
-            note.setACL(defaultACL);
-        }
-        Note.saveAll(localNotes);
-        Note.pinAll(localNotes); // save objectId
+        Note.saveAll(localNotes); // upload
+        Note.pinAll(localNotes); // save possibly updated objectId and localUpdatedAt
     }
 
     /**
