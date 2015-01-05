@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_item_developer_clear_shared_preferences" android:title="Clear shared preferences"/>
-    <item android:id="@+id/menu_item_developer_sync" android:title="Sync"/>
     <item android:id="@+id/menu_item_developer_log_out" android:title="Log out"/>
     <item android:id="@+id/menu_item_developer_add_sample_notes" android:title="Add sample notes"/>
     <item android:id="@+id/menu_item_developer_delete_all_notes" android:title="Delete all notes"/>

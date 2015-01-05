@@ -26,7 +26,7 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
         setContentView(R.layout.activity_feed);
         initializeToolbar();
         initializeFloatingActionButton();
-        getFeedFragment().fixFeedViewPadding(getSupportActionBar().getThemedContext());
+        getFeedFragment().fixTopPadding(getSupportActionBar().getThemedContext());
         // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Initialize navigation drawer.

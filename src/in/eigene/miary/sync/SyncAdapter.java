@@ -16,6 +16,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String ACCOUNT_TYPE = "miary.eigene.in";
     public static final String AUTHORITY = "in.eigene.miary.provider";
+    public static final String SYNC_FINISHED_EVENT_NAME = "in.eigene.miary.events.SYNC_FINISHED";
 
     private static final String KEY_LAST_SYNC_TIME = "lastSyncTime";
 
@@ -37,8 +38,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             final Bundle extras,
             final String authority,
             final ContentProviderClient provider,
-            final SyncResult syncResult
-    ) {
+            final SyncResult syncResult) {
+        try {
+            onPerformSync(account, syncResult);
+        } finally {
+            getContext().sendBroadcast(new Intent(SYNC_FINISHED_EVENT_NAME));
+        }
+    }
+
+    private void onPerformSync(final Account account, final SyncResult syncResult) {
         Log.i(LOG_TAG, "Starting.");
         if (ParseUser.getCurrentUser() == null) {
             Log.w(LOG_TAG, "No current user.");
@@ -51,9 +59,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         // Obtain changes.
         final NoteMap localChanges = new NoteMap();
         final NoteMap remoteChanges = new NoteMap();
-        if (!getChanges(localChanges, remoteChanges, lastSyncDate, new Date())) {
+        if (!queryChanges(localChanges, remoteChanges, lastSyncDate, new Date())) {
             syncResult.stats.numIoExceptions += 1;
-            ParseHelper.trackEvent("syncFailed", "reason", "getChanges");
+            ParseHelper.trackEvent("syncFailed", "reason", "queryChanges");
             return;
         }
         // Remove outdated changes.
@@ -66,7 +74,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (final ParseException e) {
             Log.e(LOG_TAG, "Failed to save changes.", e);
             syncResult.stats.numIoExceptions += 1;
-            ParseHelper.trackEvent("syncFailed", "reason", "saveChanges");
+            ParseHelper.trackEvent("syncFailed", "reason", "saveAndPinChanges");
             return;
         }
         syncResult.stats.numUpdates = localChanges.size() + remoteChanges.size();
@@ -79,7 +87,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Gets local and remote changes.
      */
-    private static boolean getChanges(
+    private static boolean queryChanges(
             final NoteMap localChanges,
             final NoteMap remoteChanges,
             final Date lastSyncDate,

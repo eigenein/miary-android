@@ -1,6 +1,5 @@
 package in.eigene.miary.activities;
 
-import android.accounts.*;
 import android.app.*;
 import android.content.*;
 import android.content.pm.*;
@@ -16,7 +15,6 @@ import in.eigene.miary.core.classes.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.lang.*;
-import in.eigene.miary.sync.*;
 
 import java.util.*;
 
@@ -114,16 +112,6 @@ public class AboutActivity extends BaseActivity {
 
             case R.id.menu_item_developer_log_out:
                 ParseUser.logOut();
-                return true;
-
-            case R.id.menu_item_developer_sync:
-                final Account[] accounts = AccountManager.get(this).getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
-                if (accounts.length != 0) {
-                    final Bundle settingsBundle = new Bundle();
-                    settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                    settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-                    ContentResolver.requestSync(accounts[0], SyncAdapter.AUTHORITY, settingsBundle);
-                }
                 return true;
 
             default:
