@@ -1,12 +1,13 @@
 package in.eigene.miary.sync;
 
+import android.content.*;
 import com.parse.*;
 import in.eigene.miary.helpers.lang.*;
 
 public class SignInAsyncTask extends AuthAsyncTask {
 
-    public SignInAsyncTask(final Consumer<String> authTokenConsumer) {
-        super(authTokenConsumer);
+    public SignInAsyncTask(final Context context, final Consumer<String> authTokenConsumer) {
+        super(context, authTokenConsumer);
     }
 
     @Override

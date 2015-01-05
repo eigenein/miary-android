@@ -55,7 +55,7 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
                     // TODO: disable controls.
                     // TODO: show progress dialog.
                     credentials = new Credentials(getEmail(), getPassword());
-                    new SignInAsyncTask(AuthenticatorActivity.this).execute(credentials);
+                    new SignInAsyncTask(this, this).execute(credentials);
                 }
                 return true;
             case R.id.menu_item_auth_sign_up:
@@ -63,7 +63,7 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
                     // TODO: disable controls.
                     // TODO: show progress dialog.
                     credentials = new Credentials(getEmail(), getPassword());
-                    new SignUpAsyncTask(AuthenticatorActivity.this).execute(credentials);
+                    new SignUpAsyncTask(this, this).execute(credentials);
                 }
                 return true;
             default:

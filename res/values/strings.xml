@@ -24,6 +24,7 @@
     <string name="backup_message_restoring">Restoring backup…</string>
     <string name="backup_message_starting">Starting…</string>
     <string name="button_remove">Remove</string>
+    <string name="dialog_authenticating">Authenticating…</string>
     <string name="dialog_colorpicker_title">Choose Color</string>
     <string name="dialog_current_pin_title">Current passcode</string>
     <string name="dialog_custom_date_title">Set date and time</string>
