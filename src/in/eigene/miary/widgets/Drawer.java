@@ -227,7 +227,6 @@ public class Drawer extends DrawerListener {
         public void run(final AccountManagerFuture<Bundle> future) {
             try {
                 future.getResult();
-                // TODO: run sync.
             } catch (final android.accounts.OperationCanceledException e) {
                 // Do nothing.
             } catch (final IOException e) {

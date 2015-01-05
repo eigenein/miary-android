@@ -103,8 +103,8 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
         accountManager.addAccountExplicitly(account, credentials.getPassword(), new Bundle());
         result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
         result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-        result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
         accountManager.setAuthToken(account, account.type, authToken);
+        getContentResolver().setSyncAutomatically(account, SyncAdapter.AUTHORITY, true);
         Toast.makeText(this, R.string.account_auth_success, Toast.LENGTH_LONG).show();
 
         this.result = result;
