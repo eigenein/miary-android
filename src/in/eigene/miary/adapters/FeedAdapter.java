@@ -91,8 +91,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public FeedAdapter refresh(final OnDataChangedListener listener) {
         Log.d(LOG_TAG, "refresh");
 
-        final ParseQuery<Note> query = ParseQuery.getQuery(Note.class);
-        query.fromLocalDatastore();
+        final ParseQuery<Note> query = ParseQuery.getQuery(Note.class)
+                .fromLocalDatastore()
+                .whereEqualTo(Note.KEY_DELETED, false);
         switch (mode) {
             case DIARY:
                 query.whereEqualTo(Note.KEY_DRAFT, false);

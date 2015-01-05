@@ -114,25 +114,23 @@ public class NoteFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                if (note != null) {
-                    // Automatic substitution.
-                    final String currentText = editTextText.getText().toString();
-                    final String replacedText;
-                    if (substitutionEnabled) {
-                        replacedText = Substitutions.replace(currentText);
-                        if (!currentText.equals(replacedText)) {
-                            Log.d(LOG_TAG, "Setting replaced text.");
-                            final int selectionStart = editTextText.getSelectionStart();
-                            editTextText.setText(replacedText);
-                            editTextText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
-                        }
-                    } else {
-                        replacedText = currentText;
+                // Automatic substitution.
+                final String currentText = editTextText.getText().toString();
+                final String replacedText;
+                if (substitutionEnabled) {
+                    replacedText = Substitutions.replace(currentText);
+                    if (!currentText.equals(replacedText)) {
+                        Log.d(LOG_TAG, "Setting replaced text.");
+                        final int selectionStart = editTextText.getSelectionStart();
+                        editTextText.setText(replacedText);
+                        editTextText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
                     }
-                    // Update field.
-                    note.setText(replacedText);
-                    saveNote(true);
+                } else {
+                    replacedText = currentText;
                 }
+                // Update field.
+                note.setText(replacedText);
+                saveNote(true);
             }
         });
     }
@@ -144,10 +142,8 @@ public class NoteFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                if (note != null) {
-                    note.setTitle(s.toString());
-                    saveNote(true);
-                }
+                note.setTitle(s.toString());
+                saveNote(true);
             }
         });
     }
@@ -172,6 +168,7 @@ public class NoteFragment extends BaseFragment {
         if (note == null) {
             return;
         }
+
         menu.findItem(R.id.menu_item_note_draft).setVisible(!note.isDraft());
         menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
         menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
@@ -232,16 +229,10 @@ public class NoteFragment extends BaseFragment {
                         .setListener(new RemoveNoteDialogFragment.Listener() {
                             @Override
                             public void onPositiveButtonClicked() {
-                                note.unpinInBackground(new DeleteCallback() {
-                                    @Override
-                                    public void done(final ParseException e) {
-                                        InternalRuntimeException.throwForException("Could not unpin note.", e);
-                                        note = null;
-                                        Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
-                                        changedListener.onNoteRemoved();
-                                    }
-                                });
-                                note = null;
+                                note.setDeleted(true);
+                                saveNote(false);
+                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
+                                changedListener.onNoteRemoved();
                             }
                         })
                         .show(getFragmentManager());
@@ -296,11 +287,6 @@ public class NoteFragment extends BaseFragment {
      * Saves the note. This method debounces frequent save calls.
      */
     private void saveNote(final boolean debounce) {
-        // Check that note is not removed.
-        if (note == null) {
-            Log.i(LOG_TAG, "Not saving null note.");
-            return;
-        }
         // Debounce.
         if (debounce && !saveDebouncer.isActionAllowed()) {
             return;

@@ -72,6 +72,8 @@ public class JsonRestoreInput extends RestoreInput {
                 note.setCustomDate(Util.parse(reader.nextString()));
             } else if (name.equals("creationDate")) {
                 note.setCreationDate(Util.parse(reader.nextString()));
+            } else if (name.equals("isDeleted")) {
+                note.setDeleted(reader.nextBoolean());
             } else {
                 reader.skipValue();
             }

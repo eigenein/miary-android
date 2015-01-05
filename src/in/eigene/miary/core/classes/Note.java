@@ -53,7 +53,8 @@ public class Note extends ParseObject {
                 .setCreationDate(new Date())
                 .setCustomDate(new Date())
                 .setDraft(false)
-                .setStarred(false);
+                .setStarred(false)
+                .setDeleted(false);
     }
 
     public UUID getUuid() {
@@ -127,6 +128,15 @@ public class Note extends ParseObject {
 
     public Note setStarred(final boolean isStarred) {
         put(KEY_STARRED, isStarred);
+        return this;
+    }
+
+    public boolean isDeleted() {
+        return getBoolean(KEY_DELETED);
+    }
+
+    public Note setDeleted(final boolean isDeleted) {
+        put(KEY_DELETED, isDeleted);
         return this;
     }
 

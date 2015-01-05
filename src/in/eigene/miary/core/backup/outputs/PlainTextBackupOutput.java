@@ -29,6 +29,9 @@ public class PlainTextBackupOutput extends BackupOutput {
 
     @Override
     public void write(final Note note) {
+        if (note.isDeleted()) {
+            return;
+        }
         writer.println(note.getCustomDate()
                 + (note.isStarred() ? " [starred]": "")
                 + (note.isDraft() ? " [draft]" : ""));

@@ -46,6 +46,7 @@ public class JsonBackupOutput extends BackupOutput {
         writer.name("isDraft").value(note.isDraft());
         writer.name("customDate").value(Util.format(note.getCustomDate()));
         writer.name("creationDate").value(Util.format(note.getCreationDate()));
+        writer.name("isDeleted").value(note.isDeleted());
         writer.endObject();
     }
 
