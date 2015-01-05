@@ -8,6 +8,7 @@ import in.eigene.miary.*;
 import in.eigene.miary.adapters.items.*;
 import in.eigene.miary.adapters.viewholders.*;
 import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.queries.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.lang.*;
@@ -96,13 +97,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 .whereEqualTo(Note.KEY_DELETED, false);
         switch (mode) {
             case DIARY:
-                query.whereEqualTo(Note.KEY_DRAFT, false);
+                DiaryQueryModifier.INSTANCE.apply(query);
                 break;
             case STARRED:
-                query.whereEqualTo(Note.KEY_STARRED, true);
+                StarredQueryModifier.INSTANCE.apply(query);
                 break;
             case DRAFTS:
-                query.whereEqualTo(Note.KEY_DRAFT, true);
+                DraftsQueryModifier.INSTANCE.apply(query);
                 break;
         }
         switch (sortingOrder) {

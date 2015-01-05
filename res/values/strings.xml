@@ -57,12 +57,10 @@
     <string name="helper_optional">Optional</string>
     <string name="no_button">No</string>
     <string name="not_really_button">Not really</string>
-    <string name="note_added_to_draft">Note added to Drafts.</string>
     <string name="note_color">Change color</string>
     <string name="note_draft">Mark as a draft</string>
     <string name="note_fullscreen">Fullscreen</string>
     <string name="note_hint">Text</string>
-    <string name="note_moved_to_draft">Note moved to Drafts.</string>
     <string name="note_new">New note</string>
     <string name="note_not_draft">Mark as not a draft</string>
     <string name="note_remove">Remove note</string>
