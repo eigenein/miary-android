@@ -52,14 +52,12 @@
     <string name="helper_optional">Необязательно</string>
     <string name="no_button">Нет</string>
     <string name="not_really_button">Не очень</string>
-    <string name="note_added_to_draft">Заметка добавлена в Черновики.</string>
     <string name="note_color">Изменить цвет</string>
     <string name="note_draft">Переместить в черновики</string>
     <string name="note_fullscreen">На весь экран</string>
     <string name="note_hint">Текст</string>
-    <string name="note_moved_to_draft">Заметка перемещена в Черновики.</string>
     <string name="note_new">Новая заметка</string>
-    <string name="note_not_draft">Переместить в ленту</string>
+    <string name="note_not_draft">Переместить в дневник</string>
     <string name="note_remove">Удалить заметку</string>
     <string name="note_removed">Заметка удалена.</string>
     <string name="note_reset_custom_date">Сбросить</string>
