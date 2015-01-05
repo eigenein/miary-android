@@ -61,8 +61,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         mergeChanges(localChanges, remoteChanges);
         // Saving changes.
         try {
-            saveRemoteChanges(remoteChanges);
-            saveLocalChanges(localChanges);
+            pinRemoteChanges(remoteChanges);
+            saveAndPinLocalChanges(localChanges);
         } catch (final ParseException e) {
             Log.e(LOG_TAG, "Failed to save changes.", e);
             syncResult.stats.numIoExceptions += 1;
@@ -86,8 +86,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             final Date currentSyncDate
     ) {
         try {
-            localChanges.fillUp(getLocalChanges(lastSyncDate, currentSyncDate));
-            remoteChanges.fillUp(getRemoteChanges(lastSyncDate, currentSyncDate));
+            localChanges.fillUp(queryLocalChanges(lastSyncDate, currentSyncDate));
+            remoteChanges.fillUp(queryRemoteChanges(lastSyncDate, currentSyncDate));
         } catch (final ParseException e) {
             Log.e(LOG_TAG, "Failed to obtain changes.", e);
             return false;
@@ -100,16 +100,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Gets common changes query part.
      */
-    private static ParseQuery<Note> getChangesQuery() {
+    private static ParseQuery<Note> getQueryPrefix() {
         return ParseQuery.getQuery(Note.class);
     }
 
-    private static List<Note> getLocalChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
-        Log.i(LOG_TAG, "Getting local changes.");
-        final ParseQuery<Note> oldNotesQuery = getChangesQuery().fromLocalDatastore()
+    private static List<Note> queryLocalChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
+        Log.i(LOG_TAG, "Querying local changes.");
+        final ParseQuery<Note> oldNotesQuery = getQueryPrefix().fromLocalDatastore()
                 .whereDoesNotExist(Note.KEY_LOCAL_UPDATED_AT);
         final ParseQuery<Note> newNotesQuery = whereUpdateAtBetween(
-                getChangesQuery().fromLocalDatastore(),
+                getQueryPrefix().fromLocalDatastore(),
                 lastSyncTime,
                 currentSyncTime,
                 Note.KEY_LOCAL_UPDATED_AT
@@ -120,10 +120,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         return ParseQuery.or(queries).find();
     }
 
-    private static List<Note> getRemoteChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
-        Log.i(LOG_TAG, "Getting remote changes.");
+    private static List<Note> queryRemoteChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
+        Log.i(LOG_TAG, "Querying remote changes.");
         return whereUpdateAtBetween(
-                getChangesQuery(),
+                getQueryPrefix(),
                 lastSyncTime,
                 currentSyncTime,
                 Note.KEY_REMOTE_UPDATED_AT
@@ -184,12 +184,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void saveRemoteChanges(final NoteMap remoteChanges) throws ParseException {
+    private void pinRemoteChanges(final NoteMap remoteChanges) throws ParseException {
         Log.i(LOG_TAG, "Saving remote changes locally.");
         Note.pinAll(new ArrayList<Note>(remoteChanges.values()));
     }
 
-    private void saveLocalChanges(final NoteMap localChanges) throws ParseException {
+    private void saveAndPinLocalChanges(final NoteMap localChanges) throws ParseException {
         Log.i(LOG_TAG, "Saving local changes remotely.");
 
         final List<Note> localNotes = new ArrayList<Note>(localChanges.values());
