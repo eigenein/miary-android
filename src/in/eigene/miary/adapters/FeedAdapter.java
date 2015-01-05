@@ -128,7 +128,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 // Update statistics.
                 ParseHelper.trackStatistics(notes.size());
                 // Ask user to rate app or give us some feedback.
-                if (!rateItemShown && (notes.size() >= 1000000)) {
+                if (!rateItemShown && (notes.size() >= 30)) {
                     items.add(RateItem.POSITION, new RateItem(FeedAdapter.this));
                 }
                 // Notify listeners.
