@@ -58,9 +58,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
         // Remove outdated changes.
         Log.i(LOG_TAG, "Filtering remote changes.");
-        filterChanges(localChanges, remoteChanges);
+        filterChanges(localChanges, Note.KEY_LOCAL_UPDATED_AT, remoteChanges, Note.KEY_REMOTE_UPDATED_AT);
         Log.i(LOG_TAG, "Filtering local changes.");
-        filterChanges(remoteChanges, localChanges);
+        filterChanges(remoteChanges, Note.KEY_REMOTE_UPDATED_AT, localChanges, Note.KEY_LOCAL_UPDATED_AT);
         // Saving changes.
         try {
             saveRemoteChanges(remoteChanges);
@@ -135,25 +135,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             final Date currentSyncDate,
             final String fieldName
     ) {
-        /*
         if (lastSyncDate != null) {
             query.whereGreaterThanOrEqualTo(fieldName, lastSyncDate);
         }
         return query.whereLessThanOrEqualTo(fieldName, currentSyncDate);
-        */
-        return query;
     }
 
     /**
      * Filters outdated changes from the target.
      */
-    private static void filterChanges(final NoteMap source, final NoteMap target) {
+    private static void filterChanges(
+            final NoteMap source,
+            final String sourceFieldName,
+            final NoteMap target,
+            final String targetFieldName
+    ) {
         for (final NoteMap.Entry<UUID, Note> entry : source.entrySet()) {
             final Note targetNote = target.get(entry.getKey());
             if (targetNote == null) {
                 continue;
             }
-            if (targetNote.getUpdatedAt().before(entry.getValue().getUpdatedAt())) {
+            if (targetNote.getDate(targetFieldName).before(entry.getValue().getDate(sourceFieldName))) {
                 Log.i(LOG_TAG, "Remove outdated change " + entry.getKey());
                 target.remove(entry.getKey());
             }
@@ -177,6 +179,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             note.setACL(defaultACL);
         }
         Note.saveAll(localNotes);
+        Note.pinAll(localNotes); // save objectId
     }
 
     /**
