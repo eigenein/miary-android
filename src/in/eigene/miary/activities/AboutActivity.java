@@ -18,6 +18,9 @@ import in.eigene.miary.helpers.lang.*;
 
 import java.util.*;
 
+/**
+ * About application.
+ */
 public class AboutActivity extends BaseActivity {
 
     @Override

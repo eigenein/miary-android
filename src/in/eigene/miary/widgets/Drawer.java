@@ -210,7 +210,7 @@ public class Drawer extends DrawerListener {
             super(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO: check if already logged in.
+                    // TODO: check if already logged in and open account activity.
                     AccountManager.get(activity).addAccount(
                             "miary.eigene.in", null, null, null, activity, new AccountManagerCallback(), null);
                 }

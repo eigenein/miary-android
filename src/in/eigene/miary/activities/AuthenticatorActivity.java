@@ -10,6 +10,9 @@ import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.lang.*;
 import in.eigene.miary.sync.*;
 
+/**
+ * Authentication activity.
+ */
 public class AuthenticatorActivity extends FullscreenDialogActivity implements Consumer<String> {
 
     private AccountAuthenticatorResponse accountAuthenticatorResponse = null;

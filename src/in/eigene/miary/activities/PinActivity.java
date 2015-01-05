@@ -11,6 +11,9 @@ import in.eigene.miary.R;
 import in.eigene.miary.core.managers.*;
 import in.eigene.miary.helpers.TextWatcher;
 
+/**
+ * Asks for passcode.
+ */
 public class PinActivity extends Activity {
 
     private static final String EXTRA_INTENT = "intent";

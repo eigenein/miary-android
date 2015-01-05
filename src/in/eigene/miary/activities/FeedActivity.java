@@ -10,6 +10,9 @@ import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
 
+/**
+ * Displays diary.
+ */
 public class FeedActivity extends BaseActivity implements Drawer.Listener {
 
     private static final String LOG_TAG = FeedActivity.class.getName();

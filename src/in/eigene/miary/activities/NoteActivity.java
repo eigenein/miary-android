@@ -10,6 +10,9 @@ import in.eigene.miary.fragments.*;
 
 import java.util.*;
 
+/**
+ * Displays a single note.
+ */
 public class NoteActivity extends BaseActivity implements NoteFragment.ChangedListener {
 
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
