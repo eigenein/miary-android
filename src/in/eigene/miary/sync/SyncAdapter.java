@@ -114,10 +114,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static List<Note> queryLocalChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
         Log.i(LOG_TAG, "Querying local changes.");
-        final ParseQuery<Note> oldNotesQuery = getQueryPrefix().fromLocalDatastore()
-                .whereDoesNotExist(Note.KEY_LOCAL_UPDATED_AT);
+        final ParseQuery<Note> oldNotesQuery = getQueryPrefix().whereDoesNotExist(Note.KEY_LOCAL_UPDATED_AT);
         final ParseQuery<Note> newNotesQuery = whereUpdateAtBetween(
-                getQueryPrefix().fromLocalDatastore(),
+                getQueryPrefix(),
                 lastSyncTime,
                 currentSyncTime,
                 Note.KEY_LOCAL_UPDATED_AT
@@ -125,7 +124,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final ArrayList<ParseQuery<Note>> queries = new ArrayList<ParseQuery<Note>>();
         queries.add(oldNotesQuery);
         queries.add(newNotesQuery);
-        return ParseQuery.or(queries).find();
+        return ParseQuery.or(queries).fromLocalDatastore().find();
     }
 
     private static List<Note> queryRemoteChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
