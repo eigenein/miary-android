@@ -78,7 +78,7 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
             if (result != null) {
                 accountAuthenticatorResponse.onResult(result);
             } else {
-                accountAuthenticatorResponse.onError(AccountManager.ERROR_CODE_CANCELED, "canceled");
+                accountAuthenticatorResponse.onError(AccountManager.ERROR_CODE_CANCELED, "cancelled");
             }
             accountAuthenticatorResponse = null;
         }
@@ -96,7 +96,7 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
             return;
         }
 
-        final Account account = new Account(credentials.getEmail(), "miary.eigene.in");
+        final Account account = new Account(credentials.getEmail(), SyncAdapter.ACCOUNT_TYPE);
         accountManager.addAccountExplicitly(account, credentials.getPassword(), new Bundle());
         result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
         result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);

@@ -111,6 +111,7 @@
     <string name="toast_no_file_manager_app">Установите файловый менеджер.</string>
     <string name="toast_note_drafted">Заметка перемещена в черновики.</string>
     <string name="toast_note_undrafted">Заметка перемещена в ленту.</string>
+    <string name="toast_only_one_supported">Поддерживается только один аккаунт Miary.</string>
     <string name="toast_password_required">Не заполнен пароль.</string>
     <string name="toast_restore_finished">Восстановлено %1$d заметок.</string>
     <string name="toast_restore_not_found">Backup is not found.</string>

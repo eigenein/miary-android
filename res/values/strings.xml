@@ -131,6 +131,7 @@
     <string name="toast_no_file_manager_app">Install a file manager application.</string>
     <string name="toast_note_drafted">Marked as a draft.</string>
     <string name="toast_note_undrafted">Marked as not a draft.</string>
+    <string name="toast_only_one_supported">Only one Miary account is supported.</string>
     <string name="toast_password_required">Password is required.</string>
     <string name="toast_restore_finished">%1$d notes are restored.</string>
     <string name="toast_restore_not_found">Backup is not found.</string>

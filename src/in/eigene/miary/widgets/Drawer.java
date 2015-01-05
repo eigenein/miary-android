@@ -210,6 +210,7 @@ public class Drawer extends DrawerListener {
             super(new Runnable() {
                 @Override
                 public void run() {
+                    // TODO: check if already logged in.
                     AccountManager.get(activity).addAccount(
                             "miary.eigene.in", null, null, null, activity, new AccountManagerCallback(), null);
                 }
@@ -225,14 +226,14 @@ public class Drawer extends DrawerListener {
         @Override
         public void run(final AccountManagerFuture<Bundle> future) {
             try {
-                future.getResult(); // raise exception if any
-                // TODO: run sync?
+                future.getResult();
+                // TODO: run sync.
             } catch (final android.accounts.OperationCanceledException e) {
                 // Do nothing.
             } catch (final IOException e) {
-                InternalRuntimeException.throwForException("Could not add account.", e);
+                InternalRuntimeException.throwForException("Failed to add account.", e);
             } catch (final AuthenticatorException e) {
-                InternalRuntimeException.throwForException("Could not add account.", e);
+                InternalRuntimeException.throwForException("Failed to add account.", e);
             }
         }
     }

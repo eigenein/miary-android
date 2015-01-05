@@ -3,13 +3,14 @@ package in.eigene.miary.sync;
 import android.accounts.*;
 import android.content.*;
 import android.os.*;
+import android.widget.*;
+import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
 
 public class Authenticator extends AbstractAccountAuthenticator {
 
-    private static final String LOG_TAG = Authenticator.class.getSimpleName();
-
     private final Context context;
+    private final Handler handler = new Handler();
 
     public Authenticator(final Context context) {
         super(context);
@@ -29,17 +30,29 @@ public class Authenticator extends AbstractAccountAuthenticator {
             final String[] requiredFeatures,
             final Bundle options
     ) throws NetworkErrorException {
-
-        final Intent intent = new Intent(context, AuthenticatorActivity.class);
-        intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
-        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-
         final Bundle bundle = new Bundle();
+        // Check account existence.
+        final Account[] accounts = AccountManager.get(context).getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
+        if (accounts.length != 0) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, R.string.toast_only_one_supported, Toast.LENGTH_SHORT).show();
+                }
+            });
+            bundle.putInt(AccountManager.KEY_ERROR_CODE, AccountManager.ERROR_CODE_UNSUPPORTED_OPERATION);
+            bundle.putString(AccountManager.KEY_ERROR_MESSAGE, context.getString(R.string.toast_only_one_supported));
+            return bundle;
+        }
+        // Create authenticator activity intent.
+        final Intent intent = new Intent(context, AuthenticatorActivity.class)
+                .putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType)
+                .putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+        // Return result bundle.
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
         if (options != null) {
             bundle.putAll(options);
         }
-
         return bundle;
     }
 
