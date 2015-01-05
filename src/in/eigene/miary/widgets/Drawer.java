@@ -1,5 +1,6 @@
 package in.eigene.miary.widgets;
 
+import android.accounts.*;
 import android.app.*;
 import android.content.*;
 import android.os.*;
@@ -7,13 +8,18 @@ import android.preference.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
-import android.support.v7.widget.*;
+import android.support.v7.widget.Toolbar;
 import android.view.*;
+import android.widget.*;
+import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.caches.*;
+import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
+
+import java.io.*;
 
 public class Drawer extends DrawerListener {
 
@@ -26,9 +32,12 @@ public class Drawer extends DrawerListener {
     private final ActionBarDrawerToggle toggle;
     private final View view;
 
-    private final DrawerCounter noteCounter;
+    private final DrawerCounter diaryCounter;
     private final DrawerCounter starredCounter;
     private final DrawerCounter draftCounter;
+
+    private final TextView accountTypeView;
+    private final TextView accountNameView;
 
     public Drawer(final Activity activity, final Toolbar toolbar, final Listener listener) {
         this.activity = activity;
@@ -40,7 +49,11 @@ public class Drawer extends DrawerListener {
         toggle = new DrawerToggle(activity, layout, toolbar, R.string.drawer_open, R.string.drawer_close, this);
         layout.setDrawerListener(toggle);
 
-        noteCounter = new DrawerCounter(
+        accountTypeView = (TextView)view.findViewById(R.id.drawer_account_type);
+        accountNameView = (TextView)view.findViewById(R.id.drawer_account_name);
+        view.findViewById(R.id.drawer_account).setOnClickListener(new AccountClickListener());
+
+        diaryCounter = new DrawerCounter(
                 view,
                 R.id.drawer_item_diary,
                 R.drawable.ic_inbox_grey600_24dp,
@@ -71,12 +84,12 @@ public class Drawer extends DrawerListener {
         new DrawerItem(view, R.id.drawer_item_about, R.drawable.ic_info_grey600_24dp, R.string.activity_about,
                 new StartActivityClickListener(activity, AboutActivity.class));
 
-        refreshCounters();
+        refresh();
     }
 
     @Override
     public void onDrawerOpened(final View drawerView) {
-        refreshCounters();
+        refresh();
     }
 
     public ActionBarDrawerToggle getToggle() {
@@ -101,12 +114,28 @@ public class Drawer extends DrawerListener {
     }
 
     /**
-     * Refreshes starred and drafts counter values and their visibility.
+     * Refreshes drawer.
      */
-    private void refreshCounters() {
-        noteCounter.refresh();
+    private void refresh() {
+        refreshAccount();
+        diaryCounter.refresh();
         starredCounter.refresh();
         draftCounter.refresh();
+    }
+
+    /**
+     * Refreshes account info.
+     */
+    private void refreshAccount() {
+        final ParseUser user = ParseUser.getCurrentUser();
+        if (user != null) {
+            accountTypeView.setText(R.string.account_basic);
+            accountNameView.setText(user.getUsername());
+            accountNameView.setVisibility(View.VISIBLE);
+        } else {
+            accountTypeView.setText(R.string.account_offline);
+            accountNameView.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -169,6 +198,42 @@ public class Drawer extends DrawerListener {
                     ActivityHelper.start(context, activityClass);
                 }
             });
+        }
+    }
+
+    /**
+     * Starts authentication process when clicked.
+     */
+    private class AccountClickListener extends RunnableClickListener {
+
+        public AccountClickListener() {
+            super(new Runnable() {
+                @Override
+                public void run() {
+                    // TODO: check if already logged in and open account activity.
+                    AccountManager.get(activity).addAccount(
+                            "miary.eigene.in", null, null, null, activity, new AccountManagerCallback(), null);
+                }
+            });
+        }
+    }
+
+    /**
+     * Processes authentication result.
+     */
+    private class AccountManagerCallback implements android.accounts.AccountManagerCallback<Bundle> {
+
+        @Override
+        public void run(final AccountManagerFuture<Bundle> future) {
+            try {
+                future.getResult();
+            } catch (final android.accounts.OperationCanceledException e) {
+                // Do nothing.
+            } catch (final IOException e) {
+                InternalRuntimeException.throwForException("Failed to add account.", e);
+            } catch (final AuthenticatorException e) {
+                InternalRuntimeException.throwForException("Failed to add account.", e);
+            }
         }
     }
 }
