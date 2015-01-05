@@ -30,6 +30,9 @@ public class ExternalStorage extends Storage {
     @Override
     public OutputStream getOutputStream(final String name) {
         final File file = new File(DOWNLOADS, name);
+        if (!DOWNLOADS.mkdirs() && !DOWNLOADS.isDirectory()) {
+            throw new InternalRuntimeException("Could not create Downloads directory.");
+        }
         try {
             return new FileOutputStream(file);
         } catch (final FileNotFoundException e) {
