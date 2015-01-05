@@ -4,13 +4,12 @@ import android.content.*;
 import android.util.*;
 import android.widget.*;
 import com.parse.*;
-import in.eigene.miary.R;
+import in.eigene.miary.*;
 import in.eigene.miary.core.backup.*;
 import in.eigene.miary.core.classes.*;
 import in.eigene.miary.exceptions.*;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * Used to restore a backup.
@@ -79,22 +78,17 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         // Restore notes.
         for (int i = 0; i < noteCount; i++) {
             final Note note = input.read();
-            Log.i(LOG_TAG, "Read note: " + note.getUuid());
-            // Find note to update.
-            final List<Note> existingNotes = ParseQuery.getQuery(Note.class).fromLocalDatastore()
-                    .whereEqualTo(Note.KEY_UUID_LSB, note.getUuid().getLeastSignificantBits())
-                    .whereEqualTo(Note.KEY_UUID_MSB, note.getUuid().getMostSignificantBits())
-                    .setLimit(1)
-                    .find();
-            if (existingNotes.size() != 0) {
-                Log.i(LOG_TAG, "Update existing one.");
-                final Note existingNote = existingNotes.get(0);
-                existingNote.update(note);
-                existingNote.pin();
-            } else {
-                Log.i(LOG_TAG, "Pin new one.");
-                note.pin();
+            Log.i(LOG_TAG, "Read " + note.getUuid());
+            try {
+                ParseQuery.getQuery(Note.class).fromLocalDatastore()
+                        .whereEqualTo(Note.KEY_UUID_LSB, note.getUuid().getLeastSignificantBits())
+                        .whereEqualTo(Note.KEY_UUID_MSB, note.getUuid().getMostSignificantBits())
+                        .getFirst()
+                        .unpin();
+            } catch (final ParseException e) {
+                Log.d(LOG_TAG, "Existing note is not found.");
             }
+            note.pin();
             // Publish progress.
             progress.incrementProgress();
             publishProgress(progress);
