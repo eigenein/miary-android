@@ -6,15 +6,16 @@ import android.os.*;
 import android.util.*;
 import com.parse.*;
 import in.eigene.miary.core.classes.*;
+import in.eigene.miary.helpers.*;
 
 import java.util.*;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
+    private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
+
     public static final String ACCOUNT_TYPE = "miary.eigene.in";
     public static final String AUTHORITY = "in.eigene.miary.provider";
-
-    private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
 
     private static final String KEY_LAST_SYNC_TIME = "lastSyncTime";
 
@@ -39,35 +40,135 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             final SyncResult syncResult
     ) {
         Log.i(LOG_TAG, "Starting.");
-        // Initialize times.
-        final long currentSyncTime = new Date().getTime();
-        final long lastSyncTime = safeParseLong(accountManager.getUserData(account, KEY_LAST_SYNC_TIME));
-        // Obtain changes.
-        try {
-            final NoteMap localChanges = NoteMap.from(getLocalChanges());
-            final NoteMap remoteChanges = NoteMap.from(getRemoteChanges());
-        } catch (final ParseException e) {
-            Log.e(LOG_TAG, "Failed to obtain changes.", e);
-            syncResult.stats.numIoExceptions += 1;
+        if (ParseUser.getCurrentUser() == null) {
+            Log.w(LOG_TAG, "No current user.");
             return;
         }
+        // Initialize last sync date.
+        final String lastSyncDateString = accountManager.getUserData(account, KEY_LAST_SYNC_TIME);
+        final Date lastSyncDate = lastSyncDateString != null ? new Date(Long.parseLong(lastSyncDateString)) : null;
+        Log.i(LOG_TAG, "Getting changes since " + lastSyncDate);
+        // Obtain changes.
+        final NoteMap localChanges = new NoteMap();
+        final NoteMap remoteChanges = new NoteMap();
+        if (!getChanges(localChanges, remoteChanges, lastSyncDate, new Date())) {
+            syncResult.stats.numIoExceptions += 1;
+            ParseHelper.trackEvent("syncFailed", "reason", "getChanges");
+            return;
+        }
+        // Remove outdated changes.
+        Log.i(LOG_TAG, "Filtering remote changes.");
+        filterChanges(localChanges, remoteChanges);
+        Log.i(LOG_TAG, "Filtering local changes.");
+        filterChanges(remoteChanges, localChanges);
+        // Saving changes.
+        try {
+            Log.i(LOG_TAG, "Saving remote changes.");
+            Note.pinAll(new ArrayList<ParseObject>(remoteChanges.values()));
+            saveLocalChanges(localChanges);
+        } catch (final ParseException e) {
+            Log.e(LOG_TAG, "Failed to save changes.", e);
+            syncResult.stats.numIoExceptions += 1;
+            ParseHelper.trackEvent("syncFailed", "reason", "saveChanges");
+            return;
+        }
+        syncResult.stats.numUpdates = localChanges.size() + remoteChanges.size();
         // Update last sync time.
         // accountManager.setUserData(account, KEY_LAST_SYNC_TIME, Long.toString(currentSyncTime));
         Log.i(LOG_TAG, "Finished.");
+        ParseAnalytics.trackEventInBackground("syncSuccess");
     }
 
-    private static List<Note> getLocalChanges() throws ParseException {
+    /**
+     * Gets local and remote changes.
+     */
+    private static boolean getChanges(
+            final NoteMap localChanges,
+            final NoteMap remoteChanges,
+            final Date lastSyncDate,
+            final Date currentSyncDate
+    ) {
+        try {
+            localChanges.fillUp(getLocalChanges(lastSyncDate, currentSyncDate));
+            remoteChanges.fillUp(getRemoteChanges(lastSyncDate, currentSyncDate));
+        } catch (final ParseException e) {
+            Log.e(LOG_TAG, "Failed to obtain changes.", e);
+            return false;
+        }
+        Log.i(LOG_TAG, localChanges.size() + " local changes");
+        Log.i(LOG_TAG, remoteChanges.size() + " remote changes");
+        return true;
+    }
+
+    /**
+     * Gets common changes query part.
+     */
+    private static ParseQuery<Note> getChangesQuery() {
+        return ParseQuery.getQuery(Note.class);
+    }
+
+    private static List<Note> getLocalChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
         Log.i(LOG_TAG, "Getting local changes.");
-        return ParseQuery.getQuery(Note.class).fromLocalDatastore().find();
+        return whereUpdateAtBetween(
+                getChangesQuery().fromLocalDatastore(),
+                lastSyncTime,
+                currentSyncTime,
+                Note.KEY_LOCAL_UPDATED_AT
+        ).find();
     }
 
-    private static List<Note> getRemoteChanges() throws ParseException {
+    private static List<Note> getRemoteChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
         Log.i(LOG_TAG, "Getting remote changes.");
-        return ParseQuery.getQuery(Note.class).find();
+        return whereUpdateAtBetween(
+                getChangesQuery(),
+                lastSyncTime,
+                currentSyncTime,
+                Note.KEY_REMOTE_UPDATED_AT
+        ).find();
     }
 
-    private static long safeParseLong(final String string) {
-        return string != null ? Long.parseLong(string) : 0L;
+    /**
+     * Adds conditions on updatedAt field.
+     */
+    private static ParseQuery<Note> whereUpdateAtBetween(
+            final ParseQuery<Note> query,
+            final Date lastSyncDate,
+            final Date currentSyncDate,
+            final String fieldName
+    ) {
+        /*
+        if (lastSyncDate != null) {
+            query.whereGreaterThanOrEqualTo(fieldName, lastSyncDate);
+        }
+        return query.whereLessThanOrEqualTo(fieldName, currentSyncDate);
+        */
+        return query;
+    }
+
+    /**
+     * Filters outdated changes from the target.
+     */
+    private static void filterChanges(final NoteMap source, final NoteMap target) {
+        for (final NoteMap.Entry<UUID, Note> entry : source.entrySet()) {
+            final Note targetNote = target.get(entry.getKey());
+            if (targetNote == null) {
+                continue;
+            }
+            if (targetNote.getUpdatedAt().before(entry.getValue().getUpdatedAt())) {
+                Log.i(LOG_TAG, "Remove outdated change " + entry.getKey());
+                target.remove(entry.getKey());
+            }
+        }
+    }
+
+    private void saveLocalChanges(final NoteMap localChanges) throws ParseException {
+        Log.i(LOG_TAG, "Saving local changes.");
+        final ParseACL defaultACL = new ParseACL(ParseUser.getCurrentUser());
+        final List<Note> localNotes = new ArrayList<Note>(localChanges.values());
+        for (final Note note : localNotes) {
+            note.setLocalUpdatedAt(note.getUpdatedAt()).setACL(defaultACL);
+        }
+        Note.saveAll(localNotes);
     }
 
     /**
@@ -75,16 +176,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      */
     private static class NoteMap extends HashMap<UUID, Note> {
 
-        public static NoteMap from(final List<Note> notes) {
-            final NoteMap noteMap = new NoteMap();
+        public void fillUp(final List<Note> notes) {
             for (final Note note : notes) {
-                noteMap.put(note.getUuid(), note);
+                put(note.getUuid(), note);
             }
-            return noteMap;
-        }
-
-        private NoteMap() {
-            // Do nothing.
         }
     }
 }

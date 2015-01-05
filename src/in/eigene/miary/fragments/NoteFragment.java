@@ -287,20 +287,19 @@ public class NoteFragment extends BaseFragment {
      * Saves the note. This method debounces frequent save calls.
      */
     private void saveNote(final boolean debounce) {
+        note.setLocalUpdatedAt(new Date());
         // Debounce.
         if (debounce && !saveDebouncer.isActionAllowed()) {
             return;
         }
-        // Save callback.
-        final SaveCallback callback = new SaveCallback() {
+        // Save.
+        Log.i(LOG_TAG, "Save note.");
+        note.pinInBackground(new SaveCallback() {
             @Override
             public void done(final ParseException e) {
                 InternalRuntimeException.throwForException("Could not pin note.", e);
             }
-        };
-        // Set hashtags and save.
-        Log.i(LOG_TAG, "Save note.");
-        note.pinInBackground(callback);
+        });
         // Update debouncer.
         saveDebouncer.ping();
     }

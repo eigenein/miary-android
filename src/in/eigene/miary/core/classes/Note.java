@@ -11,6 +11,8 @@ import java.util.*;
 @ParseClassName("Note")
 public class Note extends ParseObject {
 
+    public static final String KEY_LOCAL_UPDATED_AT = "localUpdatedAt";
+    public static final String KEY_REMOTE_UPDATED_AT = "updatedAt";
     public static final String KEY_UUID_LSB = "uuidLsb";
     public static final String KEY_UUID_MSB = "uuidMsb";
     public static final String KEY_TITLE = "title";
@@ -55,6 +57,11 @@ public class Note extends ParseObject {
                 .setDraft(false)
                 .setStarred(false)
                 .setDeleted(false);
+    }
+
+    public Note setLocalUpdatedAt(final Date updatedAt) {
+        put(KEY_LOCAL_UPDATED_AT, updatedAt);
+        return this;
     }
 
     public UUID getUuid() {
