@@ -46,7 +46,7 @@ public class Drawer extends DrawerListener {
                 R.drawable.ic_inbox_grey600_24dp,
                 R.string.drawer_item_diary,
                 new FeedModeChangedClickListener(FeedAdapter.Mode.DIARY),
-                CounterCache.NOTE_COUNTER
+                CounterCache.DIARY_COUNTER
         );
         starredCounter = new DrawerCounter(
                 view,
