@@ -7,6 +7,7 @@ import android.util.*;
 import com.parse.*;
 import in.eigene.miary.core.classes.*;
 import in.eigene.miary.helpers.*;
+import in.eigene.miary.helpers.lang.*;
 
 import java.util.*;
 
@@ -55,29 +56,33 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         // Initialize last sync date.
         final String lastSyncDateString = accountManager.getUserData(account, KEY_LAST_SYNC_TIME);
         final Date lastSyncDate = lastSyncDateString != null ? new Date(Long.parseLong(lastSyncDateString)) : null;
-        Log.i(LOG_TAG, "Getting changes since " + lastSyncDate);
+        Log.i(LOG_TAG, "Getting notes since " + lastSyncDate);
         // Obtain changes.
-        final NoteMap localChanges = new NoteMap();
-        final NoteMap remoteChanges = new NoteMap();
-        if (!queryChanges(localChanges, remoteChanges, lastSyncDate, new Date())) {
+        final NoteMap<LocalNote> newLocalNotes = new NoteMap<LocalNote>();
+        final NoteMap<RemoteNote> newRemoteNotes = new NoteMap<RemoteNote>();
+        if (!queryNotes(newLocalNotes, newRemoteNotes, lastSyncDate, new Date())) {
             syncResult.stats.numIoExceptions += 1;
-            ParseHelper.trackEvent("syncFailed", "reason", "queryChanges");
+            ParseHelper.trackEvent("syncFailed", "reason", "queryNotes");
             return;
         }
-        // Remove outdated changes.
-        Log.i(LOG_TAG, "Merging changes.");
-        mergeChanges(localChanges, remoteChanges);
-        // Saving changes.
+        // Merge local and remote notes.
+        Log.i(LOG_TAG, "Merging notes.");
+        final List<LocalNote> oldLocalNotes = new ArrayList<LocalNote>();
+        final List<RemoteNote> oldRemoteNotes = new ArrayList<RemoteNote>();
+        mergeNotes(newLocalNotes, oldLocalNotes, newRemoteNotes, oldRemoteNotes);
+        // Save merged notes.
         try {
-            pinRemoteChanges(remoteChanges);
-            saveAndPinLocalChanges(localChanges);
+            saveLocalNotes(newLocalNotes);
+            deleteRemoteNotes(oldRemoteNotes);
+            pinRemoteNotes(newRemoteNotes);
+            unpinLocalNotes(oldLocalNotes);
         } catch (final ParseException e) {
-            Log.e(LOG_TAG, "Failed to save changes.", e);
+            Log.e(LOG_TAG, "Failed to save notes.", e);
             syncResult.stats.numIoExceptions += 1;
-            ParseHelper.trackEvent("syncFailed", "reason", "saveAndPinChanges");
+            ParseHelper.trackEvent("syncFailed", "reason", "saveNotes");
             return;
         }
-        syncResult.stats.numUpdates = localChanges.size() + remoteChanges.size();
+        syncResult.stats.numUpdates = newLocalNotes.size() + newRemoteNotes.size();
         // Update last sync time.
         // accountManager.setUserData(account, KEY_LAST_SYNC_TIME, Long.toString(currentSyncTime));
         Log.i(LOG_TAG, "Finished.");
@@ -85,63 +90,57 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     /**
-     * Gets local and remote changes.
+     * Gets local and remote notes.
      */
-    private static boolean queryChanges(
-            final NoteMap localChanges,
-            final NoteMap remoteChanges,
+    private static boolean queryNotes(
+            final NoteMap<LocalNote> localNotes,
+            final NoteMap<RemoteNote> remoteChanges,
             final Date lastSyncDate,
             final Date currentSyncDate
     ) {
         try {
-            localChanges.fillUp(queryLocalChanges(lastSyncDate, currentSyncDate));
-            remoteChanges.fillUp(queryRemoteChanges(lastSyncDate, currentSyncDate));
+            localNotes.fillUp(queryLocalNotes(lastSyncDate, currentSyncDate));
+            remoteChanges.fillUp(queryRemoteNotes(lastSyncDate, currentSyncDate));
         } catch (final ParseException e) {
             Log.e(LOG_TAG, "Failed to obtain changes.", e);
             return false;
         }
-        Log.i(LOG_TAG, localChanges.size() + " local changes");
-        Log.i(LOG_TAG, remoteChanges.size() + " remote changes");
+        Log.i(LOG_TAG, localNotes.size() + " local notes");
+        Log.i(LOG_TAG, remoteChanges.size() + " remote notes");
         return true;
     }
 
-    /**
-     * Gets common changes query part.
-     */
-    private static ParseQuery<Note> getQueryPrefix() {
-        return ParseQuery.getQuery(Note.class);
-    }
-
-    private static List<Note> queryLocalChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
-        Log.i(LOG_TAG, "Querying local changes.");
-        final ParseQuery<Note> oldNotesQuery = getQueryPrefix().whereDoesNotExist(Note.KEY_LOCAL_UPDATED_AT);
-        final ParseQuery<Note> newNotesQuery = whereUpdateAtBetween(
-                getQueryPrefix(),
+    private static List<LocalNote> queryLocalNotes(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
+        Log.i(LOG_TAG, "Querying local notes.");
+        final ParseQuery<LocalNote> oldNotesQuery = ParseQuery.getQuery(LocalNote.class)
+                .whereDoesNotExist(LocalNote.KEY_LOCAL_UPDATED_AT);
+        final ParseQuery<LocalNote> newNotesQuery = whereUpdateAtBetween(
+                ParseQuery.getQuery(LocalNote.class),
                 lastSyncTime,
                 currentSyncTime,
-                Note.KEY_LOCAL_UPDATED_AT
+                LocalNote.KEY_LOCAL_UPDATED_AT
         );
-        final ArrayList<ParseQuery<Note>> queries = new ArrayList<ParseQuery<Note>>();
+        final ArrayList<ParseQuery<LocalNote>> queries = new ArrayList<ParseQuery<LocalNote>>();
         queries.add(oldNotesQuery);
         queries.add(newNotesQuery);
         return ParseQuery.or(queries).fromLocalDatastore().find();
     }
 
-    private static List<Note> queryRemoteChanges(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
-        Log.i(LOG_TAG, "Querying remote changes.");
+    private static List<RemoteNote> queryRemoteNotes(final Date lastSyncTime, final Date currentSyncTime) throws ParseException {
+        Log.i(LOG_TAG, "Querying remote notes.");
         return whereUpdateAtBetween(
-                getQueryPrefix(),
+                ParseQuery.getQuery(RemoteNote.class),
                 lastSyncTime,
                 currentSyncTime,
-                Note.KEY_REMOTE_UPDATED_AT
+                RemoteNote.KEY_UPDATED_AT
         ).find();
     }
 
     /**
      * Adds conditions on updatedAt field.
      */
-    private static ParseQuery<Note> whereUpdateAtBetween(
-            final ParseQuery<Note> query,
+    private static <TNote extends ParseObject> ParseQuery<TNote> whereUpdateAtBetween(
+            final ParseQuery<TNote> query,
             final Date lastSyncDate,
             final Date currentSyncDate,
             final String fieldName
@@ -153,64 +152,84 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     /**
-     * Merges local and remote changes. All sync magic comes here.
+     * Merges local and remote notes. All sync magic comes here.
      */
-    private static void mergeChanges(final NoteMap localChanges, final NoteMap remoteChanges) {
-        final ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
-        // Remove outdated remote changes.
-        for (final NoteMap.Entry<UUID, Note> localEntry : localChanges.entrySet()) {
-            final Note localNote = localEntry.getValue();
-            // Fix ACL.
-            localNote.setACL(acl);
+    private static void mergeNotes(
+            final NoteMap<LocalNote> localNotes,
+            final List<LocalNote> oldLocalNotes,
+            final NoteMap<RemoteNote> remoteNotes,
+            final List<RemoteNote> oldRemoteNotes
+    ) {
+        // Remove outdated remote notes.
+        for (final NoteMap.Entry<UUID, LocalNote> localEntry : localNotes.entrySet()) {
+            final LocalNote localNote = localEntry.getValue();
             // Fix old notes without localUpdatedAt field set.
             if (localNote.getLocalUpdatedAt() == null) {
                 localNote.setLocalUpdatedAt(new Date(0L));
             }
-            // Search matching remote change.
-            final Note remoteNote = remoteChanges.get(localEntry.getKey());
+            // Search matching remote note.
+            final RemoteNote remoteNote = remoteNotes.get(localEntry.getKey());
             if (remoteNote != null) {
-                if (remoteNote.getRemoteUpdatedAt().before(localNote.getLocalUpdatedAt())) {
-                    // Remote change is outdated.
-                    remoteChanges.remove(localEntry.getKey());
+                if (remoteNote.getUpdatedAt().before(localNote.getLocalUpdatedAt())) {
+                    // Remote note is outdated.
+                    remoteNotes.remove(localEntry.getKey());
+                    oldRemoteNotes.add(remoteNote);
                 }
             }
         }
-        // Remove outdated local changes.
-        for (final NoteMap.Entry<UUID, Note> remoteEntry : remoteChanges.entrySet()) {
-            final Note remoteNote = remoteEntry.getValue();
-            // Set remote update date as local update date.
-            remoteNote.setLocalUpdatedAt(remoteNote.getRemoteUpdatedAt());
-            // Search matching local change.
-            final Note localNote = localChanges.get(remoteEntry.getKey());
+        // Remove outdated local notes.
+        for (final NoteMap.Entry<UUID, RemoteNote> remoteEntry : remoteNotes.entrySet()) {
+            final RemoteNote remoteNote = remoteEntry.getValue();
+            // Search matching local note.
+            final LocalNote localNote = localNotes.get(remoteEntry.getKey());
             if (localNote != null) {
-                if (localNote.getLocalUpdatedAt().before(remoteNote.getRemoteUpdatedAt())) {
-                    // Local change is outdated.
-                    localChanges.remove(remoteEntry.getKey());
+                if (!localNote.getLocalUpdatedAt().after(remoteNote.getUpdatedAt())) {
+                    // Local note is not newer than the remote one.
+                    localNotes.remove(remoteEntry.getKey());
+                    oldLocalNotes.add(localNote);
                 }
             }
         }
     }
 
-    private void pinRemoteChanges(final NoteMap remoteChanges) throws ParseException {
-        Log.i(LOG_TAG, "Saving remote changes locally.");
-        Note.pinAll(new ArrayList<Note>(remoteChanges.values()));
+    private void pinRemoteNotes(final NoteMap<RemoteNote> remoteNotes) throws ParseException {
+        Log.i(LOG_TAG, "Pinning remote notes locally: " + remoteNotes.size());
+        LocalNote.pinAll(Util.map(remoteNotes.values(), new Function<RemoteNote, ParseObject>() {
+            @Override
+            public ParseObject apply(final RemoteNote remoteNote) {
+                return remoteNote.toLocalNote();
+            }
+        }));
     }
 
-    private void saveAndPinLocalChanges(final NoteMap localChanges) throws ParseException {
-        Log.i(LOG_TAG, "Saving local changes remotely.");
+    private void saveLocalNotes(final NoteMap<LocalNote> localNotes) throws ParseException {
+        Log.i(LOG_TAG, "Saving local notes remotely: " + localNotes.size());
+        final ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
+        LocalNote.saveAll(Util.map(localNotes.values(), new Function<LocalNote, ParseObject>() {
+            @Override
+            public ParseObject apply(final LocalNote localNote) {
+                return RemoteNote.fromLocalNote(localNote, acl);
+            }
+        }));
+    }
 
-        final List<Note> localNotes = new ArrayList<Note>(localChanges.values());
-        Note.saveAll(localNotes); // upload
-        Note.pinAll(localNotes); // save possibly updated objectId and localUpdatedAt
+    private void unpinLocalNotes(final List<LocalNote> localNotes) throws ParseException {
+        Log.i(LOG_TAG, "Unpinning old local notes: " + localNotes.size());
+        LocalNote.unpinAll(localNotes);
+    }
+
+    private void deleteRemoteNotes(final List<RemoteNote> remoteNotes) throws ParseException {
+        Log.i(LOG_TAG, "Deleting old remote notes: " + remoteNotes.size());
+        RemoteNote.deleteAll(remoteNotes);
     }
 
     /**
      * Maps UUID to note.
      */
-    private static class NoteMap extends HashMap<UUID, Note> {
+    private static class NoteMap<TNote extends Note> extends HashMap<UUID, TNote> {
 
-        public void fillUp(final List<Note> notes) {
-            for (final Note note : notes) {
+        public void fillUp(final List<TNote> notes) {
+            for (final TNote note : notes) {
                 put(note.getUuid(), note);
             }
         }

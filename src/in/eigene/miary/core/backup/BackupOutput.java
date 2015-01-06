@@ -18,7 +18,7 @@ public abstract class BackupOutput {
 
     public abstract void start(final int count) throws IOException;
 
-    public abstract void write(final Note note) throws IOException;
+    public abstract void write(final LocalNote note) throws IOException;
 
     public abstract void finish() throws IOException;
 

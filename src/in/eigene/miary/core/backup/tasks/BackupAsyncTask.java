@@ -67,20 +67,20 @@ public class BackupAsyncTask extends BaseAsyncTask {
     }
 
     private Result backup() throws ParseException, IOException {
-        noteCount = ParseQuery.getQuery(Note.class).fromLocalDatastore().count();
+        noteCount = ParseQuery.getQuery(LocalNote.class).fromLocalDatastore().count();
         if (noteCount == 0) {
             return Result.NOTHING_TO_BACKUP;
         }
         // Query notes.
-        final ParseQuery<Note> query = ParseQuery.getQuery(Note.class).fromLocalDatastore();
-        query.orderByAscending(Note.KEY_CUSTOM_DATE);
+        final ParseQuery<LocalNote> query = ParseQuery.getQuery(LocalNote.class).fromLocalDatastore();
+        query.orderByAscending(LocalNote.KEY_CUSTOM_DATE);
         query.setLimit(noteCount);
-        final List<Note> notes = query.find();
+        final List<LocalNote> notes = query.find();
         // Write notes.
         publishProgress(new Progress(Progress.State.PROGRESS, 0));
         output.start(noteCount);
         int progress = 0;
-        for (final Note note : notes) {
+        for (final LocalNote note : notes) {
             if (isCancelled()) {
                 break;
             }

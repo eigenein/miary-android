@@ -13,7 +13,7 @@ public class CreateNewNoteReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        final Note note = Note.createNew();
+        final LocalNote note = LocalNote.createNew();
         note.pinInBackground(new SaveCallback() {
             @Override
             public void done(final ParseException e) {

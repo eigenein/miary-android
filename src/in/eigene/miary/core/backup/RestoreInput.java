@@ -22,7 +22,7 @@ public abstract class RestoreInput {
 
     public abstract int start() throws IOException;
 
-    public abstract Note read() throws IOException;
+    public abstract LocalNote read() throws IOException;
 
     public abstract void finish() throws IOException;
 

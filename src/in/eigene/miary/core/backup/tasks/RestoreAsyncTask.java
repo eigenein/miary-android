@@ -77,12 +77,12 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         publishProgress(progress);
         // Restore notes.
         for (int i = 0; i < noteCount; i++) {
-            final Note note = input.read();
+            final LocalNote note = input.read();
             Log.i(LOG_TAG, "Read " + note.getUuid());
             try {
-                ParseQuery.getQuery(Note.class).fromLocalDatastore()
-                        .whereEqualTo(Note.KEY_UUID_LSB, note.getUuid().getLeastSignificantBits())
-                        .whereEqualTo(Note.KEY_UUID_MSB, note.getUuid().getMostSignificantBits())
+                ParseQuery.getQuery(LocalNote.class).fromLocalDatastore()
+                        .whereEqualTo(LocalNote.KEY_UUID_LSB, note.getUuid().getLeastSignificantBits())
+                        .whereEqualTo(LocalNote.KEY_UUID_MSB, note.getUuid().getMostSignificantBits())
                         .getFirst()
                         .unpin();
             } catch (final ParseException e) {

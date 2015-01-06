@@ -23,7 +23,7 @@ public class NewNoteClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(final View view) {
-        final Note note = Note.createNew();
+        final LocalNote note = LocalNote.createNew();
         switch (adapter.getMode()) {
             case STARRED:
                 note.setStarred(true);
@@ -40,5 +40,6 @@ public class NewNoteClickListener implements View.OnClickListener {
                 NoteActivity.start(view.getContext(), note, false);
             }
         });
+        ParseAnalytics.trackEventInBackground("createNew");
     }
 }

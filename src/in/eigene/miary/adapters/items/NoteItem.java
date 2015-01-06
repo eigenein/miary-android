@@ -6,9 +6,9 @@ import in.eigene.miary.core.classes.*;
 
 public class NoteItem extends FeedAdapter.Item {
 
-    public final Note note;
+    public final LocalNote note;
 
-    public NoteItem(final Note note) {
+    public NoteItem(final LocalNote note) {
         super(R.layout.feed_item_note);
         this.note = note;
     }

@@ -47,7 +47,7 @@ public class NoteFragment extends BaseFragment {
     private EditText editTextText;
 
     private UUID noteUuid;
-    private Note note;
+    private LocalNote note;
 
     private boolean substitutionEnabled = true;
 
@@ -219,6 +219,7 @@ public class NoteFragment extends BaseFragment {
                                 note.setColor(color);
                                 saveNote(false);
                                 updateLayoutColor();
+                                ParseHelper.trackEvent("setColor", "color", Integer.toString(color));
                             }
                         })
                         .show(getFragmentManager());
@@ -268,10 +269,9 @@ public class NoteFragment extends BaseFragment {
      * Updates view with the note.
      */
     private void refresh() {
-        Log.i(LOG_TAG, "Update view: " + noteUuid);
-        Note.getByUuid(noteUuid, new GetCallback<Note>() {
+        LocalNote.getByUuid(noteUuid, new GetCallback<LocalNote>() {
             @Override
-            public void done(final Note note, final ParseException e) {
+            public void done(final LocalNote note, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find note.", e);
                 Log.i(LOG_TAG, "Note: " + note);
                 NoteFragment.this.note = note;

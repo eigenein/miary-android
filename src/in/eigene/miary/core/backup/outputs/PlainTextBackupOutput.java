@@ -28,7 +28,7 @@ public class PlainTextBackupOutput extends BackupOutput {
     }
 
     @Override
-    public void write(final Note note) {
+    public void write(final LocalNote note) {
         if (note.isDeleted()) {
             return;
         }

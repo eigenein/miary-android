@@ -40,8 +40,8 @@ public class CounterCache {
             return cachedValue;
         }
 
-        private static ParseQuery<Note> getQueryPrefix() {
-            return ParseQuery.getQuery(Note.class).fromLocalDatastore().whereEqualTo(Note.KEY_DELETED, false);
+        private static ParseQuery<LocalNote> getQueryPrefix() {
+            return ParseQuery.getQuery(LocalNote.class).fromLocalDatastore().whereEqualTo(LocalNote.KEY_DELETED, false);
         }
     }
 }

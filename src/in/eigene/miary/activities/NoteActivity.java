@@ -22,13 +22,13 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
 
     private boolean fullscreen;
 
-    public static void start(final Context context, final Note note, final boolean fullscreen) {
+    public static void start(final Context context, final LocalNote note, final boolean fullscreen) {
         start(context, note, fullscreen, 0);
     }
 
     public static void start(
             final Context context,
-            final Note note,
+            final LocalNote note,
             final boolean fullscreen,
             final int additionalFlags) {
         Log.i(LOG_TAG, "Starting note activity: " + note);
