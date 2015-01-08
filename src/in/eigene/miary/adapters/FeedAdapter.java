@@ -92,9 +92,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public FeedAdapter refresh(final OnDataChangedListener listener) {
         Log.d(LOG_TAG, "refresh");
 
-        final ParseQuery<Note> query = ParseQuery.getQuery(Note.class)
-                .fromLocalDatastore()
-                .whereEqualTo(Note.KEY_DELETED, false);
+        final ParseQuery<Note> query = getQueryPrefix();
         switch (mode) {
             case DIARY:
                 DiaryQueryModifier.INSTANCE.apply(query);
@@ -138,6 +136,20 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         });
 
         return this;
+    }
+
+    /**
+     * Gets common query prefix.
+     */
+    public static ParseQuery<Note> getQueryPrefix() {
+        final ParseQuery<Note> oldQuery = ParseQuery.getQuery(Note.class)
+                .whereDoesNotExist(Note.KEY_DELETED);
+        final ParseQuery<Note> newQuery = ParseQuery.getQuery(Note.class)
+                .whereEqualTo(Note.KEY_DELETED, false);
+        final List<ParseQuery<Note>> queries = new ArrayList<ParseQuery<Note>>();
+        queries.add(oldQuery);
+        queries.add(newQuery);
+        return ParseQuery.or(queries).fromLocalDatastore();
     }
 
     public static enum Mode {
