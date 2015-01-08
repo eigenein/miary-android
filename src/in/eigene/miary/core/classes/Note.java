@@ -44,6 +44,14 @@ public class Note extends ParseObject {
                 .getFirstInBackground(callback);
     }
 
+    public static Note getByUuid(final UUID uuid) throws ParseException {
+        return ParseQuery.getQuery(Note.class)
+                .fromLocalDatastore()
+                .whereEqualTo(KEY_UUID_LSB, uuid.getLeastSignificantBits())
+                .whereEqualTo(KEY_UUID_MSB, uuid.getMostSignificantBits())
+                .getFirst();
+    }
+
     public static Note createNew() {
         final Date currentDate = new Date();
         return new Note()
@@ -163,5 +171,15 @@ public class Note extends ParseObject {
         map.put(KEY_DELETED, isDeleted());
         map.put(KEY_COLOR, getColor());
         return map;
+    }
+
+    /**
+     * Update note with the specified values.
+     */
+    public Note update(final HashMap<String, Object> values) {
+        for (final HashMap.Entry<String, Object> entry : values.entrySet()) {
+            put(entry.getKey(), entry.getValue());
+        }
+        return this;
     }
 }

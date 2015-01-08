@@ -79,13 +79,37 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         syncParams.put("lastSyncTime", (lastSyncDate != null) ? lastSyncDate.getTime() : 0);
         syncParams.put("currentSyncTime", currentSyncDate.getTime());
         syncParams.put("notes", Util.map(notes, noteToMapFunction));
+        final ArrayList<HashMap<String, Object>> response;
         try {
-            final Object response = ParseCloud.callFunction("sync", syncParams);
+            response = ParseCloud.callFunction("sync", syncParams);
         } catch (final ParseException e) {
             handleIoException("Could not call sync function.", "syncFunction", syncResult, e);
             return;
         }
-        // TODO: response.
+        Log.i(LOG_TAG, "Got " + response.size() + " notes");
+        // Update local notes.
+        for (final HashMap<String, Object> object : response) {
+            final UUID uuid = UUID.fromString(object.get(Note.KEY_UUID).toString());
+            Note note;
+            try {
+                note = Note.getByUuid(uuid);
+            } catch (final ParseException e) {
+                note = new Note().setUuid(uuid);
+            }
+            // uuid is ignored.
+            object.remove(Note.KEY_UUID);
+            // Replace timestamps with dates.
+            fixDate(object, Note.KEY_LOCAL_UPDATED_AT);
+            fixDate(object, Note.KEY_CREATION_DATE);
+            fixDate(object, Note.KEY_CUSTOM_DATE);
+            note.update(object);
+            try {
+                note.pin();
+            } catch (final ParseException e) {
+                handleIoException("Could not pin updated note.", "pinNote", syncResult, e);
+                return;
+            }
+        }
         // Update last sync time.
         // accountManager.setUserData(account, KEY_LAST_SYNC_TIME, Long.toString(currentSyncDate.getTime()));
         Log.i(LOG_TAG, "Finished.");
@@ -110,6 +134,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         queries.add(oldNotesQuery);
         queries.add(newNotesQuery);
         return ParseQuery.or(queries).fromLocalDatastore().find();
+    }
+
+    /**
+     * Replaces timestamp with Date instance.
+     */
+    private static void fixDate(final HashMap<String, Object> object, final String key) {
+        object.put(key, new Date((Long)object.get(key)));
     }
 
     private static void handleIoException(final String message, final String reason, final SyncResult syncResult, final Throwable e) {

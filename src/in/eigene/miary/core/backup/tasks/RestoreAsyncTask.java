@@ -10,6 +10,7 @@ import in.eigene.miary.core.classes.*;
 import in.eigene.miary.exceptions.*;
 
 import java.io.*;
+import java.util.*;
 
 /**
  * Used to restore a backup.
@@ -76,8 +77,9 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         final Progress progress = new Progress(Progress.State.PROGRESS, 0);
         publishProgress(progress);
         // Restore notes.
+        final Date restoreDate = new Date();
         for (int i = 0; i < noteCount; i++) {
-            final Note note = input.read();
+            final Note note = input.read().setLocalUpdatedAt(restoreDate);
             Log.i(LOG_TAG, "Read " + note.getUuid());
             try {
                 ParseQuery.getQuery(Note.class).fromLocalDatastore()
