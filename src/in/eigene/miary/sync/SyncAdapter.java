@@ -111,7 +111,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
         // Update last sync time.
-        // accountManager.setUserData(account, KEY_LAST_SYNC_TIME, Long.toString(currentSyncDate.getTime()));
+        accountManager.setUserData(account, KEY_LAST_SYNC_TIME, Long.toString(currentSyncDate.getTime()));
         Log.i(LOG_TAG, "Finished.");
         ParseAnalytics.trackEventInBackground("syncSuccess");
     }
