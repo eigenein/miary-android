@@ -36,7 +36,7 @@ public class JsonBackupOutput extends BackupOutput {
     }
 
     @Override
-    public void write(final LocalNote note) throws IOException {
+    public void write(final Note note) throws IOException {
         writer.beginObject();
         writer.name("uuid").value(note.getUuid().toString());
         writer.name("title").value(note.getTitle());

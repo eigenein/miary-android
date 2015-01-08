@@ -49,8 +49,8 @@ public class JsonRestoreInput extends RestoreInput {
     }
 
     @Override
-    public LocalNote read() throws IOException {
-        final LocalNote note = new LocalNote();
+    public Note read() throws IOException {
+        final Note note = new Note();
         Log.d(LOG_TAG, "Begin object.");
         reader.beginObject();
         while (reader.hasNext()) {

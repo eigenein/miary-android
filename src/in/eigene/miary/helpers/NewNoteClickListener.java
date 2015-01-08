@@ -23,7 +23,7 @@ public class NewNoteClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(final View view) {
-        final LocalNote note = LocalNote.createNew();
+        final Note note = Note.createNew();
         switch (adapter.getMode()) {
             case STARRED:
                 note.setStarred(true);

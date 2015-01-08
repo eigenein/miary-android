@@ -19,14 +19,14 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
     private static final SparseIntArray VIEW_ID_TO_COLOR = new SparseIntArray();
 
     static {
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_white, LocalNote.COLOR_WHITE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_red, LocalNote.COLOR_RED);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_orange, LocalNote.COLOR_ORANGE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_yellow, LocalNote.COLOR_YELLOW);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_gray, LocalNote.COLOR_GRAY);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_green, LocalNote.COLOR_GREEN);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_blue, LocalNote.COLOR_BLUE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, LocalNote.COLOR_PURPLE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_white, Note.COLOR_WHITE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_red, Note.COLOR_RED);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_orange, Note.COLOR_ORANGE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_yellow, Note.COLOR_YELLOW);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_gray, Note.COLOR_GRAY);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_green, Note.COLOR_GREEN);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_blue, Note.COLOR_BLUE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.COLOR_PURPLE);
     }
 
     private Listener listener;

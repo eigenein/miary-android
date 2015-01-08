@@ -92,9 +92,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public FeedAdapter refresh(final OnDataChangedListener listener) {
         Log.d(LOG_TAG, "refresh");
 
-        final ParseQuery<LocalNote> query = ParseQuery.getQuery(LocalNote.class)
+        final ParseQuery<Note> query = ParseQuery.getQuery(Note.class)
                 .fromLocalDatastore()
-                .whereEqualTo(LocalNote.KEY_DELETED, false);
+                .whereEqualTo(Note.KEY_DELETED, false);
         switch (mode) {
             case DIARY:
                 DiaryQueryModifier.INSTANCE.apply(query);
@@ -108,20 +108,20 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
         switch (sortingOrder) {
             case DESCENDING:
-                query.orderByDescending(LocalNote.KEY_CUSTOM_DATE);
+                query.orderByDescending(Note.KEY_CUSTOM_DATE);
                 break;
             case ASCENDING:
-                query.orderByAscending(LocalNote.KEY_CUSTOM_DATE);
+                query.orderByAscending(Note.KEY_CUSTOM_DATE);
                 break;
         }
-        query.findInBackground(new FindCallback<LocalNote>() {
+        query.findInBackground(new FindCallback<Note>() {
 
             @Override
-            public void done(final List<LocalNote> notes, final ParseException e) {
+            public void done(final List<Note> notes, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find notes.", e);
-                items = Util.map(notes, new Function<LocalNote, Item>() {
+                items = Util.map(notes, new Function<Note, Item>() {
                     @Override
-                    public Item apply(final LocalNote note) {
+                    public Item apply(final Note note) {
                         return new NoteItem(note);
                     }
                 });

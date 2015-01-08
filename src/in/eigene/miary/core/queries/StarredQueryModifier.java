@@ -9,6 +9,6 @@ public class StarredQueryModifier implements QueryModifier {
 
     @Override
     public ParseQuery apply(final ParseQuery query) {
-        return query.whereEqualTo(LocalNote.KEY_STARRED, true);
+        return query.whereEqualTo(Note.KEY_STARRED, true);
     }
 }

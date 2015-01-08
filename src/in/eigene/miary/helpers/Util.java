@@ -8,6 +8,8 @@ import java.util.*;
 
 public class Util {
 
+    public static final Date EPOCH = new Date(0);
+
     private static final SimpleDateFormat ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     /**

@@ -73,7 +73,7 @@ public class AboutActivity extends BaseActivity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                LocalNote.unpinAllInBackground(new DeleteCallback() {
+                                Note.unpinAllInBackground(new DeleteCallback() {
                                     @Override
                                     public void done(final ParseException e) {
                                         InternalRuntimeException.throwForException("could not unpin all notes", e);
@@ -94,14 +94,14 @@ public class AboutActivity extends BaseActivity {
 
             case R.id.menu_item_developer_add_sample_notes:
                 final String[] texts = getResources().getStringArray(R.array.sample_texts);
-                final List<LocalNote> notes = Util.map(Arrays.asList(texts), new Function<String, LocalNote>() {
+                final List<Note> notes = Util.map(Arrays.asList(texts), new Function<String, Note>() {
                     private int color = 5;
                     @Override
-                    public LocalNote apply(final String text) {
-                        return LocalNote.createNew().setText(text).setColor(color++ % 8);
+                    public Note apply(final String text) {
+                        return Note.createNew().setText(text).setColor(color++ % 8);
                     }
                 });
-                LocalNote.pinAllInBackground(notes, new SaveCallback() {
+                Note.pinAllInBackground(notes, new SaveCallback() {
                     @Override
                     public void done(final ParseException e) {
                         InternalRuntimeException.throwForException("could not pin notes", e);

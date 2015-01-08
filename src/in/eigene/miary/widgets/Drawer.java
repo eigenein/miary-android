@@ -216,7 +216,6 @@ public class Drawer extends DrawerListener {
                         final AccountManager accountManager = AccountManager.get(activity);
                         final Account[] accounts = accountManager.getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
                         if (accounts.length != 0) {
-                            //noinspection deprecation
                             accountManager.getAuthToken(accounts[0], SyncAdapter.ACCOUNT_TYPE, false, new GetAuthTokenCallback(), null);
                         } else {
                             accountManager.addAccount(SyncAdapter.ACCOUNT_TYPE, null, null, null, activity, new AddAccountCallback(), null);

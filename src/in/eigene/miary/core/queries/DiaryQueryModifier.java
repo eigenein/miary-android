@@ -9,6 +9,6 @@ public class DiaryQueryModifier implements QueryModifier {
 
     @Override
     public ParseQuery apply(final ParseQuery query) {
-        return query.whereEqualTo(LocalNote.KEY_DRAFT, false);
+        return query.whereEqualTo(Note.KEY_DRAFT, false);
     }
 }

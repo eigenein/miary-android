@@ -47,7 +47,7 @@ public class NoteFragment extends BaseFragment {
     private EditText editTextText;
 
     private UUID noteUuid;
-    private LocalNote note;
+    private Note note;
 
     private boolean substitutionEnabled = true;
 
@@ -269,9 +269,9 @@ public class NoteFragment extends BaseFragment {
      * Updates view with the note.
      */
     private void refresh() {
-        LocalNote.getByUuid(noteUuid, new GetCallback<LocalNote>() {
+        Note.getByUuid(noteUuid, new GetCallback<Note>() {
             @Override
-            public void done(final LocalNote note, final ParseException e) {
+            public void done(final Note note, final ParseException e) {
                 InternalRuntimeException.throwForException("Failed to find note.", e);
                 Log.i(LOG_TAG, "Note: " + note);
                 NoteFragment.this.note = note;

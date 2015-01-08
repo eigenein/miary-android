@@ -19,7 +19,7 @@ public class NoteViewHolder extends FeedAdapter.ViewHolder implements View.OnCli
     private final TextView text;
     private final TextView creationDate;
 
-    private LocalNote note;
+    private Note note;
 
     public NoteViewHolder(final View itemView) {
         super(itemView);
@@ -40,7 +40,7 @@ public class NoteViewHolder extends FeedAdapter.ViewHolder implements View.OnCli
         bind(((NoteItem)item).note);
     }
 
-    public void bind(final LocalNote note) {
+    public void bind(final Note note) {
         this.note = note;
 
         final Context context = itemView.getContext();

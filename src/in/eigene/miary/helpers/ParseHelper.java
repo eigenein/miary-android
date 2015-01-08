@@ -16,8 +16,7 @@ public class ParseHelper {
     public static void initialize(final Context context) {
         ParseCrashReporting.enable(context);
         Parse.enableLocalDatastore(context);
-        ParseObject.registerSubclass(LocalNote.class);
-        ParseObject.registerSubclass(RemoteNote.class);
+        ParseObject.registerSubclass(Note.class);
         ParseObject.registerSubclass(Feedback.class);
         Parse.initialize(context, APPLICATION_ID, CLIENT_KEY);
     }
