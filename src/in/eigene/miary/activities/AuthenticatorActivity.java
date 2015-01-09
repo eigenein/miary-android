@@ -101,7 +101,8 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
         // Enable automatic syncing.
         ContentResolver.setSyncAutomatically(account, SyncAdapter.AUTHORITY, true);
         ContentResolver.setIsSyncable(account, SyncAdapter.AUTHORITY, 1);
-        accountManager.addAccountExplicitly(account, credentials.getPassword(), new Bundle());
+        ContentResolver.addPeriodicSync(account, SyncAdapter.AUTHORITY, Bundle.EMPTY, 1800L);
+        accountManager.addAccountExplicitly(account, credentials.getPassword(), Bundle.EMPTY);
         // Add account.
         accountManager.setAuthToken(account, account.type, authToken);
         result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
