@@ -226,12 +226,27 @@ public class Drawer extends DrawerListener {
         }
     }
 
-    private class AddAccountCallback implements AccountManagerCallback<Bundle> {
+    private static abstract class AccountCallback {
+
+        /**
+         * Links the installation to the current user.
+         */
+        protected static void linkInstallation() {
+            final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("user", ParseUser.getCurrentUser());
+            installation.saveInBackground();
+        }
+    }
+
+    private class AddAccountCallback
+            extends AccountCallback
+            implements AccountManagerCallback<Bundle> {
 
         @Override
         public void run(final AccountManagerFuture<Bundle> future) {
             try {
                 future.getResult();
+                linkInstallation();
             } catch (final android.accounts.OperationCanceledException e) {
                 // Do nothing.
             } catch (final Exception e) {
@@ -240,7 +255,9 @@ public class Drawer extends DrawerListener {
         }
     }
 
-    private class GetAuthTokenCallback implements AccountManagerCallback<Bundle> {
+    private class GetAuthTokenCallback
+            extends AccountCallback
+            implements AccountManagerCallback<Bundle> {
 
         @Override
         public void run(final AccountManagerFuture<Bundle> future) {
@@ -254,8 +271,12 @@ public class Drawer extends DrawerListener {
             ParseUser.becomeInBackground(authToken, new LogInCallback() {
                 @Override
                 public void done(final ParseUser user, final ParseException e) {
-                    InternalRuntimeException.throwForException("Failed to become a user.", e);
-                    Toast.makeText(activity, R.string.account_auth_success, Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            activity,
+                            e == null ? R.string.account_auth_success : R.string.account_auth_retry,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    linkInstallation();
                 }
             });
         }

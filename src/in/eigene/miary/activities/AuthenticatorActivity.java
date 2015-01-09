@@ -6,7 +6,6 @@ import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
-import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.lang.*;
@@ -107,10 +106,6 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
         accountManager.setAuthToken(account, account.type, authToken);
         result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
         result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-        // Link installation to the user.
-        final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put("userId", ParseUser.getCurrentUser().getObjectId());
-        installation.saveEventually();
         // Finish.
         Toast.makeText(this, R.string.account_auth_success, Toast.LENGTH_LONG).show();
         this.result = result;

@@ -5,6 +5,7 @@
     <string name="about_version">Версия %1$s\nСборка %2$d</string>
     <string name="about_vkontakte">ВКонтакте</string>
     <string name="account_auth_failed">Не удалось выполнить вход. Проверьте правильность ввода данных.</string>
+    <string name="account_auth_retry">Удалите существующий аккаунт в системных настройках и попробуйте еще раз.</string>
     <string name="account_auth_success">Вход выполнен успешно.</string>
     <string name="account_basic">Базовый аккаунт</string>
     <string name="account_offline">Локальный аккаунт</string>
