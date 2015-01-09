@@ -45,7 +45,20 @@ public class AboutActivity extends BaseActivity {
         findViewById(R.id.about_google_plus_text).setOnClickListener(
                 new StartUriOnClickListener(Uri.parse("http://plus.google.com/communities/105005072306337762911")));
 
-        registerForContextMenu(findViewById(R.id.about_version));
+        final TextView versionView = (TextView)findViewById(R.id.about_version);
+        registerForContextMenu(versionView);
+        versionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                // Copy version, build and installation ID to the clipboard.
+                final ClipboardManager manager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                manager.setPrimaryClip(ClipData.newPlainText(
+                        getString(R.string.app_name),
+                        versionView.getText() + "\n" + ParseInstallation.getCurrentInstallation().getInstallationId()
+                ));
+                Toast.makeText(AboutActivity.this, R.string.toast_copied, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

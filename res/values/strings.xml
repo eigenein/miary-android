@@ -127,6 +127,7 @@
     <string name="toast_backup_finished">%1$d notes are saved to %2$s</string>
     <string name="toast_backup_nothing">Nothing to backup.</string>
     <string name="toast_cancelled">Cancelled.</string>
+    <string name="toast_copied">Copied.</string>
     <string name="toast_email_required">Email is required.</string>
     <string name="toast_no_file_manager_app">Install a file manager application.</string>
     <string name="toast_note_drafted">Marked as a draft.</string>
