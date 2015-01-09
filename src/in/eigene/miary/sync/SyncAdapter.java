@@ -17,7 +17,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String ACCOUNT_TYPE = "miary.eigene.in";
     public static final String AUTHORITY = "in.eigene.miary.provider";
-    public static final String SYNC_FINISHED_EVENT_NAME = "in.eigene.miary.events.SYNC_FINISHED";
+    public static final String SYNC_FINISHED_EVENT_NAME = "in.eigene.miary.SYNC_FINISHED";
 
     private static final String KEY_LAST_SYNC_TIME = "lastSyncTime";
 
