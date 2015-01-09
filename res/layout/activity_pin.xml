@@ -3,39 +3,23 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center"
 >
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"
-            android:layout_marginBottom="8dp"
-    />
-    <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/app_name"
-            style="@android:style/TextAppearance.Large"
-            android:textStyle="bold"
+    <include layout="@layout/toolbar"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-    />
-    <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/app_subname"
-            style="@android:style/TextAppearance.Medium"
-            android:textStyle="italic"
-            android:gravity="center"
-    />
-    <EditText
-            android:id="@+id/pin_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="numberPassword"
-            android:maxLength="4"
-            android:gravity="center"
-            android:hint="@string/pin_required"
-            android:textSize="34dp"
-            android:layout_marginTop="@dimen/modal_image_margin"
-    />
+            android:padding="@dimen/fullscreen_dialog_padding"
+    >
+        <EditText
+                android:id="@+id/pin_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberPassword"
+                android:maxLength="4"
+                android:gravity="center_horizontal"
+                android:hint="@string/pin_required"
+                style="@android:style/TextAppearance.Large"
+        />
+    </LinearLayout>
 </LinearLayout>
