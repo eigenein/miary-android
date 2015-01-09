@@ -1,6 +1,7 @@
 package in.eigene.miary.activities;
 
 import android.accounts.*;
+import android.content.*;
 import android.graphics.*;
 import android.os.*;
 import android.view.*;
@@ -96,11 +97,12 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
         }
 
         final Account account = new Account(credentials.getEmail(), SyncAdapter.ACCOUNT_TYPE);
+        ContentResolver.setSyncAutomatically(account, SyncAdapter.AUTHORITY, true);
+        ContentResolver.setIsSyncable(account, SyncAdapter.AUTHORITY, 1);
         accountManager.addAccountExplicitly(account, credentials.getPassword(), new Bundle());
+        accountManager.setAuthToken(account, account.type, authToken);
         result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
         result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-        accountManager.setAuthToken(account, account.type, authToken);
-        getContentResolver().setSyncAutomatically(account, SyncAdapter.AUTHORITY, true);
         Toast.makeText(this, R.string.account_auth_success, Toast.LENGTH_LONG).show();
 
         this.result = result;

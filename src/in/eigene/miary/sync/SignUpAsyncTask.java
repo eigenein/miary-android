@@ -14,6 +14,7 @@ public class SignUpAsyncTask extends AuthAsyncTask {
     protected String doAuth(final Credentials credentials) throws ParseException {
         final ParseUser user = new ParseUser();
         user.setUsername(credentials.getEmail());
+        user.setEmail(credentials.getEmail());
         user.setPassword(credentials.getPassword());
         user.signUp();
         return user.getSessionToken();
