@@ -188,12 +188,14 @@ public class NoteFragment extends BaseFragment {
                 note.setDraft(true);
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_drafted, Toast.LENGTH_SHORT).show();
+                invalidateOptionsMenu();
                 return true;
 
             case R.id.menu_item_note_not_draft:
                 note.setDraft(false);
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_undrafted, Toast.LENGTH_SHORT).show();
+                invalidateOptionsMenu();
                 return true;
 
             case R.id.menu_item_note_not_starred:
