@@ -280,6 +280,10 @@ public class NoteFragment extends BaseFragment {
         Note.getByUuid(noteUuid, new GetCallback<Note>() {
             @Override
             public void done(final Note note, final ParseException e) {
+                if (!isAdded()) {
+                    // Fix IllegalStateException: it's too late to update anything.
+                    return;
+                }
                 InternalRuntimeException.throwForException("Failed to find note.", e);
                 Log.i(LOG_TAG, "Note: " + note);
                 NoteFragment.this.note = note;
