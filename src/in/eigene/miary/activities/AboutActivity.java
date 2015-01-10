@@ -103,6 +103,10 @@ public class AboutActivity extends BaseActivity {
                 });
                 return true;
 
+            case R.id.menu_item_developer_disable_flag_secure:
+                BaseActivity.disableSecureFlag = true;
+                return true;
+
             default:
                 return super.onContextItemSelected(item);
         }
