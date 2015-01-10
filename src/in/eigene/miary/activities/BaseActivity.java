@@ -15,8 +15,9 @@ public abstract class BaseActivity extends ActionBarActivity {
 
     private static final String LOG_TAG = BaseActivity.class.getSimpleName();
 
-    private static long TIMEOUT = 5 * 60 * 1000;
+    private static final long TIMEOUT = 5 * 60 * 1000;
 
+    protected static boolean disableSecureFlag = false;
     private static long lastActivityTime = 0;
 
     private Toolbar toolbar;
@@ -47,7 +48,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        checkPassCodeProtection();
+        checkPasscodeProtection();
     }
 
     @Override
@@ -72,11 +73,22 @@ public abstract class BaseActivity extends ActionBarActivity {
         }
     }
 
-    private void checkPassCodeProtection() {
+    /**
+     * Makes the activity secure: removes snapshot from recent apps.
+     */
+    protected void setSecureFlag() {
+        if (!disableSecureFlag) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+
+    /**
+     * Checks if passcode is required and starts passcode activity if needed.
+     */
+    private void checkPasscodeProtection() {
         final long currentTime = new Date().getTime();
         if ((currentTime - lastActivityTime) > TIMEOUT) {
-            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
-                    getString(R.string.prefkey_pin_enabled), false)) {
+            if (isPasscodeEnabled()) {
                 Log.w(LOG_TAG, "Passcode required.");
                 finish();
                 PinActivity.start(this, getIntent());
@@ -87,5 +99,9 @@ public abstract class BaseActivity extends ActionBarActivity {
             Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms.");
             refreshLastActivityTime();
         }
+    }
+
+    private boolean isPasscodeEnabled() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.prefkey_pin_enabled), false);
     }
 }
