@@ -7,6 +7,7 @@
             android:id="@+id/menu_item_note_fullscreen"
             android:icon="@drawable/ic_fullscreen_white_24dp"
             android:title="@string/note_fullscreen"
-            app:showAsAction="never"
+            android:orderInCategory="1"
+            app:showAsAction="always"
     />
 </menu>

@@ -4,48 +4,54 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
 >
     <item
+            android:id="@+id/menu_item_note_color"
+            android:icon="@drawable/ic_color_lens_white_24dp"
+            android:title="@string/note_color"
+            app:showAsAction="always"
+    />
+    <item
             android:id="@+id/menu_item_note_starred"
             android:icon="@drawable/ic_star_white_24dp"
             android:title="@string/note_unstar"
             android:visible="false"
-            app:showAsAction="ifRoom"
+            app:showAsAction="always"
     />
     <item
             android:id="@+id/menu_item_note_not_starred"
             android:icon="@drawable/ic_star_outline_white_24dp"
             android:title="@string/note_star"
             android:visible="true"
-            app:showAsAction="ifRoom"
+            app:showAsAction="always"
     />
     <item
-            android:id="@+id/menu_item_note_color"
-            android:icon="@drawable/ic_color_lens_white_24dp"
-            android:title="@string/note_color"
-            app:showAsAction="ifRoom"
+            android:id="@+id/menu_item_note_draft"
+            android:icon="@drawable/ic_drafts_white_24dp"
+            android:title="@string/note_draft"
+            app:showAsAction="always"
+    />
+    <item
+            android:id="@+id/menu_item_note_not_draft"
+            android:icon="@drawable/ic_inbox_white_24dp"
+            android:title="@string/note_not_draft"
+            app:showAsAction="always"
+    />
+    <!-- Here come activity items with orderInCategory="1". -->
+    <item
+            android:id="@+id/menu_item_note_custom_date"
+            android:title="@string/note_set_custom_date"
+            android:orderInCategory="2"
+            app:showAsAction="never"
     />
     <item
             android:id="@+id/menu_item_note_share"
             android:title="@string/note_share"
+            android:orderInCategory="2"
             app:showAsAction="ifRoom"
-    />
-    <item
-            android:id="@+id/menu_item_note_draft"
-            android:title="@string/note_draft"
-            app:showAsAction="never"
-    />
-    <item
-            android:id="@+id/menu_item_note_not_draft"
-            android:title="@string/note_not_draft"
-            app:showAsAction="never"
-    />
-    <item
-            android:id="@+id/menu_item_note_custom_date"
-            android:title="@string/note_set_custom_date"
-            app:showAsAction="never"
     />
     <item
             android:id="@+id/menu_item_note_remove"
             android:title="@string/note_remove"
+            android:orderInCategory="2"
             app:showAsAction="never"
     />
 </menu>
