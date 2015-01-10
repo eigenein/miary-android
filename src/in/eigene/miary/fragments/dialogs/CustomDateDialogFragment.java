@@ -52,6 +52,7 @@ public class CustomDateDialogFragment extends BaseDialogFragment {
                 R.layout.fragment_dialog_custom_date, null);
 
         timePicker = (TimePicker)view.findViewById(R.id.dialog_custom_time);
+        timePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
         datePicker = (DatePicker)view.findViewById(R.id.dialog_custom_date);
 
         refresh(customDate);
@@ -100,9 +101,7 @@ public class CustomDateDialogFragment extends BaseDialogFragment {
 
         timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
         timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-        // Fix mode. http://stackoverflow.com/a/16261359/359730
-        timePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
 
-        datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONDAY), calendar.get(Calendar.DAY_OF_MONTH));
+        datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
 }
