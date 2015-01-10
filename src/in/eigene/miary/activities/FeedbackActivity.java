@@ -3,6 +3,7 @@ package in.eigene.miary.activities;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
+import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.classes.*;
 
@@ -29,7 +30,9 @@ public class FeedbackActivity extends FullscreenDialogActivity {
                 final String email = ((EditText)findViewById(R.id.feedback_email)).getText().toString();
                 final String text = ((EditText)findViewById(R.id.feedback_text)).getText().toString();
                 if (!text.isEmpty()) {
-                    final Feedback feedback = new Feedback().setText(text);
+                    final Feedback feedback = new Feedback()
+                            .setInstallation(ParseInstallation.getCurrentInstallation())
+                            .setText(text);
                     if (!email.isEmpty()) {
                         feedback.setEmail(email);
                     }

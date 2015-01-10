@@ -7,6 +7,7 @@ public class Feedback extends ParseObject {
 
     private static final String KEY_EMAIL = "email";
     private static final String KEY_TEXT = "text";
+    private static final String KEY_INSTALLATION = "installation";
 
     private static final ParseACL ACL = new ParseACL();
 
@@ -26,6 +27,11 @@ public class Feedback extends ParseObject {
 
     public Feedback setText(final String text) {
         put(KEY_TEXT, text);
+        return this;
+    }
+
+    public Feedback setInstallation(final ParseInstallation installation) {
+        put(KEY_INSTALLATION, installation);
         return this;
     }
 }
