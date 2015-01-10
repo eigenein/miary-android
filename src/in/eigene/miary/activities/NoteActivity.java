@@ -56,6 +56,7 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
 
         super.onCreate(savedInstanceState);
 
+        setSecureFlag();
         setContentView(R.layout.activity_note);
         initializeToolbar();
 

@@ -22,6 +22,8 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setSecureFlag();
         // Initialize view.
         setContentView(R.layout.activity_feed);
         initializeToolbar();
