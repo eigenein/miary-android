@@ -4,6 +4,7 @@ import android.content.*;
 import android.os.*;
 import android.util.*;
 import android.view.*;
+import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.classes.*;
 import in.eigene.miary.fragments.*;
@@ -84,6 +85,7 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
 
             case R.id.menu_item_note_fullscreen:
                 restart(true);
+                ParseAnalytics.trackEventInBackground("fullscreen");
                 return true;
 
             default:
@@ -99,6 +101,8 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
     @Override
     protected void initializeToolbar() {
         super.initializeToolbar();
+
         getToolbar().setBackgroundResource(R.color.toolbar_background_note);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 }
