@@ -12,6 +12,8 @@ import in.eigene.miary.adapters.items.*;
 import in.eigene.miary.core.classes.*;
 import in.eigene.miary.helpers.*;
 
+import java.util.*;
+
 public class NoteViewHolder extends FeedAdapter.ViewHolder implements View.OnClickListener {
 
     private final CardView layout;
@@ -57,16 +59,31 @@ public class NoteViewHolder extends FeedAdapter.ViewHolder implements View.OnCli
         text.setTextColor(color.foregroundColor);
         // Set creation date text and style.
         creationDate.setTextColor(color.secondaryColor);
-        creationDate.setText(DateUtils.getRelativeDateTimeString(
-                context,
-                note.getCustomDate().getTime(),
-                DateUtils.SECOND_IN_MILLIS,
-                DateUtils.DAY_IN_MILLIS,
-                0));
+        creationDate.setText(getRelativeDateTimeString(context, note.getCustomDate()));
     }
 
     @Override
     public void onClick(final View view) {
         NoteActivity.start(itemView.getContext(), note, false);
+    }
+
+    /**
+     * The standard method does not use flags correctly.
+     */
+    private static CharSequence getRelativeDateTimeString(final Context context, final Date date) {
+        final long now = System.currentTimeMillis();
+        final long time = date.getTime();
+        final long duration = Math.abs(now - time);
+
+        if (duration < DateUtils.DAY_IN_MILLIS) {
+            return DateUtils.getRelativeTimeSpanString(time, now, DateUtils.SECOND_IN_MILLIS, 0);
+        } else {
+            return DateUtils.formatDateTime(context, time,
+                    DateUtils.FORMAT_SHOW_DATE |
+                    DateUtils.FORMAT_ABBREV_MONTH |
+                    DateUtils.FORMAT_SHOW_TIME |
+                    DateUtils.FORMAT_SHOW_WEEKDAY |
+                    DateUtils.FORMAT_ABBREV_WEEKDAY);
+        }
     }
 }
