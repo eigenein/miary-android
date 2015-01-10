@@ -4,8 +4,6 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.preference.*;
-import android.support.v4.view.*;
-import android.support.v7.widget.ShareActionProvider;
 import android.text.*;
 import android.util.*;
 import android.view.*;
@@ -176,11 +174,6 @@ public class NoteFragment extends BaseFragment {
         menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
         menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
         menu.findItem(R.id.menu_item_note_starred).setVisible(note.isStarred());
-
-        // Work around NPE.
-        final android.support.v7.widget.ShareActionProvider actionProvider = new ShareActionProvider(getActivity());
-        actionProvider.setShareIntent(getShareIntent());
-        MenuItemCompat.setActionProvider(menu.findItem(R.id.menu_item_note_share), actionProvider);
     }
 
     @Override
@@ -264,6 +257,10 @@ public class NoteFragment extends BaseFragment {
                         .show(getFragmentManager());
                 return true;
 
+            case R.id.menu_item_note_share:
+                startActivity(getShareIntent());
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -340,16 +337,10 @@ public class NoteFragment extends BaseFragment {
     private Intent getShareIntent() {
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        // Set title if exists.
+        intent.putExtra(Intent.EXTRA_TEXT, note.getText().trim());
         if (!Util.isNullOrEmpty(note.getTitle())) {
-            intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle());
+            intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle().trim());
         }
-        // Set plain text.
-        intent.putExtra(Intent.EXTRA_TEXT, String.format(
-                "%s\n\n%s",
-                note.getText().trim(),
-                "https://bitly.com/miaryapp"
-        ));
         return intent;
     }
 }
