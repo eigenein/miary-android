@@ -138,13 +138,6 @@ public class Drawer extends DrawerListener {
     }
 
     /**
-     * Closes drawer.
-     */
-    private void close() {
-        layout.closeDrawer(view);
-    }
-
-    /**
      * Listens for feed mode changes.
      */
     public interface Listener {
