@@ -131,7 +131,7 @@ public class Drawer extends DrawerListener {
         @Override
         public void onClick(final View view) {
             new Handler().postDelayed(runnable, 500L);
-            layout.closeDrawer(view);
+            layout.closeDrawer(Drawer.this.view);
         }
     }
 
