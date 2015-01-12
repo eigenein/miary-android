@@ -33,7 +33,6 @@ public class NoteFragment extends BaseFragment {
     }
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
-    private static final String KEY_NOTE_UUID = "note_uuid";
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
 
@@ -75,11 +74,7 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
-        if ((savedInstanceState != null) && savedInstanceState.containsKey(KEY_NOTE_UUID)) {
-            noteUuid = (UUID)savedInstanceState.getSerializable(KEY_NOTE_UUID);
-        }
     }
 
     @Override
@@ -264,12 +259,6 @@ public class NoteFragment extends BaseFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_NOTE_UUID, noteUuid);
     }
 
     /**
