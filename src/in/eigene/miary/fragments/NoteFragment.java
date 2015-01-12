@@ -22,17 +22,10 @@ import java.util.*;
 
 public class NoteFragment extends BaseFragment {
 
-    public interface ChangedListener {
-
-        public void onNoteRemoved();
-    }
-
-    public interface LeaveFullscreenListener {
-
-        public void onLeave();
-    }
-
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
+
+    private static final String EXTRA_NOTE_UUID = "noteUuid";
+    private static final String EXTRA_FULLSCREEN = "fullscreen";
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
 
@@ -43,32 +36,24 @@ public class NoteFragment extends BaseFragment {
     private EditText editTextTitle;
     private EditText editTextText;
 
-    private UUID noteUuid;
     private Note note;
 
     private boolean substitutionEnabled = true;
 
-    public void setOnLeaveFullscreenListener(final LeaveFullscreenListener listener) {
-        this.leaveFullscreenListener = listener;
-        this.getView().findViewById(R.id.note_button_leave_fullscreen).setVisibility(View.VISIBLE);
-    }
-
-    public NoteFragment setNoteUuid(final UUID noteUuid) {
-        this.noteUuid = noteUuid;
-        return this;
-    }
-
-    /**
-     * Sets padding to zeroes.
-     */
-    public void disablePadding() {
-        editLayout.setPadding(0, 0, 0, 0);
+    public static NoteFragment create(final UUID noteUuid, final boolean fullscreen) {
+        final Bundle arguments = new Bundle();
+        arguments.putSerializable(EXTRA_NOTE_UUID, noteUuid);
+        arguments.putSerializable(EXTRA_FULLSCREEN, fullscreen);
+        final NoteFragment fragment = new NoteFragment();
+        fragment.setArguments(arguments);
+        return fragment;
     }
 
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
         changedListener = (ChangedListener)activity;
+        leaveFullscreenListener = (LeaveFullscreenListener)activity;
     }
 
     @Override
@@ -85,12 +70,18 @@ public class NoteFragment extends BaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_note, container, false);
+        final View leaveFullscreenView = view.findViewById(R.id.note_button_leave_fullscreen);
         editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
 
-        view.findViewById(R.id.note_button_leave_fullscreen).setOnClickListener(new View.OnClickListener() {
+        if (getArguments().getBoolean(EXTRA_FULLSCREEN, false)) {
+            editLayout.setPadding(0, 0, 0, 0);
+            leaveFullscreenView.setVisibility(View.VISIBLE);
+        }
+
+        leaveFullscreenView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                leaveFullscreenListener.onLeave();
+                leaveFullscreenListener.onLeaveFullscreen();
             }
         });
 
@@ -265,6 +256,7 @@ public class NoteFragment extends BaseFragment {
      * Updates view with the note.
      */
     private void refresh() {
+        final UUID noteUuid = (UUID)getArguments().getSerializable(EXTRA_NOTE_UUID);
         Log.i(LOG_TAG, "Update view: " + noteUuid);
         Note.getByUuid(noteUuid, new GetCallback<Note>() {
             @Override
@@ -273,7 +265,7 @@ public class NoteFragment extends BaseFragment {
                     // Fix IllegalStateException: it's too late to update anything.
                     return;
                 }
-                InternalRuntimeException.throwForException("Failed to find note.", e);
+                InternalRuntimeException.throwForException("Failed to find note " + noteUuid, e);
                 Log.i(LOG_TAG, "Note: " + note);
                 NoteFragment.this.note = note;
                 editTextTitle.setText(note.getTitle());
@@ -335,5 +327,15 @@ public class NoteFragment extends BaseFragment {
             intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle().trim());
         }
         return intent;
+    }
+
+    public interface ChangedListener {
+
+        public void onNoteRemoved();
+    }
+
+    public interface LeaveFullscreenListener {
+
+        public void onLeaveFullscreen();
     }
 }
