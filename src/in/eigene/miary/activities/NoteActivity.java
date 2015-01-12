@@ -11,14 +11,13 @@ import in.eigene.miary.fragments.*;
 
 import java.util.*;
 
-public class NoteActivity extends BaseActivity implements NoteFragment.ChangedListener {
+public class NoteActivity extends BaseActivity
+        implements NoteFragment.ChangedListener, NoteFragment.LeaveFullscreenListener {
 
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
 
-    private static final String EXTRA_NOTE_UUID = "note_uuid";
+    private static final String EXTRA_NOTE_UUID = "noteUuid";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
-
-    private boolean fullscreen;
 
     public static void start(final Context context, final Note note, final boolean fullscreen) {
         start(context, note, fullscreen, 0);
@@ -45,7 +44,7 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         // Fullscreen mode.
-        fullscreen = getIntent().getBooleanExtra(EXTRA_FULLSCREEN, false);
+        final boolean fullscreen = getIntent().getBooleanExtra(EXTRA_FULLSCREEN, false);
         if (fullscreen) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -57,21 +56,13 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
         setContentView(R.layout.activity_note);
         initializeToolbar();
 
-        final NoteFragment noteFragment = (NoteFragment)getFragmentManager().findFragmentById(R.id.fragment_note);
-
         if (fullscreen) {
             getSupportActionBar().hide();
-            noteFragment.disablePadding();
-            noteFragment.setOnLeaveFullscreenListener(new NoteFragment.LeaveFullscreenListener() {
-                @Override
-                public void onLeave() {
-                    restart(false);
-                }
-            });
         }
 
         final UUID noteUuid = (java.util.UUID)getIntent().getSerializableExtra(EXTRA_NOTE_UUID);
-        noteFragment.setNoteUuid(noteUuid);
+        final NoteFragment noteFragment = NoteFragment.create(noteUuid, fullscreen);
+        getFragmentManager().beginTransaction().add(R.id.fragment_note, noteFragment).commit();
     }
 
     @Override
@@ -97,6 +88,11 @@ public class NoteActivity extends BaseActivity implements NoteFragment.ChangedLi
     @Override
     public void onNoteRemoved() {
         finish();
+    }
+
+    @Override
+    public void onLeaveFullscreen() {
+        restart(false);
     }
 
     @Override
