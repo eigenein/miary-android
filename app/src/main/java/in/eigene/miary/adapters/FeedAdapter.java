@@ -123,10 +123,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                         return new NoteItem(note);
                     }
                 });
-                // Update statistics.
-                if (mode == Mode.DIARY) {
-                    ParseHelper.trackStatistics(notes.size());
-                }
                 // Ask user to rate app or give us some feedback.
                 if (!rateItemShown && (notes.size() >= 30)) {
                     items.add(RateItem.POSITION, new RateItem(FeedAdapter.this));
