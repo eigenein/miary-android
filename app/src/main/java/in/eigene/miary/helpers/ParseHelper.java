@@ -20,7 +20,7 @@ public class ParseHelper {
     }
 
     public static void trackEvent(final String name, final String dimensionKey, final String dimensionValue) {
-        final HashMap<String, String> dimensions = new HashMap<String, String>();
+        final HashMap<String, String> dimensions = new HashMap<>();
         dimensions.put(dimensionKey, dimensionValue);
         ParseAnalytics.trackEventInBackground(name, dimensions);
     }
