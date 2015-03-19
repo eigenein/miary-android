@@ -2,6 +2,7 @@ language: java
 install:
 - wget http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz
 - tar xf android-sdk_r24.0.2-linux.tgz
+- readlink --canonicalize android-sdk-linux
 - export ANDROID_HOME=`readlink --canonicalize android-sdk-linux`
 - echo $ANDROID_HOME
 - echo "y" | $ANDROID_HOME/tools/android update sdk --no-ui --all --filter platform-tools,build-tools-21.1.2,android-21
