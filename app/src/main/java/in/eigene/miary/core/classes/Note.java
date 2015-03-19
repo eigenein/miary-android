@@ -8,6 +8,7 @@ import java.util.*;
 /**
  * Represents a local diary note.
  */
+@Deprecated
 @ParseClassName("Note")
 public class Note extends ParseObject {
 
