@@ -1,9 +1,10 @@
 language: java
+cache:
+  directories:
+  - ~/android-sdk-linux
 install:
-- wget http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz
-- tar xf android-sdk_r24.0.2-linux.tgz
-- readlink --canonicalize android-sdk-linux
-- export ANDROID_HOME=`readlink --canonicalize android-sdk-linux`
-- echo $ANDROID_HOME
-- echo "y" | $ANDROID_HOME/tools/android update sdk --no-ui --all --filter platform-tools,build-tools-21.1.2,android-21
-script: ./gradlew --quiet
+- test -d android-sdk-linux || wget http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz
+- test -d android-sdk-linux || tar xf android-sdk_r24.0.2-linux.tgz
+- echo y | android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools,build-tools-21.1.2,android-21
+script:
+- ANDROID_HOME=android-sdk-linux ./gradlew --quiet
