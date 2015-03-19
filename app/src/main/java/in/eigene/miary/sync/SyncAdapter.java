@@ -5,7 +5,8 @@ import android.content.*;
 import android.os.*;
 import android.util.*;
 import com.parse.*;
-import in.eigene.miary.core.classes.*;
+
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.helpers.lang.*;
 

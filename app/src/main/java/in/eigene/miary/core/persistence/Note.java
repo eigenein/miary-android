@@ -28,35 +28,45 @@ public class Note implements BaseColumns {
     private boolean deleted;
 
     /**
-     * Create a new empty note.
+     * Initializes a new note.
      */
-    public Note() {
-        this.syncId = RANDOM.nextLong();
-        this.title = "";
-        this.text = "";
-        this.createdDate = new Date();
-        this.updatedDate = this.createdDate;
-        this.customDate = this.createdDate;
+    public static Note createNew() {
+        final Note note = new Note();
+        note.syncId = RANDOM.nextLong();
+        note.title = "";
+        note.text = "";
+        note.createdDate = new Date();
+        note.updatedDate = note.createdDate;
+        note.customDate = note.createdDate;
+        return note;
     }
 
     /**
      * Creates note from the database cursor.
      */
-    private Note(final Cursor cursor) {
-        this.syncId = cursor.getLong(cursor.getColumnIndexOrThrow(Columns.SYNC_ID));
-        this.title = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TITLE));
-        this.text = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TEXT));
-        this.color = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.COLOR));
-        this.createdDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CREATED_TIME)));
-        this.updatedDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.UPDATED_TIME)));
-        this.customDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CUSTOM_TIME)));
-        this.draft = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DRAFT)) != 0;
-        this.starred = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.STARRED)) != 0;
-        this.deleted = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DELETED)) != 0;
+    private static Note createFrom(final Cursor cursor) {
+        final Note note = new Note();
+        note.syncId = cursor.getLong(cursor.getColumnIndexOrThrow(Columns.SYNC_ID));
+        note.title = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TITLE));
+        note.text = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TEXT));
+        note.color = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.COLOR));
+        note.createdDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CREATED_TIME)));
+        note.updatedDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.UPDATED_TIME)));
+        note.customDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CUSTOM_TIME)));
+        note.draft = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DRAFT)) != 0;
+        note.starred = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.STARRED)) != 0;
+        note.deleted = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DELETED)) != 0;
+        return note;
     }
 
     public long getSyncId() {
         return syncId;
+    }
+
+    public Note setSyncId(final long syncId) {
+        this.syncId = syncId;
+        // Do not set updated date.
+        return this;
     }
 
     public String getTitle() {
@@ -91,6 +101,12 @@ public class Note implements BaseColumns {
 
     public Date getCreatedDate() {
         return createdDate;
+    }
+
+    public Note setCreatedDate(final Date createdDate) {
+        this.createdDate = createdDate;
+        // Do not set updated date.
+        return this;
     }
 
     public Date getUpdatedDate() {

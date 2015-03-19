@@ -2,7 +2,7 @@ package in.eigene.miary.adapters.items;
 
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 
 public class NoteItem extends FeedAdapter.Item {
 

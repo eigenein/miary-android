@@ -9,7 +9,7 @@ import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
 import in.eigene.miary.adapters.*;
 import in.eigene.miary.adapters.items.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.*;
 
 import java.util.*;

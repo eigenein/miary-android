@@ -2,7 +2,7 @@ package in.eigene.miary.core.backup.inputs;
 
 import android.util.*;
 import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.*;
 
 import java.io.*;
@@ -57,7 +57,7 @@ public class JsonRestoreInput extends RestoreInput {
             final String name = reader.nextName();
             Log.d(LOG_TAG, "Read property name: " + name);
             if (name.equals("uuid")) {
-                note.setUuid(UUID.fromString(reader.nextString()));
+                note.setSyncId(UUID.fromString(reader.nextString()).getLeastSignificantBits());
             } else if (name.equals("title")) {
                 note.setTitle(reader.nextString());
             } else if (name.equals("text")) {
@@ -71,7 +71,7 @@ public class JsonRestoreInput extends RestoreInput {
             } else if (name.equals("customDate")) {
                 note.setCustomDate(Util.parse(reader.nextString()));
             } else if (name.equals("creationDate")) {
-                note.setCreationDate(Util.parse(reader.nextString()));
+                note.setCreatedDate(Util.parse(reader.nextString()));
             } else if (name.equals("isDeleted")) {
                 note.setDeleted(reader.nextBoolean());
             } else {

@@ -6,7 +6,7 @@ import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.exceptions.*;
 
 import java.io.*;

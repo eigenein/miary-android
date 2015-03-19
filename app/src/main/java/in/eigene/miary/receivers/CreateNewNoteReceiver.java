@@ -4,7 +4,7 @@ import android.content.*;
 import android.util.*;
 import com.parse.*;
 import in.eigene.miary.activities.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.exceptions.*;
 
 public class CreateNewNoteReceiver extends BroadcastReceiver {
