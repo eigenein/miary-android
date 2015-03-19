@@ -1,7 +1,4 @@
 language: java
-cache:
-  directories:
-  - ~/android-sdk-linux
 install:
 - ls -lah
 - test -d android-sdk-linux || wget http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz
@@ -9,3 +6,6 @@ install:
 - echo y | android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools,build-tools-21.1.2,android-21,extra-android-m2repository
 script:
 - ANDROID_HOME=android-sdk-linux ./gradlew --quiet
+cache:
+  directories:
+  - ~/android-sdk-linux
