@@ -3,6 +3,8 @@ cache:
   directories:
   - ~/android-sdk-linux
   - ~/.gradle
+before_install:
+- sudo apt-get install lib32stdc++6 lib32z1
 install:
 - rm -rf ~/android-sdk-linux
 - test -d ~/android-sdk-linux || (
