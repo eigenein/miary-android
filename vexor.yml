@@ -2,6 +2,7 @@ language: java
 cache:
   directories:
   - ~/android-sdk-linux
+  - ~/.gradle
 install:
 - test -d ~/android-sdk-linux || (
     wget -O - http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz | tar xz -C ~ &&
