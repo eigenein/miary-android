@@ -9,4 +9,4 @@ install:
     echo y | ~/android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools,build-tools-21.1.2,android-21,extra-android-m2repository
   )
 script:
-- ANDROID_HOME=~/android-sdk-linux ./gradlew --quiet
+- ANDROID_HOME=~/android-sdk-linux ./gradlew assembleRelease
