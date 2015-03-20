@@ -4,7 +4,7 @@ cache:
   - ~/android-sdk-linux
   - ~/.gradle
 before_install:
-- sudo apt-get --yes install lib32stdc++6 lib32z1
+- sudo apt-get --yes -qq install lib32stdc++6 lib32z1
 install:
 - test -d ~/android-sdk-linux || (
     wget -O - http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz | tar xz -C ~ &&
