@@ -20,7 +20,7 @@
             android:layout_marginLeft="@dimen/drawer_item_margin"
             android:layout_marginRight="@dimen/drawer_item_margin"
             android:layout_weight="1"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textColor="@color/light_text_primary"
     />
     <TextView
@@ -32,6 +32,6 @@
             android:visibility="gone"
             android:textColor="@color/blue_grey_500"
             android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="14sp"
     />
 </LinearLayout>
