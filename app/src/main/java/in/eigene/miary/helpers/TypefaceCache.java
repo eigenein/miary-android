@@ -7,10 +7,10 @@ import java.util.*;
 
 public class TypefaceCache {
 
-    public static final String ROBOTO_SLAB_REGULAR = "fonts/RobotoSlab/RobotoSlab-Regular.ttf";
-    public static final String ROBOTO_SLAB_BOLD = "fonts/RobotoSlab/RobotoSlab-Bold.ttf";
+    public static final String ROBOTO_SLAB_REGULAR = "fonts/RobotoSlab-Regular.ttf";
+    public static final String ROBOTO_SLAB_BOLD = "fonts/RobotoSlab-Bold.ttf";
 
-    private static final HashMap<String, Typeface> CACHE = new HashMap<String, Typeface>();
+    private static final HashMap<String, Typeface> CACHE = new HashMap<>();
 
     public static Typeface get(final Context context, final String path) {
         Typeface typeface = CACHE.get(path);

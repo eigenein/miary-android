@@ -1,8 +1,10 @@
 package in.eigene.miary.widgets;
 
-import android.view.*;
-import android.widget.*;
-import in.eigene.miary.*;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import in.eigene.miary.R;
 
 public class DrawerItem {
 
