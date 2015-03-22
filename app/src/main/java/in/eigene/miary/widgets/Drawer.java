@@ -26,9 +26,9 @@ public class Drawer extends DrawerListener {
     private final ActionBarDrawerToggle toggle;
     private final View view;
 
-    private final DrawerCounter diaryCounter;
-    private final DrawerCounter starredCounter;
-    private final DrawerCounter draftCounter;
+    private final DrawerCounter<Integer> diaryCounter;
+    private final DrawerCounter<Integer> starredCounter;
+    private final DrawerCounter<Integer> draftCounter;
 
     public Drawer(final Activity activity, final Toolbar toolbar, final Listener listener) {
         this.activity = activity;
@@ -40,7 +40,7 @@ public class Drawer extends DrawerListener {
         toggle = new DrawerToggle(activity, layout, toolbar, R.string.drawer_open, R.string.drawer_close, this);
         layout.setDrawerListener(toggle);
 
-        diaryCounter = new DrawerCounter(
+        diaryCounter = new DrawerCounter<>(
                 view,
                 R.id.drawer_item_diary,
                 R.drawable.ic_inbox_grey600_24dp,
@@ -48,7 +48,7 @@ public class Drawer extends DrawerListener {
                 new FeedModeChangedClickListener(FeedAdapter.Mode.DIARY),
                 CounterCache.DIARY_COUNTER
         );
-        starredCounter = new DrawerCounter(
+        starredCounter = new DrawerCounter<>(
                 view,
                 R.id.drawer_item_starred,
                 R.drawable.ic_star_grey600_24dp,
@@ -56,7 +56,7 @@ public class Drawer extends DrawerListener {
                 new FeedModeChangedClickListener(FeedAdapter.Mode.STARRED),
                 CounterCache.STARRED_COUNTER
         );
-        draftCounter = new DrawerCounter(
+        draftCounter = new DrawerCounter<>(
                 view,
                 R.id.drawer_item_drafts,
                 R.drawable.ic_drafts_grey600_24dp,

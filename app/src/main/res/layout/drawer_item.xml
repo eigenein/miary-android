@@ -15,12 +15,13 @@
     />
     <TextView
             android:id="@+id/drawer_item_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/drawer_item_margin"
             android:layout_marginRight="@dimen/drawer_item_margin"
             android:layout_weight="1"
-            android:textSize="16dp"
+            android:textSize="15sp"
+            android:textColor="@color/light_text_primary"
     />
     <TextView
             android:id="@+id/drawer_item_counter"
@@ -31,6 +32,6 @@
             android:visibility="gone"
             android:textColor="@color/blue_grey_500"
             android:textStyle="bold"
-            android:textSize="14dp"
+            android:textSize="15sp"
     />
 </LinearLayout>
