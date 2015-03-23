@@ -9,4 +9,18 @@
                 android:title="@string/feed_change_sorting_order"
                 app:showAsAction="ifRoom"
         />
+        <item
+                android:id="@+id/menu_item_feed_set_single_column"
+                android:icon="@drawable/ic_view_stream_white_24dp"
+                android:title="@string/feed_set_single_column"
+                android:visible="false"
+                app:showAsAction="ifRoom"
+        />
+        <item
+                android:id="@+id/menu_item_feed_set_multi_column"
+                android:icon="@drawable/ic_dashboard_white_24dp"
+                android:title="@string/feed_set_multi_column"
+                android:visible="false"
+                app:showAsAction="ifRoom"
+        />
 </menu>
