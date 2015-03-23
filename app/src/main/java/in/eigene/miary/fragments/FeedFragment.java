@@ -20,8 +20,6 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
     private static final String LOG_TAG = FeedFragment.class.getSimpleName();
 
-    private static final String KEY_FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
-
     private final BroadcastReceiver syncFinishedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
@@ -30,7 +28,11 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         }
     };
 
+    private SharedPreferences preferences;
     private FeedAdapter feedAdapter;
+
+    private MenuItem singleColumnMenuItem;
+    private MenuItem multiColumnMenuItem;
 
     private RecyclerView feedView;
     private View feedEmptyView;
@@ -42,13 +44,10 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
         setHasOptionsMenu(true);
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         feedAdapter = new FeedAdapter();
         feedAdapter.setRateItemShown(preferences.getBoolean(RateViewHolder.KEY_RATE_ITEM_SHOWN, false));
-        // Restore sorting order.
-        feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
-                preferences.getString(KEY_FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
     }
 
     @Override
@@ -57,10 +56,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
         feedView = (RecyclerView)view.findViewById(R.id.feed_view);
         feedView.setHasFixedSize(true); // improve performance
-        feedView.setLayoutManager(new StaggeredGridLayoutManager(
-                getResources().getInteger(R.integer.feed_columns),
-                StaggeredGridLayoutManager.VERTICAL
-        ));
+        updateLayoutManager();
         feedView.setAdapter(feedAdapter);
 
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
@@ -89,6 +85,9 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.feed_fragment, menu);
+        singleColumnMenuItem = menu.findItem(R.id.menu_item_feed_set_single_column);
+        multiColumnMenuItem = menu.findItem(R.id.menu_item_feed_set_multi_column);
+        updateMenu();
     }
 
     @Override
@@ -110,17 +109,26 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_feed_change_sort_order:
-                // Swap sorting order.
-                final FeedAdapter.SortingOrder order = feedAdapter.swapSortingOrder().refresh(this).getSortingOrder();
+                final boolean reverse = !preferences.getBoolean(getString(R.string.prefkey_feed_reverse), false);
                 // Show toast.
-                if (order == FeedAdapter.SortingOrder.DESCENDING) {
+                if (!reverse) {
                     Toast.makeText(getActivity(), R.string.feed_set_descending, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), R.string.feed_set_ascending, Toast.LENGTH_SHORT).show();
                 }
                 // Save current sorting order.
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                        .putString(KEY_FEED_SORTING_ORDER_NAME, order.name()).commit();
+                preferences.edit().putBoolean(getString(R.string.prefkey_feed_reverse), reverse).apply();
+                updateLayoutManager();
+                return true;
+            case R.id.menu_item_feed_set_single_column:
+                preferences.edit().putBoolean(getString(R.string.prefkey_multi_column), false).apply();
+                updateMenu();
+                updateLayoutManager();
+                return true;
+            case R.id.menu_item_feed_set_multi_column:
+                preferences.edit().putBoolean(getString(R.string.prefkey_multi_column), true).apply();
+                updateMenu();
+                updateLayoutManager();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -159,5 +167,28 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
 
     public void refresh() {
         feedAdapter.refresh(this);
+    }
+
+    private void updateLayoutManager() {
+        final boolean multiColumn = preferences.getBoolean(getString(R.string.prefkey_multi_column), false);
+        final boolean reverse = preferences.getBoolean(getString(R.string.prefkey_feed_reverse), false);
+
+        if (multiColumn) {
+            final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(
+                    getResources().getInteger(R.integer.feed_multi_column_columns),
+                    StaggeredGridLayoutManager.VERTICAL
+            );
+            layoutManager.setReverseLayout(reverse);
+            feedView.setLayoutManager(layoutManager);
+        } else {
+            feedView.setLayoutManager(new LinearLayoutManager(
+                    getActivity(), LinearLayoutManager.VERTICAL, reverse));
+        }
+    }
+
+    private void updateMenu() {
+        final boolean multiColumn = preferences.getBoolean(getString(R.string.prefkey_multi_column), false);
+        singleColumnMenuItem.setVisible(multiColumn);
+        multiColumnMenuItem.setVisible(!multiColumn);
     }
 }

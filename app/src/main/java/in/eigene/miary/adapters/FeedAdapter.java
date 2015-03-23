@@ -25,7 +25,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private boolean rateItemShown;
 
     private Mode mode = Mode.DIARY;
-    private SortingOrder sortingOrder = SortingOrder.DESCENDING;
 
     private List<Item> items = new ArrayList<Item>();
 
@@ -66,20 +65,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return this;
     }
 
-    public SortingOrder getSortingOrder() {
-        return sortingOrder;
-    }
-
-    public FeedAdapter setSortingOrder(final SortingOrder sortingOrder) {
-        this.sortingOrder = sortingOrder;
-        return this;
-    }
-
-    public FeedAdapter swapSortingOrder() {
-        sortingOrder = sortingOrder.opposite();
-        return this;
-    }
-
     public void setRateItemShown(final boolean rateItemShown) {
         this.rateItemShown = rateItemShown;
     }
@@ -102,14 +87,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 break;
             case DRAFTS:
                 DraftsQueryModifier.INSTANCE.apply(query);
-                break;
-        }
-        switch (sortingOrder) {
-            case DESCENDING:
-                query.orderByDescending(Note.KEY_CUSTOM_DATE);
-                break;
-            case ASCENDING:
-                query.orderByAscending(Note.KEY_CUSTOM_DATE);
                 break;
         }
         query.findInBackground(new FindCallback<Note>() {
@@ -147,29 +124,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         final List<ParseQuery<Note>> queries = new ArrayList<ParseQuery<Note>>();
         queries.add(oldQuery);
         queries.add(newQuery);
-        return ParseQuery.or(queries).fromLocalDatastore();
+        return ParseQuery.or(queries).fromLocalDatastore().orderByDescending(Note.KEY_CUSTOM_DATE);
     }
 
     public static enum Mode {
         DIARY,
         STARRED,
         DRAFTS
-    }
-
-    public static enum SortingOrder {
-        ASCENDING,
-        DESCENDING;
-
-        private SortingOrder opposite;
-
-        static {
-            ASCENDING.opposite = DESCENDING;
-            DESCENDING.opposite = ASCENDING;
-        }
-
-        public SortingOrder opposite() {
-            return opposite;
-        }
     }
 
     /**

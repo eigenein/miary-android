@@ -51,6 +51,8 @@
     <string name="feed_empty">Написать заметку</string>
     <string name="feed_set_ascending">От старых к новым.</string>
     <string name="feed_set_descending">От новых к старым.</string>
+    <string name="feed_set_multi_column">В несколько столбцов</string>
+    <string name="feed_set_single_column">В один столбец</string>
     <string name="feedback_hint">Ваш отзыв</string>
     <string name="helper_optional">Необязательно</string>
     <string name="no_button">Нет</string>

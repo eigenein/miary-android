@@ -55,6 +55,8 @@
     <string name="feed_empty">Write a note</string>
     <string name="feed_set_ascending">Oldest first.</string>
     <string name="feed_set_descending">Newest first.</string>
+    <string name="feed_set_multi_column">Multi-column view</string>
+    <string name="feed_set_single_column">Single-column view</string>
     <string name="feedback_hint">Your feedback</string>
     <string name="helper_optional">Optional</string>
     <string name="no_button">No</string>
@@ -110,6 +112,8 @@
     <string name="prefkey_backup_dropbox" translatable="false">backup_dropbox</string>
     <string name="prefkey_backup_json" translatable="false">backup_json</string>
     <string name="prefkey_backup_plain_text" translatable="false">backup_plain_text</string>
+    <string name="prefkey_feed_reverse" translatable="false">feed_reverse</string>
+    <string name="prefkey_multi_column" translatable="false">multi_column</string>
     <string name="prefkey_pin_enabled" translatable="false">pin_enabled</string>
     <string name="prefkey_reminder_days" translatable="false">reminder_days</string>
     <string name="prefkey_reminder_time" translatable="false">reminder_time</string>
