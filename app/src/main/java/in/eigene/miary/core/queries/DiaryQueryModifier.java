@@ -1,7 +1,8 @@
 package in.eigene.miary.core.queries;
 
 import com.parse.*;
-import in.eigene.miary.core.classes.*;
+
+import in.eigene.miary.core.persistence.Note;
 
 public class DiaryQueryModifier implements QueryModifier {
 

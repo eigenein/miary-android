@@ -6,7 +6,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.fragments.base.*;
 
 public class ColorPickerDialogFragment extends BaseDialogFragment {
@@ -19,14 +19,14 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
     private static final SparseIntArray VIEW_ID_TO_COLOR = new SparseIntArray();
 
     static {
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_white, Note.COLOR_WHITE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_red, Note.COLOR_RED);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_orange, Note.COLOR_ORANGE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_yellow, Note.COLOR_YELLOW);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_gray, Note.COLOR_GRAY);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_green, Note.COLOR_GREEN);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_blue, Note.COLOR_BLUE);
-        VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.COLOR_PURPLE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_white, Note.Color.WHITE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_red, Note.Color.RED);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_orange, Note.Color.ORANGE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_yellow, Note.Color.YELLOW);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_gray, Note.Color.GRAY);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_green, Note.Color.GREEN);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_blue, Note.Color.BLUE);
+        VIEW_ID_TO_COLOR.put(R.id.choose_color_violet, Note.Color.PURPLE);
     }
 
     private Listener listener;

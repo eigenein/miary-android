@@ -4,7 +4,7 @@ import android.content.*;
 import android.database.*;
 import android.net.*;
 
-public class StubContentProvider extends ContentProvider {
+public class ContentProvider extends android.content.ContentProvider {
 
     @Override
     public boolean onCreate() {
@@ -24,7 +24,7 @@ public class StubContentProvider extends ContentProvider {
 
     @Override
     public String getType(final Uri uri) {
-        return new String();
+        return "";
     }
 
     @Override

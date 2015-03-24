@@ -1,20 +1,14 @@
 package in.eigene.miary.core.persistence;
 
-import android.database.Cursor;
-import android.provider.BaseColumns;
+import android.database.*;
+import android.provider.*;
 
-import java.security.SecureRandom;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Represents a local diary note.
  */
-public class Note implements BaseColumns {
-
-    /**
-     * Used to generate random identifiers.
-     */
-    private static final SecureRandom RANDOM = new SecureRandom();
+public class Note extends Entity {
 
     private long syncId;
     private String title;
@@ -26,38 +20,6 @@ public class Note implements BaseColumns {
     private boolean draft;
     private boolean starred;
     private boolean deleted;
-
-    /**
-     * Initializes a new note.
-     */
-    public static Note createNew() {
-        final Note note = new Note();
-        note.syncId = RANDOM.nextLong();
-        note.title = "";
-        note.text = "";
-        note.createdDate = new Date();
-        note.updatedDate = note.createdDate;
-        note.customDate = note.createdDate;
-        return note;
-    }
-
-    /**
-     * Creates note from the database cursor.
-     */
-    private static Note createFrom(final Cursor cursor) {
-        final Note note = new Note();
-        note.syncId = cursor.getLong(cursor.getColumnIndexOrThrow(Columns.SYNC_ID));
-        note.title = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TITLE));
-        note.text = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TEXT));
-        note.color = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.COLOR));
-        note.createdDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CREATED_TIME)));
-        note.updatedDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.UPDATED_TIME)));
-        note.customDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CUSTOM_TIME)));
-        note.draft = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DRAFT)) != 0;
-        note.starred = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.STARRED)) != 0;
-        note.deleted = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DELETED)) != 0;
-        return note;
-    }
 
     public long getSyncId() {
         return syncId;
@@ -166,23 +128,86 @@ public class Note implements BaseColumns {
         public static final int GREEN = 5;
         public static final int BLUE = 6;
         public static final int PURPLE = 7;
-
-        private Color() {
-            // Do nothing.
-        }
     }
 
-    public static class Columns {
+    public static class Repository extends BaseRepository<Note> {
 
-        public static final String SYNC_ID = "sync_id";
-        public static final String TITLE = "title";
-        public static final String TEXT = "text";
-        public static final String COLOR = "color";
-        public static final String CREATED_TIME = "created_time";
-        public static final String UPDATED_TIME = "updated_time";
-        public static final String CUSTOM_TIME = "custom_time";
-        public static final String DRAFT = "draft";
-        public static final String STARRED = "starred";
-        public static final String DELETED = "deleted";
+        public static final Repository INSTANCE = new Repository();
+
+        private static final String TABLE_NAME = "notes";
+        private static final String CREATE_SQL = String.format("" +
+                        "CREATE TABLE %s (" +
+                        "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "%s INTEGER NOT NULL," +
+                        "%s TEXT NOT NULL, %s TEXT NOT NULL," +
+                        "%s INTEGER NOT NULL," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL," +
+                        "%s INTEGER NOT NULL, %s INTEGER NOT NULL, %s INTEGER NOT NULL);" +
+                        "CREATE INDEX ix_%s_%s ON %s (%s);" +
+                        "CREATE INDEX ix_%s_%s ON %s (%s);" +
+                        "CREATE INDEX ix_%s_%s ON %s (%s);" +
+                        "CREATE INDEX ix_%s_%s ON %s (%s);" +
+                        "CREATE INDEX ix_%s_%s ON %s (%s);",
+                TABLE_NAME,
+                _ID,
+                Columns.SYNC_ID,
+                Columns.TITLE, Columns.TEXT,
+                Columns.COLOR,
+                Columns.CREATED_TIME, Columns.UPDATED_TIME, Columns.CUSTOM_TIME,
+                Columns.DRAFT, Columns.STARRED, Columns.DELETED,
+                TABLE_NAME, Columns.DRAFT, TABLE_NAME, Columns.DRAFT,
+                TABLE_NAME, Columns.STARRED, TABLE_NAME, Columns.STARRED,
+                TABLE_NAME, Columns.DELETED, TABLE_NAME, Columns.DELETED,
+                TABLE_NAME, Columns.SYNC_ID, TABLE_NAME, Columns.SYNC_ID,
+                TABLE_NAME, Columns.CUSTOM_TIME, TABLE_NAME, Columns.CUSTOM_TIME
+        );
+
+        @Override
+        public Note create() {
+            final Note note = new Note();
+            note.syncId = newId();
+            note.title = "";
+            note.text = "";
+            note.createdDate = new Date();
+            note.updatedDate = note.createdDate;
+            note.customDate = note.createdDate;
+            return note;
+        }
+
+        @Override
+        protected Note read(final Cursor cursor) {
+            final Note note = new Note();
+            note.id = cursor.getLong(cursor.getColumnIndexOrThrow(_ID));
+            note.syncId = cursor.getLong(cursor.getColumnIndexOrThrow(Columns.SYNC_ID));
+            note.title = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TITLE));
+            note.text = cursor.getString(cursor.getColumnIndexOrThrow(Columns.TEXT));
+            note.color = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.COLOR));
+            note.createdDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CREATED_TIME)));
+            note.updatedDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.UPDATED_TIME)));
+            note.customDate = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(Columns.CUSTOM_TIME)));
+            note.draft = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DRAFT)) != 0;
+            note.starred = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.STARRED)) != 0;
+            note.deleted = cursor.getInt(cursor.getColumnIndexOrThrow(Columns.DELETED)) != 0;
+            return note;
+        }
+
+        @Override
+        protected String getCreateTableSQL() {
+            return CREATE_SQL;
+        }
+
+        private static class Columns {
+
+            public static final String SYNC_ID = "sync_id";
+            public static final String TITLE = "title";
+            public static final String TEXT = "text";
+            public static final String COLOR = "color";
+            public static final String CREATED_TIME = "created_time";
+            public static final String UPDATED_TIME = "updated_time";
+            public static final String CUSTOM_TIME = "custom_time";
+            public static final String DRAFT = "draft";
+            public static final String STARRED = "starred";
+            public static final String DELETED = "deleted";
+        }
     }
 }

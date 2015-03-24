@@ -7,7 +7,7 @@ import com.parse.*;
 import in.eigene.miary.*;
 import in.eigene.miary.adapters.items.*;
 import in.eigene.miary.adapters.viewholders.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.core.queries.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;

@@ -6,7 +6,7 @@ import android.util.*;
 import android.view.*;
 import com.parse.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.fragments.*;
 
 import java.util.*;
@@ -19,7 +19,7 @@ public class NoteActivity extends BaseActivity
 
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
 
-    private static final String EXTRA_NOTE_UUID = "noteUuid";
+    private static final String EXTRA_NOTE_ID = "noteUuid";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
 
     public static void start(final Context context, final Note note, final boolean fullscreen) {
@@ -35,7 +35,7 @@ public class NoteActivity extends BaseActivity
         context.startActivity(new Intent()
                 .setClass(context, NoteActivity.class)
                 .addFlags(additionalFlags)
-                .putExtra(EXTRA_NOTE_UUID, note.getUuid())
+                .putExtra(EXTRA_NOTE_ID, note.getId())
                 .putExtra(EXTRA_FULLSCREEN, fullscreen));
     }
 
@@ -63,7 +63,7 @@ public class NoteActivity extends BaseActivity
             getSupportActionBar().hide();
         }
 
-        final UUID noteUuid = (java.util.UUID)getIntent().getSerializableExtra(EXTRA_NOTE_UUID);
+        final UUID noteUuid = (java.util.UUID)getIntent().getSerializableExtra(EXTRA_NOTE_ID);
         final NoteFragment noteFragment = NoteFragment.create(noteUuid, fullscreen);
         getFragmentManager().beginTransaction().add(R.id.fragment_note, noteFragment).commit();
     }

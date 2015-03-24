@@ -105,7 +105,7 @@
 
         <!-- Syncing. -->
         <provider
-                android:name=".sync.StubContentProvider"
+                android:name=".sync.ContentProvider"
                 android:authorities="in.eigene.miary.provider"
                 android:exported="false"
                 android:syncable="true"

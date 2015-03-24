@@ -2,7 +2,7 @@ package in.eigene.miary.core.backup.outputs;
 
 import android.util.*;
 import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.*;
 
 import java.io.*;
@@ -45,7 +45,7 @@ public class JsonBackupOutput extends BackupOutput {
         writer.name("isStarred").value(note.isStarred());
         writer.name("isDraft").value(note.isDraft());
         writer.name("customDate").value(Util.format(note.getCustomDate()));
-        writer.name("creationDate").value(Util.format(note.getCreationDate()));
+        writer.name("creationDate").value(Util.format(note.getCreatedDate()));
         writer.name("isDeleted").value(note.isDeleted());
         writer.endObject();
     }
