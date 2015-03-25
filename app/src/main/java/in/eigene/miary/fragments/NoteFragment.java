@@ -230,7 +230,7 @@ public class NoteFragment extends BaseFragment {
                                 ParseAnalytics.trackEventInBackground("setCustomDate");
                             }
                         })
-                        .setCreationDate(note.getCreationDate())
+                        .setCreationDate(note.getCreatedDate())
                         .setCustomDate(note.getCustomDate())
                         .show(getFragmentManager());
                 return true;
@@ -272,7 +272,7 @@ public class NoteFragment extends BaseFragment {
      * Saves the note. This method debounces frequent save calls.
      */
     private void saveNote(final boolean debounce) {
-        note.setLocalUpdatedAt(new Date());
+        note.setUpdatedDate(new Date());
         // Debounce.
         if (debounce && !saveDebouncer.isActionAllowed()) {
             return;
