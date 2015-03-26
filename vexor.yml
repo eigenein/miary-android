@@ -6,7 +6,9 @@ cache:
 before_install:
 - # sudo apt-get --yes -qq install lib32stdc++6 lib32z1
 install:
+- ls -lah "~/android-sdk-linux"
 - ls -lah "~/android-sdk-linux/SDK Readme.txt"
+- ls -lah ~/android-sdk-linux/SDK\ Readme.txt
 - test -f "~/android-sdk-linux/SDK Readme.txt" && echo "existing" || echo "not existing"
 - false
 - test -f "~/android-sdk-linux/SDK Readme.txt" || (
