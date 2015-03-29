@@ -4,8 +4,7 @@ import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
 import android.net.*;
-
-import java.net.*;
+import android.text.*;
 
 import in.eigene.miary.core.persistence.*;
 
@@ -39,7 +38,23 @@ public class ContentProvider extends android.content.ContentProvider {
             final String[] selectionArgs,
             final String sortOrder
     ) {
-        return null;
+        final SQLiteDatabase database = helper.getReadableDatabase();
+        final SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(Note.Contract.TABLE);
+        switch (MATCHER.match(uri)) {
+            case NOTE_ID:
+                queryBuilder.appendWhere(Note.Contract._ID + " = " + uri.getLastPathSegment());
+                break;
+            case NOTES_ID:
+                // Do nothing.
+                break;
+            default:
+                throw new IllegalArgumentException(uri.toString());
+        }
+        final Cursor cursor = queryBuilder.query(
+                database, projection, selection, selectionArgs, null, null, sortOrder);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
     @Override
@@ -50,7 +65,7 @@ public class ContentProvider extends android.content.ContentProvider {
             case NOTES_ID:
                 return ContentResolver.CURSOR_DIR_BASE_TYPE + Note.Contract.CONTENT_SUBTYPE;
             default:
-                return null;
+                throw new IllegalArgumentException(uri.toString());
         }
     }
 
@@ -62,13 +77,26 @@ public class ContentProvider extends android.content.ContentProvider {
         final SQLiteDatabase database = helper.getWritableDatabase();
         final long id = database.insert(Note.Contract.TABLE, null, values);
         final Uri noteUri = ContentUris.withAppendedId(uri, id);
-        getContext().getContentResolver().notifyChange(noteUri, null);
+        getContext().getContentResolver().notifyChange(uri, null);
         return noteUri;
     }
 
     @Override
     public int delete(final Uri uri, final String selection, final String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase database = helper.getWritableDatabase();
+        final int deleteCount;
+        switch (MATCHER.match(uri)) {
+            case NOTE_ID:
+                deleteCount = database.delete(Note.Contract.TABLE, getWhereClause(uri, selection), selectionArgs);
+                break;
+            case NOTES_ID:
+                deleteCount = database.delete(Note.Contract.TABLE, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException(uri.toString());
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return deleteCount;
     }
 
     @Override
@@ -78,6 +106,27 @@ public class ContentProvider extends android.content.ContentProvider {
             final String selection,
             final String[] selectionArgs
     ) {
-        return 0;
+        final SQLiteDatabase database = helper.getWritableDatabase();
+        final int updateCount;
+        switch (MATCHER.match(uri)) {
+            case NOTE_ID:
+                updateCount = database.update(Note.Contract.TABLE, values, getWhereClause(uri, selection), selectionArgs);
+                break;
+            case NOTES_ID:
+                updateCount = database.update(Note.Contract.TABLE, values, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException(uri.toString());
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return updateCount;
+    }
+
+    private static String getWhereClause(final Uri uri, final String selection) {
+        final StringBuilder where = new StringBuilder(Note.Contract._ID + " = " + uri.getLastPathSegment());
+        if (!TextUtils.isEmpty(selection)) {
+            where.append(" AND ").append(selection);
+        }
+        return where.toString();
     }
 }
