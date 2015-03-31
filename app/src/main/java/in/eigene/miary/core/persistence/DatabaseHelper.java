@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Note.Contract.DRAFT + " INTEGER NOT NULL," +
                 Note.Contract.STARRED + " INTEGER NOT NULL," +
                 Note.Contract.DELETED + " INTEGER NOT NULL);" +
-                String.format("CREATE INDEX ix_%s_%s ON %s (%s);",
+                String.format("CREATE UNIQUE INDEX ix_%s_%s ON %s (%s);",
                         Note.Contract.TABLE, Note.Contract.SYNC_ID, Note.Contract.TABLE, Note.Contract.SYNC_ID) +
                 String.format("CREATE INDEX ix_%s_%s ON %s (%s);",
                         Note.Contract.TABLE, Note.Contract.CUSTOM_TIME, Note.Contract.TABLE, Note.Contract.CUSTOM_TIME) +

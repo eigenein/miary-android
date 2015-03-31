@@ -18,8 +18,6 @@ import in.eigene.miary.sync.*;
 
 public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
 
-    private static final String LOG_TAG = FeedFragment.class.getSimpleName();
-
     private static final String KEY_FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
 
     private final BroadcastReceiver syncFinishedReceiver = new BroadcastReceiver() {

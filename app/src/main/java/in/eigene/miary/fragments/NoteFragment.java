@@ -2,6 +2,7 @@ package in.eigene.miary.fragments;
 
 import android.app.*;
 import android.content.*;
+import android.net.*;
 import android.os.*;
 import android.preference.*;
 import android.text.*;
@@ -9,6 +10,8 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.parse.*;
+import com.parse.ParseException;
+
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.persistence.Note;
@@ -24,7 +27,7 @@ public class NoteFragment extends BaseFragment {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
-    private static final String EXTRA_NOTE_UUID = "noteUuid";
+    private static final String EXTRA_ID = "id";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
@@ -40,9 +43,9 @@ public class NoteFragment extends BaseFragment {
 
     private boolean substitutionEnabled = true;
 
-    public static NoteFragment create(final UUID noteUuid, final boolean fullscreen) {
+    public static NoteFragment create(final long id, final boolean fullscreen) {
         final Bundle arguments = new Bundle();
-        arguments.putSerializable(EXTRA_NOTE_UUID, noteUuid);
+        arguments.putLong(EXTRA_ID, id);
         arguments.putSerializable(EXTRA_FULLSCREEN, fullscreen);
         final NoteFragment fragment = new NoteFragment();
         fragment.setArguments(arguments);
@@ -248,24 +251,14 @@ public class NoteFragment extends BaseFragment {
      * Updates view with the note.
      */
     private void refresh() {
-        final UUID noteUuid = (UUID)getArguments().getSerializable(EXTRA_NOTE_UUID);
-        Log.i(LOG_TAG, "Update view: " + noteUuid);
-        Note.getByUuid(noteUuid, new GetCallback<Note>() {
-            @Override
-            public void done(final Note note, final ParseException e) {
-                if (!isAdded()) {
-                    // Fix IllegalStateException: it's too late to update anything.
-                    return;
-                }
-                InternalRuntimeException.throwForException("Failed to find note " + noteUuid, e);
-                Log.i(LOG_TAG, "Note: " + note);
-                NoteFragment.this.note = note;
-                editTextTitle.setText(note.getTitle());
-                editTextText.setText(note.getText());
-                updateLayoutColor();
-                invalidateOptionsMenu();
-            }
-        });
+        final long id = getArguments().getLong(EXTRA_ID);
+        Log.i(LOG_TAG, "Update view: " + id);
+        note = Note.getById(id, getActivity().getContentResolver());
+        Log.i(LOG_TAG, "Note: " + note);
+        editTextTitle.setText(note.getTitle());
+        editTextText.setText(note.getText());
+        updateLayoutColor();
+        invalidateOptionsMenu();
     }
 
     /**
@@ -279,12 +272,7 @@ public class NoteFragment extends BaseFragment {
         }
         // Save.
         Log.i(LOG_TAG, "Save note.");
-        note.pinInBackground(new SaveCallback() {
-            @Override
-            public void done(final ParseException e) {
-                InternalRuntimeException.throwForException("Could not pin note.", e);
-            }
-        });
+        note.save(getActivity().getContentResolver());
         // Update debouncer.
         saveDebouncer.ping();
     }

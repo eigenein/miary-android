@@ -1,14 +1,32 @@
 package in.eigene.miary.core.persistence;
 
 import android.content.*;
+import android.database.*;
+import android.net.*;
 import android.provider.*;
 
 import java.util.*;
 
+import in.eigene.miary.sync.ContentProvider;
+
 /**
  * Represents a local diary note.
  */
-public class Note implements BaseColumns {
+public class Note extends Entity {
+
+    public static final String[] PROJECTION = {
+            Contract._ID,
+            Contract.SYNC_ID,
+            Contract.TITLE,
+            Contract.TEXT,
+            Contract.COLOR,
+            Contract.CREATED_TIME,
+            Contract.UPDATED_TIME,
+            Contract.CUSTOM_TIME,
+            Contract.DRAFT,
+            Contract.STARRED,
+            Contract.DELETED,
+    };
 
     private long syncId;
     private String title;
@@ -20,6 +38,32 @@ public class Note implements BaseColumns {
     private boolean draft;
     private boolean starred;
     private boolean deleted;
+
+    public static Note getById(final long id, final ContentResolver contentResolver) {
+        final Cursor cursor = contentResolver.query(Uri.parse(String.format(
+                "%s/%d", Contract.CONTENT_URI, id)), PROJECTION, null, null, null);
+        return getByCursor(cursor);
+    }
+
+    private static Note getByCursor(final Cursor cursor) {
+        final Note note = new Note();
+        note.id = cursor.getLong(0);
+        note.syncId = cursor.getLong(1);
+        note.title = cursor.getString(2);
+        note.text = cursor.getString(3);
+        note.color = cursor.getInt(4);
+        note.createdDate = new Date(cursor.getLong(5));
+        note.updatedDate = new Date(cursor.getLong(6));
+        note.customDate = new Date(cursor.getLong(7));
+        note.draft = cursor.getInt(8) != 0;
+        note.starred = cursor.getInt(9) != 0;
+        note.deleted = cursor.getInt(10) != 0;
+        return note;
+    }
+
+    private Note() {
+        // Do nothing.
+    }
 
     public long getSyncId() {
         return syncId;
@@ -111,6 +155,17 @@ public class Note implements BaseColumns {
         return this;
     }
 
+    @Override
+    protected long insert(final ContentResolver contentResolver) {
+        // TODO.
+        return 0;
+    }
+
+    @Override
+    protected void update(final ContentResolver contentResolver) {
+        // TODO.
+    }
+
     /**
      * Note background color.
      */
@@ -127,8 +182,12 @@ public class Note implements BaseColumns {
     }
 
     public static class Contract implements BaseColumns {
+
         public static final String TABLE = "notes";
         public static final String CONTENT_SUBTYPE = "/vnd.in.eigene.miary.note";
+        public static final Uri CONTENT_URI = Uri.parse(String.format(
+                "content://%s/%s", ContentProvider.AUTHORITY, TABLE));
+
         public static final String SYNC_ID = "sync_id";
         public static final String TITLE = "title";
         public static final String TEXT = "text";

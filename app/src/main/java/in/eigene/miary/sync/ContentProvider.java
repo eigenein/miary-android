@@ -10,7 +10,7 @@ import in.eigene.miary.core.persistence.*;
 
 public class ContentProvider extends android.content.ContentProvider {
 
-    private static final String AUTHORITY = "in.eigene.miary.provider";
+    public static final String AUTHORITY = "in.eigene.miary.provider";
 
     private static final int NOTE_ID = 1;
     private static final int NOTES_ID = 2;
@@ -20,8 +20,8 @@ public class ContentProvider extends android.content.ContentProvider {
     private DatabaseHelper helper;
 
     static {
-        MATCHER.addURI(AUTHORITY, "notes", NOTES_ID);
-        MATCHER.addURI(AUTHORITY, "notes/#", NOTE_ID);
+        MATCHER.addURI(AUTHORITY, Note.Contract.TABLE, NOTES_ID);
+        MATCHER.addURI(AUTHORITY, String.format("%s/#", Note.Contract.TABLE), NOTE_ID);
     }
 
     @Override
