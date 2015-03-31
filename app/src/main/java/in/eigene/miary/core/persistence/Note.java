@@ -5,6 +5,7 @@ import android.database.*;
 import android.net.*;
 import android.provider.*;
 
+import java.security.*;
 import java.util.*;
 
 import in.eigene.miary.sync.ContentProvider;
@@ -28,6 +29,8 @@ public class Note extends Entity {
             Contract.DELETED,
     };
 
+    private static final SecureRandom RANDOM = new SecureRandom();
+
     private long syncId;
     private String title;
     private String text;
@@ -39,13 +42,33 @@ public class Note extends Entity {
     private boolean starred;
     private boolean deleted;
 
+    /**
+     * Initializes a new note instance.
+     */
+    public static Note getEmpty() {
+        final Note note = new Note();
+        note.syncId = RANDOM.nextLong();
+        note.title = "";
+        note.text = "";
+        note.createdDate = new Date();
+        note.updatedDate = note.createdDate;
+        note.customDate = note.createdDate;
+        return note;
+    }
+
+    /**
+     * Gets existing note by _ID.
+     */
     public static Note getById(final long id, final ContentResolver contentResolver) {
         final Cursor cursor = contentResolver.query(Uri.parse(String.format(
                 "%s/%d", Contract.CONTENT_URI, id)), PROJECTION, null, null, null);
         return getByCursor(cursor);
     }
 
-    private static Note getByCursor(final Cursor cursor) {
+    /**
+     * Reads note instance from cursor.
+     */
+    public static Note getByCursor(final Cursor cursor) {
         final Note note = new Note();
         note.id = cursor.getLong(0);
         note.syncId = cursor.getLong(1);
