@@ -86,13 +86,7 @@ public class AboutActivity extends BaseActivity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                Note.unpinAllInBackground(new DeleteCallback() {
-                                    @Override
-                                    public void done(final ParseException e) {
-                                        InternalRuntimeException.throwForException("could not unpin all notes", e);
-                                        Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                                // TODO.
                             }
                         })
                         .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -106,21 +100,12 @@ public class AboutActivity extends BaseActivity {
                 return true;
 
             case R.id.menu_item_developer_add_sample_notes:
+                final ContentResolver contentResolver = getContentResolver();
                 final String[] texts = getResources().getStringArray(R.array.sample_texts);
-                final List<Note> notes = Util.map(Arrays.asList(texts), new Function<String, Note>() {
-                    private int color = 5;
-                    @Override
-                    public Note apply(final String text) {
-                        return Note.Repository.INSTANCE.create().setText(text).setColor(color++ % 8);
-                    }
-                });
-                Note.pinAllInBackground(notes, new SaveCallback() {
-                    @Override
-                    public void done(final ParseException e) {
-                        InternalRuntimeException.throwForException("could not pin notes", e);
-                        Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
-                    }
-                });
+                int color = 5;
+                for (final String text : texts) {
+                    Note.getEmpty().setText(text).setColor(color++ % 8).save(contentResolver);
+                }
                 return true;
 
             case R.id.menu_item_developer_log_out:

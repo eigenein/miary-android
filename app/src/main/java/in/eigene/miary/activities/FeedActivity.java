@@ -4,8 +4,9 @@ import android.content.res.*;
 import android.os.*;
 import android.preference.*;
 import android.view.*;
+
 import in.eigene.miary.*;
-import in.eigene.miary.adapters.*;
+import in.eigene.miary.core.*;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
@@ -60,15 +61,16 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     }
 
     @Override
-    public void onFeedModeChanged(final FeedAdapter.Mode feedMode) {
+    public void onFeedModeChanged(final NotesAdapter.Mode feedMode) {
+        /* TODO
         final FeedFragment fragment = getFeedFragment();
-        fragment.getFeedAdapter().setMode(feedMode);
+        fragment.getNotesAdapter().setMode(feedMode);
         fragment.refresh();
+        */
     }
 
     private void initializeFloatingActionButton() {
-        findViewById(R.id.fab_button).setOnClickListener(new NewNoteClickListener(
-                getFeedFragment().getFeedAdapter()));
+        findViewById(R.id.fab_button).setOnClickListener(new NewNoteClickListener());
     }
 
     /**

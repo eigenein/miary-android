@@ -63,8 +63,8 @@ public class NoteActivity extends BaseActivity
             getSupportActionBar().hide();
         }
 
-        final UUID noteUuid = (java.util.UUID)getIntent().getSerializableExtra(EXTRA_NOTE_ID);
-        final NoteFragment noteFragment = NoteFragment.create(noteUuid, fullscreen);
+        final long noteId = getIntent().getLongExtra(EXTRA_NOTE_ID, -1L);
+        final NoteFragment noteFragment = NoteFragment.create(noteId, fullscreen);
         getFragmentManager().beginTransaction().add(R.id.fragment_note, noteFragment).commit();
     }
 

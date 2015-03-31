@@ -1,23 +1,20 @@
 package in.eigene.miary.core.backup.tasks;
 
 import android.content.*;
-import android.util.*;
 import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.exceptions.*;
 
 import java.io.*;
 import java.util.*;
+
+import in.eigene.miary.*;
+import in.eigene.miary.core.backup.*;
+import in.eigene.miary.core.persistence.*;
+import in.eigene.miary.exceptions.*;
 
 /**
  * Used to restore a backup.
  */
 public class RestoreAsyncTask extends BaseAsyncTask {
-
-    private static final String LOG_TAG = RestoreAsyncTask.class.getSimpleName();
 
     private final Storage.Input storageInput;
     private final RestoreInput.Factory inputFactory;
@@ -65,7 +62,7 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         return R.string.backup_message_restoring;
     }
 
-    private Result restore() throws IOException, ParseException {
+    private Result restore() throws IOException {
         final InputStream inputStream = storageInput.getInputStream();
         if (inputStream == null) {
             return Result.NOT_FOUND;
@@ -79,18 +76,8 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         // Restore notes.
         final Date restoreDate = new Date();
         for (int i = 0; i < noteCount; i++) {
-            final Note note = input.read().setLocalUpdatedAt(restoreDate);
-            Log.i(LOG_TAG, "Read " + note.getUuid());
-            try {
-                ParseQuery.getQuery(Note.class).fromLocalDatastore()
-                        .whereEqualTo(Note.KEY_UUID_LSB, note.getUuid().getLeastSignificantBits())
-                        .whereEqualTo(Note.KEY_UUID_MSB, note.getUuid().getMostSignificantBits())
-                        .getFirst()
-                        .unpin();
-            } catch (final ParseException e) {
-                Log.d(LOG_TAG, "Existing note is not found.");
-            }
-            note.pin();
+            final Note note = input.read().setUpdatedDate(restoreDate);
+            // TODO.
             // Publish progress.
             progress.incrementProgress();
             publishProgress(progress);

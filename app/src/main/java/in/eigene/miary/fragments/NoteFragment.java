@@ -2,7 +2,6 @@ package in.eigene.miary.fragments;
 
 import android.app.*;
 import android.content.*;
-import android.net.*;
 import android.os.*;
 import android.preference.*;
 import android.text.*;
@@ -10,12 +9,10 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.parse.*;
-import com.parse.ParseException;
 
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.exceptions.*;
 import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.fragments.dialogs.*;
 import in.eigene.miary.helpers.*;
@@ -27,7 +24,7 @@ public class NoteFragment extends BaseFragment {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
-    private static final String EXTRA_ID = "id";
+    private static final String EXTRA_NOTE_ID = "id";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
@@ -43,9 +40,9 @@ public class NoteFragment extends BaseFragment {
 
     private boolean substitutionEnabled = true;
 
-    public static NoteFragment create(final long id, final boolean fullscreen) {
+    public static NoteFragment create(final long noteId, final boolean fullscreen) {
         final Bundle arguments = new Bundle();
-        arguments.putLong(EXTRA_ID, id);
+        arguments.putLong(EXTRA_NOTE_ID, noteId);
         arguments.putSerializable(EXTRA_FULLSCREEN, fullscreen);
         final NoteFragment fragment = new NoteFragment();
         fragment.setArguments(arguments);
@@ -251,9 +248,9 @@ public class NoteFragment extends BaseFragment {
      * Updates view with the note.
      */
     private void refresh() {
-        final long id = getArguments().getLong(EXTRA_ID);
-        Log.i(LOG_TAG, "Update view: " + id);
-        note = Note.getById(id, getActivity().getContentResolver());
+        final long noteId = getArguments().getLong(EXTRA_NOTE_ID);
+        Log.i(LOG_TAG, "Update view: " + noteId);
+        note = Note.getById(noteId, getActivity().getContentResolver());
         Log.i(LOG_TAG, "Note: " + note);
         editTextTitle.setText(note.getTitle());
         editTextText.setText(note.getText());

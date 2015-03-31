@@ -1,9 +1,6 @@
 package in.eigene.miary.core.caches;
 
-import com.parse.*;
-import in.eigene.miary.adapters.*;
 import in.eigene.miary.core.queries.*;
-import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.lang.*;
 
 /**
@@ -29,14 +26,7 @@ public class CounterCache {
 
         @Override
         public Integer apply(final Consumer<Integer> consumer) {
-            queryModifier.apply(FeedAdapter.getQueryPrefix()).countInBackground(new CountCallback() {
-                @Override
-                public void done(final int count, final ParseException e) {
-                    InternalRuntimeException.throwForException("Could not get count", e);
-                    cachedValue = count;
-                    consumer.accept(cachedValue);
-                }
-            });
+            // TODO.
             return cachedValue;
         }
     }

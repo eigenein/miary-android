@@ -11,10 +11,12 @@ import android.support.v7.app.*;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
+
 import com.parse.*;
+
 import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
-import in.eigene.miary.adapters.*;
+import in.eigene.miary.core.*;
 import in.eigene.miary.core.caches.*;
 import in.eigene.miary.exceptions.*;
 import in.eigene.miary.helpers.*;
@@ -31,9 +33,9 @@ public class Drawer extends DrawerListener {
     private final ActionBarDrawerToggle toggle;
     private final View view;
 
-    private final DrawerCounter diaryCounter;
-    private final DrawerCounter starredCounter;
-    private final DrawerCounter draftCounter;
+    private final DrawerCounter<Integer> diaryCounter;
+    private final DrawerCounter<Integer> starredCounter;
+    private final DrawerCounter<Integer> draftCounter;
 
     private final TextView accountTypeView;
     private final TextView accountNameView;
@@ -52,28 +54,28 @@ public class Drawer extends DrawerListener {
         accountNameView = (TextView)view.findViewById(R.id.drawer_account_name);
         view.findViewById(R.id.drawer_account).setOnClickListener(new AccountClickListener());
 
-        diaryCounter = new DrawerCounter(
+        diaryCounter = new DrawerCounter<>(
                 view,
                 R.id.drawer_item_diary,
                 R.drawable.ic_inbox_grey600_24dp,
                 R.string.drawer_item_diary,
-                new FeedModeChangedClickListener(FeedAdapter.Mode.DIARY),
+                new FeedModeChangedClickListener(NotesAdapter.Mode.DIARY),
                 CounterCache.DIARY_COUNTER
         );
-        starredCounter = new DrawerCounter(
+        starredCounter = new DrawerCounter<>(
                 view,
                 R.id.drawer_item_starred,
                 R.drawable.ic_star_grey600_24dp,
                 R.string.drawer_item_starred,
-                new FeedModeChangedClickListener(FeedAdapter.Mode.STARRED),
+                new FeedModeChangedClickListener(NotesAdapter.Mode.STARRED),
                 CounterCache.STARRED_COUNTER
         );
-        draftCounter = new DrawerCounter(
+        draftCounter = new DrawerCounter<>(
                 view,
                 R.id.drawer_item_drafts,
                 R.drawable.ic_drafts_grey600_24dp,
                 R.string.drawer_item_drafts,
-                new FeedModeChangedClickListener(FeedAdapter.Mode.DRAFTS),
+                new FeedModeChangedClickListener(NotesAdapter.Mode.DRAFTS),
                 CounterCache.DRAFT_COUNTER
         );
         new DrawerItem(view, R.id.drawer_item_settings, R.drawable.ic_settings_grey600_24dp, R.string.settings,
@@ -142,7 +144,7 @@ public class Drawer extends DrawerListener {
      */
     public interface Listener {
 
-        public void onFeedModeChanged(final FeedAdapter.Mode mode);
+        public void onFeedModeChanged(final NotesAdapter.Mode mode);
     }
 
     /**
@@ -168,7 +170,7 @@ public class Drawer extends DrawerListener {
      */
     private class FeedModeChangedClickListener extends RunnableClickListener {
 
-        public FeedModeChangedClickListener(final FeedAdapter.Mode feedMode) {
+        public FeedModeChangedClickListener(final NotesAdapter.Mode feedMode) {
             super(new Runnable() {
                 @Override
                 public void run() {

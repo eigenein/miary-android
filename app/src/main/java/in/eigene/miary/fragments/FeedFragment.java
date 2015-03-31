@@ -10,13 +10,12 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import in.eigene.miary.*;
-import in.eigene.miary.adapters.*;
-import in.eigene.miary.adapters.viewholders.*;
+import in.eigene.miary.core.*;
 import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.sync.*;
 
-public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChangedListener {
+public class FeedFragment extends BaseFragment {
 
     private static final String KEY_FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
 
@@ -28,7 +27,7 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         }
     };
 
-    private FeedAdapter feedAdapter;
+    private final NotesAdapter notesAdapter = new NotesAdapter();
 
     private RecyclerView feedView;
     private View feedEmptyView;
@@ -41,12 +40,6 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         setHasOptionsMenu(true);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        feedAdapter = new FeedAdapter();
-        feedAdapter.setRateItemShown(preferences.getBoolean(RateViewHolder.KEY_RATE_ITEM_SHOWN, false));
-        // Restore sorting order.
-        feedAdapter.setSortingOrder(FeedAdapter.SortingOrder.valueOf(
-                preferences.getString(KEY_FEED_SORTING_ORDER_NAME, FeedAdapter.SortingOrder.DESCENDING.name())));
     }
 
     @Override
@@ -59,10 +52,10 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
                 getResources().getInteger(R.integer.feed_columns),
                 StaggeredGridLayoutManager.VERTICAL
         ));
-        feedView.setAdapter(feedAdapter);
+        feedView.setAdapter(notesAdapter);
 
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
-        feedEmptyView.setOnClickListener(new NewNoteClickListener(getFeedAdapter()));
+        feedEmptyView.setOnClickListener(new NewNoteClickListener());
 
         swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.feed_refresh);
         swipeRefresh.setColorSchemeResources(R.color.blue_500, R.color.light_green_500, R.color.yellow_500, R.color.red_500);
@@ -108,32 +101,9 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_feed_change_sort_order:
-                // Swap sorting order.
-                final FeedAdapter.SortingOrder order = feedAdapter.swapSortingOrder().refresh(this).getSortingOrder();
-                // Show toast.
-                if (order == FeedAdapter.SortingOrder.DESCENDING) {
-                    Toast.makeText(getActivity(), R.string.feed_set_descending, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), R.string.feed_set_ascending, Toast.LENGTH_SHORT).show();
-                }
-                // Save current sorting order.
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                        .putString(KEY_FEED_SORTING_ORDER_NAME, order.name()).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onDataChanged() {
-        final int count = feedAdapter.getItemCount();
-        if (count != 0) {
-            feedEmptyView.setVisibility(View.GONE);
-            feedView.setVisibility(View.VISIBLE);
-        } else {
-            feedView.setVisibility(View.GONE);
-            feedEmptyView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -151,11 +121,11 @@ public class FeedFragment extends BaseFragment implements FeedAdapter.OnDataChan
         }
     }
 
-    public FeedAdapter getFeedAdapter() {
-        return feedAdapter;
+    public NotesAdapter getNotesAdapter() {
+        return notesAdapter;
     }
 
     public void refresh() {
-        feedAdapter.refresh(this);
+        // TODO: notesAdapter.refresh(this);
     }
 }
