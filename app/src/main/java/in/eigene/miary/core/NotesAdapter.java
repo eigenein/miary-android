@@ -12,7 +12,6 @@ import android.widget.*;
 import java.util.*;
 
 import in.eigene.miary.*;
-import in.eigene.miary.activities.*;
 import in.eigene.miary.core.persistence.*;
 import in.eigene.miary.helpers.*;
 

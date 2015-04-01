@@ -5,12 +5,11 @@ import android.net.*;
 import android.os.*;
 import android.util.*;
 import android.view.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.fragments.*;
 
-import java.util.*;
+import com.parse.*;
+
+import in.eigene.miary.*;
+import in.eigene.miary.fragments.*;
 
 /**
  * Displays a single note.

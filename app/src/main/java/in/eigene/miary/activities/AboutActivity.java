@@ -8,15 +8,11 @@ import android.os.*;
 import android.preference.*;
 import android.view.*;
 import android.widget.*;
-import com.parse.*;
-import com.parse.ParseException;
-import in.eigene.miary.*;
-import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.exceptions.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.helpers.lang.*;
 
-import java.util.*;
+import com.parse.*;
+
+import in.eigene.miary.*;
+import in.eigene.miary.core.persistence.*;
 
 /**
  * About application.
