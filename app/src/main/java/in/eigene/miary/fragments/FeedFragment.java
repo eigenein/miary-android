@@ -11,6 +11,7 @@ import android.view.*;
 
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
+import in.eigene.miary.core.persistence.*;
 import in.eigene.miary.fragments.base.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.sync.*;
@@ -121,11 +122,8 @@ public class FeedFragment extends BaseFragment {
         }
     }
 
-    public NotesAdapter getNotesAdapter() {
-        return notesAdapter;
-    }
-
     public void refresh() {
-        // TODO: notesAdapter.refresh(this);
+        notesAdapter.setCursor(getActivity().getContentResolver().query(
+                Note.Contract.CONTENT_URI, Note.PROJECTION, null, null, null));
     }
 }

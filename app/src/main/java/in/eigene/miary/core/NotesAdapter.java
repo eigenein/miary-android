@@ -3,6 +3,7 @@ package in.eigene.miary.core;
 import android.content.*;
 import android.database.*;
 import android.provider.*;
+import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.text.format.*;
 import android.view.*;
@@ -20,14 +21,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private Cursor cursor = null;
     private int idColumnIndex;
 
-    public void setCursor(final Cursor cursor) {
+    public void setCursor(final @NonNull Cursor cursor) {
         if (this.cursor != null) {
             this.cursor.close();
         }
         this.cursor = cursor;
-        if (cursor != null) {
-            idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
-        }
+        idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -55,6 +55,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             return cursor.getLong(idColumnIndex);
         }
         return 0L;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return R.layout.feed_item_note;
     }
 
     @Override
