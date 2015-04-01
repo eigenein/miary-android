@@ -113,7 +113,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         @Override
         public void onClick(final View view) {
-            NoteActivity.start(itemView.getContext(), note, false);
+            // TODO: NoteActivity.start(itemView.getContext(), note, false);
         }
 
         /**

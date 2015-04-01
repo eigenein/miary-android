@@ -57,11 +57,11 @@ public class Note extends Entity {
     }
 
     /**
-     * Gets existing note by _ID.
+     * Gets existing note by URI.
      */
-    public static Note getById(final long id, final ContentResolver contentResolver) {
-        final Cursor cursor = contentResolver.query(Uri.parse(String.format(
-                "%s/%d", Contract.CONTENT_URI, id)), PROJECTION, null, null, null);
+    public static Note getByUri(final Uri uri, final ContentResolver contentResolver) {
+        final Cursor cursor = contentResolver.query(uri, PROJECTION, null, null, null);
+        cursor.moveToFirst();
         return getByCursor(cursor);
     }
 
@@ -70,7 +70,6 @@ public class Note extends Entity {
      */
     public static Note getByCursor(final Cursor cursor) {
         final Note note = new Note();
-        note.id = cursor.getLong(0);
         note.syncId = cursor.getLong(1);
         note.title = cursor.getString(2);
         note.text = cursor.getString(3);
@@ -179,13 +178,23 @@ public class Note extends Entity {
     }
 
     @Override
-    protected long insert(final ContentResolver contentResolver) {
-        // TODO.
-        return 0;
+    public Uri insert(final ContentResolver contentResolver) {
+        final ContentValues values = new ContentValues();
+        values.put(Contract.SYNC_ID, syncId);
+        values.put(Contract.TITLE, title);
+        values.put(Contract.TEXT, text);
+        values.put(Contract.COLOR, color);
+        values.put(Contract.CREATED_TIME, createdDate.getTime());
+        values.put(Contract.UPDATED_TIME, updatedDate.getTime());
+        values.put(Contract.CUSTOM_TIME, customDate.getTime());
+        values.put(Contract.DRAFT, draft);
+        values.put(Contract.STARRED, starred);
+        values.put(Contract.DELETED, deleted);
+        return contentResolver.insert(Contract.CONTENT_URI, values);
     }
 
     @Override
-    protected void update(final ContentResolver contentResolver) {
+    public void update(final ContentResolver contentResolver) {
         // TODO.
     }
 

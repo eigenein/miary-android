@@ -2,6 +2,7 @@ package in.eigene.miary.fragments;
 
 import android.app.*;
 import android.content.*;
+import android.net.*;
 import android.os.*;
 import android.preference.*;
 import android.text.*;
@@ -24,7 +25,7 @@ public class NoteFragment extends BaseFragment {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
-    private static final String EXTRA_NOTE_ID = "id";
+    private static final String EXTRA_NOTE_URI = "uri";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
@@ -40,9 +41,9 @@ public class NoteFragment extends BaseFragment {
 
     private boolean substitutionEnabled = true;
 
-    public static NoteFragment create(final long noteId, final boolean fullscreen) {
+    public static NoteFragment create(final Uri noteUri, final boolean fullscreen) {
         final Bundle arguments = new Bundle();
-        arguments.putLong(EXTRA_NOTE_ID, noteId);
+        arguments.putParcelable(EXTRA_NOTE_URI, noteUri);
         arguments.putSerializable(EXTRA_FULLSCREEN, fullscreen);
         final NoteFragment fragment = new NoteFragment();
         fragment.setArguments(arguments);
@@ -248,9 +249,9 @@ public class NoteFragment extends BaseFragment {
      * Updates view with the note.
      */
     private void refresh() {
-        final long noteId = getArguments().getLong(EXTRA_NOTE_ID);
-        Log.i(LOG_TAG, "Update view: " + noteId);
-        note = Note.getById(noteId, getActivity().getContentResolver());
+        final Uri noteUri = getArguments().getParcelable(EXTRA_NOTE_URI);
+        Log.i(LOG_TAG, "Update view: " + noteUri);
+        note = Note.getByUri(noteUri, getActivity().getContentResolver());
         Log.i(LOG_TAG, "Note: " + note);
         editTextTitle.setText(note.getTitle());
         editTextText.setText(note.getText());
@@ -269,7 +270,7 @@ public class NoteFragment extends BaseFragment {
         }
         // Save.
         Log.i(LOG_TAG, "Save note.");
-        note.save(getActivity().getContentResolver());
+        note.update(getActivity().getContentResolver());
         // Update debouncer.
         saveDebouncer.ping();
     }
