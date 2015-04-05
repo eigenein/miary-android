@@ -113,6 +113,7 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_feed_change_sort_order:
+                // TODO.
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -147,7 +148,15 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
-        notesAdapter.setCursor(cursor);
+        if (cursor.getCount() != 0) {
+            notesAdapter.setCursor(cursor);
+            feedEmptyView.setVisibility(View.GONE);
+            feedView.setVisibility(View.VISIBLE);
+        } else {
+            notesAdapter.setCursor(null);
+            feedView.setVisibility(View.GONE);
+            feedEmptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
