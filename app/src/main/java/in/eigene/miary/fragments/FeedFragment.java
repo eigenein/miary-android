@@ -1,30 +1,43 @@
 package in.eigene.miary.fragments;
 
-import android.accounts.*;
-import android.content.*;
-import android.os.*;
-import android.preference.*;
-import android.support.v4.widget.*;
-import android.support.v7.widget.*;
-import android.util.*;
-import android.view.*;
+import android.accounts.Account;
+import android.app.LoaderManager;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Loader;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
-import in.eigene.miary.*;
-import in.eigene.miary.core.*;
-import in.eigene.miary.core.persistence.*;
-import in.eigene.miary.fragments.base.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.sync.*;
+import in.eigene.miary.R;
+import in.eigene.miary.core.NotesAdapter;
+import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.fragments.base.BaseFragment;
+import in.eigene.miary.helpers.AccountManagerHelper;
+import in.eigene.miary.helpers.NewNoteClickListener;
+import in.eigene.miary.sync.SyncAdapter;
 
-public class FeedFragment extends BaseFragment {
+public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String KEY_FEED_SORTING_ORDER_NAME = "feed_sorting_order_name";
+    private final static int LOADER_ID = 0;
 
     private final BroadcastReceiver syncFinishedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             swipeRefresh.setRefreshing(false);
-            refresh();
         }
     };
 
@@ -39,8 +52,7 @@ public class FeedFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -87,7 +99,6 @@ public class FeedFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        refresh();
         getActivity().registerReceiver(syncFinishedReceiver, new IntentFilter(SyncAdapter.SYNC_FINISHED_EVENT_NAME));
     }
 
@@ -122,8 +133,25 @@ public class FeedFragment extends BaseFragment {
         }
     }
 
-    public void refresh() {
-        notesAdapter.setCursor(getActivity().getContentResolver().query(
-                Note.Contract.CONTENT_URI, Note.PROJECTION, null, null, null));
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
+        return new CursorLoader(
+                getActivity(),
+                Note.Contract.CONTENT_URI,
+                Note.PROJECTION,
+                "deleted = 0",
+                null,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
+        notesAdapter.setCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(final Loader<Cursor> loader) {
+        notesAdapter.setCursor(null);
     }
 }

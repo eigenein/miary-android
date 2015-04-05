@@ -21,12 +21,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private Cursor cursor = null;
     private int idColumnIndex;
 
-    public void setCursor(final @NonNull Cursor cursor) {
-        if (this.cursor != null) {
-            this.cursor.close();
-        }
+    public void setCursor(final Cursor cursor) {
         this.cursor = cursor;
-        idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
+        if (cursor != null) {
+            idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
+        }
         notifyDataSetChanged();
     }
 
