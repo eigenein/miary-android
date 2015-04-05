@@ -5,12 +5,15 @@ import android.database.*;
 import android.database.sqlite.*;
 import android.net.*;
 import android.text.*;
+import android.util.*;
 
 import in.eigene.miary.core.persistence.*;
 
 public class ContentProvider extends android.content.ContentProvider {
 
     public static final String AUTHORITY = "in.eigene.miary.provider";
+
+    private static final String LOG_TAG = ContentProvider.class.getSimpleName();
 
     private static final int NOTE_ID = 1;
     private static final int NOTES_ID = 2;
@@ -38,6 +41,7 @@ public class ContentProvider extends android.content.ContentProvider {
             final String[] selectionArgs,
             final String sortOrder
     ) {
+        Log.i(LOG_TAG, String.format("query %s %s", uri, selection));
         final SQLiteDatabase database = helper.getReadableDatabase();
         final SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
         queryBuilder.setTables(Note.Contract.TABLE);
@@ -71,6 +75,7 @@ public class ContentProvider extends android.content.ContentProvider {
 
     @Override
     public Uri insert(final Uri uri, final ContentValues values) {
+        Log.i(LOG_TAG, "insert " + uri);
         if (MATCHER.match(uri) != NOTES_ID) {
             throw new IllegalArgumentException(uri.toString());
         }
@@ -83,6 +88,7 @@ public class ContentProvider extends android.content.ContentProvider {
 
     @Override
     public int delete(final Uri uri, final String selection, final String[] selectionArgs) {
+        Log.i(LOG_TAG, "delete " + uri);
         final SQLiteDatabase database = helper.getWritableDatabase();
         final int deleteCount;
         switch (MATCHER.match(uri)) {
@@ -106,6 +112,7 @@ public class ContentProvider extends android.content.ContentProvider {
             final String selection,
             final String[] selectionArgs
     ) {
+        Log.i(LOG_TAG, "update " + uri);
         final SQLiteDatabase database = helper.getWritableDatabase();
         final int updateCount;
         switch (MATCHER.match(uri)) {
@@ -123,7 +130,8 @@ public class ContentProvider extends android.content.ContentProvider {
     }
 
     private static String getWhereClause(final Uri uri, final String selection) {
-        final StringBuilder where = new StringBuilder(Note.Contract._ID + " = " + uri.getLastPathSegment());
+        final StringBuilder where = new StringBuilder(String.format("%s = %s",
+                Note.Contract._ID, uri.getLastPathSegment()));
         if (!TextUtils.isEmpty(selection)) {
             where.append(" AND ").append(selection);
         }

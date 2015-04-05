@@ -31,6 +31,7 @@ public class Note extends Entity {
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
+    private Long id;
     private long syncId;
     private String title;
     private String text;
@@ -70,6 +71,7 @@ public class Note extends Entity {
      */
     public static Note getByCursor(final Cursor cursor) {
         final Note note = new Note();
+        note.id = cursor.getLong(0);
         note.syncId = cursor.getLong(1);
         note.title = cursor.getString(2);
         note.text = cursor.getString(3);
@@ -85,6 +87,10 @@ public class Note extends Entity {
 
     private Note() {
         // Do nothing.
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public long getSyncId() {
@@ -177,8 +183,26 @@ public class Note extends Entity {
         return this;
     }
 
+    /**
+     * Inserts the note into the database.
+     */
     @Override
     public Uri insert(final ContentResolver contentResolver) {
+        final Uri uri = contentResolver.insert(Contract.CONTENT_URI, getContentValues());
+        this.id = ContentUris.parseId(uri);
+        return uri;
+    }
+
+    /**
+     * Updates the note in the database.
+     */
+    @Override
+    public void update(final ContentResolver contentResolver) {
+        assert id != null;
+        contentResolver.update(ContentUris.withAppendedId(Contract.CONTENT_URI, id), getContentValues(), null, null);
+    }
+
+    private ContentValues getContentValues() {
         final ContentValues values = new ContentValues();
         values.put(Contract.SYNC_ID, syncId);
         values.put(Contract.TITLE, title);
@@ -190,12 +214,7 @@ public class Note extends Entity {
         values.put(Contract.DRAFT, draft);
         values.put(Contract.STARRED, starred);
         values.put(Contract.DELETED, deleted);
-        return contentResolver.insert(Contract.CONTENT_URI, values);
-    }
-
-    @Override
-    public void update(final ContentResolver contentResolver) {
-        // TODO.
+        return values;
     }
 
     /**

@@ -269,7 +269,7 @@ public class NoteFragment extends BaseFragment {
             return;
         }
         // Save.
-        Log.i(LOG_TAG, "Save note.");
+        note.setUpdatedDate(new Date());
         note.update(getActivity().getContentResolver());
         // Update debouncer.
         saveDebouncer.ping();

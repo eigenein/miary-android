@@ -12,6 +12,7 @@ import android.widget.*;
 import java.util.*;
 
 import in.eigene.miary.*;
+import in.eigene.miary.activities.*;
 import in.eigene.miary.core.persistence.*;
 import in.eigene.miary.helpers.*;
 
@@ -117,7 +118,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         @Override
         public void onClick(final View view) {
-            // TODO: NoteActivity.start(itemView.getContext(), note, false);
+            NoteActivity.start(
+                    itemView.getContext(),
+                    ContentUris.withAppendedId(Note.Contract.CONTENT_URI, note.getId()),
+                    false);
         }
 
         /**
