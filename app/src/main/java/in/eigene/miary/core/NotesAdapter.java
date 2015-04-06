@@ -66,12 +66,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         super.setHasStableIds(true);
     }
 
-    public static enum Mode {
-        DIARY,
-        STARRED,
-        DRAFTS
-    }
-
     public static class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final CardView layout;

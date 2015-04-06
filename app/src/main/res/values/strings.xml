@@ -53,8 +53,8 @@
     <string name="email_hint" translatable="false">Email</string>
     <string name="feed_change_sorting_order">Change sorting order</string>
     <string name="feed_empty">Write a note</string>
-    <string name="feed_set_ascending">Oldest first.</string>
-    <string name="feed_set_descending">Newest first.</string>
+    <string name="feed_oldest_first">Oldest first.</string>
+    <string name="feed_newest_first">Newest first.</string>
     <string name="feedback_hint">Your feedback</string>
     <string name="helper_optional">Optional</string>
     <string name="no_button">No</string>

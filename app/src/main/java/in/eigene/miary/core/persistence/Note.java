@@ -13,7 +13,7 @@ import in.eigene.miary.sync.ContentProvider;
 /**
  * Represents a local diary note.
  */
-public class Note extends Entity {
+public class Note implements Entity {
 
     public static final String[] PROJECTION = {
             Contract._ID,
@@ -249,5 +249,56 @@ public class Note extends Entity {
         public static final String DRAFT = "draft";
         public static final String STARRED = "starred";
         public static final String DELETED = "deleted";
+    }
+
+    public static enum Section {
+        DIARY {
+            @Override
+            public String getSelection() {
+                return "deleted = 0 AND draft = 0";
+            }
+        },
+        STARRED {
+            @Override
+            public String getSelection() {
+                return "deleted = 0 AND starred = 1";
+            }
+        },
+        DRAFTS {
+            @Override
+            public String getSelection() {
+                return "deleted = 0 AND draft = 1";
+            }
+        };
+
+        public abstract String getSelection();
+    }
+
+    public static enum SortOrder {
+        OLDEST_FIRST {
+            @Override
+            public String getSortOrder() {
+                return "custom_time ASC";
+            }
+        },
+        NEWEST_FIRST {
+            @Override
+            public String getSortOrder() {
+                return "custom_time DESC";
+            }
+        };
+
+        static {
+            OLDEST_FIRST.opposite = NEWEST_FIRST;
+            NEWEST_FIRST.opposite = OLDEST_FIRST;
+        }
+
+        public abstract String getSortOrder();
+
+        private SortOrder opposite;
+
+        public SortOrder getOpposite() {
+            return opposite;
+        }
     }
 }

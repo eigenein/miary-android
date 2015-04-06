@@ -18,14 +18,16 @@ import in.eigene.miary.*;
 import in.eigene.miary.activities.*;
 import in.eigene.miary.core.*;
 import in.eigene.miary.core.caches.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.exceptions.*;
+import in.eigene.miary.fragments.FeedFragment;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.sync.*;
 
 public class Drawer extends DrawerListener {
 
     private final Activity activity;
-    private final Listener listener;
+    private final SectionChooseListener listener;
 
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
 
@@ -40,7 +42,7 @@ public class Drawer extends DrawerListener {
     private final TextView accountTypeView;
     private final TextView accountNameView;
 
-    public Drawer(final Activity activity, final Toolbar toolbar, final Listener listener) {
+    public Drawer(final Activity activity, final Toolbar toolbar, final SectionChooseListener listener) {
         this.activity = activity;
         this.listener = listener;
 
@@ -59,7 +61,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_diary,
                 R.drawable.ic_inbox_grey600_24dp,
                 R.string.drawer_item_diary,
-                new FeedModeChangedClickListener(NotesAdapter.Mode.DIARY),
+                new SectionClickListener(Note.Section.DIARY),
                 CounterCache.DIARY_COUNTER
         );
         starredCounter = new DrawerCounter<>(
@@ -67,7 +69,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_starred,
                 R.drawable.ic_star_grey600_24dp,
                 R.string.drawer_item_starred,
-                new FeedModeChangedClickListener(NotesAdapter.Mode.STARRED),
+                new SectionClickListener(Note.Section.STARRED),
                 CounterCache.STARRED_COUNTER
         );
         draftCounter = new DrawerCounter<>(
@@ -75,7 +77,7 @@ public class Drawer extends DrawerListener {
                 R.id.drawer_item_drafts,
                 R.drawable.ic_drafts_grey600_24dp,
                 R.string.drawer_item_drafts,
-                new FeedModeChangedClickListener(NotesAdapter.Mode.DRAFTS),
+                new SectionClickListener(Note.Section.DRAFTS),
                 CounterCache.DRAFT_COUNTER
         );
         new DrawerItem(view, R.id.drawer_item_settings, R.drawable.ic_settings_grey600_24dp, R.string.settings,
@@ -139,12 +141,9 @@ public class Drawer extends DrawerListener {
         }
     }
 
-    /**
-     * Listens for feed mode changes.
-     */
-    public interface Listener {
+    public interface SectionChooseListener {
 
-        public void onFeedModeChanged(final NotesAdapter.Mode mode);
+        public void onSectionChosen(final Note.Section section);
     }
 
     /**
@@ -166,15 +165,15 @@ public class Drawer extends DrawerListener {
     }
 
     /**
-     * Changes feed mode on clicked.
+     * Chooses diary section on clicked.
      */
-    private class FeedModeChangedClickListener extends RunnableClickListener {
+    private class SectionClickListener extends RunnableClickListener {
 
-        public FeedModeChangedClickListener(final NotesAdapter.Mode feedMode) {
+        public SectionClickListener(final Note.Section section) {
             super(new Runnable() {
                 @Override
                 public void run() {
-                    listener.onFeedModeChanged(feedMode);
+                    listener.onSectionChosen(section);
                 }
             });
         }

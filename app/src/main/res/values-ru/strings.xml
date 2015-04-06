@@ -49,8 +49,8 @@
     <string name="drawer_sign_in">Войти</string>
     <string name="feed_change_sorting_order">Изменить порядок сортировки</string>
     <string name="feed_empty">Написать заметку</string>
-    <string name="feed_set_ascending">От старых к новым.</string>
-    <string name="feed_set_descending">От новых к старым.</string>
+    <string name="feed_oldest_first">От старых к новым.</string>
+    <string name="feed_newest_first">От новых к старым.</string>
     <string name="feedback_hint">Ваш отзыв</string>
     <string name="helper_optional">Необязательно</string>
     <string name="no_button">Нет</string>

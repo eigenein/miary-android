@@ -7,6 +7,7 @@ import android.view.*;
 
 import in.eigene.miary.*;
 import in.eigene.miary.core.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.fragments.*;
 import in.eigene.miary.helpers.*;
 import in.eigene.miary.widgets.*;
@@ -14,9 +15,7 @@ import in.eigene.miary.widgets.*;
 /**
  * Displays diary.
  */
-public class FeedActivity extends BaseActivity implements Drawer.Listener {
-
-    private static final String LOG_TAG = FeedActivity.class.getName();
+public class FeedActivity extends BaseActivity implements Drawer.SectionChooseListener {
 
     private Drawer drawer;
 
@@ -49,6 +48,11 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     }
 
     @Override
+    public void onSectionChosen(final Note.Section section) {
+        getFeedFragment().setSection(section);
+    }
+
+    @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawer.getToggle().syncState();
@@ -58,15 +62,6 @@ public class FeedActivity extends BaseActivity implements Drawer.Listener {
     protected void initializeToolbar() {
         super.initializeToolbar();
         getToolbar().setBackgroundResource(R.color.toolbar_background_feed);
-    }
-
-    @Override
-    public void onFeedModeChanged(final NotesAdapter.Mode feedMode) {
-        /* TODO
-        final FeedFragment fragment = getFeedFragment();
-        fragment.getNotesAdapter().setMode(feedMode);
-        fragment.refresh();
-        */
     }
 
     private void initializeFloatingActionButton() {

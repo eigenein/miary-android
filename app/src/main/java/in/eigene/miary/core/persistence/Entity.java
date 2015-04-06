@@ -4,8 +4,8 @@ import android.content.*;
 import android.net.*;
 import android.provider.*;
 
-public abstract class Entity implements BaseColumns {
+public interface Entity extends BaseColumns {
 
-    public abstract Uri insert(final ContentResolver contentResolver);
-    public abstract void update(final ContentResolver contentResolver);
+    public Uri insert(final ContentResolver contentResolver);
+    public void update(final ContentResolver contentResolver);
 }

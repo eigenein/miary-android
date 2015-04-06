@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import in.eigene.miary.R;
 import in.eigene.miary.core.NotesAdapter;
@@ -42,6 +43,9 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
     };
 
     private final NotesAdapter notesAdapter = new NotesAdapter();
+
+    private Note.SortOrder sortOrder = Note.SortOrder.NEWEST_FIRST;
+    private Note.Section section = Note.Section.DIARY;
 
     private RecyclerView feedView;
     private View feedEmptyView;
@@ -113,7 +117,15 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_feed_change_sort_order:
-                // TODO.
+                setSortOrder(sortOrder.getOpposite());
+                switch (sortOrder) {
+                    case NEWEST_FIRST:
+                        Toast.makeText(getActivity(), R.string.feed_newest_first, Toast.LENGTH_SHORT).show();
+                        break;
+                    case OLDEST_FIRST:
+                        Toast.makeText(getActivity(), R.string.feed_oldest_first, Toast.LENGTH_SHORT).show();
+                        break;
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -140,9 +152,9 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
                 getActivity(),
                 Note.Contract.CONTENT_URI,
                 Note.PROJECTION,
-                "deleted = 0",
+                section.getSelection(),
                 null,
-                null
+                sortOrder.getSortOrder()
         );
     }
 
@@ -162,5 +174,15 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(final Loader<Cursor> loader) {
         notesAdapter.setCursor(null);
+    }
+
+    public void setSection(final Note.Section section) {
+        this.section = section;
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
+    private void setSortOrder(final Note.SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 }
