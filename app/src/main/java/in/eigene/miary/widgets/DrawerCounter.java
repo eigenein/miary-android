@@ -1,42 +1,30 @@
 package in.eigene.miary.widgets;
 
-import android.view.*;
-import android.widget.*;
-import in.eigene.miary.*;
-import in.eigene.miary.helpers.lang.*;
+import android.view.View;
+import android.widget.TextView;
+
+import in.eigene.miary.R;
 
 /**
  * Represents counter in the navigation drawer.
  */
-public class DrawerCounter<Integer> extends DrawerItem implements Consumer<Integer> {
+public class DrawerCounter extends DrawerItem {
 
-    final private Function<Consumer<Integer>, Integer> valueFunction;
-    final private TextView counterValueView;
+    private final TextView counterValueView;
 
     public DrawerCounter(
             final View drawerView,
             final int itemViewId,
             final int iconResourceId,
             final int titleResourceId,
-            final View.OnClickListener listener,
-            final Function<Consumer<Integer>, Integer> valueFunction
+            final View.OnClickListener listener
     ) {
         super(drawerView, itemViewId, iconResourceId, titleResourceId, listener);
-
-        this.valueFunction = valueFunction;
         counterValueView = (TextView)itemView.findViewById(R.id.drawer_item_counter);
     }
 
-    @Override
-    public void accept(final Integer value) {
-        counterValueView.setText(value.toString());
-        counterValueView.setVisibility(value.equals(0) ? View.GONE : View.VISIBLE);
-    }
-
-    /**
-     * Refreshes counter.
-     */
-    public void refresh() {
-        accept(valueFunction.apply(this));
+    public void setValue(final int value) {
+        counterValueView.setText(Integer.toString(value));
+        counterValueView.setVisibility(value == 0 ? View.GONE : View.VISIBLE);
     }
 }
