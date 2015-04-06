@@ -17,7 +17,6 @@ public class Note implements Entity {
 
     public static final String[] PROJECTION = {
             Contract._ID,
-            Contract.SYNC_ID,
             Contract.TITLE,
             Contract.TEXT,
             Contract.COLOR,
@@ -32,7 +31,6 @@ public class Note implements Entity {
     private static final SecureRandom RANDOM = new SecureRandom();
 
     private Long id;
-    private long syncId;
     private String title;
     private String text;
     private int color;
@@ -48,7 +46,7 @@ public class Note implements Entity {
      */
     public static Note getEmpty() {
         final Note note = new Note();
-        note.syncId = RANDOM.nextLong();
+        note.id = Math.abs(RANDOM.nextLong());
         note.title = "";
         note.text = "";
         note.createdDate = new Date();
@@ -72,16 +70,15 @@ public class Note implements Entity {
     public static Note getByCursor(final Cursor cursor) {
         final Note note = new Note();
         note.id = cursor.getLong(0);
-        note.syncId = cursor.getLong(1);
-        note.title = cursor.getString(2);
-        note.text = cursor.getString(3);
-        note.color = cursor.getInt(4);
-        note.createdDate = new Date(cursor.getLong(5));
-        note.updatedDate = new Date(cursor.getLong(6));
-        note.customDate = new Date(cursor.getLong(7));
-        note.draft = cursor.getInt(8) != 0;
-        note.starred = cursor.getInt(9) != 0;
-        note.deleted = cursor.getInt(10) != 0;
+        note.title = cursor.getString(1);
+        note.text = cursor.getString(2);
+        note.color = cursor.getInt(3);
+        note.createdDate = new Date(cursor.getLong(4));
+        note.updatedDate = new Date(cursor.getLong(5));
+        note.customDate = new Date(cursor.getLong(6));
+        note.draft = cursor.getInt(7) != 0;
+        note.starred = cursor.getInt(8) != 0;
+        note.deleted = cursor.getInt(9) != 0;
         return note;
     }
 
@@ -89,16 +86,12 @@ public class Note implements Entity {
         // Do nothing.
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public long getSyncId() {
-        return syncId;
-    }
-
-    public Note setSyncId(final long syncId) {
-        this.syncId = syncId;
+    public Note setId(final long id) {
+        this.id = id;
         return this;
     }
 
@@ -188,9 +181,7 @@ public class Note implements Entity {
      */
     @Override
     public Uri insert(final ContentResolver contentResolver) {
-        final Uri uri = contentResolver.insert(Contract.CONTENT_URI, getContentValues());
-        this.id = ContentUris.parseId(uri);
-        return uri;
+        return contentResolver.insert(Contract.CONTENT_URI, getContentValues());
     }
 
     /**
@@ -198,13 +189,12 @@ public class Note implements Entity {
      */
     @Override
     public void update(final ContentResolver contentResolver) {
-        assert id != null;
         contentResolver.update(ContentUris.withAppendedId(Contract.CONTENT_URI, id), getContentValues(), null, null);
     }
 
     private ContentValues getContentValues() {
         final ContentValues values = new ContentValues();
-        values.put(Contract.SYNC_ID, syncId);
+        values.put(Contract._ID, id);
         values.put(Contract.TITLE, title);
         values.put(Contract.TEXT, text);
         values.put(Contract.COLOR, color);
@@ -239,7 +229,6 @@ public class Note implements Entity {
         public static final Uri CONTENT_URI = Uri.parse(String.format(
                 "content://%s/%s", ContentProvider.AUTHORITY, TABLE));
 
-        public static final String SYNC_ID = "sync_id";
         public static final String TITLE = "title";
         public static final String TEXT = "text";
         public static final String COLOR = "color";

@@ -12,7 +12,7 @@ public class JsonBackupOutput extends BackupOutput {
     /**
      * JSON schema version to be able to restore a backup.
      */
-    private static final int SCHEMA_VERSION = 1;
+    private static final int SCHEMA_VERSION = 2;
 
     private final JsonWriter writer;
 
@@ -38,7 +38,7 @@ public class JsonBackupOutput extends BackupOutput {
     @Override
     public void write(final Note note) throws IOException {
         writer.beginObject();
-        writer.name("syncId").value(note.getSyncId());
+        writer.name("id").value(note.getId());
         writer.name("title").value(note.getTitle());
         writer.name("text").value(note.getText());
         writer.name("color").value(note.getColor());
