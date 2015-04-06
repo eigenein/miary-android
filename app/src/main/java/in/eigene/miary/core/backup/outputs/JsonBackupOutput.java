@@ -6,6 +6,7 @@ import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.*;
 
 import java.io.*;
+import java.util.UUID;
 
 public class JsonBackupOutput extends BackupOutput {
 
@@ -39,6 +40,7 @@ public class JsonBackupOutput extends BackupOutput {
     public void write(final Note note) throws IOException {
         writer.beginObject();
         writer.name("id").value(note.getId());
+        writer.name("uuid").value(new UUID(note.getId(), note.getId()).toString()); // backwards compatibility
         writer.name("title").value(note.getTitle());
         writer.name("text").value(note.getText());
         writer.name("color").value(note.getColor());

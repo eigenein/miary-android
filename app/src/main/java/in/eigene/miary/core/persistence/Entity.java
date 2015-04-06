@@ -7,5 +7,5 @@ import android.provider.*;
 public interface Entity extends BaseColumns {
 
     public Uri insert(final ContentResolver contentResolver);
-    public void update(final ContentResolver contentResolver);
+    public int update(final ContentResolver contentResolver);
 }

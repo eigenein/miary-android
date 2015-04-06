@@ -57,7 +57,7 @@ public class JsonRestoreInput extends RestoreInput {
             final String name = reader.nextName();
             Log.d(LOG_TAG, "Read property name: " + name);
             if (name.equals("uuid")) {
-                note.setId(UUID.fromString(reader.nextString()).getLeastSignificantBits());
+                note.setId(Math.abs(UUID.fromString(reader.nextString()).getLeastSignificantBits()));
             } else if (name.equals("title")) {
                 note.setTitle(reader.nextString());
             } else if (name.equals("text")) {

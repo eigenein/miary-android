@@ -188,8 +188,8 @@ public class Note implements Entity {
      * Updates the note in the database.
      */
     @Override
-    public void update(final ContentResolver contentResolver) {
-        contentResolver.update(ContentUris.withAppendedId(Contract.CONTENT_URI, id), getContentValues(), null, null);
+    public int update(final ContentResolver contentResolver) {
+        return contentResolver.update(ContentUris.withAppendedId(Contract.CONTENT_URI, id), getContentValues(), null, null);
     }
 
     private ContentValues getContentValues() {

@@ -82,7 +82,7 @@ public class AboutActivity extends BaseActivity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                // TODO.
+                                getContentResolver().delete(Note.Contract.CONTENT_URI, null, null);
                             }
                         })
                         .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

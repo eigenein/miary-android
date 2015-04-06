@@ -1,6 +1,7 @@
 package in.eigene.miary.core.backup.tasks;
 
 import android.content.*;
+import android.net.Uri;
 import android.widget.*;
 
 import java.io.*;
@@ -75,9 +76,13 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         publishProgress(progress);
         // Restore notes.
         final Date restoreDate = new Date();
+        final ContentResolver contentResolver = context.getContentResolver();
         for (int i = 0; i < noteCount; i++) {
             final Note note = input.read().setUpdatedDate(restoreDate);
-            // TODO.
+            if (note.update(contentResolver) == 0) {
+                // The note is new.
+                note.insert(contentResolver);
+            }
             // Publish progress.
             progress.incrementProgress();
             publishProgress(progress);
