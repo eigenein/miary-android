@@ -282,9 +282,9 @@ public class Note implements Entity {
             NEWEST_FIRST.opposite = OLDEST_FIRST;
         }
 
-        public abstract String getSortOrder();
-
         private SortOrder opposite;
+
+        public abstract String getSortOrder();
 
         public SortOrder getOpposite() {
             return opposite;

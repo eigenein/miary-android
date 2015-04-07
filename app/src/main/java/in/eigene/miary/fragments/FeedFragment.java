@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -33,6 +34,8 @@ import in.eigene.miary.sync.SyncAdapter;
 
 public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String KEY_SORT_ORDER = "feed_sort_order";
+
     private final static int LOADER_ID = 0;
 
     private final BroadcastReceiver syncFinishedReceiver = new BroadcastReceiver() {
@@ -44,8 +47,8 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
 
     private final NotesAdapter notesAdapter = new NotesAdapter();
 
-    private Note.SortOrder sortOrder = Note.SortOrder.NEWEST_FIRST;
     private Note.Section section = Note.Section.DIARY;
+    private Note.SortOrder sortOrder;
 
     private RecyclerView feedView;
     private View feedEmptyView;
@@ -56,6 +59,10 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        sortOrder = Note.SortOrder.valueOf(PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(KEY_SORT_ORDER, Note.SortOrder.NEWEST_FIRST.name()));
+
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
@@ -126,6 +133,8 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
                         Toast.makeText(getActivity(), R.string.feed_oldest_first, Toast.LENGTH_SHORT).show();
                         break;
                 }
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                        .putString(KEY_SORT_ORDER, sortOrder.name()).apply();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
