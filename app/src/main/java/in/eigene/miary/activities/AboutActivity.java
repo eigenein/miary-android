@@ -8,15 +8,11 @@ import android.os.*;
 import android.preference.*;
 import android.view.*;
 import android.widget.*;
-import com.parse.*;
-import com.parse.ParseException;
-import in.eigene.miary.*;
-import in.eigene.miary.core.classes.*;
-import in.eigene.miary.exceptions.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.helpers.lang.*;
 
-import java.util.*;
+import com.parse.*;
+
+import in.eigene.miary.*;
+import in.eigene.miary.core.persistence.*;
 
 /**
  * About application.
@@ -86,13 +82,7 @@ public class AboutActivity extends BaseActivity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                Note.unpinAllInBackground(new DeleteCallback() {
-                                    @Override
-                                    public void done(final ParseException e) {
-                                        InternalRuntimeException.throwForException("could not unpin all notes", e);
-                                        Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                                getContentResolver().delete(Note.Contract.CONTENT_URI, null, null);
                             }
                         })
                         .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -106,21 +96,12 @@ public class AboutActivity extends BaseActivity {
                 return true;
 
             case R.id.menu_item_developer_add_sample_notes:
+                final ContentResolver contentResolver = getContentResolver();
                 final String[] texts = getResources().getStringArray(R.array.sample_texts);
-                final List<Note> notes = Util.map(Arrays.asList(texts), new Function<String, Note>() {
-                    private int color = 5;
-                    @Override
-                    public Note apply(final String text) {
-                        return Note.createNew().setText(text).setColor(color++ % 8);
-                    }
-                });
-                Note.pinAllInBackground(notes, new SaveCallback() {
-                    @Override
-                    public void done(final ParseException e) {
-                        InternalRuntimeException.throwForException("could not pin notes", e);
-                        Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
-                    }
-                });
+                int color = 5;
+                for (final String text : texts) {
+                    Note.getEmpty().setText(text).setColor(color++ % 8).insert(contentResolver);
+                }
                 return true;
 
             case R.id.menu_item_developer_log_out:

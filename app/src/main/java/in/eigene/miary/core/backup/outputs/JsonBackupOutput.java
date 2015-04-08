@@ -2,17 +2,18 @@ package in.eigene.miary.core.backup.outputs;
 
 import android.util.*;
 import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.*;
 
 import java.io.*;
+import java.util.UUID;
 
 public class JsonBackupOutput extends BackupOutput {
 
     /**
      * JSON schema version to be able to restore a backup.
      */
-    private static final int SCHEMA_VERSION = 1;
+    private static final int SCHEMA_VERSION = 2;
 
     private final JsonWriter writer;
 
@@ -38,14 +39,15 @@ public class JsonBackupOutput extends BackupOutput {
     @Override
     public void write(final Note note) throws IOException {
         writer.beginObject();
-        writer.name("uuid").value(note.getUuid().toString());
+        writer.name("id").value(note.getId());
+        writer.name("uuid").value(new UUID(note.getId(), note.getId()).toString()); // backwards compatibility
         writer.name("title").value(note.getTitle());
         writer.name("text").value(note.getText());
         writer.name("color").value(note.getColor());
         writer.name("isStarred").value(note.isStarred());
         writer.name("isDraft").value(note.isDraft());
         writer.name("customDate").value(Util.format(note.getCustomDate()));
-        writer.name("creationDate").value(Util.format(note.getCreationDate()));
+        writer.name("creationDate").value(Util.format(note.getCreatedDate()));
         writer.name("isDeleted").value(note.isDeleted());
         writer.endObject();
     }

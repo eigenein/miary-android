@@ -5,7 +5,7 @@ import android.view.*;
 import android.widget.*;
 import com.parse.*;
 import in.eigene.miary.*;
-import in.eigene.miary.core.classes.*;
+import in.eigene.miary.core.persistence.*;
 
 public class FeedbackActivity extends FullscreenDialogActivity {
 

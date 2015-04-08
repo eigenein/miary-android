@@ -1,26 +1,38 @@
 package in.eigene.miary.fragments;
 
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
-import android.text.*;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
-import android.util.*;
-import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.*;
-import in.eigene.miary.core.backup.inputs.*;
-import in.eigene.miary.core.backup.outputs.*;
-import in.eigene.miary.core.backup.storages.*;
-import in.eigene.miary.core.backup.tasks.*;
-import in.eigene.miary.core.managers.*;
-import in.eigene.miary.fragments.dialogs.*;
+import android.util.Log;
+import android.widget.Toast;
 
-import java.text.*;
-import java.util.*;
+import com.parse.ParseAnalytics;
+
+import in.eigene.miary.R;
+import in.eigene.miary.core.Substitutions;
+import in.eigene.miary.core.backup.inputs.JsonRestoreInput;
+import in.eigene.miary.core.backup.outputs.JsonBackupOutput;
+import in.eigene.miary.core.backup.outputs.PlainTextBackupOutput;
+import in.eigene.miary.core.backup.storages.DropboxStorage;
+import in.eigene.miary.core.backup.storages.ExternalStorage;
+import in.eigene.miary.core.backup.tasks.BackupAsyncTask;
+import in.eigene.miary.core.backup.tasks.RestoreAsyncTask;
+import in.eigene.miary.core.managers.PinManager;
+import in.eigene.miary.core.managers.ReminderManager;
+import in.eigene.miary.fragments.dialogs.PinDialogFragment;
+import in.eigene.miary.fragments.dialogs.TimePickerDialogFragment;
+
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class SettingsFragment extends PreferenceFragment {
 

@@ -1,14 +1,19 @@
 package in.eigene.miary.core.backup.tasks;
 
-import android.content.*;
-import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.classes.*;
-import in.eigene.miary.exceptions.*;
+import android.content.Context;
+import android.database.Cursor;
+import android.widget.Toast;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import in.eigene.miary.core.backup.BackupOutput;
+import in.eigene.miary.core.backup.Progress;
+import in.eigene.miary.core.backup.Result;
+import in.eigene.miary.core.backup.Storage;
+import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.exceptions.InternalRuntimeException;
 
 /**
  * Used to backup notes.
@@ -66,25 +71,26 @@ public class BackupAsyncTask extends BaseAsyncTask {
         return in.eigene.miary.R.string.backup_message_creating;
     }
 
-    private Result backup() throws ParseException, IOException {
-        noteCount = ParseQuery.getQuery(Note.class).fromLocalDatastore().count();
+    private Result backup() throws IOException {
+        // Query notes.
+        final Cursor cursor = context.getContentResolver().query(
+                Note.Contract.CONTENT_URI,
+                Note.PROJECTION,
+                null, null,
+                Note.SortOrder.OLDEST_FIRST.getSortOrder());
+        noteCount = cursor.getCount();
         if (noteCount == 0) {
             return Result.NOTHING_TO_BACKUP;
         }
-        // Query notes.
-        final ParseQuery<Note> query = ParseQuery.getQuery(Note.class).fromLocalDatastore();
-        query.orderByAscending(Note.KEY_CUSTOM_DATE);
-        query.setLimit(noteCount);
-        final List<Note> notes = query.find();
         // Write notes.
         publishProgress(new Progress(Progress.State.PROGRESS, 0));
         output.start(noteCount);
         int progress = 0;
-        for (final Note note : notes) {
+        while (cursor.moveToNext()) {
             if (isCancelled()) {
                 break;
             }
-            output.write(note);
+            output.write(Note.getByCursor(cursor));
             progress += 1;
             publishProgress(new Progress(Progress.State.PROGRESS, progress));
         }

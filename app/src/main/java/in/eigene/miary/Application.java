@@ -1,5 +1,6 @@
 package in.eigene.miary;
 
+import in.eigene.miary.core.persistence.*;
 import in.eigene.miary.helpers.*;
 
 public class Application extends android.app.Application {

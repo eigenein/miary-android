@@ -2,7 +2,8 @@ package in.eigene.miary.helpers;
 
 import android.content.*;
 import com.parse.*;
-import in.eigene.miary.core.classes.*;
+
+import in.eigene.miary.core.persistence.*;
 
 import java.util.*;
 
@@ -14,7 +15,6 @@ public class ParseHelper {
     public static void initialize(final Context context) {
         ParseCrashReporting.enable(context);
         Parse.enableLocalDatastore(context);
-        ParseObject.registerSubclass(Note.class);
         ParseObject.registerSubclass(Feedback.class);
         Parse.initialize(context, APPLICATION_ID, CLIENT_KEY);
     }

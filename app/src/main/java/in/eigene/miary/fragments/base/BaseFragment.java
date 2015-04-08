@@ -1,7 +1,7 @@
 package in.eigene.miary.fragments.base;
 
-import android.app.*;
-import android.os.*;
+import android.app.Fragment;
+import android.os.Bundle;
 
 public class BaseFragment extends Fragment {
 

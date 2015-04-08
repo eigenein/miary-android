@@ -1,15 +1,15 @@
 package in.eigene.miary.activities;
 
 import android.content.*;
+import android.net.*;
 import android.os.*;
 import android.util.*;
 import android.view.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.classes.*;
-import in.eigene.miary.fragments.*;
 
-import java.util.*;
+import com.parse.*;
+
+import in.eigene.miary.*;
+import in.eigene.miary.fragments.*;
 
 /**
  * Displays a single note.
@@ -19,23 +19,23 @@ public class NoteActivity extends BaseActivity
 
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
 
-    private static final String EXTRA_NOTE_UUID = "noteUuid";
+    private static final String EXTRA_NOTE_URI = "noteUri";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
 
-    public static void start(final Context context, final Note note, final boolean fullscreen) {
-        start(context, note, fullscreen, 0);
+    public static void start(final Context context, final Uri noteUri, final boolean fullscreen) {
+        start(context, noteUri, fullscreen, 0);
     }
 
     public static void start(
             final Context context,
-            final Note note,
+            final Uri noteUri,
             final boolean fullscreen,
             final int additionalFlags) {
-        Log.i(LOG_TAG, "Starting note activity: " + note);
+        Log.i(LOG_TAG, "Starting note activity: " + noteUri);
         context.startActivity(new Intent()
                 .setClass(context, NoteActivity.class)
                 .addFlags(additionalFlags)
-                .putExtra(EXTRA_NOTE_UUID, note.getUuid())
+                .putExtra(EXTRA_NOTE_URI, noteUri)
                 .putExtra(EXTRA_FULLSCREEN, fullscreen));
     }
 
@@ -63,8 +63,8 @@ public class NoteActivity extends BaseActivity
             getSupportActionBar().hide();
         }
 
-        final UUID noteUuid = (java.util.UUID)getIntent().getSerializableExtra(EXTRA_NOTE_UUID);
-        final NoteFragment noteFragment = NoteFragment.create(noteUuid, fullscreen);
+        final Uri noteUri = getIntent().getParcelableExtra(EXTRA_NOTE_URI);
+        final NoteFragment noteFragment = NoteFragment.create(noteUri, fullscreen);
         getFragmentManager().beginTransaction().add(R.id.fragment_note, noteFragment).commit();
     }
 
