@@ -1,8 +1,11 @@
 package in.eigene.miary.sync;
 
-import android.content.*;
-import com.parse.*;
-import in.eigene.miary.helpers.lang.*;
+import android.content.Context;
+
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import in.eigene.miary.helpers.lang.Consumer;
 
 public class SignInAsyncTask extends AuthAsyncTask {
 

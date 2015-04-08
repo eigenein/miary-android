@@ -1,12 +1,14 @@
 package in.eigene.miary.fragments.dialogs;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.view.*;
-import android.widget.*;
-import in.eigene.miary.*;
-import in.eigene.miary.fragments.base.*;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+import in.eigene.miary.R;
+import in.eigene.miary.fragments.base.BaseDialogFragment;
 
 public class PinDialogFragment extends BaseDialogFragment {
 

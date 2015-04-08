@@ -1,15 +1,23 @@
 package in.eigene.miary.activities;
 
-import android.accounts.*;
-import android.content.*;
-import android.graphics.*;
-import android.os.*;
-import android.view.*;
-import android.widget.*;
-import in.eigene.miary.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.helpers.lang.*;
-import in.eigene.miary.sync.*;
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import in.eigene.miary.R;
+import in.eigene.miary.helpers.Util;
+import in.eigene.miary.helpers.lang.Consumer;
+import in.eigene.miary.sync.Credentials;
+import in.eigene.miary.sync.SignInAsyncTask;
+import in.eigene.miary.sync.SignUpAsyncTask;
+import in.eigene.miary.sync.SyncAdapter;
 
 /**
  * Authentication activity.

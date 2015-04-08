@@ -1,6 +1,7 @@
 package in.eigene.miary.helpers;
 
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
 
 public class ActivityHelper {
 

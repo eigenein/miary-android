@@ -1,15 +1,19 @@
 package in.eigene.miary.activities;
 
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.util.*;
-import android.view.*;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
-import com.parse.*;
+import com.parse.ParseAnalytics;
 
-import in.eigene.miary.*;
-import in.eigene.miary.fragments.*;
+import in.eigene.miary.R;
+import in.eigene.miary.fragments.NoteFragment;
 
 /**
  * Displays a single note.

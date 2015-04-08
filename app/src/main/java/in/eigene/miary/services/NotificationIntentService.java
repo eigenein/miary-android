@@ -1,14 +1,17 @@
 package in.eigene.miary.services;
 
-import android.app.*;
-import android.content.*;
-import android.support.v4.app.*;
-import android.util.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.managers.*;
-import in.eigene.miary.receivers.*;
+import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
-import java.util.*;
+import java.util.Calendar;
+
+import in.eigene.miary.R;
+import in.eigene.miary.core.managers.ReminderManager;
+import in.eigene.miary.receivers.CreateNewNoteReceiver;
 
 public class NotificationIntentService extends IntentService {
 

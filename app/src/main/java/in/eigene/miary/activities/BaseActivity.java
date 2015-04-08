@@ -1,15 +1,18 @@
 package in.eigene.miary.activities;
 
-import android.os.*;
-import android.preference.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.util.*;
-import android.view.*;
-import com.parse.*;
-import in.eigene.miary.*;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.WindowManager;
 
-import java.util.*;
+import com.parse.ParseAnalytics;
+
+import in.eigene.miary.R;
+
+import java.util.Date;
 
 public abstract class BaseActivity extends ActionBarActivity {
 

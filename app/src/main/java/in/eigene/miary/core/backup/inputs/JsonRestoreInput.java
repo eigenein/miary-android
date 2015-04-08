@@ -1,12 +1,15 @@
 package in.eigene.miary.core.backup.inputs;
 
-import android.util.*;
-import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.helpers.*;
+import android.util.JsonReader;
+import android.util.Log;
 
-import java.io.*;
-import java.util.*;
+import in.eigene.miary.core.backup.RestoreInput;
+import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.helpers.Util;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.UUID;
 
 public class JsonRestoreInput extends RestoreInput {
 

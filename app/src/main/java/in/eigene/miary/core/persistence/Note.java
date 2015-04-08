@@ -1,12 +1,14 @@
 package in.eigene.miary.core.persistence;
 
-import android.content.*;
-import android.database.*;
-import android.net.*;
-import android.provider.*;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.BaseColumns;
 
-import java.security.*;
-import java.util.*;
+import java.security.SecureRandom;
+import java.util.Date;
 
 import in.eigene.miary.sync.ContentProvider;
 

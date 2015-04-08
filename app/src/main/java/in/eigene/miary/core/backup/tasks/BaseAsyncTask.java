@@ -1,11 +1,14 @@
 package in.eigene.miary.core.backup.tasks;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.widget.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.backup.*;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
+import in.eigene.miary.R;
+import in.eigene.miary.core.backup.Progress;
+import in.eigene.miary.core.backup.Result;
 
 /**
  * Base task for backup and restore.

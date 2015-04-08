@@ -1,8 +1,10 @@
 package in.eigene.miary.helpers;
 
-import android.accounts.*;
-import android.content.*;
-import in.eigene.miary.sync.*;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
+
+import in.eigene.miary.sync.SyncAdapter;
 
 public class AccountManagerHelper {
 

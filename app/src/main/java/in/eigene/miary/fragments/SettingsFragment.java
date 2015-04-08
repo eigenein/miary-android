@@ -16,6 +16,10 @@ import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
 
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
+import java.util.Set;
+
 import in.eigene.miary.R;
 import in.eigene.miary.core.Substitutions;
 import in.eigene.miary.core.backup.inputs.JsonRestoreInput;
@@ -29,10 +33,6 @@ import in.eigene.miary.core.managers.PinManager;
 import in.eigene.miary.core.managers.ReminderManager;
 import in.eigene.miary.fragments.dialogs.PinDialogFragment;
 import in.eigene.miary.fragments.dialogs.TimePickerDialogFragment;
-
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
-import java.util.Set;
 
 public class SettingsFragment extends PreferenceFragment {
 

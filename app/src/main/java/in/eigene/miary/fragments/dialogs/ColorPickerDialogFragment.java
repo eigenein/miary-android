@@ -1,13 +1,15 @@
 package in.eigene.miary.fragments.dialogs;
 
-import android.app.*;
-import android.os.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import in.eigene.miary.*;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.util.SparseIntArray;
+import android.view.View;
+import android.widget.ImageView;
+
+import in.eigene.miary.R;
 import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.fragments.base.*;
+import in.eigene.miary.fragments.base.BaseDialogFragment;
 
 public class ColorPickerDialogFragment extends BaseDialogFragment {
 

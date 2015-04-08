@@ -1,7 +1,7 @@
 package in.eigene.miary.core.managers;
 
-import android.content.*;
-import android.preference.*;
+import android.content.Context;
+import android.preference.PreferenceManager;
 
 public class PinManager {
 

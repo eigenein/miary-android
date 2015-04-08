@@ -1,6 +1,9 @@
 package in.eigene.miary.core.persistence;
 
-import com.parse.*;
+import com.parse.ParseACL;
+import com.parse.ParseClassName;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 
 @ParseClassName("Feedback")
 public class Feedback extends ParseObject {

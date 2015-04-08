@@ -1,17 +1,26 @@
 package in.eigene.miary.core.backup.storages;
 
-import android.annotation.*;
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import in.eigene.miary.core.backup.*;
-import in.eigene.miary.exceptions.*;
-import in.eigene.miary.helpers.*;
+import android.annotation.TargetApi;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import in.eigene.miary.core.backup.BackupOutput;
+import in.eigene.miary.core.backup.Storage;
+import in.eigene.miary.exceptions.InternalRuntimeException;
+import in.eigene.miary.helpers.AndroidVersion;
 
 /**
  * External backup storage (memory card).

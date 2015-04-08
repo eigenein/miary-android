@@ -1,16 +1,15 @@
 package in.eigene.miary.activities;
 
-import android.content.res.*;
-import android.os.*;
-import android.preference.*;
-import android.view.*;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.MenuItem;
 
-import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import in.eigene.miary.R;
 import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.fragments.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.widgets.*;
+import in.eigene.miary.fragments.FeedFragment;
+import in.eigene.miary.helpers.NewNoteClickListener;
+import in.eigene.miary.widgets.Drawer;
 
 /**
  * Displays diary.

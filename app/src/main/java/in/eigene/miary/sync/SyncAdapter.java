@@ -1,15 +1,21 @@
 package in.eigene.miary.sync;
 
-import android.accounts.*;
-import android.content.*;
-import android.os.*;
-import android.util.*;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProviderClient;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SyncResult;
+import android.os.Bundle;
+import android.util.Log;
 
-import com.parse.*;
+import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
 
-import java.util.*;
+import java.util.Date;
 
-import in.eigene.miary.helpers.*;
+import in.eigene.miary.helpers.ParseHelper;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 

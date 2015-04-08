@@ -1,15 +1,19 @@
 package in.eigene.miary.activities;
 
-import android.content.*;
-import android.graphics.*;
-import android.os.*;
-import android.support.v7.app.*;
-import android.text.*;
-import android.view.*;
-import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.managers.*;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.parse.ParseAnalytics;
+
+import in.eigene.miary.R;
+import in.eigene.miary.core.managers.PinManager;
 import in.eigene.miary.helpers.TextWatcher;
 
 /**

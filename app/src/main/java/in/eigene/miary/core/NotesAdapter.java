@@ -1,20 +1,24 @@
 package in.eigene.miary.core;
 
-import android.content.*;
-import android.database.*;
-import android.provider.*;
-import android.support.annotation.*;
-import android.support.v7.widget.*;
-import android.text.format.*;
-import android.view.*;
-import android.widget.*;
+import android.content.ContentUris;
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.BaseColumns;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-import java.util.*;
+import java.util.Date;
 
-import in.eigene.miary.*;
-import in.eigene.miary.activities.*;
-import in.eigene.miary.core.persistence.*;
-import in.eigene.miary.helpers.*;
+import in.eigene.miary.R;
+import in.eigene.miary.activities.NoteActivity;
+import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.helpers.NoteColorHelper;
+import in.eigene.miary.helpers.TypefaceCache;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 

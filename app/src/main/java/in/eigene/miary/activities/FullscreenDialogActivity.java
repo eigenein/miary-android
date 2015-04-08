@@ -1,6 +1,6 @@
 package in.eigene.miary.activities;
 
-import in.eigene.miary.*;
+import in.eigene.miary.R;
 
 /**
  * Base class for full-screen dialogs.

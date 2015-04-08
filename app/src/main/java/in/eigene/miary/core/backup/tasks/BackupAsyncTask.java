@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import in.eigene.miary.core.backup.BackupOutput;
 import in.eigene.miary.core.backup.Progress;

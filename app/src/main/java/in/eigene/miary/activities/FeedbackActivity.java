@@ -1,11 +1,15 @@
 package in.eigene.miary.activities;
 
-import android.os.*;
-import android.view.*;
-import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.persistence.*;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.parse.ParseInstallation;
+
+import in.eigene.miary.R;
+import in.eigene.miary.core.persistence.Feedback;
 
 public class FeedbackActivity extends FullscreenDialogActivity {
 

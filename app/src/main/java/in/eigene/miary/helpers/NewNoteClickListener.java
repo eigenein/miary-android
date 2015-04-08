@@ -1,10 +1,11 @@
 package in.eigene.miary.helpers;
 
-import android.net.*;
-import android.view.*;
-import com.parse.*;
+import android.net.Uri;
+import android.view.View;
 
-import in.eigene.miary.activities.*;
+import com.parse.ParseAnalytics;
+
+import in.eigene.miary.activities.NoteActivity;
 import in.eigene.miary.core.persistence.Note;
 
 /**

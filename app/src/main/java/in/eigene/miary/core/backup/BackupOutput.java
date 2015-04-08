@@ -1,9 +1,12 @@
 package in.eigene.miary.core.backup;
 
-import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.exceptions.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
-import java.io.*;
+import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.exceptions.InternalRuntimeException;
 
 /**
  * Represents backup output format.

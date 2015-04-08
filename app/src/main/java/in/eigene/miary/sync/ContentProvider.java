@@ -1,13 +1,18 @@
 package in.eigene.miary.sync;
 
-import android.content.*;
-import android.database.*;
-import android.database.sqlite.*;
-import android.net.*;
-import android.text.*;
-import android.util.*;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+import android.text.TextUtils;
+import android.util.Log;
 
-import in.eigene.miary.core.persistence.*;
+import in.eigene.miary.core.persistence.DatabaseHelper;
+import in.eigene.miary.core.persistence.Note;
 
 public class ContentProvider extends android.content.ContentProvider {
 

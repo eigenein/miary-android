@@ -1,7 +1,6 @@
 package in.eigene.miary;
 
-import in.eigene.miary.core.persistence.*;
-import in.eigene.miary.helpers.*;
+import in.eigene.miary.helpers.ParseHelper;
 
 public class Application extends android.app.Application {
 

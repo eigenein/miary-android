@@ -1,18 +1,27 @@
 package in.eigene.miary.activities;
 
-import android.app.*;
-import android.content.*;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
-import android.view.*;
-import android.widget.*;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.parse.*;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 
-import in.eigene.miary.*;
-import in.eigene.miary.core.persistence.*;
+import in.eigene.miary.R;
+import in.eigene.miary.core.persistence.Note;
 
 /**
  * About application.

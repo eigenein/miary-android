@@ -1,9 +1,12 @@
 package in.eigene.miary.core.backup.outputs;
 
-import in.eigene.miary.core.backup.*;
-import in.eigene.miary.core.persistence.Note;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
-import java.io.*;
+import in.eigene.miary.core.backup.BackupOutput;
+import in.eigene.miary.core.backup.Storage;
+import in.eigene.miary.core.persistence.Note;
 
 /**
  * Backups into a plain text file.

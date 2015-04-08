@@ -1,12 +1,14 @@
 package in.eigene.miary.receivers;
 
-import android.content.*;
-import android.net.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
-import com.parse.*;
+import com.parse.ParseAnalytics;
 
-import in.eigene.miary.activities.*;
-import in.eigene.miary.core.persistence.*;
+import in.eigene.miary.activities.NoteActivity;
+import in.eigene.miary.core.persistence.Note;
 
 public class CreateNewNoteReceiver extends BroadcastReceiver {
 

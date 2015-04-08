@@ -1,12 +1,17 @@
 package in.eigene.miary.core.managers;
 
-import android.app.*;
-import android.content.*;
-import android.preference.*;
-import android.util.*;
-import in.eigene.miary.services.*;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
+
+import in.eigene.miary.services.NotificationIntentService;
 
 public class ReminderManager {
 

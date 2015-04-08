@@ -1,10 +1,11 @@
 package in.eigene.miary.helpers;
 
-import android.content.*;
-import android.content.res.*;
-import android.graphics.*;
-import android.util.*;
-import in.eigene.miary.*;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.util.SparseIntArray;
+
+import in.eigene.miary.R;
 import in.eigene.miary.core.persistence.Note;
 
 /**

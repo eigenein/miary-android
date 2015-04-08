@@ -1,11 +1,13 @@
 package in.eigene.miary.sync;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.helpers.lang.*;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+
+import com.parse.ParseException;
+
+import in.eigene.miary.R;
+import in.eigene.miary.helpers.lang.Consumer;
 
 public abstract class AuthAsyncTask extends AsyncTask<Credentials, Void, String> {
 

@@ -1,25 +1,39 @@
 package in.eigene.miary.fragments;
 
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
-import android.text.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import com.parse.*;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import in.eigene.miary.*;
-import in.eigene.miary.core.*;
+import com.parse.ParseAnalytics;
+
+import java.util.Date;
+
+import in.eigene.miary.R;
+import in.eigene.miary.core.Substitutions;
 import in.eigene.miary.core.persistence.Note;
-import in.eigene.miary.fragments.base.*;
-import in.eigene.miary.fragments.dialogs.*;
-import in.eigene.miary.helpers.*;
+import in.eigene.miary.fragments.base.BaseFragment;
+import in.eigene.miary.fragments.dialogs.ColorPickerDialogFragment;
+import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
+import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
+import in.eigene.miary.helpers.Debouncer;
+import in.eigene.miary.helpers.NoteColorHelper;
+import in.eigene.miary.helpers.ParseHelper;
 import in.eigene.miary.helpers.TextWatcher;
-
-import java.util.*;
+import in.eigene.miary.helpers.TypefaceCache;
+import in.eigene.miary.helpers.Util;
 
 public class NoteFragment extends BaseFragment {
 

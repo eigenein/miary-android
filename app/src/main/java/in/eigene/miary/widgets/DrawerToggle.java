@@ -1,10 +1,10 @@
 package in.eigene.miary.widgets;
 
-import android.app.*;
-import android.support.v4.widget.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.view.*;
+import android.app.Activity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 public class DrawerToggle extends ActionBarDrawerToggle {
 

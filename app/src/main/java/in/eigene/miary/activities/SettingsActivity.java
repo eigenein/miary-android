@@ -1,7 +1,8 @@
 package in.eigene.miary.activities;
 
-import android.os.*;
-import in.eigene.miary.*;
+import android.os.Bundle;
+
+import in.eigene.miary.R;
 
 public class SettingsActivity extends BaseActivity {
 

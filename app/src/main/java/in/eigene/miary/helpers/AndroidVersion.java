@@ -1,6 +1,6 @@
 package in.eigene.miary.helpers;
 
-import android.os.*;
+import android.os.Build;
 
 public class AndroidVersion {
 

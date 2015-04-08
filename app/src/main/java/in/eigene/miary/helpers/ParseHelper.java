@@ -1,11 +1,15 @@
 package in.eigene.miary.helpers;
 
-import android.content.*;
-import com.parse.*;
+import android.content.Context;
 
-import in.eigene.miary.core.persistence.*;
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseCrashReporting;
+import com.parse.ParseObject;
 
-import java.util.*;
+import java.util.HashMap;
+
+import in.eigene.miary.core.persistence.Feedback;
 
 public class ParseHelper {
 

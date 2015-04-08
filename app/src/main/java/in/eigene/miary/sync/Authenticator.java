@@ -1,11 +1,18 @@
 package in.eigene.miary.sync;
 
-import android.accounts.*;
-import android.content.*;
-import android.os.*;
-import android.widget.*;
-import in.eigene.miary.*;
-import in.eigene.miary.activities.*;
+import android.accounts.AbstractAccountAuthenticator;
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
+import android.accounts.NetworkErrorException;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
+
+import in.eigene.miary.R;
+import in.eigene.miary.activities.AuthenticatorActivity;
 
 public class Authenticator extends AbstractAccountAuthenticator {
 
