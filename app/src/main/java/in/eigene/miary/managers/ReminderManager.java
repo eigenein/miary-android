@@ -1,4 +1,4 @@
-package in.eigene.miary.core.managers;
+package in.eigene.miary.managers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

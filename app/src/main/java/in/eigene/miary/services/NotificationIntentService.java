@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.Calendar;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.managers.ReminderManager;
+import in.eigene.miary.managers.ReminderManager;
 import in.eigene.miary.receivers.CreateNewNoteReceiver;
 
 public class NotificationIntentService extends IntentService {

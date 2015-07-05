@@ -29,8 +29,8 @@ import in.eigene.miary.backup.storages.DropboxStorage;
 import in.eigene.miary.backup.storages.ExternalStorage;
 import in.eigene.miary.backup.tasks.BackupAsyncTask;
 import in.eigene.miary.backup.tasks.RestoreAsyncTask;
-import in.eigene.miary.core.managers.PinManager;
-import in.eigene.miary.core.managers.ReminderManager;
+import in.eigene.miary.managers.PinManager;
+import in.eigene.miary.managers.ReminderManager;
 import in.eigene.miary.fragments.dialogs.PinDialogFragment;
 import in.eigene.miary.fragments.dialogs.TimePickerDialogFragment;
 

@@ -1,4 +1,4 @@
-package in.eigene.miary.core.managers;
+package in.eigene.miary.managers;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.parse.ParseAnalytics;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.managers.PinManager;
+import in.eigene.miary.managers.PinManager;
 import in.eigene.miary.helpers.TextWatcher;
 
 /**
