@@ -24,6 +24,7 @@
     <color name="blue_grey_700">#455A64</color>
     <color name="cyan_500">#00BCD4</color>
     <color name="cyan_700">#0097A7</color>
+    <color name="grey_50">#FAFAFA</color>
     <color name="grey_100">#F5F5F5</color>
     <color name="indigo_500">#3F51B5</color>
     <color name="indigo_700">#303F9F</color>
@@ -43,6 +44,4 @@
     <color name="red_500">#F44336</color>
     <color name="white">#FFFFFF</color>
     <color name="yellow_500">#FFEB3B</color>
-    <!-- Misc. Refactor these. -->
-    <color name="background_holo_light">#fff3f3f3</color>
 </resources>
