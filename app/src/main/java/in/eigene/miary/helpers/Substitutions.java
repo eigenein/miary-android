@@ -1,4 +1,4 @@
-package in.eigene.miary.core;
+package in.eigene.miary.helpers;
 
 /**
  * Automatic substitutions helper.

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.Substitutions;
+import in.eigene.miary.helpers.Substitutions;
 import in.eigene.miary.backup.inputs.JsonRestoreInput;
 import in.eigene.miary.backup.outputs.JsonBackupOutput;
 import in.eigene.miary.backup.outputs.PlainTextBackupOutput;

@@ -1,4 +1,4 @@
-package in.eigene.miary.core;
+package in.eigene.miary.adapters;
 
 import android.content.ContentUris;
 import android.content.Context;

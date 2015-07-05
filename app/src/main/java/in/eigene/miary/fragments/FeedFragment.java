@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.NotesAdapter;
+import in.eigene.miary.adapters.NotesAdapter;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.helpers.AccountManagerHelper;
