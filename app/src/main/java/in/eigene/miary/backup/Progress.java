@@ -1,4 +1,4 @@
-package in.eigene.miary.core.backup;
+package in.eigene.miary.backup;
 
 public class Progress {
 
@@ -7,8 +7,7 @@ public class Progress {
         FINISHING,
     }
 
-    public static final Progress FINISHING = new Progress(
-            State.FINISHING, 0);
+    public static final Progress FINISHING = new Progress(State.FINISHING, 0);
 
     private final State state;
     private int progress;

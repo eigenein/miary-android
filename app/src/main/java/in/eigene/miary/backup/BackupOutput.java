@@ -1,4 +1,4 @@
-package in.eigene.miary.core.backup;
+package in.eigene.miary.backup;
 
 import java.io.IOException;
 import java.io.OutputStream;

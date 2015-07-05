@@ -1,9 +1,9 @@
-package in.eigene.miary.core.backup.inputs;
+package in.eigene.miary.backup.inputs;
 
 import android.util.JsonReader;
 import android.util.Log;
 
-import in.eigene.miary.core.backup.RestoreInput;
+import in.eigene.miary.backup.RestoreInput;
 import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.Util;
 

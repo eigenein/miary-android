@@ -1,4 +1,4 @@
-package in.eigene.miary.core.backup.storages;
+package in.eigene.miary.backup.storages;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import in.eigene.miary.core.backup.BackupOutput;
-import in.eigene.miary.core.backup.Storage;
+import in.eigene.miary.backup.BackupOutput;
+import in.eigene.miary.backup.Storage;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 import in.eigene.miary.helpers.ParseHelper;
 

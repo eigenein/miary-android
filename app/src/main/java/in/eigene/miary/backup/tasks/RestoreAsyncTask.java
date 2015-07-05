@@ -1,4 +1,4 @@
-package in.eigene.miary.core.backup.tasks;
+package in.eigene.miary.backup.tasks;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -9,10 +9,10 @@ import java.io.InputStream;
 import java.util.Date;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.backup.Progress;
-import in.eigene.miary.core.backup.RestoreInput;
-import in.eigene.miary.core.backup.Result;
-import in.eigene.miary.core.backup.Storage;
+import in.eigene.miary.backup.Progress;
+import in.eigene.miary.backup.RestoreInput;
+import in.eigene.miary.backup.Result;
+import in.eigene.miary.backup.Storage;
 import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 

@@ -1,4 +1,4 @@
-package in.eigene.miary.core.backup.storages;
+package in.eigene.miary.backup.storages;
 
 import android.annotation.TargetApi;
 import android.app.DownloadManager;
@@ -17,8 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import in.eigene.miary.core.backup.BackupOutput;
-import in.eigene.miary.core.backup.Storage;
+import in.eigene.miary.backup.BackupOutput;
+import in.eigene.miary.backup.Storage;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 import in.eigene.miary.helpers.AndroidVersion;
 

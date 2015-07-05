@@ -1,4 +1,4 @@
-package in.eigene.miary.core.backup.outputs;
+package in.eigene.miary.backup.outputs;
 
 import android.util.JsonWriter;
 
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import in.eigene.miary.core.backup.BackupOutput;
-import in.eigene.miary.core.backup.Storage;
+import in.eigene.miary.backup.BackupOutput;
+import in.eigene.miary.backup.Storage;
 import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.helpers.Util;
 
