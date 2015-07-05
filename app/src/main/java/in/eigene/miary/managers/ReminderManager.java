@@ -69,21 +69,19 @@ public class ReminderManager {
     }
 
     public static void scheduleReminder(final Context context) {
-        final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
+        final AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         final Calendar calendar = getNextReminderDate(context);
-
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, getAlarmPendingIntent(context));
-
+        alarmManager.setRepeating(
+                AlarmManager.RTC,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                getAlarmPendingIntent(context));
         Log.i(LOG_TAG, "Reminder scheduled to " + calendar.getTime());
     }
 
     public static void cancelReminder(final Context context) {
-        final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
+        final AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(getAlarmPendingIntent(context));
-
         Log.i(LOG_TAG, "Reminder cancelled");
     }
 
