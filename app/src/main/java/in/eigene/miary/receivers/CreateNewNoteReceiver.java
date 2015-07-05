@@ -8,7 +8,7 @@ import android.net.Uri;
 import com.parse.ParseAnalytics;
 
 import in.eigene.miary.activities.NoteActivity;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 
 /**
  * Used when creating a note from notification.

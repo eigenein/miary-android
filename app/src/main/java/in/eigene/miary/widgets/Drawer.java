@@ -31,7 +31,7 @@ import in.eigene.miary.R;
 import in.eigene.miary.activities.AboutActivity;
 import in.eigene.miary.activities.FeedbackActivity;
 import in.eigene.miary.activities.SettingsActivity;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 import in.eigene.miary.helpers.ActivityHelper;
 import in.eigene.miary.helpers.DrawerListener;

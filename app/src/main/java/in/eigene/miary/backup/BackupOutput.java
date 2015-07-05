@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 
 /**

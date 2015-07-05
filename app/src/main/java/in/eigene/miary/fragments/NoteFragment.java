@@ -23,7 +23,7 @@ import java.util.Date;
 
 import in.eigene.miary.R;
 import in.eigene.miary.core.Substitutions;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.fragments.dialogs.ColorPickerDialogFragment;
 import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;

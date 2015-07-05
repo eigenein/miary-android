@@ -21,7 +21,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 
 /**
  * About application.

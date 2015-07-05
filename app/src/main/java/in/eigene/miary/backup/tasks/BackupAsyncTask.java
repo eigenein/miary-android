@@ -10,7 +10,7 @@ import in.eigene.miary.backup.BackupOutput;
 import in.eigene.miary.backup.Progress;
 import in.eigene.miary.backup.Result;
 import in.eigene.miary.backup.Storage;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 
 /**

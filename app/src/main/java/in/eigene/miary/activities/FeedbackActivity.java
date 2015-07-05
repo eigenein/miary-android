@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.parse.ParseInstallation;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.persistence.Feedback;
+import in.eigene.miary.persistence.Feedback;
 
 public class FeedbackActivity extends FullscreenDialogActivity {
 

@@ -11,8 +11,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import in.eigene.miary.core.persistence.DatabaseHelper;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.DatabaseHelper;
+import in.eigene.miary.persistence.Note;
 
 public class ContentProvider extends android.content.ContentProvider {
 

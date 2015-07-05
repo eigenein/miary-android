@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 
 public abstract class RestoreInput {

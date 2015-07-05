@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.fragments.base.BaseDialogFragment;
 
 public class ColorPickerDialogFragment extends BaseDialogFragment {

@@ -9,7 +9,7 @@ import com.parse.ParseObject;
 
 import java.util.HashMap;
 
-import in.eigene.miary.core.persistence.Feedback;
+import in.eigene.miary.persistence.Feedback;
 
 public class ParseHelper {
 

@@ -1,4 +1,4 @@
-package in.eigene.miary.core.persistence;
+package in.eigene.miary.persistence;
 
 import com.parse.ParseACL;
 import com.parse.ParseClassName;

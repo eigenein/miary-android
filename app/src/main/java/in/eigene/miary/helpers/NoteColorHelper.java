@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.util.SparseIntArray;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 
 /**
  * Used to get note background, foreground, footer and hint colors.

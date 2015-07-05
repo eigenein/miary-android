@@ -1,4 +1,4 @@
-package in.eigene.miary.core.persistence;
+package in.eigene.miary.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -4,7 +4,7 @@ import android.util.JsonReader;
 import android.util.Log;
 
 import in.eigene.miary.backup.RestoreInput;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.helpers.Util;
 
 import java.io.IOException;

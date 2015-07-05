@@ -10,7 +10,7 @@ import android.view.View;
 import com.parse.ParseAnalytics;
 
 import in.eigene.miary.R;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.fragments.FeedFragment;
 import in.eigene.miary.widgets.Drawer;
 

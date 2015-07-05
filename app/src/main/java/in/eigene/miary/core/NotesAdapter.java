@@ -16,7 +16,7 @@ import java.util.Date;
 
 import in.eigene.miary.R;
 import in.eigene.miary.activities.NoteActivity;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.helpers.NoteColorHelper;
 import in.eigene.miary.helpers.TypefaceCache;
 

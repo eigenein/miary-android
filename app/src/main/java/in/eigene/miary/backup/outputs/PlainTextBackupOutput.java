@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 import in.eigene.miary.backup.BackupOutput;
 import in.eigene.miary.backup.Storage;
-import in.eigene.miary.core.persistence.Note;
+import in.eigene.miary.persistence.Note;
 
 /**
  * Backups into a plain text file.
