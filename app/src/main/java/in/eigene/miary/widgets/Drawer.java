@@ -152,7 +152,7 @@ public class Drawer extends DrawerListener {
      */
     public interface SectionChooseListener {
 
-        public void onSectionChosen(final Note.Section section);
+        void onSectionChosen(final Note.Section section);
     }
 
     private static class CounterLoader implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -255,7 +255,7 @@ public class Drawer extends DrawerListener {
                         final AccountManager accountManager = AccountManager.get(activity);
                         final Account[] accounts = accountManager.getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
                         if (accounts.length != 0) {
-                            accountManager.getAuthToken(accounts[0], SyncAdapter.ACCOUNT_TYPE, false, new GetAuthTokenCallback(), null);
+                            accountManager.getAuthToken(accounts[0], SyncAdapter.ACCOUNT_TYPE, null, false, new GetAuthTokenCallback(), null);
                         } else {
                             accountManager.addAccount(SyncAdapter.ACCOUNT_TYPE, null, null, null, activity, new AddAccountCallback(), null);
                         }
