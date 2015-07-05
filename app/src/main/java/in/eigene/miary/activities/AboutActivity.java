@@ -109,7 +109,7 @@ public class AboutActivity extends BaseActivity {
                 final String[] texts = getResources().getStringArray(R.array.sample_texts);
                 int color = 5;
                 for (final String text : texts) {
-                    Note.getEmpty().setText(text).setColor(color++ % 8).insert(contentResolver);
+                    Note.createEmpty().setText(text).setColor(color++ % 8).insert(contentResolver);
                 }
                 return true;
 

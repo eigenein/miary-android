@@ -225,6 +225,13 @@ public class FeedFragment
     }
 
     /**
+     * Gets currently displayed section.
+     */
+    public Note.Section getSection() {
+        return section;
+    }
+
+    /**
      * Sets note sort order.
      */
     private void setSortOrder(final Note.SortOrder sortOrder) {

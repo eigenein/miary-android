@@ -30,7 +30,7 @@ public class FeedActivity extends BaseActivity {
         setContentView(R.layout.activity_feed);
         initializeToolbar();
         initializeFloatingActionButton();
-        final FeedFragment feedFragment = (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
+        final FeedFragment feedFragment = getFeedFragment();
         feedFragment.fixTopPadding(getSupportActionBar().getThemedContext());
         // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -66,10 +66,16 @@ public class FeedActivity extends BaseActivity {
         findViewById(R.id.fab_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                final Uri noteUri = Note.getEmpty().insert(view.getContext().getContentResolver());
+                final Uri noteUri = Note.createEmpty()
+                        .addToSection(getFeedFragment().getSection())
+                        .insert(view.getContext().getContentResolver());
                 NoteActivity.start(view.getContext(), noteUri, false);
                 ParseAnalytics.trackEventInBackground("createNew");
             }
         });
+    }
+
+    private FeedFragment getFeedFragment() {
+        return (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
     }
 }

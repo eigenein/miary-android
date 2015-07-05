@@ -46,7 +46,7 @@ public class Note implements Entity {
     /**
      * Initializes a new note instance.
      */
-    public static Note getEmpty() {
+    public static Note createEmpty() {
         final Note note = new Note();
         note.id = Math.abs(RANDOM.nextLong());
         note.title = "";
@@ -175,6 +175,24 @@ public class Note implements Entity {
 
     public Note setDeleted(final boolean deleted) {
         this.deleted = deleted;
+        return this;
+    }
+
+    /**
+     * Adds note to the specified section.
+     */
+    public Note addToSection(final Section section) {
+        switch (section) {
+            case DIARY:
+                this.starred = this.draft = false;
+                break;
+            case STARRED:
+                this.starred = true;
+                break;
+            case DRAFTS:
+                this.draft = true;
+                break;
+        }
         return this;
     }
 
