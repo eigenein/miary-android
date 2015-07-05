@@ -10,6 +10,9 @@ import com.parse.ParseAnalytics;
 import in.eigene.miary.activities.NoteActivity;
 import in.eigene.miary.core.persistence.Note;
 
+/**
+ * Used when creating a note from notification.
+ */
 public class CreateNewNoteReceiver extends BroadcastReceiver {
 
     @Override

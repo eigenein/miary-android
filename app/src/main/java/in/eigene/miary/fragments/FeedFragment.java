@@ -31,10 +31,12 @@ import in.eigene.miary.core.NotesAdapter;
 import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.helpers.AccountManagerHelper;
-import in.eigene.miary.helpers.NewNoteClickListener;
 import in.eigene.miary.sync.SyncAdapter;
+import in.eigene.miary.widgets.Drawer;
 
-public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class FeedFragment
+        extends BaseFragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, Drawer.SectionChooseListener {
 
     private static final String KEY_SORT_ORDER = "feed_sort_order";
     private static final String KEY_MULTI_COLUMN = "feed_multi_column";
@@ -94,7 +96,6 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
         feedView.setAdapter(notesAdapter);
 
         feedEmptyView = view.findViewById(R.id.feed_empty_view);
-        feedEmptyView.setOnClickListener(new NewNoteClickListener());
 
         swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.feed_refresh);
         swipeRefresh.setColorSchemeResources(R.color.blue_500, R.color.light_green_500, R.color.yellow_500, R.color.red_500);
@@ -217,10 +218,8 @@ public class FeedFragment extends BaseFragment implements LoaderManager.LoaderCa
         notesAdapter.setCursor(null);
     }
 
-    /**
-     * Sets displayed feed section.
-     */
-    public void setSection(final Note.Section section) {
+    @Override
+    public void onSectionChosen(final Note.Section section) {
         this.section = section;
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }

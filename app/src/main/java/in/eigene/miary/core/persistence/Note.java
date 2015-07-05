@@ -242,7 +242,7 @@ public class Note implements Entity {
         public static final String DELETED = "deleted";
     }
 
-    public static enum Section {
+    public enum Section {
         DIARY {
             @Override
             public String getSelection() {
@@ -265,7 +265,7 @@ public class Note implements Entity {
         public abstract String getSelection();
     }
 
-    public static enum SortOrder {
+    public enum SortOrder {
         OLDEST_FIRST {
             @Override
             public String getSortOrder() {

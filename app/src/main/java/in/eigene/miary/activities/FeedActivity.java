@@ -1,20 +1,23 @@
 package in.eigene.miary.activities;
 
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.parse.ParseAnalytics;
 
 import in.eigene.miary.R;
 import in.eigene.miary.core.persistence.Note;
 import in.eigene.miary.fragments.FeedFragment;
-import in.eigene.miary.helpers.NewNoteClickListener;
 import in.eigene.miary.widgets.Drawer;
 
 /**
  * Displays diary.
  */
-public class FeedActivity extends BaseActivity implements Drawer.SectionChooseListener {
+public class FeedActivity extends BaseActivity {
 
     private Drawer drawer;
 
@@ -27,11 +30,12 @@ public class FeedActivity extends BaseActivity implements Drawer.SectionChooseLi
         setContentView(R.layout.activity_feed);
         initializeToolbar();
         initializeFloatingActionButton();
-        getFeedFragment().fixTopPadding(getSupportActionBar().getThemedContext());
+        final FeedFragment feedFragment = (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
+        feedFragment.fixTopPadding(getSupportActionBar().getThemedContext());
         // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Initialize navigation drawer.
-        drawer = new Drawer(this, getToolbar(), this);
+        drawer = new Drawer(this, getToolbar(), feedFragment);
         drawer.showForFirstTime();
     }
 
@@ -47,11 +51,6 @@ public class FeedActivity extends BaseActivity implements Drawer.SectionChooseLi
     }
 
     @Override
-    public void onSectionChosen(final Note.Section section) {
-        getFeedFragment().setSection(section);
-    }
-
-    @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawer.getToggle().syncState();
@@ -64,13 +63,13 @@ public class FeedActivity extends BaseActivity implements Drawer.SectionChooseLi
     }
 
     private void initializeFloatingActionButton() {
-        findViewById(R.id.fab_button).setOnClickListener(new NewNoteClickListener());
-    }
-
-    /**
-     * Gets feed fragment.
-     */
-    private FeedFragment getFeedFragment() {
-        return (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
+        findViewById(R.id.fab_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                final Uri noteUri = Note.getEmpty().insert(view.getContext().getContentResolver());
+                NoteActivity.start(view.getContext(), noteUri, false);
+                ParseAnalytics.trackEventInBackground("createNew");
+            }
+        });
     }
 }
