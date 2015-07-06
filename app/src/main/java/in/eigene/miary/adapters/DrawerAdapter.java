@@ -30,7 +30,7 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
 
     static {
         RESOURCE_ID_VIEW_TYPE.append(R.layout.divider, 0);
-        RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_margin, 1);
+        RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_margin_item, 1);
         RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_counter_item, 2);
     }
 
@@ -213,7 +213,7 @@ class DividerItem extends Item {
 class MarginItem extends Item {
 
     public MarginItem() {
-        super(R.layout.drawer_margin);
+        super(R.layout.drawer_margin_item);
     }
 }
 
