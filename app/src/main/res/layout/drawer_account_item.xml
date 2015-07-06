@@ -9,8 +9,6 @@
     android:paddingBottom="8dp"
     android:paddingTop="8dp"
     android:orientation="vertical"
-    android:background="@drawable/drawer_item_background"
-    android:clickable="true"
 >
     <ImageView
         android:layout_width="wrap_content"
