@@ -56,7 +56,7 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         if (result == Result.OK) {
             Toast.makeText(
                     context,
-                    String.format(context.getString(in.eigene.miary.R.string.toast_restore_finished), noteCount),
+                    String.format(context.getString(R.string.toast_restore_finished), noteCount),
                     Toast.LENGTH_LONG
             ).show();
         }
