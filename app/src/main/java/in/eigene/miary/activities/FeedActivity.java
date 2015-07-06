@@ -24,12 +24,12 @@ import in.eigene.miary.widgets.Drawer;
  */
 public class FeedActivity extends BaseActivity {
 
-    private static final String LOG_TAG = FeedActivity.class.getSimpleName();
-
     /**
      * #179. Specifies whether notes from previous app versions where migrated.
      */
-    private static final String KEY_NOTES_MIGRATED = "notes_migrated";
+    public static final String KEY_NOTES_MIGRATED = "notes_migrated";
+
+    private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
     private Drawer drawer;
 
@@ -59,7 +59,6 @@ public class FeedActivity extends BaseActivity {
                 @Override
                 public void run() {
                     MigrationHelper.migrate(FeedActivity.this);
-                    PreferenceManager.getDefaultSharedPreferences(FeedActivity.this).edit().putBoolean(KEY_NOTES_MIGRATED, true).apply();
                 }
             }, 1000L);
         } else {

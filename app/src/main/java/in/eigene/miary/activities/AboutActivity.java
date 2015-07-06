@@ -21,6 +21,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import in.eigene.miary.R;
+import in.eigene.miary.backup.tasks.MigrateAsyncTask;
 import in.eigene.miary.persistence.Note;
 
 /**
@@ -119,6 +120,11 @@ public class AboutActivity extends BaseActivity {
 
             case R.id.menu_item_developer_disable_flag_secure:
                 BaseActivity.disableSecureFlag = true;
+                return true;
+
+            case R.id.menu_item_developer_reset_migrated:
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .edit().putBoolean(FeedActivity.KEY_NOTES_MIGRATED, false).apply();
                 return true;
 
             default:
