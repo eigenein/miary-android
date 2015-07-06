@@ -3,6 +3,7 @@ package in.eigene.miary.activities;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,8 +12,9 @@ import com.parse.ParseAnalytics;
 
 import in.eigene.miary.R;
 import in.eigene.miary.adapters.DrawerAdapter;
-import in.eigene.miary.persistence.Note;
+import in.eigene.miary.backup.tasks.MigrateAsyncTask;
 import in.eigene.miary.fragments.FeedFragment;
+import in.eigene.miary.persistence.Note;
 import in.eigene.miary.widgets.Drawer;
 
 /**
@@ -27,17 +29,32 @@ public class FeedActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setSecureFlag();
+
         // Initialize view.
         setContentView(R.layout.activity_feed);
         initializeToolbar();
         initializeFloatingActionButton();
         final FeedFragment feedFragment = getFeedFragment();
         feedFragment.fixTopPadding(getSupportActionBar().getThemedContext());
+
         // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         // Initialize navigation drawer.
         drawer = new Drawer(this, getToolbar(), new DrawerAdapter(this, feedFragment));
         drawer.showForFirstTime();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new MigrateAsyncTask(FeedActivity.this).execute();
+            }
+        }, 1000L);
     }
 
     @Override

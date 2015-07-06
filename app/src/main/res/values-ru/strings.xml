@@ -19,6 +19,7 @@
     <string name="auth_sign_up">Создать</string>
     <string name="backup_message_creating">Создание резервной копии…</string>
     <string name="backup_message_finishing">Завершение…</string>
+    <string name="backup_message_migrating">Копирование заметок из предыдущей версии…</string>
     <string name="backup_message_restoring">Восстановление из резервной копии…</string>
     <string name="backup_message_starting">Запуск…</string>
     <string name="button_remove">Удалить</string>

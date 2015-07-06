@@ -22,6 +22,7 @@
     <string name="auth_sign_up">Sign Up</string>
     <string name="backup_message_creating">Creating backup…</string>
     <string name="backup_message_finishing">Finishing…</string>
+    <string name="backup_message_migrating">Migrating from previous version…</string>
     <string name="backup_message_restoring">Restoring backup…</string>
     <string name="backup_message_starting">Starting…</string>
     <string name="button_remove">Remove</string>
