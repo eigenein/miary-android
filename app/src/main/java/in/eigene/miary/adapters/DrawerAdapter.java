@@ -48,32 +48,44 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
         RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_account_item, 3);
     }
 
+    private final AccountItem accountItem;
+    private final CounterItem diaryCounterItem;
+    private final CounterItem starredCounterItem;
+    private final CounterItem draftsCounterItem;
+
     /**
      * Initializes drawer items.
      */
     public DrawerAdapter(final Activity activity, final SectionClickListener sectionClickListener) {
-        super(activity, 0, new Item[]{
-                new AccountItem(activity),
+        super(activity, 0);
+
+        accountItem = new AccountItem(activity);
+        diaryCounterItem = new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, new Runnable() {
+            @Override
+            public void run() {
+                sectionClickListener.onSectionClick(Note.Section.DIARY);
+            }
+        });
+        starredCounterItem = new CounterItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, new Runnable() {
+            @Override
+            public void run() {
+                sectionClickListener.onSectionClick(Note.Section.STARRED);
+            }
+        });
+        draftsCounterItem = new CounterItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, new Runnable() {
+            @Override
+            public void run() {
+                sectionClickListener.onSectionClick(Note.Section.DRAFTS);
+            }
+        });
+
+        addAll(
+                accountItem,
                 new DividerItem(),
                 new MarginItem(),
-                new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, new Runnable() {
-                    @Override
-                    public void run() {
-                        sectionClickListener.onSectionClick(Note.Section.DIARY);
-                    }
-                }),
-                new CounterItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, new Runnable() {
-                    @Override
-                    public void run() {
-                        sectionClickListener.onSectionClick(Note.Section.STARRED);
-                    }
-                }),
-                new CounterItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, new Runnable() {
-                    @Override
-                    public void run() {
-                        sectionClickListener.onSectionClick(Note.Section.DRAFTS);
-                    }
-                }),
+                diaryCounterItem,
+                starredCounterItem,
+                draftsCounterItem,
                 new MarginItem(),
                 new DividerItem(),
                 new MarginItem(),
@@ -94,8 +106,8 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
                     public void run() {
                         ActivityHelper.start(activity, AboutActivity.class);
                     }
-                }),
-        });
+                })
+        );
     }
 
     @Override
@@ -130,6 +142,9 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
         new UpdateDataAsyncTask().execute();
     }
 
+    /**
+     * Handles drawer item click.
+     */
     public void onClick(final int position) {
         getItem(position).onClick();
     }
@@ -175,10 +190,10 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
 
         @Override
         protected void onPostExecute(final Data data) {
-            ((AccountItem)getItem(0)).setUser(data.user);
-            ((CounterItem)getItem(3)).setCounterValue(data.sectionCounters.get(Note.Section.DIARY));
-            ((CounterItem)getItem(4)).setCounterValue(data.sectionCounters.get(Note.Section.STARRED));
-            ((CounterItem)getItem(5)).setCounterValue(data.sectionCounters.get(Note.Section.DRAFTS));
+            accountItem.setUser(data.user);
+            diaryCounterItem.setCounterValue(data.sectionCounters.get(Note.Section.DIARY));
+            starredCounterItem.setCounterValue(data.sectionCounters.get(Note.Section.STARRED));
+            draftsCounterItem.setCounterValue(data.sectionCounters.get(Note.Section.DRAFTS));
             notifyDataSetChanged();
         }
     }
