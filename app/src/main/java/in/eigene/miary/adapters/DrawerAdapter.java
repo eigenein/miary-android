@@ -80,8 +80,11 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
         });
 
         addAll(
-                accountItem,
-                new DividerItem(),
+                /**
+                 * TODO: #57
+                 * accountItem,
+                 * new DividerItem(),
+                 */
                 new MarginItem(),
                 diaryCounterItem,
                 starredCounterItem,
