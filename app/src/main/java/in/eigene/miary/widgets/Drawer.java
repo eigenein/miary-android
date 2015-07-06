@@ -53,7 +53,7 @@ public class Drawer {
         toggle = new ActionBarDrawerToggle(activity, layout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(final View view) {
-                adapter.notifyDataSetChanged();
+                adapter.triggerUpdateData();
             }
         };
         layout.setDrawerListener(toggle);

@@ -1,6 +1,14 @@
 package in.eigene.miary.adapters;
 
+import android.app.Activity;
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +17,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import in.eigene.miary.R;
 import in.eigene.miary.activities.AboutActivity;
-import in.eigene.miary.activities.BaseActivity;
 import in.eigene.miary.activities.FeedbackActivity;
 import in.eigene.miary.activities.SettingsActivity;
 import in.eigene.miary.helpers.ActivityHelper;
-import in.eigene.miary.helpers.lang.Consumer;
 import in.eigene.miary.persistence.Note;
-import in.eigene.miary.widgets.Drawer;
 
 /**
  * Used to display navigation drawer items.
@@ -26,9 +33,6 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
 
     private static final SparseIntArray RESOURCE_ID_VIEW_TYPE = new SparseIntArray();
 
-    /**
-     * Initializes resource ID to view type mapping.
-     */
     static {
         RESOURCE_ID_VIEW_TYPE.append(R.layout.divider, 0);
         RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_margin, 1);
@@ -38,8 +42,8 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
     /**
      * Initializes drawer items.
      */
-    public DrawerAdapter(final Context context, final SectionClickListener sectionClickListener) {
-        super(context, 0, new Item[] {
+    public DrawerAdapter(final Activity activity, final SectionClickListener sectionClickListener) {
+        super(activity, 0, new Item[]{
                 new DividerItem(),
                 new MarginItem(),
                 new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, new Runnable() {
@@ -66,19 +70,19 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
                 new CounterItem(R.drawable.ic_settings_grey600_24dp, R.string.settings, new Runnable() {
                     @Override
                     public void run() {
-                        ActivityHelper.start(context, SettingsActivity.class);
+                        ActivityHelper.start(activity, SettingsActivity.class);
                     }
                 }),
                 new CounterItem(R.drawable.ic_help_grey600_24dp, R.string.activity_feedback, new Runnable() {
                     @Override
                     public void run() {
-                        ActivityHelper.start(context, FeedbackActivity.class);
+                        ActivityHelper.start(activity, FeedbackActivity.class);
                     }
                 }),
                 new CounterItem(R.drawable.ic_info_grey600_24dp, R.string.activity_about, new Runnable() {
                     @Override
                     public void run() {
-                        ActivityHelper.start(context, AboutActivity.class);
+                        ActivityHelper.start(activity, AboutActivity.class);
                     }
                 }),
         });
@@ -109,16 +113,58 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
+    /**
+     * Updates navigation drawer data.
+     */
+    public void triggerUpdateData() {
+        new UpdateDataAsyncTask().execute();
+    }
+
     public void onClick(final int position) {
         getItem(position).onClick();
     }
 
-    /**
-     * Chooses diary section.
-     */
     public interface SectionClickListener {
 
         void onSectionClick(final Note.Section section);
+    }
+
+    /**
+     * Drawer items data.
+     */
+    private class Data {
+
+        public final HashMap<Note.Section, Integer> sectionCounters = new HashMap<>();
+    }
+
+    /**
+     * Updates drawer items data.
+     */
+    private class UpdateDataAsyncTask extends AsyncTask<Void, Void, Data> {
+
+        private final String[] projection = { "COUNT(*)" };
+
+        @Override
+        protected Data doInBackground(final Void... params) {
+            final ContentResolver contentResolver = getContext().getContentResolver();
+            final Data data = new Data();
+            for (final Note.Section section : Note.Section.values()) {
+                final Cursor cursor = contentResolver.query(
+                        Note.Contract.CONTENT_URI, projection, section.getSelection(), null, null);
+                cursor.moveToFirst();
+                data.sectionCounters.put(section, cursor.getInt(0));
+                cursor.close();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(final Data data) {
+            ((CounterItem)getItem(2)).setCounterValue(data.sectionCounters.get(Note.Section.DIARY));
+            ((CounterItem)getItem(3)).setCounterValue(data.sectionCounters.get(Note.Section.STARRED));
+            ((CounterItem)getItem(4)).setCounterValue(data.sectionCounters.get(Note.Section.DRAFTS));
+            notifyDataSetChanged();
+        }
     }
 }
 
@@ -184,6 +230,7 @@ class CounterItem extends Item {
     private final int iconResourceId;
     private final int titleResourceId;
     private final Runnable runnable;
+    private int counterValue = 0;
 
     public CounterItem(
             final int iconResourceId,
@@ -205,6 +252,8 @@ class CounterItem extends Item {
         final ViewHolder simpleItemViewHolder = (ViewHolder)viewHolder;
         simpleItemViewHolder.icon.setImageResource(iconResourceId);
         simpleItemViewHolder.title.setText(titleResourceId);
+        simpleItemViewHolder.counter.setVisibility(counterValue != 0 ? View.VISIBLE : View.GONE);
+        simpleItemViewHolder.counter.setText(Integer.toString(counterValue));
     }
 
     @Override
@@ -212,14 +261,20 @@ class CounterItem extends Item {
         runnable.run();
     }
 
+    public void setCounterValue(final int counterValue) {
+        this.counterValue = counterValue;
+    }
+
     private static class ViewHolder extends Item.ViewHolder {
 
         public final ImageView icon;
         public final TextView title;
+        public final TextView counter;
 
         public ViewHolder(final View convertView) {
             icon = (ImageView)convertView.findViewById(R.id.drawer_item_icon);
             title = (TextView)convertView.findViewById(R.id.drawer_item_title);
+            counter = (TextView)convertView.findViewById(R.id.drawer_item_counter);
         }
     }
 }
