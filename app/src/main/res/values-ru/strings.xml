@@ -118,7 +118,7 @@
     <string name="toast_only_one_supported">Поддерживается только один аккаунт Miary.</string>
     <string name="toast_password_required">Не заполнен пароль.</string>
     <string name="toast_restore_finished">Восстановлено %1$d заметок.</string>
-    <string name="toast_restore_not_found">Backup is not found.</string>
+    <string name="toast_restore_not_found">Резервная копия не найдена.</string>
     <string name="toast_starred">Добавлена отметка.</string>
     <string name="toast_storage_unready">Диск не готов.</string>
     <string name="toast_thank_you">Спасибо!</string>
