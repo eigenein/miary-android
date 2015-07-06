@@ -1,13 +1,8 @@
 package in.eigene.miary.widgets;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
@@ -17,18 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import in.eigene.miary.R;
 import in.eigene.miary.adapters.DrawerAdapter;
-import in.eigene.miary.exceptions.InternalRuntimeException;
-import in.eigene.miary.helpers.ParseHelper;
-import in.eigene.miary.sync.SyncAdapter;
 
 public class Drawer {
 
