@@ -19,6 +19,7 @@
                 android:paddingBottom="@dimen/feed_item_external_margin"
                 android:paddingLeft="@dimen/feed_item_external_margin"
                 android:paddingRight="@dimen/feed_item_external_margin"
+                android:animateLayoutChanges="false"
         />
     </android.support.v4.widget.SwipeRefreshLayout>
     <LinearLayout
