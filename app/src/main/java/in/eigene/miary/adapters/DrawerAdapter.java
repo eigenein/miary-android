@@ -1,6 +1,7 @@
 package in.eigene.miary.adapters;
 
 import android.content.Context;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,18 +36,26 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
             new CounterItem(R.drawable.ic_info_grey600_24dp, R.string.activity_about, AboutActivity.class),
     };
 
+    private static final SparseIntArray RESOURCE_ID_VIEW_TYPE = new SparseIntArray();
+
+    static {
+        RESOURCE_ID_VIEW_TYPE.append(R.layout.divider, 0);
+        RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_margin, 1);
+        RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_counter_item, 2);
+    }
+
     public DrawerAdapter(final Context context) {
         super(context, 0, ITEMS);
     }
 
     @Override
     public int getViewTypeCount() {
-        return 4;
+        return RESOURCE_ID_VIEW_TYPE.size();
     }
 
     @Override
     public int getItemViewType(final int position) {
-        return ITEMS[position].getViewType();
+        return RESOURCE_ID_VIEW_TYPE.get(ITEMS[position].getResourceId());
     }
 
     @Override
@@ -74,16 +83,12 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
  */
 abstract class Item {
 
-    private final int viewType;
+    private static final ViewHolder VIEW_HOLDER = new ViewHolder();
+
     private final int resourceId;
 
-    public Item(final int viewType, final int resourceId) {
-        this.viewType = viewType;
+    public Item(final int resourceId) {
         this.resourceId = resourceId;
-    }
-
-    public int getViewType() {
-        return viewType;
     }
 
     public int getResourceId() {
@@ -95,7 +100,7 @@ abstract class Item {
     }
 
     public ViewHolder createViewHolder(final View convertView) {
-        return new ViewHolder();
+        return VIEW_HOLDER;
     }
 
     public void bind(final ViewHolder viewHolder) {
@@ -113,7 +118,7 @@ abstract class Item {
 class DividerItem extends Item {
 
     public DividerItem() {
-        super(0, R.layout.divider);
+        super(R.layout.divider);
     }
 }
 
@@ -123,7 +128,7 @@ class DividerItem extends Item {
 class MarginItem extends Item {
 
     public MarginItem() {
-        super(1, R.layout.drawer_margin);
+        super(R.layout.drawer_margin);
     }
 }
 
@@ -146,7 +151,7 @@ class CounterItem extends Item {
     }
 
     private CounterItem(final int iconResourceId, final int titleResourceId, final Consumer<Context> onClickConsumer) {
-        super(2, R.layout.drawer_counter_item);
+        super(R.layout.drawer_counter_item);
         this.iconResourceId = iconResourceId;
         this.titleResourceId = titleResourceId;
         this.onClickConsumer = onClickConsumer;
