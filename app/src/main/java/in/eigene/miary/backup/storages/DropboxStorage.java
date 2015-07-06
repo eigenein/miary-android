@@ -36,7 +36,7 @@ public class DropboxStorage extends Storage {
     public DropboxStorage() {
         final AppKeyPair appKeys = new AppKeyPair("cvklgjd9ykfi561", "2sxel7scug156mz");
         final AndroidAuthSession session = new AndroidAuthSession(appKeys);
-        api = new DropboxAPI<AndroidAuthSession>(session);
+        api = new DropboxAPI<>(session);
     }
 
     public void authenticate(final Context context) {
