@@ -67,11 +67,6 @@ public class FeedActivity extends BaseActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onConfigurationChanged(final Configuration newConfiguration) {
         super.onConfigurationChanged(newConfiguration);
         drawer.getToggle().onConfigurationChanged(newConfiguration);
