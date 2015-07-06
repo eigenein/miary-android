@@ -22,6 +22,7 @@
                   tools:layout="@layout/fragment_feed"
         />
         <include layout="@layout/toolbar"/>
+        <!-- FAB. -->
         <ImageButton
                 android:id="@+id/fab_button"
                 android:layout_width="58dp"
@@ -37,77 +38,61 @@
         />
     </RelativeLayout>
     <!-- Navigation drawer. -->
-    <ScrollView
+    <LinearLayout
             android:id="@+id/drawer"
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:paddingBottom="8dp"
+            android:orientation="vertical"
             android:background="@android:color/white"
             android:clickable="true"
     >
+        <!-- Profile. -->
         <LinearLayout
+                android:id="@+id/drawer_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/drawer_item_margin"
+                android:paddingRight="@dimen/drawer_item_margin"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 android:orientation="vertical"
+                android:clickable="true"
+                android:background="@drawable/drawer_item_background"
         >
-            <!-- Profile. -->
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:src="@drawable/ic_account_circle_grey600_48dp"
+                    android:scaleType="center"
+            />
+            <!-- Profile name and type. -->
             <LinearLayout
-                    android:id="@+id/drawer_account"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/drawer_item_margin"
-                    android:paddingRight="@dimen/drawer_item_margin"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:layout_height="56dp"
                     android:orientation="vertical"
-                    android:clickable="true"
-                    android:background="@drawable/drawer_item_background"
+                    android:gravity="center_vertical"
             >
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="56dp"
-                        android:src="@drawable/ic_account_circle_grey600_48dp"
-                        android:scaleType="center"
-                />
-                <LinearLayout
+                <TextView
+                        android:id="@+id/drawer_account_type"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical"
-                >
-                    <TextView
-                            android:id="@+id/drawer_account_type"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:id="@+id/drawer_account_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                    />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                />
+                <TextView
+                        android:id="@+id/drawer_account_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
             </LinearLayout>
-            <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/light_divider"
-            />
-            <include android:id="@+id/drawer_item_diary" layout="@layout/drawer_item"/>
-            <include android:id="@+id/drawer_item_starred" layout="@layout/drawer_item"/>
-            <include android:id="@+id/drawer_item_drafts" layout="@layout/drawer_item"/>
-            <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/light_divider"
-            />
-            <include android:id="@+id/drawer_item_settings" layout="@layout/drawer_item"/>
-            <include android:id="@+id/drawer_item_feedback" layout="@layout/drawer_item"/>
-            <include android:id="@+id/drawer_item_about" layout="@layout/drawer_item"/>
         </LinearLayout>
-    </ScrollView>
+        <!-- Navigation items. -->
+        <ListView
+            android:id="@+id/drawer_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+        />
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -5,7 +5,9 @@ import android.content.Context;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseCrashReporting;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.HashMap;
 
@@ -27,5 +29,14 @@ public class ParseHelper {
         final HashMap<String, String> dimensions = new HashMap<>();
         dimensions.put(dimensionKey, dimensionValue);
         ParseAnalytics.trackEventInBackground(name, dimensions);
+    }
+
+    /**
+     * Links the installation to the current user.
+     */
+    public static void linkInstallation() {
+        final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user", ParseUser.getCurrentUser());
+        installation.saveInBackground();
     }
 }
