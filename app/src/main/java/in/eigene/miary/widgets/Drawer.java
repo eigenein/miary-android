@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +28,6 @@ import in.eigene.miary.R;
 import in.eigene.miary.adapters.DrawerAdapter;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 import in.eigene.miary.helpers.ParseHelper;
-import in.eigene.miary.persistence.Note;
 import in.eigene.miary.sync.SyncAdapter;
 
 public class Drawer {
@@ -35,7 +35,6 @@ public class Drawer {
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
 
     private final Activity activity;
-    private final SectionChooseListener listener;
 
     private final DrawerLayout layout;
     private final ActionBarDrawerToggle toggle;
@@ -44,11 +43,9 @@ public class Drawer {
     private final TextView accountTypeView;
     private final TextView accountNameView;
 
-    public Drawer(final Activity activity, final Toolbar toolbar, final SectionChooseListener listener) {
+    public Drawer(final Activity activity, final Toolbar toolbar, final DrawerAdapter adapter) {
         this.activity = activity;
-        this.listener = listener;
 
-        final DrawerAdapter adapter = new DrawerAdapter(activity);
         // Initialize drawer itself.
         view = activity.findViewById(R.id.drawer);
         layout = (DrawerLayout)activity.findViewById(R.id.drawer_layout);
@@ -74,7 +71,7 @@ public class Drawer {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.onClick(view.getContext(), position);
+                        adapter.onClick(position);
                     }
                 }, 500L);
                 layout.closeDrawer(Drawer.this.view);
@@ -85,6 +82,10 @@ public class Drawer {
 
     public ActionBarDrawerToggle getToggle() {
         return toggle;
+    }
+
+    public Context getContext() {
+        return view.getContext();
     }
 
     /**
@@ -117,14 +118,6 @@ public class Drawer {
             accountTypeView.setText(R.string.account_offline);
             accountNameView.setVisibility(View.GONE);
         }
-    }
-
-    /**
-     * Chooses diary section.
-     */
-    public interface SectionChooseListener {
-
-        void onSectionChosen(final Note.Section section);
     }
 
     /**

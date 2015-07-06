@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import in.eigene.miary.R;
+import in.eigene.miary.adapters.DrawerAdapter;
 import in.eigene.miary.adapters.NotesAdapter;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.fragments.base.BaseFragment;
@@ -36,7 +37,7 @@ import in.eigene.miary.widgets.Drawer;
 
 public class FeedFragment
         extends BaseFragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, Drawer.SectionChooseListener {
+        implements LoaderManager.LoaderCallbacks<Cursor>, DrawerAdapter.SectionClickListener {
 
     private static final String KEY_SORT_ORDER = "feed_sort_order";
     private static final String KEY_MULTI_COLUMN = "feed_multi_column";
@@ -219,7 +220,7 @@ public class FeedFragment
     }
 
     @Override
-    public void onSectionChosen(final Note.Section section) {
+    public void onSectionClick(final Note.Section section) {
         this.section = section;
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }

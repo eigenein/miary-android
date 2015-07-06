@@ -16,36 +16,72 @@ import in.eigene.miary.activities.FeedbackActivity;
 import in.eigene.miary.activities.SettingsActivity;
 import in.eigene.miary.helpers.ActivityHelper;
 import in.eigene.miary.helpers.lang.Consumer;
+import in.eigene.miary.persistence.Note;
+import in.eigene.miary.widgets.Drawer;
 
 /**
  * Used to display navigation drawer items.
  */
 public class DrawerAdapter extends ArrayAdapter<Item> {
 
-    private static final Item[] ITEMS = {
-            new DividerItem(),
-            new MarginItem(),
-            new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, null),
-            new CounterItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, null),
-            new CounterItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, null),
-            new MarginItem(),
-            new DividerItem(),
-            new MarginItem(),
-            new CounterItem(R.drawable.ic_settings_grey600_24dp, R.string.settings, SettingsActivity.class),
-            new CounterItem(R.drawable.ic_help_grey600_24dp, R.string.activity_feedback, FeedbackActivity.class),
-            new CounterItem(R.drawable.ic_info_grey600_24dp, R.string.activity_about, AboutActivity.class),
-    };
-
     private static final SparseIntArray RESOURCE_ID_VIEW_TYPE = new SparseIntArray();
 
+    /**
+     * Initializes resource ID to view type mapping.
+     */
     static {
         RESOURCE_ID_VIEW_TYPE.append(R.layout.divider, 0);
         RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_margin, 1);
         RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_counter_item, 2);
     }
 
-    public DrawerAdapter(final Context context) {
-        super(context, 0, ITEMS);
+    /**
+     * Initializes drawer items.
+     */
+    public DrawerAdapter(final Context context, final SectionClickListener sectionClickListener) {
+        super(context, 0, new Item[] {
+                new DividerItem(),
+                new MarginItem(),
+                new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, new Runnable() {
+                    @Override
+                    public void run() {
+                        sectionClickListener.onSectionClick(Note.Section.DIARY);
+                    }
+                }),
+                new CounterItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, new Runnable() {
+                    @Override
+                    public void run() {
+                        sectionClickListener.onSectionClick(Note.Section.STARRED);
+                    }
+                }),
+                new CounterItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, new Runnable() {
+                    @Override
+                    public void run() {
+                        sectionClickListener.onSectionClick(Note.Section.DRAFTS);
+                    }
+                }),
+                new MarginItem(),
+                new DividerItem(),
+                new MarginItem(),
+                new CounterItem(R.drawable.ic_settings_grey600_24dp, R.string.settings, new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityHelper.start(context, SettingsActivity.class);
+                    }
+                }),
+                new CounterItem(R.drawable.ic_help_grey600_24dp, R.string.activity_feedback, new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityHelper.start(context, FeedbackActivity.class);
+                    }
+                }),
+                new CounterItem(R.drawable.ic_info_grey600_24dp, R.string.activity_about, new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityHelper.start(context, AboutActivity.class);
+                    }
+                }),
+        });
     }
 
     @Override
@@ -55,12 +91,12 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
 
     @Override
     public int getItemViewType(final int position) {
-        return RESOURCE_ID_VIEW_TYPE.get(ITEMS[position].getResourceId());
+        return RESOURCE_ID_VIEW_TYPE.get(getItem(position).getResourceId());
     }
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        final Item item = ITEMS[position];
+        final Item item = getItem(position);
         final Item.ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(item.getResourceId(), parent, false);
@@ -73,8 +109,16 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
-    public void onClick(final Context context, final int position) {
-        ITEMS[position].onClick(context);
+    public void onClick(final int position) {
+        getItem(position).onClick();
+    }
+
+    /**
+     * Chooses diary section.
+     */
+    public interface SectionClickListener {
+
+        void onSectionClick(final Note.Section section);
     }
 }
 
@@ -95,7 +139,7 @@ abstract class Item {
         return resourceId;
     }
 
-    public void onClick(final Context context) {
+    public void onClick() {
         // Do nothing.
     }
 
@@ -139,22 +183,16 @@ class CounterItem extends Item {
 
     private final int iconResourceId;
     private final int titleResourceId;
-    private final Consumer<Context> onClickConsumer;
+    private final Runnable runnable;
 
-    public CounterItem(final int iconResourceId, final int titleResourceId, final Class<? extends BaseActivity> activityClass) {
-        this(iconResourceId, titleResourceId, new Consumer<Context>() {
-            @Override
-            public void accept(final Context context) {
-                ActivityHelper.start(context, activityClass);
-            }
-        });
-    }
-
-    private CounterItem(final int iconResourceId, final int titleResourceId, final Consumer<Context> onClickConsumer) {
+    public CounterItem(
+            final int iconResourceId,
+            final int titleResourceId,
+            final Runnable runnable) {
         super(R.layout.drawer_counter_item);
         this.iconResourceId = iconResourceId;
         this.titleResourceId = titleResourceId;
-        this.onClickConsumer = onClickConsumer;
+        this.runnable = runnable;
     }
 
     @Override
@@ -170,8 +208,8 @@ class CounterItem extends Item {
     }
 
     @Override
-    public void onClick(final Context context) {
-        onClickConsumer.accept(context);
+    public void onClick() {
+        runnable.run();
     }
 
     private static class ViewHolder extends Item.ViewHolder {

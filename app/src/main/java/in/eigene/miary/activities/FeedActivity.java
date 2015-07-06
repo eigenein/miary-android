@@ -10,6 +10,7 @@ import android.view.View;
 import com.parse.ParseAnalytics;
 
 import in.eigene.miary.R;
+import in.eigene.miary.adapters.DrawerAdapter;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.fragments.FeedFragment;
 import in.eigene.miary.widgets.Drawer;
@@ -35,7 +36,7 @@ public class FeedActivity extends BaseActivity {
         // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Initialize navigation drawer.
-        drawer = new Drawer(this, getToolbar(), feedFragment);
+        drawer = new Drawer(this, getToolbar(), new DrawerAdapter(this, feedFragment));
         drawer.showForFirstTime();
     }
 
