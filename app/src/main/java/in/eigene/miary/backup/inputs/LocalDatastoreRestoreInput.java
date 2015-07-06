@@ -57,7 +57,8 @@ public class LocalDatastoreRestoreInput extends RestoreInput {
                 .setCustomDate(object.getDate("customDate"))
                 .setDraft(object.getBoolean("draft"))
                 .setColor(object.getInt("color"))
-                .setStarred(object.getBoolean("starred"));
+                .setStarred(object.getBoolean("starred"))
+                .setDeleted(false);
     }
 
     @Override
