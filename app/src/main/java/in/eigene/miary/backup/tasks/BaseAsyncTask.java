@@ -2,7 +2,6 @@ package in.eigene.miary.backup.tasks;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -31,14 +30,6 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
         progressDialog.setMessage(context.getString(R.string.backup_message_starting));
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(true);
-        progressDialog.setCanceledOnTouchOutside(true);
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(final DialogInterface dialog) {
-                cancel(true);
-            }
-        });
         progressDialog.show();
     }
 
@@ -75,11 +66,6 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
                 Toast.makeText(context, R.string.toast_restore_not_found, Toast.LENGTH_LONG).show();
                 break;
         }
-    }
-
-    @Override
-    protected void onCancelled() {
-        Toast.makeText(context, R.string.toast_cancelled, Toast.LENGTH_SHORT).show();
     }
 
     /**
