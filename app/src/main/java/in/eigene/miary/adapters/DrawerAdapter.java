@@ -4,12 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import in.eigene.miary.Application;
 import in.eigene.miary.R;
 import in.eigene.miary.activities.AboutActivity;
 import in.eigene.miary.activities.BaseActivity;
@@ -26,15 +24,15 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
     private static final Item[] ITEMS = {
             new DividerItem(),
             new MarginItem(),
-            new IconTitleItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, null),
-            new IconTitleItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, null),
-            new IconTitleItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, null),
+            new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, null),
+            new CounterItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, null),
+            new CounterItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, null),
             new MarginItem(),
             new DividerItem(),
             new MarginItem(),
-            new IconTitleItem(R.drawable.ic_settings_grey600_24dp, R.string.settings, SettingsActivity.class),
-            new IconTitleItem(R.drawable.ic_help_grey600_24dp, R.string.activity_feedback, FeedbackActivity.class),
-            new IconTitleItem(R.drawable.ic_info_grey600_24dp, R.string.activity_about, AboutActivity.class),
+            new CounterItem(R.drawable.ic_settings_grey600_24dp, R.string.settings, SettingsActivity.class),
+            new CounterItem(R.drawable.ic_help_grey600_24dp, R.string.activity_feedback, FeedbackActivity.class),
+            new CounterItem(R.drawable.ic_info_grey600_24dp, R.string.activity_about, AboutActivity.class),
     };
 
     public DrawerAdapter(final Context context) {
@@ -132,13 +130,13 @@ class MarginItem extends Item {
 /**
  * Displays icon, title and (optionally) counter.
  */
-class IconTitleItem extends Item {
+class CounterItem extends Item {
 
     private final int iconResourceId;
     private final int titleResourceId;
     private final Consumer<Context> onClickConsumer;
 
-    public IconTitleItem(final int iconResourceId, final int titleResourceId, final Class<? extends BaseActivity> activityClass) {
+    public CounterItem(final int iconResourceId, final int titleResourceId, final Class<? extends BaseActivity> activityClass) {
         this(iconResourceId, titleResourceId, new Consumer<Context>() {
             @Override
             public void accept(final Context context) {
@@ -147,8 +145,8 @@ class IconTitleItem extends Item {
         });
     }
 
-    private IconTitleItem(final int iconResourceId, final int titleResourceId, final Consumer<Context> onClickConsumer) {
-        super(2, R.layout.drawer_item);
+    private CounterItem(final int iconResourceId, final int titleResourceId, final Consumer<Context> onClickConsumer) {
+        super(2, R.layout.drawer_counter_item);
         this.iconResourceId = iconResourceId;
         this.titleResourceId = titleResourceId;
         this.onClickConsumer = onClickConsumer;
