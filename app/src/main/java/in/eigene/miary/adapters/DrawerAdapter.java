@@ -1,9 +1,14 @@
 package in.eigene.miary.adapters;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +16,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.HashMap;
 
@@ -18,8 +28,11 @@ import in.eigene.miary.R;
 import in.eigene.miary.activities.AboutActivity;
 import in.eigene.miary.activities.FeedbackActivity;
 import in.eigene.miary.activities.SettingsActivity;
+import in.eigene.miary.exceptions.InternalRuntimeException;
 import in.eigene.miary.helpers.ActivityHelper;
+import in.eigene.miary.helpers.ParseHelper;
 import in.eigene.miary.persistence.Note;
+import in.eigene.miary.sync.SyncAdapter;
 
 /**
  * Used to display navigation drawer items.
@@ -32,6 +45,7 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
         RESOURCE_ID_VIEW_TYPE.append(R.layout.divider, 0);
         RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_margin_item, 1);
         RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_counter_item, 2);
+        RESOURCE_ID_VIEW_TYPE.append(R.layout.drawer_account_item, 3);
     }
 
     /**
@@ -39,6 +53,7 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
      */
     public DrawerAdapter(final Activity activity, final SectionClickListener sectionClickListener) {
         super(activity, 0, new Item[]{
+                new AccountItem(activity),
                 new DividerItem(),
                 new MarginItem(),
                 new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, new Runnable() {
@@ -130,6 +145,11 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
     private class Data {
 
         public final HashMap<Note.Section, Integer> sectionCounters = new HashMap<>();
+        public final ParseUser user;
+
+        public Data(final ParseUser user) {
+            this.user = user;
+        }
     }
 
     /**
@@ -142,7 +162,7 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
         @Override
         protected Data doInBackground(final Void... params) {
             final ContentResolver contentResolver = getContext().getContentResolver();
-            final Data data = new Data();
+            final Data data = new Data(ParseUser.getCurrentUser());
             for (final Note.Section section : Note.Section.values()) {
                 final Cursor cursor = contentResolver.query(
                         Note.Contract.CONTENT_URI, projection, section.getSelection(), null, null);
@@ -155,9 +175,10 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
 
         @Override
         protected void onPostExecute(final Data data) {
-            ((CounterItem)getItem(2)).setCounterValue(data.sectionCounters.get(Note.Section.DIARY));
-            ((CounterItem)getItem(3)).setCounterValue(data.sectionCounters.get(Note.Section.STARRED));
-            ((CounterItem)getItem(4)).setCounterValue(data.sectionCounters.get(Note.Section.DRAFTS));
+            ((AccountItem)getItem(0)).setUser(data.user);
+            ((CounterItem)getItem(3)).setCounterValue(data.sectionCounters.get(Note.Section.DIARY));
+            ((CounterItem)getItem(4)).setCounterValue(data.sectionCounters.get(Note.Section.STARRED));
+            ((CounterItem)getItem(5)).setCounterValue(data.sectionCounters.get(Note.Section.DRAFTS));
             notifyDataSetChanged();
         }
     }
@@ -244,11 +265,11 @@ class CounterItem extends Item {
 
     @Override
     public void bind(final Item.ViewHolder viewHolder) {
-        final ViewHolder simpleItemViewHolder = (ViewHolder)viewHolder;
-        simpleItemViewHolder.icon.setImageResource(iconResourceId);
-        simpleItemViewHolder.title.setText(titleResourceId);
-        simpleItemViewHolder.counter.setVisibility(counterValue != 0 ? View.VISIBLE : View.GONE);
-        simpleItemViewHolder.counter.setText(Integer.toString(counterValue));
+        final ViewHolder counterViewHolder = (ViewHolder)viewHolder;
+        counterViewHolder.icon.setImageResource(iconResourceId);
+        counterViewHolder.title.setText(titleResourceId);
+        counterViewHolder.counter.setVisibility(counterValue != 0 ? View.VISIBLE : View.GONE);
+        counterViewHolder.counter.setText(Integer.toString(counterValue));
     }
 
     @Override
@@ -270,6 +291,108 @@ class CounterItem extends Item {
             icon = (ImageView)convertView.findViewById(R.id.drawer_item_icon);
             title = (TextView)convertView.findViewById(R.id.drawer_item_title);
             counter = (TextView)convertView.findViewById(R.id.drawer_item_counter);
+        }
+    }
+}
+
+/**
+ * Navigation drawer account item.
+ */
+class AccountItem extends Item {
+
+    private final Activity activity;
+
+    private ParseUser user;
+
+    public AccountItem(final Activity activity) {
+        super(R.layout.drawer_account_item);
+        this.activity = activity;
+    }
+
+    public void setUser(final ParseUser user) {
+        this.user = user;
+    }
+
+    @Override
+    public Item.ViewHolder createViewHolder(final View convertView) {
+        return new ViewHolder(convertView);
+    }
+
+    @Override
+    public void bind(final Item.ViewHolder viewHolder) {
+        final ViewHolder accountViewHolder = (ViewHolder)viewHolder;
+        if (user != null) {
+            accountViewHolder.type.setText(R.string.account_basic);
+            accountViewHolder.name.setText(user.getUsername());
+            accountViewHolder.name.setVisibility(View.VISIBLE);
+        } else {
+            accountViewHolder.type.setText(R.string.account_offline);
+            accountViewHolder.name.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick() {
+        if (user != null) {
+            return;
+        }
+        final AccountManager accountManager = AccountManager.get(activity);
+        final Account[] accounts = accountManager.getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
+        if (accounts.length != 0) {
+            accountManager.getAuthToken(accounts[0], SyncAdapter.ACCOUNT_TYPE, null, false, new GetAuthTokenCallback(), null);
+        } else {
+            accountManager.addAccount(SyncAdapter.ACCOUNT_TYPE, null, null, null, activity, new AddAccountCallback(), null);
+        }
+    }
+
+    private static class ViewHolder extends Item.ViewHolder {
+
+        public final TextView type;
+        public final TextView name;
+
+        public ViewHolder(final View convertView) {
+            type = (TextView)convertView.findViewById(R.id.drawer_account_type);
+            name = (TextView)convertView.findViewById(R.id.drawer_account_name);
+        }
+    }
+
+    private class AddAccountCallback implements AccountManagerCallback<Bundle> {
+
+        @Override
+        public void run(final AccountManagerFuture<Bundle> future) {
+            try {
+                future.getResult();
+                ParseHelper.linkInstallation();
+            } catch (final android.accounts.OperationCanceledException e) {
+                // Do nothing.
+            } catch (final Exception e) {
+                InternalRuntimeException.throwForException("Failed to add account.", e);
+            }
+        }
+    }
+
+    private class GetAuthTokenCallback implements AccountManagerCallback<Bundle> {
+
+        @Override
+        public void run(final AccountManagerFuture<Bundle> future) {
+            final String authToken;
+            try {
+                authToken = future.getResult().getString(AccountManager.KEY_AUTHTOKEN);
+            } catch (final Exception e) {
+                InternalRuntimeException.throwForException("Failed to get auth token.", e);
+                return;
+            }
+            ParseUser.becomeInBackground(authToken, new LogInCallback() {
+                @Override
+                public void done(final ParseUser user, final ParseException e) {
+                    Toast.makeText(
+                            activity,
+                            e == null ? R.string.account_auth_success : R.string.account_auth_retry,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    ParseHelper.linkInstallation();
+                }
+            });
         }
     }
 }

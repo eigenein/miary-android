@@ -38,16 +38,13 @@ public class Drawer {
 
     private final DrawerLayout layout;
     private final ActionBarDrawerToggle toggle;
-    private final View view;
-
-    private final TextView accountTypeView;
-    private final TextView accountNameView;
+    private final ListView view;
 
     public Drawer(final Activity activity, final Toolbar toolbar, final DrawerAdapter adapter) {
         this.activity = activity;
 
         // Initialize drawer itself.
-        view = activity.findViewById(R.id.drawer);
+        view = (ListView)activity.findViewById(R.id.drawer);
         layout = (DrawerLayout)activity.findViewById(R.id.drawer_layout);
         layout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         toggle = new ActionBarDrawerToggle(activity, layout, toolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -58,14 +55,8 @@ public class Drawer {
         };
         layout.setDrawerListener(toggle);
 
-        // Initialize account info.
-        accountTypeView = (TextView)view.findViewById(R.id.drawer_account_type);
-        accountNameView = (TextView)view.findViewById(R.id.drawer_account_name);
-        view.findViewById(R.id.drawer_account).setOnClickListener(new AccountClickListener());
-
         // Initialize navigation list view.
-        final ListView listView = (ListView)view.findViewById(R.id.drawer_list_view);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 new Handler().postDelayed(new Runnable() {
@@ -77,7 +68,7 @@ public class Drawer {
                 layout.closeDrawer(Drawer.this.view);
             }
         });
-        listView.setAdapter(adapter);
+        view.setAdapter(adapter);
     }
 
     public ActionBarDrawerToggle getToggle() {
@@ -102,89 +93,6 @@ public class Drawer {
                     preferences.edit().putBoolean(KEY_DRAWER_SHOWN, true).apply();
                 }
             }, 1000);
-        }
-    }
-
-    /**
-     * Refreshes account info.
-     */
-    private void refreshAccount() {
-        final ParseUser user = ParseUser.getCurrentUser();
-        if (user != null) {
-            accountTypeView.setText(R.string.account_basic);
-            accountNameView.setText(user.getUsername());
-            accountNameView.setVisibility(View.VISIBLE);
-        } else {
-            accountTypeView.setText(R.string.account_offline);
-            accountNameView.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * Starts authentication process when clicked.
-     */
-    private class AccountClickListener implements View.OnClickListener, Runnable {
-
-        @Override
-        public void onClick(final View view) {
-            new Handler().postDelayed(this, 500L);
-            layout.closeDrawer(Drawer.this.view);
-        }
-
-        @Override
-        public void run() {
-            final ParseUser user = ParseUser.getCurrentUser();
-            if (user != null) {
-                // TODO.
-            } else {
-                final AccountManager accountManager = AccountManager.get(activity);
-                final Account[] accounts = accountManager.getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
-                if (accounts.length != 0) {
-                    accountManager.getAuthToken(accounts[0], SyncAdapter.ACCOUNT_TYPE, null, false, new GetAuthTokenCallback(), null);
-                } else {
-                    accountManager.addAccount(SyncAdapter.ACCOUNT_TYPE, null, null, null, activity, new AddAccountCallback(), null);
-                }
-            }
-        }
-    }
-
-    private class AddAccountCallback implements AccountManagerCallback<Bundle> {
-
-        @Override
-        public void run(final AccountManagerFuture<Bundle> future) {
-            try {
-                future.getResult();
-                ParseHelper.linkInstallation();
-            } catch (final android.accounts.OperationCanceledException e) {
-                // Do nothing.
-            } catch (final Exception e) {
-                InternalRuntimeException.throwForException("Failed to add account.", e);
-            }
-        }
-    }
-
-    private class GetAuthTokenCallback implements AccountManagerCallback<Bundle> {
-
-        @Override
-        public void run(final AccountManagerFuture<Bundle> future) {
-            final String authToken;
-            try {
-                authToken = future.getResult().getString(AccountManager.KEY_AUTHTOKEN);
-            } catch (final Exception e) {
-                InternalRuntimeException.throwForException("Failed to get auth token.", e);
-                return;
-            }
-            ParseUser.becomeInBackground(authToken, new LogInCallback() {
-                @Override
-                public void done(final ParseUser user, final ParseException e) {
-                    Toast.makeText(
-                            activity,
-                            e == null ? R.string.account_auth_success : R.string.account_auth_retry,
-                            Toast.LENGTH_LONG
-                    ).show();
-                    ParseHelper.linkInstallation();
-                }
-            });
         }
     }
 }
