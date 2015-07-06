@@ -32,6 +32,9 @@ public class Note implements Entity {
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
+    /**
+     * Unique note identifier. For backwards compatibility it is equal to UUID LSB.
+     */
     private Long id;
     private String title;
     private String text;
