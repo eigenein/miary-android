@@ -26,16 +26,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Note.Contract.CUSTOM_TIME + " INTEGER NOT NULL," +
                 Note.Contract.DRAFT + " INTEGER NOT NULL," +
                 Note.Contract.STARRED + " INTEGER NOT NULL," +
-                Note.Contract.DELETED + " INTEGER NOT NULL);" +
-                String.format("CREATE INDEX ix_%s_%s ON %s (%s);",
-                        Note.Contract.TABLE, Note.Contract.CUSTOM_TIME, Note.Contract.TABLE, Note.Contract.CUSTOM_TIME) +
-                String.format("CREATE INDEX ix_%s_%s ON %s (%s);",
-                        Note.Contract.TABLE, Note.Contract.DRAFT, Note.Contract.TABLE, Note.Contract.DRAFT) +
-                String.format("CREATE INDEX ix_%s_%s ON %s (%s);",
-                        Note.Contract.TABLE, Note.Contract.STARRED, Note.Contract.TABLE, Note.Contract.STARRED) +
-                String.format("CREATE INDEX ix_%s_%s ON %s (%s);",
-                        Note.Contract.TABLE, Note.Contract.DELETED, Note.Contract.TABLE, Note.Contract.DELETED)
+                Note.Contract.DELETED + " INTEGER NOT NULL);"
         );
+        db.execSQL(String.format("CREATE INDEX ix_%s_%s_%s_%s ON %s (%s, %s, %s);",
+                Note.Contract.TABLE, Note.Contract.STARRED, Note.Contract.DELETED, Note.Contract.CUSTOM_TIME,
+                Note.Contract.TABLE, Note.Contract.STARRED, Note.Contract.DELETED, Note.Contract.CUSTOM_TIME));
+        db.execSQL(String.format("CREATE INDEX ix_%s_%s_%s_%s ON %s (%s, %s, %s);",
+                Note.Contract.TABLE, Note.Contract.DRAFT, Note.Contract.DELETED, Note.Contract.CUSTOM_TIME,
+                Note.Contract.TABLE, Note.Contract.DRAFT, Note.Contract.DELETED, Note.Contract.CUSTOM_TIME));
     }
 
     @Override
