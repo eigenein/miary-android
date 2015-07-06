@@ -85,7 +85,7 @@ public class ContentProvider extends android.content.ContentProvider {
             throw new IllegalArgumentException(uri.toString());
         }
         final SQLiteDatabase database = helper.getWritableDatabase();
-        final long id = database.insert(Note.Contract.TABLE, null, values);
+        final long id = database.insertOrThrow(Note.Contract.TABLE, null, values);
         final Uri noteUri = ContentUris.withAppendedId(uri, id);
         getContext().getContentResolver().notifyChange(uri, null);
         return noteUri;
