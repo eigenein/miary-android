@@ -54,6 +54,7 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
     @Override
     protected void onPostExecute(final Result result) {
         progressDialog.hide();
+        progressDialog = null;
 
         switch (result) {
             case STORAGE_NOT_READY:
