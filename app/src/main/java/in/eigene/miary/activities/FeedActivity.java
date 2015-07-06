@@ -1,10 +1,12 @@
 package in.eigene.miary.activities;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -12,8 +14,8 @@ import com.parse.ParseAnalytics;
 
 import in.eigene.miary.R;
 import in.eigene.miary.adapters.DrawerAdapter;
-import in.eigene.miary.backup.tasks.MigrateAsyncTask;
 import in.eigene.miary.fragments.FeedFragment;
+import in.eigene.miary.helpers.MigrationHelper;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.widgets.Drawer;
 
@@ -21,6 +23,13 @@ import in.eigene.miary.widgets.Drawer;
  * Displays diary.
  */
 public class FeedActivity extends BaseActivity {
+
+    private static final String LOG_TAG = FeedActivity.class.getSimpleName();
+
+    /**
+     * #179. Specifies whether notes from previous app versions where migrated.
+     */
+    private static final String KEY_NOTES_MIGRATED = "notes_migrated";
 
     private Drawer drawer;
 
@@ -43,18 +52,24 @@ public class FeedActivity extends BaseActivity {
         // Initialize navigation drawer.
         drawer = new Drawer(this, getToolbar(), new DrawerAdapter(this, feedFragment));
         drawer.showForFirstTime();
+
+        // #179: migrate notes from previous app versions.
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(KEY_NOTES_MIGRATED, false)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MigrationHelper.migrate(FeedActivity.this);
+                    PreferenceManager.getDefaultSharedPreferences(FeedActivity.this).edit().putBoolean(KEY_NOTES_MIGRATED, true).apply();
+                }
+            }, 1000L);
+        } else {
+            Log.i(LOG_TAG, "Already migrated.");
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new MigrateAsyncTask(FeedActivity.this).execute();
-            }
-        }, 1000L);
     }
 
     @Override

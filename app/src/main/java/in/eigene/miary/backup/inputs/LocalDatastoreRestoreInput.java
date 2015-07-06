@@ -2,6 +2,7 @@ package in.eigene.miary.backup.inputs;
 
 import android.util.Log;
 
+import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -22,6 +23,11 @@ import in.eigene.miary.persistence.Note;
 public class LocalDatastoreRestoreInput extends RestoreInput {
 
     private static final String LOG_TAG = LocalDatastoreRestoreInput.class.getSimpleName();
+
+    public static void getCount(final CountCallback callback) {
+        Log.i(LOG_TAG, "Get count.");
+        ParseQuery.getQuery("Note").fromLocalDatastore().countInBackground(callback);
+    }
 
     private Iterator<ParseObject> iterator;
 
