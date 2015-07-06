@@ -56,7 +56,7 @@ public class RestoreAsyncTask extends BaseAsyncTask {
         if (result == Result.OK) {
             Toast.makeText(
                     context,
-                    String.format(context.getString(R.string.toast_restore_finished), noteCount),
+                    String.format(context.getString(getFinishedMessageResourceId()), noteCount),
                     Toast.LENGTH_LONG
             ).show();
         }
@@ -65,6 +65,10 @@ public class RestoreAsyncTask extends BaseAsyncTask {
     @Override
     protected int getProgressMessageResourceId() {
         return R.string.backup_message_restoring;
+    }
+
+    protected int getFinishedMessageResourceId() {
+        return R.string.toast_restore_finished;
     }
 
     private Result restore() throws IOException {

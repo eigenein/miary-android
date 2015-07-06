@@ -24,4 +24,9 @@ public class MigrateAsyncTask extends RestoreAsyncTask {
     protected int getProgressMessageResourceId() {
         return R.string.backup_message_migrating;
     }
+
+    @Override
+    protected int getFinishedMessageResourceId() {
+        return R.string.toast_migrate_finished;
+    }
 }

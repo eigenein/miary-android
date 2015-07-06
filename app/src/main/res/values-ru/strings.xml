@@ -19,7 +19,7 @@
     <string name="auth_sign_up">Создать</string>
     <string name="backup_message_creating">Создание резервной копии…</string>
     <string name="backup_message_finishing">Завершение…</string>
-    <string name="backup_message_migrating">Копирование заметок из предыдущей версии…</string>
+    <string name="backup_message_migrating">Копирование заметок из предыдущей версии приложения…</string>
     <string name="backup_message_restoring">Восстановление из резервной копии…</string>
     <string name="backup_message_starting">Запуск…</string>
     <string name="button_remove">Удалить</string>
@@ -111,6 +111,7 @@
     <string name="toast_backup_nothing">Нет заметок.</string>
     <string name="toast_copied">Скопировано.</string>
     <string name="toast_email_required">Не заполнен адрес электронной почты.</string>
+    <string name="toast_migrate_finished">Скопировано %1$d заметок из предыдущей версии приложения.</string>
     <string name="toast_no_file_manager_app">Установите файловый менеджер.</string>
     <string name="toast_note_drafted">Заметка перемещена в черновики.</string>
     <string name="toast_note_undrafted">Заметка перемещена в ленту.</string>
