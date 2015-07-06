@@ -13,6 +13,7 @@ import java.util.List;
 
 import in.eigene.miary.backup.RestoreInput;
 import in.eigene.miary.exceptions.InternalRuntimeException;
+import in.eigene.miary.helpers.Util;
 import in.eigene.miary.persistence.Note;
 
 /**
@@ -49,9 +50,9 @@ public class LocalDatastoreRestoreInput extends RestoreInput {
         }
         final ParseObject object = iterator.next();
         return Note.createEmpty()
-                .setId(object.getLong("uuidLsb"))
-                .setTitle(object.getString("title"))
-                .setText(object.getString("text"))
+                .setId(Math.abs(object.getLong("uuidLsb")))
+                .setTitle(Util.coalesce(object.getString("title"), ""))
+                .setText(Util.coalesce(object.getString("text"), ""))
                 .setCreatedDate(object.getDate("creationDate"))
                 .setCustomDate(object.getDate("customDate"))
                 .setDraft(object.getBoolean("draft"))
