@@ -10,7 +10,7 @@ import in.eigene.miary.backup.BackupOutput;
 import in.eigene.miary.backup.Storage;
 
 /**
- * Fake Parse Local Datastore storage.
+ * Fake Parse Local Datastore storage. To be removed.
  */
 public class LocalDatastoreStorage extends Storage {
 

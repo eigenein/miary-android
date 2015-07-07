@@ -53,7 +53,7 @@ public class FeedActivity extends BaseActivity {
         drawer = new Drawer(this, getToolbar(), new DrawerAdapter(this, feedFragment));
         drawer.showForFirstTime();
 
-        // #179: migrate notes from previous app versions.
+        // #179: migrate notes from previous app versions. To be removed.
         if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(KEY_NOTES_MIGRATED, false)) {
             new Handler().postDelayed(new Runnable() {
                 @Override

@@ -11,7 +11,7 @@ import in.eigene.miary.backup.inputs.LocalDatastoreRestoreInput;
 import in.eigene.miary.backup.storages.LocalDatastoreStorage;
 
 /**
- * Migrates notes from Parse Local Datastore.
+ * Migrates notes from Parse Local Datastore. To be removed.
  */
 public class MigrateAsyncTask extends RestoreAsyncTask {
 

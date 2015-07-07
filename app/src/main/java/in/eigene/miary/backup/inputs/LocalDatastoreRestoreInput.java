@@ -18,7 +18,7 @@ import in.eigene.miary.helpers.Util;
 import in.eigene.miary.persistence.Note;
 
 /**
- * Fake Parse Local Datastore input.
+ * Fake Parse Local Datastore input. To be removed.
  */
 public class LocalDatastoreRestoreInput extends RestoreInput {
 
