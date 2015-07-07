@@ -58,7 +58,11 @@ public class FeedActivity extends BaseActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MigrationHelper.migrate(FeedActivity.this);
+                    if (!isFinishing()) {
+                        MigrationHelper.migrate(FeedActivity.this);
+                    } else {
+                        Log.w(LOG_TAG, "Finishing. Could not migrate now.");
+                    }
                 }
             }, 1000L);
         } else {
