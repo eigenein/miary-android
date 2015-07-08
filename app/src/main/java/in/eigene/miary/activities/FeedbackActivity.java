@@ -7,11 +7,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 
 import in.eigene.miary.R;
 import in.eigene.miary.persistence.Feedback;
 
 public class FeedbackActivity extends FullscreenDialogActivity {
+
+    private EditText emailEditText;
+    private EditText textEditText;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -19,6 +23,14 @@ public class FeedbackActivity extends FullscreenDialogActivity {
 
         setContentView(R.layout.activity_feedback);
         initializeToolbar();
+
+        emailEditText = (EditText)findViewById(R.id.feedback_email);
+        textEditText = (EditText)findViewById(R.id.feedback_text);
+
+        final ParseUser user = ParseUser.getCurrentUser();
+        if (user != null) {
+            emailEditText.setText(user.getUsername());
+        }
     }
 
     @Override
@@ -31,8 +43,8 @@ public class FeedbackActivity extends FullscreenDialogActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_feedback_send:
-                final String email = ((EditText)findViewById(R.id.feedback_email)).getText().toString();
-                final String text = ((EditText)findViewById(R.id.feedback_text)).getText().toString();
+                final String email = emailEditText.getText().toString();
+                final String text = textEditText.getText().toString();
                 if (!text.isEmpty()) {
                     final Feedback feedback = new Feedback()
                             .setInstallation(ParseInstallation.getCurrentInstallation())
