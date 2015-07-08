@@ -1,6 +1,5 @@
 package in.eigene.miary.widgets;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -14,20 +13,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import in.eigene.miary.R;
+import in.eigene.miary.activities.FeedActivity;
 import in.eigene.miary.adapters.DrawerAdapter;
 
 public class Drawer {
 
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
 
-    private final Activity activity;
+    private final Context context;
 
     private final DrawerLayout layout;
     private final ActionBarDrawerToggle toggle;
     private final ListView view;
 
-    public Drawer(final Activity activity, final Toolbar toolbar, final DrawerAdapter adapter) {
-        this.activity = activity;
+    public Drawer(final FeedActivity activity, final Toolbar toolbar) {
+        this.context = activity;
+        final DrawerAdapter adapter = new DrawerAdapter(activity);
 
         // Initialize drawer itself.
         view = (ListView)activity.findViewById(R.id.drawer);
@@ -48,7 +49,7 @@ public class Drawer {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.onClick(position);
+                        adapter.getItem(position).onClick();
                     }
                 }, 500L);
                 layout.closeDrawer(Drawer.this.view);
@@ -69,7 +70,7 @@ public class Drawer {
      * Shows drawer if it was not shown since application installed.
      */
     public void showForFirstTime() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (!preferences.getBoolean(KEY_DRAWER_SHOWN, false)) {
             // Open drawer for the first time.
             new Handler().postDelayed(new Runnable() {

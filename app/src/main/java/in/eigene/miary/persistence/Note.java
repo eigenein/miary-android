@@ -272,6 +272,11 @@ public class Note implements Entity {
             }
 
             @Override
+            public int getTitleResourceId() {
+                return R.string.drawer_item_diary;
+            }
+
+            @Override
             public int getImageResourceId() {
                 return R.drawable.ic_inbox_grey300_216dp;
             }
@@ -280,6 +285,11 @@ public class Note implements Entity {
             @Override
             public String getSelection() {
                 return "deleted = 0 AND starred = 1";
+            }
+
+            @Override
+            public int getTitleResourceId() {
+                return R.string.drawer_item_starred;
             }
 
             @Override
@@ -294,12 +304,18 @@ public class Note implements Entity {
             }
 
             @Override
+            public int getTitleResourceId() {
+                return R.string.drawer_item_drafts;
+            }
+
+            @Override
             public int getImageResourceId() {
                 return R.drawable.ic_drafts_grey300_216dp;
             }
         };
 
         public abstract String getSelection();
+        public abstract int getTitleResourceId();
         public abstract int getImageResourceId();
     }
 

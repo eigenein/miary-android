@@ -28,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import in.eigene.miary.R;
-import in.eigene.miary.adapters.DrawerAdapter;
 import in.eigene.miary.adapters.NotesAdapter;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.helpers.AccountManagerHelper;
@@ -37,7 +36,7 @@ import in.eigene.miary.sync.SyncAdapter;
 
 public class FeedFragment
         extends BaseFragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, DrawerAdapter.SectionClickListener {
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String KEY_SORT_ORDER = "feed_sort_order";
     private static final String KEY_MULTI_COLUMN = "feed_multi_column";
@@ -221,17 +220,16 @@ public class FeedFragment
         onLoadFinished(loader, null);
     }
 
-    @Override
-    public void onSectionClick(final Note.Section section) {
-        this.section = section;
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
-    }
-
     /**
      * Gets currently displayed section.
      */
     public Note.Section getSection() {
         return section;
+    }
+
+    public void setSection(final Note.Section section) {
+        this.section = section;
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     /**

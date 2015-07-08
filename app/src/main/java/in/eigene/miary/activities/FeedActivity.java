@@ -12,7 +12,6 @@ import android.view.View;
 import com.parse.ParseAnalytics;
 
 import in.eigene.miary.R;
-import in.eigene.miary.adapters.DrawerAdapter;
 import in.eigene.miary.fragments.FeedFragment;
 import in.eigene.miary.helpers.MigrationHelper;
 import in.eigene.miary.persistence.Note;
@@ -42,14 +41,17 @@ public class FeedActivity extends BaseActivity {
         setContentView(R.layout.activity_feed);
         initializeToolbar();
         initializeFloatingActionButton();
+
+        // Initialize feed fragment.
         final FeedFragment feedFragment = getFeedFragment();
         feedFragment.fixTopPadding(getSupportActionBar().getThemedContext());
+        setTitle(feedFragment.getSection().getTitleResourceId());
 
         // Initialize preferences.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         // Initialize navigation drawer.
-        drawer = new Drawer(this, getToolbar(), new DrawerAdapter(this, feedFragment));
+        drawer = new Drawer(this, getToolbar());
         drawer.showForFirstTime();
 
         // #179: migrate notes from previous app versions. To be removed.
@@ -80,6 +82,10 @@ public class FeedActivity extends BaseActivity {
         return drawer.getToggle().onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
+    public FeedFragment getFeedFragment() {
+        return (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
+    }
+
     @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -103,9 +109,5 @@ public class FeedActivity extends BaseActivity {
                 ParseAnalytics.trackEventInBackground("createNew");
             }
         });
-    }
-
-    private FeedFragment getFeedFragment() {
-        return (FeedFragment)getFragmentManager().findFragmentById(R.id.fragment_feed);
     }
 }

@@ -26,6 +26,7 @@ import java.util.HashMap;
 
 import in.eigene.miary.R;
 import in.eigene.miary.activities.AboutActivity;
+import in.eigene.miary.activities.FeedActivity;
 import in.eigene.miary.activities.FeedbackActivity;
 import in.eigene.miary.activities.SettingsActivity;
 import in.eigene.miary.exceptions.InternalRuntimeException;
@@ -37,7 +38,7 @@ import in.eigene.miary.sync.SyncAdapter;
 /**
  * Used to display navigation drawer items.
  */
-public class DrawerAdapter extends ArrayAdapter<Item> {
+public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
 
     private static final SparseIntArray RESOURCE_ID_VIEW_TYPE = new SparseIntArray();
 
@@ -56,26 +57,29 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
     /**
      * Initializes drawer items.
      */
-    public DrawerAdapter(final Activity activity, final SectionClickListener sectionClickListener) {
+    public DrawerAdapter(final FeedActivity activity) {
         super(activity, 0);
 
         accountItem = new AccountItem(activity);
         diaryCounterItem = new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, new Runnable() {
             @Override
             public void run() {
-                sectionClickListener.onSectionClick(Note.Section.DIARY);
+                activity.getFeedFragment().setSection(Note.Section.DIARY);
+                activity.setTitle(Note.Section.DIARY.getTitleResourceId());
             }
         });
         starredCounterItem = new CounterItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, new Runnable() {
             @Override
             public void run() {
-                sectionClickListener.onSectionClick(Note.Section.STARRED);
+                activity.getFeedFragment().setSection(Note.Section.STARRED);
+                activity.setTitle(Note.Section.STARRED.getTitleResourceId());
             }
         });
         draftsCounterItem = new CounterItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, new Runnable() {
             @Override
             public void run() {
-                sectionClickListener.onSectionClick(Note.Section.DRAFTS);
+                activity.getFeedFragment().setSection(Note.Section.DRAFTS);
+                activity.setTitle(Note.Section.DRAFTS.getTitleResourceId());
             }
         });
 
@@ -146,18 +150,6 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
     }
 
     /**
-     * Handles drawer item click.
-     */
-    public void onClick(final int position) {
-        getItem(position).onClick();
-    }
-
-    public interface SectionClickListener {
-
-        void onSectionClick(final Note.Section section);
-    }
-
-    /**
      * Drawer items data.
      */
     private class Data {
@@ -200,46 +192,46 @@ public class DrawerAdapter extends ArrayAdapter<Item> {
             notifyDataSetChanged();
         }
     }
-}
 
-/**
- * Base navigation drawer item. Inflates the layout.
- */
-abstract class Item {
+    /**
+     * Base navigation drawer item. Inflates the layout.
+     */
+    public static abstract class Item {
 
-    private static final ViewHolder VIEW_HOLDER = new ViewHolder();
+        private static final ViewHolder VIEW_HOLDER = new ViewHolder();
 
-    private final int resourceId;
+        private final int resourceId;
 
-    public Item(final int resourceId) {
-        this.resourceId = resourceId;
-    }
+        public Item(final int resourceId) {
+            this.resourceId = resourceId;
+        }
 
-    public int getResourceId() {
-        return resourceId;
-    }
+        public int getResourceId() {
+            return resourceId;
+        }
 
-    public void onClick() {
-        // Do nothing.
-    }
+        public void onClick() {
+            // Do nothing.
+        }
 
-    public ViewHolder createViewHolder(final View convertView) {
-        return VIEW_HOLDER;
-    }
+        public ViewHolder createViewHolder(final View convertView) {
+            return VIEW_HOLDER;
+        }
 
-    public void bind(final ViewHolder viewHolder) {
-        // Do nothing.
-    }
+        public void bind(final ViewHolder viewHolder) {
+            // Do nothing.
+        }
 
-    protected static class ViewHolder {
-        // Nothing.
+        protected static class ViewHolder {
+            // Nothing.
+        }
     }
 }
 
 /**
  * Navigation drawer section divider.
  */
-class DividerItem extends Item {
+class DividerItem extends DrawerAdapter.Item {
 
     public DividerItem() {
         super(R.layout.divider);
@@ -249,7 +241,7 @@ class DividerItem extends Item {
 /**
  * Navigation drawer margin. Used with dividers.
  */
-class MarginItem extends Item {
+class MarginItem extends DrawerAdapter.Item {
 
     public MarginItem() {
         super(R.layout.drawer_margin_item);
@@ -259,7 +251,7 @@ class MarginItem extends Item {
 /**
  * Displays icon, title and (optionally) counter.
  */
-class CounterItem extends Item {
+class CounterItem extends DrawerAdapter.Item {
 
     private final int iconResourceId;
     private final int titleResourceId;
@@ -277,12 +269,12 @@ class CounterItem extends Item {
     }
 
     @Override
-    public Item.ViewHolder createViewHolder(final View convertView) {
+    public DrawerAdapter.Item.ViewHolder createViewHolder(final View convertView) {
         return new ViewHolder(convertView);
     }
 
     @Override
-    public void bind(final Item.ViewHolder viewHolder) {
+    public void bind(final DrawerAdapter.Item.ViewHolder viewHolder) {
         final ViewHolder counterViewHolder = (ViewHolder)viewHolder;
         counterViewHolder.icon.setImageResource(iconResourceId);
         counterViewHolder.title.setText(titleResourceId);
@@ -299,7 +291,7 @@ class CounterItem extends Item {
         this.counterValue = counterValue;
     }
 
-    private static class ViewHolder extends Item.ViewHolder {
+    private static class ViewHolder extends DrawerAdapter.Item.ViewHolder {
 
         public final ImageView icon;
         public final TextView title;
@@ -316,7 +308,7 @@ class CounterItem extends Item {
 /**
  * Navigation drawer account item.
  */
-class AccountItem extends Item {
+class AccountItem extends DrawerAdapter.Item {
 
     private final Activity activity;
 
@@ -332,12 +324,12 @@ class AccountItem extends Item {
     }
 
     @Override
-    public Item.ViewHolder createViewHolder(final View convertView) {
+    public DrawerAdapter.Item.ViewHolder createViewHolder(final View convertView) {
         return new ViewHolder(convertView);
     }
 
     @Override
-    public void bind(final Item.ViewHolder viewHolder) {
+    public void bind(final DrawerAdapter.Item.ViewHolder viewHolder) {
         final ViewHolder accountViewHolder = (ViewHolder)viewHolder;
         if (user != null) {
             accountViewHolder.type.setText(R.string.account_basic);
@@ -363,7 +355,7 @@ class AccountItem extends Item {
         }
     }
 
-    private static class ViewHolder extends Item.ViewHolder {
+    private static class ViewHolder extends DrawerAdapter.Item.ViewHolder {
 
         public final TextView type;
         public final TextView name;
