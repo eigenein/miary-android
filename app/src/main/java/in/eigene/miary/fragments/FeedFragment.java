@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import in.eigene.miary.R;
@@ -71,7 +72,7 @@ public class FeedFragment
     private MenuItem multiColumnMenuItem;
 
     private RecyclerView feedView;
-    private View feedEmptyView;
+    private ImageView emptyImageView;
     private SwipeRefreshLayout swipeRefresh;
 
     @Override
@@ -95,7 +96,7 @@ public class FeedFragment
         updateLayoutManager();
         feedView.setAdapter(notesAdapter);
 
-        feedEmptyView = view.findViewById(R.id.feed_empty_view);
+        emptyImageView = (ImageView)view.findViewById(R.id.feed_empty_view);
 
         swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.feed_refresh);
         swipeRefresh.setColorSchemeResources(R.color.blue_500, R.color.light_green_500, R.color.yellow_500, R.color.red_500);
@@ -130,6 +131,7 @@ public class FeedFragment
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(syncFinishedReceiver, new IntentFilter(SyncAdapter.SYNC_FINISHED_EVENT_NAME));
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -202,20 +204,21 @@ public class FeedFragment
 
     @Override
     public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
-        if (cursor.getCount() != 0) {
+        if ((cursor != null) && (cursor.getCount() != 0)) {
             notesAdapter.setCursor(cursor);
-            feedEmptyView.setVisibility(View.GONE);
+            emptyImageView.setVisibility(View.GONE);
             feedView.setVisibility(View.VISIBLE);
         } else {
-            notesAdapter.setCursor(null);
             feedView.setVisibility(View.GONE);
-            feedEmptyView.setVisibility(View.VISIBLE);
+            emptyImageView.setImageResource(section.getImageResourceId());
+            emptyImageView.setVisibility(View.VISIBLE);
+            notesAdapter.setCursor(null);
         }
     }
 
     @Override
     public void onLoaderReset(final Loader<Cursor> loader) {
-        notesAdapter.setCursor(null);
+        onLoadFinished(loader, null);
     }
 
     @Override

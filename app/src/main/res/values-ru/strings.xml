@@ -49,7 +49,6 @@
     <string name="drawer_open">Открыть</string>
     <string name="drawer_sign_in">Войти</string>
     <string name="feed_change_sorting_order">Изменить порядок сортировки</string>
-    <string name="feed_empty">Написать заметку</string>
     <string name="feed_oldest_first">От старых к новым.</string>
     <string name="feed_newest_first">От новых к старым.</string>
     <string name="feed_set_multi_column">В несколько столбцов</string>

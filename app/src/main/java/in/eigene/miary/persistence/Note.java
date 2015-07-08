@@ -10,6 +10,7 @@ import android.provider.BaseColumns;
 import java.security.SecureRandom;
 import java.util.Date;
 
+import in.eigene.miary.R;
 import in.eigene.miary.sync.ContentProvider;
 
 /**
@@ -269,11 +270,21 @@ public class Note implements Entity {
             public String getSelection() {
                 return "deleted = 0 AND draft = 0";
             }
+
+            @Override
+            public int getImageResourceId() {
+                return R.drawable.ic_inbox_grey300_216dp;
+            }
         },
         STARRED {
             @Override
             public String getSelection() {
                 return "deleted = 0 AND starred = 1";
+            }
+
+            @Override
+            public int getImageResourceId() {
+                return R.drawable.ic_star_grey300_216dp;
             }
         },
         DRAFTS {
@@ -281,9 +292,15 @@ public class Note implements Entity {
             public String getSelection() {
                 return "deleted = 0 AND draft = 1";
             }
+
+            @Override
+            public int getImageResourceId() {
+                return R.drawable.ic_drafts_grey300_216dp;
+            }
         };
 
         public abstract String getSelection();
+        public abstract int getImageResourceId();
     }
 
     public enum SortOrder {

@@ -22,29 +22,15 @@
                 android:animateLayoutChanges="false"
         />
     </android.support.v4.widget.SwipeRefreshLayout>
-    <LinearLayout
+    <ImageView
             android:id="@+id/feed_empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:paddingTop="?attr/actionBarSize"
+            android:visibility="gone"
+            android:scaleType="center"
     >
-        <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:orientation="vertical"
-                android:background="@drawable/note_add_background"
-                android:gravity="center"
-        >
-             <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:text="@string/feed_empty"
-                    android:textColor="@color/light_text_hint"
-                    android:textSize="24dp"
-                    android:gravity="center"
-            />
-        </LinearLayout>
-    </LinearLayout>
+    </ImageView>
 </RelativeLayout>

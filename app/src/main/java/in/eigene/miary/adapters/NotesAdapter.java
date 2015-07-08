@@ -25,6 +25,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private Cursor cursor = null;
     private int idColumnIndex;
 
+    public Cursor getCursor() {
+        return cursor;
+    }
+
     public void setCursor(final Cursor cursor) {
         this.cursor = cursor;
         if (cursor != null) {
