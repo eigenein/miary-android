@@ -2,7 +2,7 @@ package in.eigene.miary.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,11 +10,11 @@ import android.view.WindowManager;
 
 import com.parse.ParseAnalytics;
 
-import in.eigene.miary.R;
-
 import java.util.Date;
 
-public abstract class BaseActivity extends ActionBarActivity {
+import in.eigene.miary.R;
+
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = BaseActivity.class.getSimpleName();
 
