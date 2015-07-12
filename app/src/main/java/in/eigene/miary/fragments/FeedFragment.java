@@ -68,9 +68,6 @@ public class FeedFragment
 
     // Views.
 
-    private MenuItem singleColumnMenuItem;
-    private MenuItem multiColumnMenuItem;
-
     private RecyclerView feedView;
     private ImageView emptyImageView;
     private SwipeRefreshLayout swipeRefresh;
@@ -122,9 +119,13 @@ public class FeedFragment
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.feed_fragment, menu);
-        singleColumnMenuItem = menu.findItem(R.id.menu_item_feed_set_single_column);
-        multiColumnMenuItem = menu.findItem(R.id.menu_item_feed_set_multi_column);
-        updateMenu();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(final Menu menu) {
+        final boolean multiColumn = preferences.getBoolean(KEY_MULTI_COLUMN, false);
+        menu.findItem(R.id.menu_item_feed_set_single_column).setVisible(multiColumn);
+        menu.findItem(R.id.menu_item_feed_set_multi_column).setVisible(!multiColumn);
     }
 
     @Override
@@ -162,14 +163,14 @@ public class FeedFragment
 
             case R.id.menu_item_feed_set_single_column:
                 preferences.edit().putBoolean(KEY_MULTI_COLUMN, false).apply();
-                updateMenu();
+                invalidateOptionsMenu();
                 updateLayoutManager();
                 Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Single Column");
                 return true;
 
             case R.id.menu_item_feed_set_multi_column:
                 preferences.edit().putBoolean(KEY_MULTI_COLUMN, true).apply();
-                updateMenu();
+                invalidateOptionsMenu();
                 updateLayoutManager();
                 Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Multi-column");
                 return true;
@@ -242,15 +243,6 @@ public class FeedFragment
     private void setSortOrder(final Note.SortOrder sortOrder) {
         this.sortOrder = sortOrder;
         getLoaderManager().restartLoader(LOADER_ID, null, this);
-    }
-
-    /**
-     * Updates menu according to the preferences.
-     */
-    private void updateMenu() {
-        final boolean multiColumn = preferences.getBoolean(KEY_MULTI_COLUMN, false);
-        singleColumnMenuItem.setVisible(multiColumn);
-        multiColumnMenuItem.setVisible(!multiColumn);
     }
 
     /**
