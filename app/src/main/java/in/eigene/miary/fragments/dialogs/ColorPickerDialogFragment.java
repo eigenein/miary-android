@@ -15,7 +15,7 @@ public class ColorPickerDialogFragment extends BaseDialogFragment {
 
     public interface Listener {
 
-        public void colorChosen(final int color);
+        void colorChosen(final int color);
     }
 
     private static final SparseIntArray VIEW_ID_TO_COLOR = new SparseIntArray();
