@@ -273,7 +273,6 @@ public class NoteFragment extends BaseFragment {
         editTextTitle.setText(note.getTitle());
         editTextText.setText(note.getText());
         updateLayoutColor();
-        invalidateOptionsMenu();
     }
 
     /**
