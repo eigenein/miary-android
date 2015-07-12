@@ -68,7 +68,7 @@ public class NoteActivity extends BaseActivity
 
         final Uri noteUri = getIntent().getParcelableExtra(EXTRA_NOTE_URI);
         final NoteFragment noteFragment = NoteFragment.create(noteUri, fullscreen);
-        getFragmentManager().beginTransaction().add(R.id.fragment_note, noteFragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_note, noteFragment).commit();
     }
 
     @Override
