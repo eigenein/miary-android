@@ -10,11 +10,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.ParseAnalytics;
-
 import in.eigene.miary.R;
-import in.eigene.miary.managers.PinManager;
 import in.eigene.miary.helpers.TextWatcher;
+import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.managers.PinManager;
 
 /**
  * Asks for passcode.
@@ -51,11 +50,11 @@ public class PinActivity extends ActionBarActivity {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(getIntent().<Intent>getParcelableExtra(EXTRA_INTENT));
-                    ParseAnalytics.trackEventInBackground("pinCorrect");
+                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.CORRECT);
                 } else {
                     Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                     pinEditText.setText("");
-                    ParseAnalytics.trackEventInBackground("pinIncorrect");
+                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.INCORRECT);;
                 }
             }
         });

@@ -10,10 +10,9 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.parse.ParseAnalytics;
-
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.NoteFragment;
+import in.eigene.miary.helpers.Tracking;
 
 /**
  * Displays a single note.
@@ -84,7 +83,7 @@ public class NoteActivity extends BaseActivity
 
             case R.id.menu_item_note_fullscreen:
                 restart(true);
-                ParseAnalytics.trackEventInBackground("fullscreen");
+                Tracking.sendEvent(Tracking.Category.FULLSCREEN, Tracking.Action.ENTER);
                 return true;
 
             default:

@@ -32,6 +32,7 @@ import in.eigene.miary.activities.SettingsActivity;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 import in.eigene.miary.helpers.ActivityHelper;
 import in.eigene.miary.helpers.ParseHelper;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.sync.SyncAdapter;
 
@@ -64,22 +65,28 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
         diaryCounterItem = new CounterItem(R.drawable.ic_inbox_grey600_24dp, R.string.drawer_item_diary, new Runnable() {
             @Override
             public void run() {
-                activity.getFeedFragment().setSection(Note.Section.DIARY);
-                activity.setTitle(Note.Section.DIARY.getTitleResourceId());
+                final Note.Section section = Note.Section.DIARY;
+                activity.getFeedFragment().setSection(section);
+                activity.setTitle(section.getTitleResourceId());
+                Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
             }
         });
         starredCounterItem = new CounterItem(R.drawable.ic_star_grey600_24dp, R.string.drawer_item_starred, new Runnable() {
             @Override
             public void run() {
-                activity.getFeedFragment().setSection(Note.Section.STARRED);
-                activity.setTitle(Note.Section.STARRED.getTitleResourceId());
+                final Note.Section section = Note.Section.STARRED;
+                activity.getFeedFragment().setSection(section);
+                activity.setTitle(section.getTitleResourceId());
+                Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
             }
         });
         draftsCounterItem = new CounterItem(R.drawable.ic_drafts_grey600_24dp, R.string.drawer_item_drafts, new Runnable() {
             @Override
             public void run() {
-                activity.getFeedFragment().setSection(Note.Section.DRAFTS);
-                activity.setTitle(Note.Section.DRAFTS.getTitleResourceId());
+                final Note.Section section = Note.Section.DRAFTS;
+                activity.getFeedFragment().setSection(section);
+                activity.setTitle(section.getTitleResourceId());
+                Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
             }
         });
 

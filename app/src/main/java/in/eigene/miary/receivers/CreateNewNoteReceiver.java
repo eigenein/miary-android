@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.parse.ParseAnalytics;
-
 import in.eigene.miary.activities.NoteActivity;
 import in.eigene.miary.persistence.Note;
 
@@ -20,6 +18,5 @@ public class CreateNewNoteReceiver extends BroadcastReceiver {
         final Note note = Note.createEmpty();
         final Uri noteUri = note.insert(context.getContentResolver());
         NoteActivity.start(context, noteUri, false, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_FROM_BACKGROUND);
-        ParseAnalytics.trackEventInBackground("createNewFromNotification");
     }
 }

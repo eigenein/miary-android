@@ -9,11 +9,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.parse.ParseAnalytics;
-
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.FeedFragment;
 import in.eigene.miary.helpers.MigrationHelper;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.widgets.Drawer;
 
@@ -106,7 +105,7 @@ public class FeedActivity extends BaseActivity {
                         .addToSection(getFeedFragment().getSection())
                         .insert(view.getContext().getContentResolver());
                 NoteActivity.start(view.getContext(), noteUri, false);
-                ParseAnalytics.trackEventInBackground("createNew");
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.NEW);
             }
         });
     }

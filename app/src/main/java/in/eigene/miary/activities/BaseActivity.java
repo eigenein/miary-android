@@ -1,14 +1,11 @@
 package in.eigene.miary.activities;
 
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
-
-import com.parse.ParseAnalytics;
 
 import java.util.Date;
 
@@ -31,12 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static void resetLastActivityTime() {
         lastActivityTime = 0;
-    }
-
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
 
     @Override

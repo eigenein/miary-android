@@ -20,7 +20,7 @@ import java.io.OutputStream;
 import in.eigene.miary.backup.BackupOutput;
 import in.eigene.miary.backup.Storage;
 import in.eigene.miary.exceptions.InternalRuntimeException;
-import in.eigene.miary.helpers.ParseHelper;
+import in.eigene.miary.helpers.Tracking;
 
 /**
  * Google Drive backup storage.
@@ -73,7 +73,7 @@ public class DropboxStorage extends Storage {
         if (uiThread) {
             return;
         }
-        ParseHelper.trackEvent("backupToDropbox", "length", Long.toString(tempFile.length()));
+        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.DROPBOX, tempFile.length());
         try {
             api.putFileOverwrite(output.getName(), new FileInputStream(tempFile), tempFile.length(), null);
         } catch (final DropboxException e) {

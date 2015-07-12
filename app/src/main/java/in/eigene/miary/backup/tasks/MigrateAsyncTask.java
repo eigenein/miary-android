@@ -9,6 +9,7 @@ import in.eigene.miary.activities.FeedActivity;
 import in.eigene.miary.backup.Result;
 import in.eigene.miary.backup.inputs.LocalDatastoreRestoreInput;
 import in.eigene.miary.backup.storages.LocalDatastoreStorage;
+import in.eigene.miary.helpers.Tracking;
 
 /**
  * Migrates notes from Parse Local Datastore. To be removed.
@@ -41,5 +42,6 @@ public class MigrateAsyncTask extends RestoreAsyncTask {
             PreferenceManager.getDefaultSharedPreferences(context)
                     .edit().putBoolean(FeedActivity.KEY_NOTES_MIGRATED, true).apply();
         }
+        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.MIGRATE, result.toString());
     }
 }

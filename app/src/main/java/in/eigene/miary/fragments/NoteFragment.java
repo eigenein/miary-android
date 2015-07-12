@@ -17,23 +17,21 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.parse.ParseAnalytics;
-
 import java.util.Date;
 
 import in.eigene.miary.R;
-import in.eigene.miary.helpers.Substitutions;
-import in.eigene.miary.persistence.Note;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.fragments.dialogs.ColorPickerDialogFragment;
 import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
 import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
 import in.eigene.miary.helpers.Debouncer;
 import in.eigene.miary.helpers.NoteColorHelper;
-import in.eigene.miary.helpers.ParseHelper;
+import in.eigene.miary.helpers.Substitutions;
 import in.eigene.miary.helpers.TextWatcher;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.helpers.TypefaceCache;
 import in.eigene.miary.helpers.Util;
+import in.eigene.miary.persistence.Note;
 
 public class NoteFragment extends BaseFragment {
 
@@ -183,6 +181,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_drafted, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_DRAFT, "True");
                 return true;
 
             case R.id.menu_item_note_not_draft:
@@ -190,6 +189,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_undrafted, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_DRAFT, "False");
                 return true;
 
             case R.id.menu_item_note_not_starred:
@@ -197,6 +197,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_starred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_STARRED, "False");
                 return true;
 
             case R.id.menu_item_note_starred:
@@ -204,6 +205,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_unstarred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_STARRED, "True");
                 return true;
 
             case R.id.menu_item_note_color:
@@ -215,7 +217,7 @@ public class NoteFragment extends BaseFragment {
                                 note.setColor(color);
                                 saveNote(false);
                                 updateLayoutColor();
-                                ParseHelper.trackEvent("setColor", "color", Integer.toString(color));
+                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_COLOR, Integer.toString(color));
                             }
                         })
                         .show(getFragmentManager());
@@ -230,6 +232,7 @@ public class NoteFragment extends BaseFragment {
                                 saveNote(false);
                                 Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
                                 changedListener.onNoteRemoved();
+                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.REMOVE);
                             }
                         })
                         .show(getFragmentManager());
@@ -242,7 +245,7 @@ public class NoteFragment extends BaseFragment {
                             public void onPositiveButtonClicked(final Date date) {
                                 note.setCustomDate(date);
                                 saveNote(false);
-                                ParseAnalytics.trackEventInBackground("setCustomDate");
+                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_CUSTOM_DATE);
                             }
                         })
                         .setCreationDate(note.getCreatedDate())
@@ -317,11 +320,11 @@ public class NoteFragment extends BaseFragment {
 
     public interface ChangedListener {
 
-        public void onNoteRemoved();
+        void onNoteRemoved();
     }
 
     public interface LeaveFullscreenListener {
 
-        public void onLeaveFullscreen();
+        void onLeaveFullscreen();
     }
 }

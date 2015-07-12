@@ -1,10 +1,8 @@
 package in.eigene.miary.backup.storages;
 
-import android.annotation.TargetApi;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
@@ -20,7 +18,7 @@ import java.util.Date;
 import in.eigene.miary.backup.BackupOutput;
 import in.eigene.miary.backup.Storage;
 import in.eigene.miary.exceptions.InternalRuntimeException;
-import in.eigene.miary.helpers.AndroidVersion;
+import in.eigene.miary.helpers.Tracking;
 
 /**
  * External backup storage (memory card).
@@ -52,7 +50,7 @@ public class ExternalStorage extends Storage {
 
     @Override
     public void finish(final Context context, boolean uiThread, final BackupOutput output) {
-        if (AndroidVersion.isHoneycombMr1() && uiThread) {
+        if (uiThread) {
             addCompletedBackup(context, output.getName(), output.getMimeType());
         }
     }
@@ -65,7 +63,6 @@ public class ExternalStorage extends Storage {
     /**
      * Adds a completed backup into Downloads App.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private void addCompletedBackup(final Context context, final String name, String mimeType) {
         final File file = new File(DOWNLOADS, name);
         if (!file.exists()) {
@@ -80,6 +77,7 @@ public class ExternalStorage extends Storage {
                 file.getAbsolutePath(),
                 file.length(),
                 true);
+        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.EXTERNAL, file.length());
     }
 
     public class Input extends Storage.Input {

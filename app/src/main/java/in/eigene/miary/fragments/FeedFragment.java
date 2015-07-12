@@ -31,6 +31,7 @@ import in.eigene.miary.R;
 import in.eigene.miary.adapters.NotesAdapter;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.helpers.AccountManagerHelper;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.sync.SyncAdapter;
 
@@ -156,18 +157,21 @@ public class FeedFragment
                 }
                 PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
                         .putString(KEY_SORT_ORDER, sortOrder.name()).apply();
+                Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_SORTING_ORDER, sortOrder.toString());
                 return true;
 
             case R.id.menu_item_feed_set_single_column:
                 preferences.edit().putBoolean(KEY_MULTI_COLUMN, false).apply();
                 updateMenu();
                 updateLayoutManager();
+                Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Single Column");
                 return true;
 
             case R.id.menu_item_feed_set_multi_column:
                 preferences.edit().putBoolean(KEY_MULTI_COLUMN, true).apply();
                 updateMenu();
                 updateLayoutManager();
+                Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Multi-column");
                 return true;
 
             default:

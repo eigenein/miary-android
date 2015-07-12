@@ -10,12 +10,9 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
 import java.util.Date;
-
-import in.eigene.miary.helpers.ParseHelper;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -27,7 +24,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String KEY_LAST_SYNC_TIME = "lastSyncTime";
 
-   private final AccountManager accountManager;
+    private final AccountManager accountManager;
 
     public SyncAdapter(final Context context, final boolean autoInitialize) {
         super(context, autoInitialize);
@@ -67,12 +64,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         // Update last sync time.
         accountManager.setUserData(account, KEY_LAST_SYNC_TIME, Long.toString(currentSyncDate.getTime()));
         Log.i(LOG_TAG, "Finished.");
-        ParseAnalytics.trackEventInBackground("syncSuccess");
+        // TODO: ParseAnalytics.trackEventInBackground("syncSuccess");
     }
 
     private static void handleIoException(final String message, final String reason, final SyncResult syncResult, final Throwable e) {
         Log.e(LOG_TAG, message, e);
         syncResult.stats.numIoExceptions += 1;
-        ParseHelper.trackEvent("syncFailed", "reason", reason);
+        // TODO: ParseHelper.trackEvent("syncFailed", "reason", reason);
     }
 }
