@@ -42,6 +42,6 @@ public class MigrateAsyncTask extends RestoreAsyncTask {
             PreferenceManager.getDefaultSharedPreferences(context)
                     .edit().putBoolean(FeedActivity.KEY_NOTES_MIGRATED, true).apply();
         }
-        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.MIGRATE, result.toString());
+        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.MIGRATE, noteCount, result.toString());
     }
 }

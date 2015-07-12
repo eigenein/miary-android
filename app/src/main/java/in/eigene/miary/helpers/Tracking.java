@@ -24,10 +24,21 @@ public class Tracking {
     }
 
     public static void sendEvent(final String category, final String action, final long value) {
+        sendEvent(category, action, value, null);
+    }
+
+    public static void sendEvent(
+            final String category,
+            final String action,
+            final long value,
+            final String label) {
         final HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action)
                 .setValue(value);
+        if (label != null) {
+            builder.setLabel(label);
+        }
         Application.getTracker().send(builder.build());
     }
 
