@@ -155,8 +155,8 @@ public class NoteFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         saveNote(false);
     }
 
