@@ -7,7 +7,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.*;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,7 +22,6 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import in.eigene.miary.R;
-import in.eigene.miary.backup.tasks.MigrateAsyncTask;
 import in.eigene.miary.persistence.Note;
 
 /**

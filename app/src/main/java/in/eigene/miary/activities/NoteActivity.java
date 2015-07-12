@@ -1,18 +1,23 @@
 package in.eigene.miary.activities;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.parse.codec.binary.StringUtils;
+
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.NoteFragment;
 import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.persistence.Note;
 
 /**
  * Displays a single note.
@@ -49,8 +54,10 @@ public class NoteActivity extends BaseActivity
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        final Intent intent = getIntent();
+
         // Fullscreen mode.
-        final boolean fullscreen = getIntent().getBooleanExtra(EXTRA_FULLSCREEN, false);
+        final boolean fullscreen = intent.getBooleanExtra(EXTRA_FULLSCREEN, false);
         if (fullscreen) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -66,9 +73,7 @@ public class NoteActivity extends BaseActivity
             getSupportActionBar().hide();
         }
 
-        final Uri noteUri = getIntent().getParcelableExtra(EXTRA_NOTE_URI);
-        final NoteFragment noteFragment = NoteFragment.create(noteUri, fullscreen);
-        getFragmentManager().beginTransaction().replace(R.id.fragment_note, noteFragment).commit();
+        initializeNoteFragment(intent, fullscreen);
     }
 
     @Override
@@ -107,5 +112,27 @@ public class NoteActivity extends BaseActivity
 
         getToolbar().setBackgroundResource(R.color.toolbar_background_note);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void initializeNoteFragment(final Intent intent, final boolean fullscreen) {
+        final Uri noteUri;
+
+        if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+            final Note note = Note.createEmpty();
+            if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
+                note.setText(intent.getStringExtra(Intent.EXTRA_TEXT).trim());
+            }
+            if (intent.getStringExtra(Intent.EXTRA_SUBJECT) != null) {
+                note.setTitle(intent.getStringExtra(Intent.EXTRA_SUBJECT).trim());
+            }
+            noteUri = note.insert(getContentResolver());
+        } else {
+            noteUri = getIntent().getParcelableExtra(EXTRA_NOTE_URI);
+        }
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_note, NoteFragment.create(noteUri, fullscreen))
+                .commit();
     }
 }

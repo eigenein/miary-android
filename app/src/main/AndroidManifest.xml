@@ -36,7 +36,13 @@
         <activity
                 android:name=".activities.NoteActivity"
                 android:label="@string/activity_note"
-        />
+        >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*"/>
+            </intent-filter>
+        </activity>
         <activity
                 android:name=".activities.SettingsActivity"
                 android:label="@string/activity_settings"
