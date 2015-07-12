@@ -16,9 +16,9 @@ import java.util.Date;
 
 import in.eigene.miary.R;
 import in.eigene.miary.activities.NoteActivity;
-import in.eigene.miary.persistence.Note;
 import in.eigene.miary.helpers.NoteColorHelper;
 import in.eigene.miary.helpers.TypefaceCache;
+import in.eigene.miary.persistence.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
@@ -26,6 +26,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private int idColumnIndex;
 
     public void setCursor(final Cursor cursor) {
+        if (this.cursor != null) {
+            this.cursor.close();
+        }
         this.cursor = cursor;
         if (cursor != null) {
             idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
