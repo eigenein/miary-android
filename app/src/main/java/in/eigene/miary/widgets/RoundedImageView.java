@@ -1,10 +1,16 @@
 package in.eigene.miary.widgets;
 
-import android.content.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
-import android.util.*;
-import android.widget.*;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
+import android.widget.ImageView;
 
 /**
  * http://stackoverflow.com/a/16208548/359730

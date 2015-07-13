@@ -1,17 +1,17 @@
 package in.eigene.miary.activities;
 
-import android.os.*;
-import android.preference.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.util.*;
-import android.view.*;
-import com.parse.*;
-import in.eigene.miary.*;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.WindowManager;
 
-import java.util.*;
+import java.util.Date;
 
-public abstract class BaseActivity extends ActionBarActivity {
+import in.eigene.miary.R;
+
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = BaseActivity.class.getSimpleName();
 
@@ -28,12 +28,6 @@ public abstract class BaseActivity extends ActionBarActivity {
 
     public static void resetLastActivityTime() {
         lastActivityTime = 0;
-    }
-
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
 
     @Override

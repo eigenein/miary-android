@@ -1,26 +1,40 @@
 package in.eigene.miary.fragments;
 
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
-import android.text.*;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
-import android.util.*;
-import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.*;
-import in.eigene.miary.core.backup.inputs.*;
-import in.eigene.miary.core.backup.outputs.*;
-import in.eigene.miary.core.backup.storages.*;
-import in.eigene.miary.core.backup.tasks.*;
-import in.eigene.miary.core.managers.*;
-import in.eigene.miary.fragments.dialogs.*;
+import android.util.Log;
+import android.widget.Toast;
 
-import java.text.*;
-import java.util.*;
+import com.google.android.gms.analytics.HitBuilders;
+
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
+import java.util.Set;
+
+import in.eigene.miary.Application;
+import in.eigene.miary.R;
+import in.eigene.miary.backup.inputs.JsonRestoreInput;
+import in.eigene.miary.backup.outputs.JsonBackupOutput;
+import in.eigene.miary.backup.outputs.PlainTextBackupOutput;
+import in.eigene.miary.backup.storages.DropboxStorage;
+import in.eigene.miary.backup.storages.ExternalStorage;
+import in.eigene.miary.backup.tasks.BackupAsyncTask;
+import in.eigene.miary.backup.tasks.RestoreAsyncTask;
+import in.eigene.miary.fragments.dialogs.PinDialogFragment;
+import in.eigene.miary.fragments.dialogs.TimePickerDialogFragment;
+import in.eigene.miary.helpers.Substitutions;
+import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.managers.PinManager;
+import in.eigene.miary.managers.ReminderManager;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -192,7 +206,7 @@ public class SettingsFragment extends PreferenceFragment {
                         if (pin.length() == 4) {
                             PinManager.set(getActivity(), pin);
                             Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
-                            ParseAnalytics.trackEventInBackground("protectionEnabled");
+                            Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.ENABLE);
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(false);
@@ -219,7 +233,7 @@ public class SettingsFragment extends PreferenceFragment {
                     public void onPositiveButtonClicked(final String pin) {
                         if (PinManager.check(getActivity(), pin)) {
                             Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
-                            ParseAnalytics.trackEventInBackground("protectionDisabled");
+                            Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.DISABLE);
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(true);
@@ -316,7 +330,6 @@ public class SettingsFragment extends PreferenceFragment {
                             startActivityForResult(intent, RESULT_CODE_RESTORE_JSON);
                         } catch (final ActivityNotFoundException e) {
                             Toast.makeText(getActivity(), R.string.toast_no_file_manager_app, Toast.LENGTH_LONG).show();
-                            ParseAnalytics.trackEventInBackground("noFileManager");
                         }
                         return true;
                     }

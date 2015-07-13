@@ -1,21 +1,26 @@
 package in.eigene.miary.activities;
 
-import android.app.*;
-import android.content.*;
-import android.graphics.*;
-import android.os.*;
-import android.text.*;
-import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.R;
-import in.eigene.miary.core.managers.*;
-import in.eigene.miary.helpers.TextWatcher;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class PinActivity extends Activity {
+import in.eigene.miary.R;
+import in.eigene.miary.helpers.TextWatcher;
+import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.managers.PinManager;
+
+/**
+ * Asks for passcode.
+ */
+public class PinActivity extends ActionBarActivity {
 
     private static final String EXTRA_INTENT = "intent";
-
-    private Intent intent;
 
     public static void start(final Context context, final Intent intent) {
         context.startActivity(new Intent().setClass(context, PinActivity.class).putExtra(EXTRA_INTENT, intent));
@@ -26,7 +31,11 @@ public class PinActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_pin);
-        intent = getIntent().getParcelableExtra(EXTRA_INTENT);
+
+        setSupportActionBar((android.support.v7.widget.Toolbar)findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
         final EditText pinEditText = (EditText)findViewById(R.id.pin_edit_text);
         pinEditText.setTypeface(Typeface.DEFAULT);
@@ -40,15 +49,24 @@ public class PinActivity extends Activity {
                 if (PinManager.check(PinActivity.this, pin)) {
                     finish();
                     BaseActivity.refreshLastActivityTime();
-                    startActivity(intent);
-                    ParseAnalytics.trackEventInBackground("pinCorrect");
+                    startActivity(getIntent().<Intent>getParcelableExtra(EXTRA_INTENT));
+                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.CORRECT);
                 } else {
                     Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                     pinEditText.setText("");
-                    ParseAnalytics.trackEventInBackground("pinIncorrect");
+                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.INCORRECT);;
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

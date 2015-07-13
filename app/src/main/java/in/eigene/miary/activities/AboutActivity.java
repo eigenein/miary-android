@@ -1,23 +1,32 @@
 package in.eigene.miary.activities;
 
-import android.app.*;
-import android.content.*;
-import android.content.pm.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
-import android.view.*;
-import android.widget.*;
-import com.parse.*;
-import com.parse.ParseException;
-import in.eigene.miary.*;
-import in.eigene.miary.core.classes.*;
-import in.eigene.miary.exceptions.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.helpers.lang.*;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.*;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 
+import in.eigene.miary.R;
+import in.eigene.miary.persistence.Note;
+
+/**
+ * About application.
+ */
 public class AboutActivity extends BaseActivity {
 
     @Override
@@ -42,7 +51,20 @@ public class AboutActivity extends BaseActivity {
         findViewById(R.id.about_google_plus_text).setOnClickListener(
                 new StartUriOnClickListener(Uri.parse("http://plus.google.com/communities/105005072306337762911")));
 
-        registerForContextMenu(findViewById(R.id.about_version));
+        final TextView versionView = (TextView)findViewById(R.id.about_version);
+        registerForContextMenu(versionView);
+        versionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                // Copy version, build and installation ID to the clipboard.
+                final ClipboardManager manager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                manager.setPrimaryClip(ClipData.newPlainText(
+                        getString(R.string.app_name),
+                        versionView.getText() + "\n" + ParseInstallation.getCurrentInstallation().getInstallationId()
+                ));
+                Toast.makeText(AboutActivity.this, R.string.toast_copied, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -51,9 +73,13 @@ public class AboutActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.developer, menu);
     }
 
+    /**
+     * Developer features.
+     */
     @Override
     public boolean onContextItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.menu_item_developer_clear_shared_preferences:
                 PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
                 return true;
@@ -66,13 +92,7 @@ public class AboutActivity extends BaseActivity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                Note.unpinAllInBackground(new DeleteCallback() {
-                                    @Override
-                                    public void done(final ParseException e) {
-                                        InternalRuntimeException.throwForException("could not unpin all notes", e);
-                                        Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                                getContentResolver().delete(Note.Contract.CONTENT_URI, null, null);
                             }
                         })
                         .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -86,25 +106,25 @@ public class AboutActivity extends BaseActivity {
                 return true;
 
             case R.id.menu_item_developer_add_sample_notes:
+                final ContentResolver contentResolver = getContentResolver();
                 final String[] texts = getResources().getStringArray(R.array.sample_texts);
-                final List<Note> notes = Util.map(Arrays.asList(texts), new Function<String, Note>() {
-                    private int color = 5;
-                    @Override
-                    public Note apply(final String text) {
-                        return Note.createNew().setText(text).setColor(color++ % 8);
-                    }
-                });
-                Note.pinAllInBackground(notes, new SaveCallback() {
-                    @Override
-                    public void done(final ParseException e) {
-                        InternalRuntimeException.throwForException("could not pin notes", e);
-                        Toast.makeText(AboutActivity.this, "Done", Toast.LENGTH_LONG).show();
-                    }
-                });
+                int color = 5;
+                for (final String text : texts) {
+                    Note.createEmpty().setText(text).setColor(color++ % 8).insert(contentResolver);
+                }
+                return true;
+
+            case R.id.menu_item_developer_log_out:
+                ParseUser.logOut();
                 return true;
 
             case R.id.menu_item_developer_disable_flag_secure:
                 BaseActivity.disableSecureFlag = true;
+                return true;
+
+            case R.id.menu_item_developer_reset_migrated:
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .edit().putBoolean(FeedActivity.KEY_NOTES_MIGRATED, false).apply();
                 return true;
 
             default:

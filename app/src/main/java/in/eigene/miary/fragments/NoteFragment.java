@@ -1,30 +1,43 @@
 package in.eigene.miary.fragments;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.preference.*;
-import android.text.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import com.parse.*;
-import in.eigene.miary.*;
-import in.eigene.miary.core.*;
-import in.eigene.miary.core.classes.*;
-import in.eigene.miary.exceptions.*;
-import in.eigene.miary.fragments.base.*;
-import in.eigene.miary.fragments.dialogs.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.helpers.TextWatcher;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import java.util.*;
+import java.util.Date;
+
+import in.eigene.miary.R;
+import in.eigene.miary.fragments.base.BaseFragment;
+import in.eigene.miary.fragments.dialogs.ColorPickerDialogFragment;
+import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
+import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
+import in.eigene.miary.helpers.Debouncer;
+import in.eigene.miary.helpers.NoteColorHelper;
+import in.eigene.miary.helpers.Substitutions;
+import in.eigene.miary.helpers.TextWatcher;
+import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.helpers.TypefaceCache;
+import in.eigene.miary.helpers.Util;
+import in.eigene.miary.persistence.Note;
 
 public class NoteFragment extends BaseFragment {
 
     private static final String LOG_TAG = NoteFragment.class.getSimpleName();
 
-    private static final String EXTRA_NOTE_UUID = "noteUuid";
+    private static final String EXTRA_NOTE_URI = "uri";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
@@ -40,9 +53,9 @@ public class NoteFragment extends BaseFragment {
 
     private boolean substitutionEnabled = true;
 
-    public static NoteFragment create(final UUID noteUuid, final boolean fullscreen) {
+    public static NoteFragment create(final Uri noteUri, final boolean fullscreen) {
         final Bundle arguments = new Bundle();
-        arguments.putSerializable(EXTRA_NOTE_UUID, noteUuid);
+        arguments.putParcelable(EXTRA_NOTE_URI, noteUri);
         arguments.putSerializable(EXTRA_FULLSCREEN, fullscreen);
         final NoteFragment fragment = new NoteFragment();
         fragment.setArguments(arguments);
@@ -98,25 +111,23 @@ public class NoteFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                if (note != null) {
-                    // Automatic substitution.
-                    final String currentText = editTextText.getText().toString();
-                    final String replacedText;
-                    if (substitutionEnabled) {
-                        replacedText = Substitutions.replace(currentText);
-                        if (!currentText.equals(replacedText)) {
-                            Log.d(LOG_TAG, "Setting replaced text.");
-                            final int selectionStart = editTextText.getSelectionStart();
-                            editTextText.setText(replacedText);
-                            editTextText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
-                        }
-                    } else {
-                        replacedText = currentText;
+                // Automatic substitution.
+                final String currentText = editTextText.getText().toString();
+                final String replacedText;
+                if (substitutionEnabled) {
+                    replacedText = Substitutions.replace(currentText);
+                    if (!currentText.equals(replacedText)) {
+                        Log.d(LOG_TAG, "Setting replaced text.");
+                        final int selectionStart = editTextText.getSelectionStart();
+                        editTextText.setText(replacedText);
+                        editTextText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
                     }
-                    // Update field.
-                    note.setText(replacedText);
-                    saveNote(true);
+                } else {
+                    replacedText = currentText;
                 }
+                // Update field.
+                note.setText(replacedText);
+                saveNote(true);
             }
         });
     }
@@ -128,10 +139,8 @@ public class NoteFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                if (note != null) {
-                    note.setTitle(s.toString());
-                    saveNote(true);
-                }
+                note.setTitle(s.toString());
+                saveNote(true);
             }
         });
     }
@@ -146,8 +155,8 @@ public class NoteFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         saveNote(false);
     }
 
@@ -156,6 +165,7 @@ public class NoteFragment extends BaseFragment {
         if (note == null) {
             return;
         }
+
         menu.findItem(R.id.menu_item_note_draft).setVisible(!note.isDraft());
         menu.findItem(R.id.menu_item_note_not_draft).setVisible(note.isDraft());
         menu.findItem(R.id.menu_item_note_not_starred).setVisible(!note.isStarred());
@@ -171,6 +181,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_drafted, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_DRAFT, "True");
                 return true;
 
             case R.id.menu_item_note_not_draft:
@@ -178,6 +189,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_undrafted, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_DRAFT, "False");
                 return true;
 
             case R.id.menu_item_note_not_starred:
@@ -185,6 +197,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_starred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_STARRED, "False");
                 return true;
 
             case R.id.menu_item_note_starred:
@@ -192,6 +205,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_unstarred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
+                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_STARRED, "True");
                 return true;
 
             case R.id.menu_item_note_color:
@@ -203,6 +217,7 @@ public class NoteFragment extends BaseFragment {
                                 note.setColor(color);
                                 saveNote(false);
                                 updateLayoutColor();
+                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_COLOR, Integer.toString(color));
                             }
                         })
                         .show(getFragmentManager());
@@ -213,16 +228,11 @@ public class NoteFragment extends BaseFragment {
                         .setListener(new RemoveNoteDialogFragment.Listener() {
                             @Override
                             public void onPositiveButtonClicked() {
-                                note.unpinInBackground(new DeleteCallback() {
-                                    @Override
-                                    public void done(final ParseException e) {
-                                        InternalRuntimeException.throwForException("Could not unpin note.", e);
-                                        note = null;
-                                        Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
-                                        changedListener.onNoteRemoved();
-                                    }
-                                });
-                                note = null;
+                                note.setDeleted(true);
+                                saveNote(false);
+                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
+                                changedListener.onNoteRemoved();
+                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.REMOVE);
                             }
                         })
                         .show(getFragmentManager());
@@ -235,10 +245,10 @@ public class NoteFragment extends BaseFragment {
                             public void onPositiveButtonClicked(final Date date) {
                                 note.setCustomDate(date);
                                 saveNote(false);
-                                ParseAnalytics.trackEventInBackground("setCustomDate");
+                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_CUSTOM_DATE);
                             }
                         })
-                        .setCreationDate(note.getCreationDate())
+                        .setCreationDate(note.getCreatedDate())
                         .setCustomDate(note.getCustomDate())
                         .show(getFragmentManager());
                 return true;
@@ -256,49 +266,27 @@ public class NoteFragment extends BaseFragment {
      * Updates view with the note.
      */
     private void refresh() {
-        final UUID noteUuid = (UUID)getArguments().getSerializable(EXTRA_NOTE_UUID);
-        Log.i(LOG_TAG, "Update view: " + noteUuid);
-        Note.getByUuid(noteUuid, new GetCallback<Note>() {
-            @Override
-            public void done(final Note note, final ParseException e) {
-                if (!isAdded()) {
-                    // Fix IllegalStateException: it's too late to update anything.
-                    return;
-                }
-                InternalRuntimeException.throwForException("Failed to find note " + noteUuid, e);
-                Log.i(LOG_TAG, "Note: " + note);
-                NoteFragment.this.note = note;
-                editTextTitle.setText(note.getTitle());
-                editTextText.setText(note.getText());
-                updateLayoutColor();
-                invalidateOptionsMenu();
-            }
-        });
+        final Uri noteUri = getArguments().getParcelable(EXTRA_NOTE_URI);
+        Log.i(LOG_TAG, "Update view: " + noteUri);
+        note = Note.getByUri(noteUri, getActivity().getContentResolver());
+        Log.i(LOG_TAG, "Note: " + note);
+        editTextTitle.setText(note.getTitle());
+        editTextText.setText(note.getText());
+        updateLayoutColor();
     }
 
     /**
      * Saves the note. This method debounces frequent save calls.
      */
     private void saveNote(final boolean debounce) {
-        // Check that note is not removed.
-        if (note == null) {
-            Log.i(LOG_TAG, "Not saving null note.");
-            return;
-        }
+        note.setUpdatedDate(new Date());
         // Debounce.
         if (debounce && !saveDebouncer.isActionAllowed()) {
             return;
         }
-        // Save callback.
-        final SaveCallback callback = new SaveCallback() {
-            @Override
-            public void done(final ParseException e) {
-                InternalRuntimeException.throwForException("Could not pin note.", e);
-            }
-        };
-        // Set hashtags and save.
-        Log.i(LOG_TAG, "Save note.");
-        note.pinInBackground(callback);
+        // Save.
+        note.setUpdatedDate(new Date());
+        note.update(getActivity().getContentResolver());
         // Update debouncer.
         saveDebouncer.ping();
     }
@@ -331,11 +319,11 @@ public class NoteFragment extends BaseFragment {
 
     public interface ChangedListener {
 
-        public void onNoteRemoved();
+        void onNoteRemoved();
     }
 
     public interface LeaveFullscreenListener {
 
-        public void onLeaveFullscreen();
+        void onLeaveFullscreen();
     }
 }

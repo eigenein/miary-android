@@ -1,6 +1,6 @@
 package in.eigene.miary.helpers;
 
-import android.text.*;
+import android.text.Editable;
 
 /**
  * Provides default implementation of text watcher.

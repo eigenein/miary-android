@@ -1,14 +1,20 @@
 package in.eigene.miary.helpers;
 
-import in.eigene.miary.exceptions.*;
-import in.eigene.miary.helpers.lang.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
-import java.text.*;
-import java.util.*;
+import in.eigene.miary.exceptions.InternalRuntimeException;
+import in.eigene.miary.helpers.lang.Function;
 
 public class Util {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    public static final Date EPOCH = new Date(0);
+
+    private static final SimpleDateFormat ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     /**
      * Returns first non-null argument.
@@ -27,13 +33,19 @@ public class Util {
         return null;
     }
 
+    /**
+     * Formats date according to ISO 8601 format.
+     */
     public static String format(final Date date) {
-        return DATE_FORMAT.format(date);
+        return ISO8601.format(date);
     }
 
+    /**
+     * Parses ISO 8601 formatted date.
+     */
     public static Date parse(final String string) {
         try {
-            return DATE_FORMAT.parse(string);
+            return ISO8601.parse(string);
         } catch (final ParseException e) {
             InternalRuntimeException.throwForException("Could not parse date: " + string, e);
             return null;

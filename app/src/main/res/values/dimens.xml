@@ -13,4 +13,5 @@
     <!-- Material. -->
     <dimen name="text_field_vertical_padding">16dp</dimen>
     <dimen name="text_field_divider_padding">8dp</dimen>
+    <dimen name="text_field_helper_padding">4dp</dimen>
 </resources>

@@ -1,19 +1,33 @@
 package in.eigene.miary.activities;
 
-import android.accounts.*;
-import android.graphics.*;
-import android.os.*;
-import android.view.*;
-import android.widget.*;
-import in.eigene.miary.*;
-import in.eigene.miary.helpers.*;
-import in.eigene.miary.helpers.lang.*;
-import in.eigene.miary.sync.*;
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class AuthenticatorActivity extends AccountAuthenticatorActivity implements Consumer<String> {
+import in.eigene.miary.R;
+import in.eigene.miary.helpers.Util;
+import in.eigene.miary.helpers.lang.Consumer;
+import in.eigene.miary.sync.Credentials;
+import in.eigene.miary.sync.SignInAsyncTask;
+import in.eigene.miary.sync.SignUpAsyncTask;
+import in.eigene.miary.sync.SyncAdapter;
+
+/**
+ * Authentication activity.
+ */
+public class AuthenticatorActivity extends FullscreenDialogActivity implements Consumer<String> {
+
+    private AccountAuthenticatorResponse accountAuthenticatorResponse = null;
+    private Bundle result = null;
 
     private EditText emailEditText;
-
     private EditText passwordEditText;
 
     private Credentials credentials;
@@ -22,36 +36,89 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        accountAuthenticatorResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+        if (accountAuthenticatorResponse != null) {
+            accountAuthenticatorResponse.onRequestContinued();
+        }
+
         setContentView(R.layout.activity_authenticator);
+        initializeToolbar();
 
         emailEditText = (EditText)findViewById(R.id.auth_email_edit_text);
         passwordEditText = (EditText)findViewById(R.id.auth_password_edit_text);
 
         passwordEditText.setTypeface(Typeface.DEFAULT);
+    }
 
-        findViewById(R.id.auth_sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (validate()) {
-                    // TODO: disable controls.
-                    // TODO: show progress dialog.
-                    credentials = new Credentials(getEmail(), getPassword(), false);
-                    new AuthAsyncTask(AuthenticatorActivity.this).execute(credentials);
-                }
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.authenticator_activity, menu);
+        return true;
+    }
 
-        findViewById(R.id.auth_sign_up_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_auth_sign_in:
                 if (validate()) {
-                    // TODO: disable controls.
-                    // TODO: show progress dialog.
-                    credentials = new Credentials(getEmail(), getPassword(), true);
-                    new AuthAsyncTask(AuthenticatorActivity.this).execute(credentials);
+                    credentials = new Credentials(getEmail(), getPassword());
+                    new SignInAsyncTask(this, this).execute(credentials);
                 }
+                return true;
+            case R.id.menu_item_auth_sign_up:
+                if (validate()) {
+                    credentials = new Credentials(getEmail(), getPassword());
+                    new SignUpAsyncTask(this, this).execute(credentials);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * Sends the result or a Constants.ERROR_CODE_CANCELED error if a result isn't present.
+     */
+    @Override
+    public void finish() {
+        if (accountAuthenticatorResponse != null) {
+            // Send the result bundle back if set, otherwise send an error.
+            if (result != null) {
+                accountAuthenticatorResponse.onResult(result);
+            } else {
+                accountAuthenticatorResponse.onError(AccountManager.ERROR_CODE_CANCELED, "cancelled");
             }
-        });
+            accountAuthenticatorResponse = null;
+        }
+        super.finish();
+    }
+
+    @Override
+    public void accept(final String authToken) {
+        final AccountManager accountManager = AccountManager.get(this);
+        final Bundle result = new Bundle();
+
+        if (Util.isNullOrEmpty(authToken)) {
+            result.putString(AccountManager.KEY_ERROR_MESSAGE, getString(R.string.account_auth_failed));
+            Toast.makeText(this, R.string.account_auth_failed, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final Account account = new Account(credentials.getEmail(), SyncAdapter.ACCOUNT_TYPE);
+        // Enable automatic syncing.
+        ContentResolver.setSyncAutomatically(account, SyncAdapter.AUTHORITY, true);
+        ContentResolver.setIsSyncable(account, SyncAdapter.AUTHORITY, 1);
+        ContentResolver.addPeriodicSync(account, SyncAdapter.AUTHORITY, Bundle.EMPTY, 1800L);
+        accountManager.addAccountExplicitly(account, credentials.getPassword(), Bundle.EMPTY);
+        // Add account.
+        accountManager.setAuthToken(account, account.type, authToken);
+        result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+        result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+        // Finish.
+        Toast.makeText(this, R.string.account_auth_success, Toast.LENGTH_LONG).show();
+        this.result = result;
+        setResult(RESULT_OK);
+        finish();
     }
 
     private String getEmail() {
@@ -72,28 +139,5 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void accept(final String authToken) {
-        final AccountManager accountManager = AccountManager.get(this);
-        final Bundle result = new Bundle();
-
-        if (!Util.isNullOrEmpty(authToken)) {
-            final Account account = new Account(credentials.getEmail(), "miary.eigene.in");
-            accountManager.addAccountExplicitly(account, credentials.getPassword(), new Bundle());
-            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-            result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
-            accountManager.setAuthToken(account, account.type, authToken);
-            Toast.makeText(this, R.string.account_auth_success, Toast.LENGTH_LONG).show();
-        } else {
-            result.putString(AccountManager.KEY_ERROR_MESSAGE, getString(R.string.account_auth_failed));
-            Toast.makeText(this, R.string.account_auth_failed, Toast.LENGTH_LONG).show();
-        }
-
-        setAccountAuthenticatorResult(result);
-        setResult(RESULT_OK);
-        finish();
     }
 }

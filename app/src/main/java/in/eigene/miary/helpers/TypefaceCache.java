@@ -1,9 +1,9 @@
 package in.eigene.miary.helpers;
 
-import android.content.*;
-import android.graphics.*;
+import android.content.Context;
+import android.graphics.Typeface;
 
-import java.util.*;
+import java.util.HashMap;
 
 public class TypefaceCache {
 

@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 >
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/feed_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/feed_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="?attr/actionBarSize"
-            android:paddingBottom="@dimen/feed_item_external_margin"
-            android:paddingLeft="@dimen/feed_item_external_margin"
-            android:paddingRight="@dimen/feed_item_external_margin"
-    />
-    <LinearLayout
-            android:id="@+id/feed_empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
-            android:paddingTop="?attr/actionBarSize"
     >
-        <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:orientation="vertical"
-                android:background="@drawable/note_add_background"
-                android:gravity="center"
-        >
-             <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:text="@string/feed_empty"
-                    android:textColor="@color/light_text_hint"
-                    android:textSize="24dp"
-                    android:gravity="center"
-            />
-        </LinearLayout>
-    </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/feed_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="?attr/actionBarSize"
+                android:paddingBottom="@dimen/feed_item_external_margin"
+                android:paddingLeft="@dimen/feed_item_external_margin"
+                android:paddingRight="@dimen/feed_item_external_margin"
+                android:animateLayoutChanges="false"
+        />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <ImageView
+            android:id="@+id/feed_empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="?attr/actionBarSize"
+            android:visibility="gone"
+            android:scaleType="center"
+    >
+    </ImageView>
 </RelativeLayout>

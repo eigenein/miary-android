@@ -1,8 +1,8 @@
 package in.eigene.miary.sync;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 
 public class SyncService extends Service {
 
