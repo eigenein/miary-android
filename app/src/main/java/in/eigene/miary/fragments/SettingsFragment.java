@@ -14,13 +14,10 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Set;
 
-import in.eigene.miary.Application;
 import in.eigene.miary.R;
 import in.eigene.miary.backup.inputs.JsonRestoreInput;
 import in.eigene.miary.backup.outputs.JsonBackupOutput;
@@ -255,7 +252,7 @@ public class SettingsFragment extends PreferenceFragment {
     private void refreshReminderDaysPreference(final Set<String> reminderDays) {
         final Preference preference = findPreference(R.string.prefkey_reminder_days);
         if (!reminderDays.isEmpty()) {
-            final ArrayList<String> dayNames = new ArrayList<String>();
+            final ArrayList<String> dayNames = new ArrayList<>();
             for (final String weekday : allWeekdays) {
                 if (reminderDays.contains(weekday)) {
                     dayNames.add(SHORT_WEEKDAYS[Integer.valueOf(weekday)]);
