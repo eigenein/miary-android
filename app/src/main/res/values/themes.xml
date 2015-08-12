@@ -10,6 +10,12 @@
         <item name="colorControlActivated">@color/primary</item>
         <item name="colorControlHighlight">@color/primary</item>
     </style>
+    <style name="Miary.Theme.Fab">
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
     <style name="Miary.Theme.Button" parent="@android:style/Widget.Button">
         <item name="android:textAllCaps">true</item>
         <item name="android:minHeight">36dp</item>
