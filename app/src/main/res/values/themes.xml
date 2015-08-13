@@ -16,19 +16,4 @@
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:layout_marginBottom">0dp</item>
     </style>
-    <style name="Miary.Theme.Button" parent="@android:style/Widget.Button">
-        <item name="android:textAllCaps">true</item>
-        <item name="android:minHeight">36dp</item>
-        <item name="android:minWidth">64dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:layout_marginRight">4dp</item>
-        <item name="android:textColor">@color/light_text_primary</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-    <style name="Miary.Theme.Button.Flat" parent="Miary.Theme.Button">
-        <item name="android:background">@drawable/flat_button_background</item>
-    </style>
 </resources>

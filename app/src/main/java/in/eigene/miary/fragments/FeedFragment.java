@@ -180,20 +180,6 @@ public class FeedFragment
         }
     }
 
-    /**
-     * Fixes top padding on different toolbar sizes.
-     */
-    public void fixTopPadding(final Context context) {
-        final TypedValue value = new TypedValue();
-        if (context.getTheme().resolveAttribute(R.attr.actionBarSize, value, true)) {
-            final int actionBarSize = TypedValue.complexToDimensionPixelSize(value.data, context.getResources().getDisplayMetrics());
-            final int feedItemMargin = context.getResources().getDimensionPixelSize(R.dimen.feed_item_external_margin);
-            final int padding = actionBarSize + feedItemMargin;
-            feedView.setPadding(0, padding, 0, 0);
-            swipeRefresh.setProgressViewOffset(false, 0, padding);
-        }
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
         return new CursorLoader(

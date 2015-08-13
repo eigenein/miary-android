@@ -15,10 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingTop="?attr/actionBarSize"
-                android:paddingBottom="@dimen/feed_item_external_margin"
-                android:paddingLeft="@dimen/feed_item_external_margin"
-                android:paddingRight="@dimen/feed_item_external_margin"
+                android:padding="@dimen/feed_item_external_margin"
                 android:animateLayoutChanges="false"
         />
     </android.support.v4.widget.SwipeRefreshLayout>

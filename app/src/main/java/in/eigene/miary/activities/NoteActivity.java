@@ -110,7 +110,6 @@ public class NoteActivity extends BaseActivity
     protected void initializeToolbar() {
         super.initializeToolbar();
 
-        getToolbar().setBackgroundResource(R.color.toolbar_background_note);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
