@@ -16,18 +16,14 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:padding="@dimen/feed_item_external_margin"
-                android:animateLayoutChanges="false"
-        />
+                android:animateLayoutChanges="false"/>
     </android.support.v4.widget.SwipeRefreshLayout>
     <ImageView
             android:id="@+id/feed_empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:paddingTop="?attr/actionBarSize"
             android:visibility="gone"
-            android:scaleType="center"
-    >
+            android:scaleType="center">
     </ImageView>
 </RelativeLayout>
