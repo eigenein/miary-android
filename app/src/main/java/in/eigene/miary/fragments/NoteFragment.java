@@ -126,8 +126,10 @@ public class NoteFragment extends BaseFragment {
                     replacedText = currentText;
                 }
                 // Update field.
-                note.setText(replacedText);
-                saveNote(true);
+                if (note != null) {
+                    note.setText(replacedText);
+                    saveNote(true);
+                }
             }
         });
     }
@@ -139,8 +141,10 @@ public class NoteFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                note.setTitle(s.toString());
-                saveNote(true);
+                if (note != null) {
+                    note.setTitle(s.toString());
+                    saveNote(true);
+                }
             }
         });
     }
