@@ -1,18 +1,14 @@
 package in.eigene.miary.activities;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.parse.codec.binary.StringUtils;
 
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.NoteFragment;
