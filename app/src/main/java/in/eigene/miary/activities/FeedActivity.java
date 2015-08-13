@@ -43,7 +43,6 @@ public class FeedActivity extends BaseActivity {
 
         // Initialize feed fragment.
         final FeedFragment feedFragment = getFeedFragment();
-        feedFragment.fixTopPadding(getSupportActionBar().getThemedContext());
         setTitle(feedFragment.getSection().getTitleResourceId());
 
         // Initialize preferences.
@@ -89,12 +88,6 @@ public class FeedActivity extends BaseActivity {
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawer.getToggle().syncState();
-    }
-
-    @Override
-    protected void initializeToolbar() {
-        super.initializeToolbar();
-        getToolbar().setBackgroundResource(R.color.toolbar_background_feed);
     }
 
     private void initializeFloatingActionButton() {
