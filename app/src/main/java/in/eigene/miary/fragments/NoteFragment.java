@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -45,7 +44,7 @@ public class NoteFragment extends BaseFragment {
     private ChangedListener changedListener;
     private LeaveFullscreenListener leaveFullscreenListener;
 
-    private LinearLayout editLayout;
+    private View editLayout;
     private EditText editTextTitle;
     private EditText editTextText;
 
@@ -84,7 +83,7 @@ public class NoteFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_note, container, false);
         final View leaveFullscreenView = view.findViewById(R.id.note_button_leave_fullscreen);
-        editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
+        editLayout = view.findViewById(R.id.note_edit_layout);
 
         if (getArguments().getBoolean(EXTRA_FULLSCREEN, false)) {
             editLayout.setPadding(0, 0, 0, 0);
