@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +24,7 @@ import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
 import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
 import in.eigene.miary.helpers.Debouncer;
 import in.eigene.miary.helpers.NoteColorHelper;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Substitutions;
 import in.eigene.miary.helpers.TextWatcher;
 import in.eigene.miary.helpers.Tracking;
@@ -153,7 +153,7 @@ public class NoteFragment extends BaseFragment {
         super.onStart();
 
         refresh();
-        substitutionEnabled = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(
+        substitutionEnabled = PreferenceHelper.get(getActivity()).getBoolean(
                 getString(R.string.prefkey_substitution_enabled), true);
     }
 

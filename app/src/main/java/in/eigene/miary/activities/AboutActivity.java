@@ -11,7 +11,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +21,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import in.eigene.miary.R;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.persistence.Note;
 
 /**
@@ -81,7 +81,7 @@ public class AboutActivity extends BaseActivity {
         switch (item.getItemId()) {
 
             case R.id.menu_item_developer_clear_shared_preferences:
-                PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+                PreferenceHelper.clear(this);
                 return true;
 
             case R.id.menu_item_developer_delete_all_notes:
@@ -118,13 +118,8 @@ public class AboutActivity extends BaseActivity {
                 ParseUser.logOut();
                 return true;
 
-            case R.id.menu_item_developer_disable_flag_secure:
-                BaseActivity.disableSecureFlag = true;
-                return true;
-
             case R.id.menu_item_developer_reset_migrated:
-                PreferenceManager.getDefaultSharedPreferences(this)
-                        .edit().putBoolean(FeedActivity.KEY_NOTES_MIGRATED, false).apply();
+                PreferenceHelper.edit(this).putBoolean(PreferenceHelper.KEY_NOTES_MIGRATED, false).apply();
                 return true;
 
             default:

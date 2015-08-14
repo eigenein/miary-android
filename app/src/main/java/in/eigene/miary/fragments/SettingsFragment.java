@@ -102,7 +102,7 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, Object newDays) {
-                        final Set days = (Set) newDays;
+                        final Set days = (Set)newDays;
 
                         refreshReminderDaysPreference(days);
 

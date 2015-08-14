@@ -7,7 +7,6 @@ import android.util.Log;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 
-import in.eigene.miary.activities.FeedActivity;
 import in.eigene.miary.backup.inputs.LocalDatastoreRestoreInput;
 import in.eigene.miary.backup.tasks.MigrateAsyncTask;
 import in.eigene.miary.exceptions.InternalRuntimeException;
@@ -30,8 +29,7 @@ public class MigrationHelper {
                     new MigrateAsyncTask(context).execute();
                 } else {
                     Log.i(LOG_TAG, "Nothing to be migrated.");
-                    PreferenceManager.getDefaultSharedPreferences(context)
-                            .edit().putBoolean(FeedActivity.KEY_NOTES_MIGRATED, true).apply();
+                    PreferenceHelper.edit(context).putBoolean(PreferenceHelper.KEY_NOTES_MIGRATED, true).apply();
                 }
             }
         });

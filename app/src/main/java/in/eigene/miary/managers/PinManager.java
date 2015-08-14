@@ -1,23 +1,18 @@
 package in.eigene.miary.managers;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+
+import in.eigene.miary.helpers.PreferenceHelper;
 
 public class PinManager {
 
-    private static final String KEY_PIN = "pin";
+    private static final String DEFAULT_PIN = "0000";
 
     public static void set(final Context context, final String pin) {
-        PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .edit()
-                .putString(PinManager.KEY_PIN, pin)
-                .commit();
+        PreferenceHelper.edit(context).putString(PreferenceHelper.KEY_PIN, pin).apply();
     }
 
     public static boolean check(final Context context, final String pin) {
-        return pin.equals(PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getString(KEY_PIN, "0000"));
+        return pin.equals(PreferenceHelper.get(context).getString(PreferenceHelper.KEY_PIN, DEFAULT_PIN));
     }
 }

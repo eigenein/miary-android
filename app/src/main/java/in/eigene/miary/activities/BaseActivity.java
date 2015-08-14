@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import java.util.Date;
 
 import in.eigene.miary.R;
+import in.eigene.miary.helpers.PreferenceHelper;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -17,7 +18,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private static final long TIMEOUT = 5 * 60 * 1000;
 
-    protected static boolean disableSecureFlag = false;
     private static long lastActivityTime = 0;
 
     private Toolbar toolbar;
@@ -96,6 +96,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private boolean isPasscodeEnabled() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.prefkey_pin_enabled), false);
+        return PreferenceHelper.get(this).getBoolean(getString(R.string.prefkey_pin_enabled), false);
     }
 }
