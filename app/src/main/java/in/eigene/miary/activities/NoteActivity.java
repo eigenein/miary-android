@@ -2,6 +2,7 @@ package in.eigene.miary.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,7 @@ import in.eigene.miary.persistence.Note;
 /**
  * Displays a single note.
  */
-public class NoteActivity extends BaseActivity
-        implements NoteFragment.ChangedListener, NoteFragment.LeaveFullscreenListener {
+public class NoteActivity extends BaseActivity implements NoteFragment.Listener {
 
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
 
@@ -108,9 +108,13 @@ public class NoteActivity extends BaseActivity
     }
 
     @Override
+    public void onChangeBackgroundColor(final int color) {
+        getWindow().setBackgroundDrawable(new ColorDrawable(color));
+    }
+
+    @Override
     protected void initializeToolbar() {
         super.initializeToolbar();
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 

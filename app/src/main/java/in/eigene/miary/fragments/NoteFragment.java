@@ -41,16 +41,13 @@ public class NoteFragment extends BaseFragment {
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
 
-    private ChangedListener changedListener;
-    private LeaveFullscreenListener leaveFullscreenListener;
+    private Listener listener;
 
     private View editLayout;
     private EditText editTextTitle;
     private EditText editTextText;
 
     private Note note;
-
-    private boolean substitutionEnabled = true;
 
     public static NoteFragment create(final Uri noteUri, final boolean fullscreen) {
         final Bundle arguments = new Bundle();
@@ -64,8 +61,7 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        changedListener = (ChangedListener)activity;
-        leaveFullscreenListener = (LeaveFullscreenListener)activity;
+        listener = (Listener)activity;
     }
 
     @Override
@@ -86,14 +82,13 @@ public class NoteFragment extends BaseFragment {
         editLayout = view.findViewById(R.id.note_edit_layout);
 
         if (getArguments().getBoolean(EXTRA_FULLSCREEN, false)) {
-            editLayout.setPadding(0, 0, 0, 0);
             leaveFullscreenView.setVisibility(View.VISIBLE);
         }
 
         leaveFullscreenView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                leaveFullscreenListener.onLeaveFullscreen();
+                listener.onLeaveFullscreen();
             }
         });
 
@@ -113,6 +108,8 @@ public class NoteFragment extends BaseFragment {
                 // Automatic substitution.
                 final String currentText = editTextText.getText().toString();
                 final String replacedText;
+                final boolean substitutionEnabled = PreferenceHelper.get(getActivity()).getBoolean(getString(
+                        R.string.prefkey_substitution_enabled), true);
                 if (substitutionEnabled) {
                     replacedText = Substitutions.replace(currentText);
                     if (!currentText.equals(replacedText)) {
@@ -151,10 +148,7 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-
         refresh();
-        substitutionEnabled = PreferenceHelper.get(getActivity()).getBoolean(
-                getString(R.string.prefkey_substitution_enabled), true);
     }
 
     @Override
@@ -234,7 +228,7 @@ public class NoteFragment extends BaseFragment {
                                 note.setDeleted(true);
                                 saveNote(false);
                                 Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
-                                changedListener.onNoteRemoved();
+                                listener.onNoteRemoved();
                                 Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.REMOVE);
                             }
                         })
@@ -263,6 +257,12 @@ public class NoteFragment extends BaseFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 
     /**
@@ -300,7 +300,7 @@ public class NoteFragment extends BaseFragment {
     private void updateLayoutColor() {
         final NoteColorHelper color = NoteColorHelper.fromIndex(getActivity(), note.getColor());
 
-        editLayout.setBackgroundColor(color.primaryColor);
+        listener.onChangeBackgroundColor(color.primaryColor);
         editTextTitle.setTextColor(color.foregroundColor);
         editTextTitle.setHintTextColor(color.secondaryColor);
         editTextText.setTextColor(color.foregroundColor);
@@ -320,13 +320,10 @@ public class NoteFragment extends BaseFragment {
         return intent;
     }
 
-    public interface ChangedListener {
-
-        void onNoteRemoved();
-    }
-
-    public interface LeaveFullscreenListener {
+    public interface Listener {
 
         void onLeaveFullscreen();
+        void onNoteRemoved();
+        void onChangeBackgroundColor(final int color);
     }
 }
