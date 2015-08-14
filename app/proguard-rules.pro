@@ -29,3 +29,7 @@
 -keep class org.bouncycastle.** { *; }
 
 -keep class android.support.v7.widget.SearchView { *; }
+
+-keep class android.support.design.widget.** { *; }
+-keep interface android.support.design.widget.** { *; }
+-dontwarn android.support.design.**
