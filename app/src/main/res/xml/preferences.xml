@@ -1,94 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-            android:title="@string/prefcat_title_security"
-            android:key="prefcat_security"
-            android:persistent="false"
-    >
+        android:key="prefcat_security"
+        android:persistent="false"
+        android:title="@string/prefcat_title_security">
+
         <CheckBoxPreference
-                android:title="@string/preference_title_pin"
-                android:key="@string/prefkey_pin_enabled"
-                android:summary="@string/preference_summary_pin"
-                android:defaultValue="false"
-        />
+            android:defaultValue="false"
+            android:key="@string/prefkey_pin_enabled"
+            android:summary="@string/preference_summary_pin"
+            android:title="@string/preference_title_pin"/>
     </PreferenceCategory>
     <PreferenceCategory
-            android:title="@string/prefcat_title_reminder"
-            android:key="prefcat_reminder"
-            android:persistent="false"
-    >
+        android:key="prefcat_reminder"
+        android:persistent="false"
+        android:title="@string/prefcat_title_reminder">
+
         <MultiSelectListPreference
-                android:dialogTitle="@string/dialog_reminder_days_title"
-                android:key="@string/prefkey_reminder_days"
-                android:title="@string/preference_title_reminder_days"
-                android:entries="@array/weekdays"
-                android:entryValues="@array/weekdays_values"
-                android:defaultValue="@array/empty_array"
-        />
+            android:defaultValue="@array/empty_array"
+            android:dialogTitle="@string/dialog_reminder_days_title"
+            android:entries="@array/weekdays"
+            android:entryValues="@array/weekdays_values"
+            android:key="@string/prefkey_reminder_days"
+            android:title="@string/preference_title_reminder_days"/>
 
         <Preference
-            android:title="@string/preference_title_reminder_time"
             android:key="@string/prefkey_reminder_time"
-        />
+            android:title="@string/preference_title_reminder_time"/>
 
     </PreferenceCategory>
     <PreferenceCategory
-            android:title="@string/prefcat_title_substitution"
-            android:key="prefcat_substitution"
-            android:persistent="false"
-    >
+        android:key="prefcat_substitution"
+        android:persistent="false"
+        android:title="@string/prefcat_title_substitution">
+
         <CheckBoxPreference
-                android:title="@string/preference_title_enabled"
-                android:key="@string/prefkey_substitution_enabled"
-                android:summary="@string/preference_summary_substitution"
-                android:defaultValue="true"
-        />
+            android:defaultValue="true"
+            android:key="@string/prefkey_substitution_enabled"
+            android:summary="@string/preference_summary_substitution"
+            android:title="@string/preference_title_enabled"/>
         <Preference
-                android:title="@string/preference_title_substitution_table"
-                android:key="@string/prefkey_substitution_table"
-                android:persistent="false"
-        />
+            android:key="@string/prefkey_substitution_table"
+            android:persistent="false"
+            android:title="@string/preference_title_substitution_table"/>
     </PreferenceCategory>
     <PreferenceCategory
-            android:title="@string/preference_title_backup"
-            android:key="@string/prefkey_backup"
+        android:key="@string/prefkey_backup"
+        android:persistent="false"
+        android:title="@string/preference_title_backup">
+
+        <Preference
+            android:key="@string/prefkey_backup_dropbox"
             android:persistent="false"
-    >
+            android:summary="@string/preference_summary_backup_dropbox"
+            android:title="@string/preference_title_backup_dropbox"/>
         <Preference
-                android:title="@string/preference_title_backup_dropbox"
-                android:key="@string/prefkey_backup_dropbox"
-                android:summary="@string/preference_summary_backup_dropbox"
-                android:persistent="false"
-        />
+            android:key="@string/prefkey_backup_plain_text"
+            android:persistent="false"
+            android:summary="@string/preference_summary_backup_plain_text"
+            android:title="@string/preference_title_backup_plain_text"/>
         <Preference
-                android:title="@string/preference_title_backup_plain_text"
-                android:key="@string/prefkey_backup_plain_text"
-                android:summary="@string/preference_summary_backup_plain_text"
-                android:persistent="false"
-        />
-        <Preference
-                android:title="@string/preference_title_backup_json"
-                android:key="@string/prefkey_backup_json"
-                android:summary="@string/preference_summary_backup_json"
-                android:persistent="false"
-        />
+            android:key="@string/prefkey_backup_json"
+            android:persistent="false"
+            android:summary="@string/preference_summary_backup_json"
+            android:title="@string/preference_title_backup_json"/>
     </PreferenceCategory>
     <PreferenceCategory
-            android:title="@string/preference_title_restore"
-            android:key="@string/prefkey_restore"
+        android:key="@string/prefkey_restore"
+        android:persistent="false"
+        android:title="@string/preference_title_restore">
+
+        <Preference
+            android:key="@string/prefkey_restore_dropbox"
             android:persistent="false"
-    >
+            android:summary="@string/preference_summary_restore_dropbox"
+            android:title="@string/preference_title_restore_dropbox"/>
         <Preference
-                android:title="@string/preference_title_restore_dropbox"
-                android:key="@string/prefkey_restore_dropbox"
-                android:summary="@string/preference_summary_restore_dropbox"
-                android:persistent="false"
-        />
-        <Preference
-                android:title="@string/preference_title_restore_json"
-                android:key="@string/prefkey_restore_json"
-                android:summary="@string/preference_summary_restore_json"
-                android:persistent="false"
-        />
+            android:key="@string/prefkey_restore_json"
+            android:persistent="false"
+            android:summary="@string/preference_summary_restore_json"
+            android:title="@string/preference_title_restore_json"/>
     </PreferenceCategory>
 </PreferenceScreen>
