@@ -1,6 +1,5 @@
 package in.eigene.miary.activities;
 
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -71,8 +70,10 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Makes the activity secure: removes snapshot from recent apps.
      */
     protected void setSecureFlag() {
-        if (!disableSecureFlag) {
+        if (PreferenceHelper.get(this).getBoolean(getString(R.string.prefkey_flag_secure_enabled), true)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
     }
 

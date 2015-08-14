@@ -10,6 +10,11 @@
             android:key="@string/prefkey_pin_enabled"
             android:summary="@string/preference_summary_pin"
             android:title="@string/preference_title_pin"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/prefkey_flag_secure_enabled"
+            android:summary="@string/preference_summary_flag_secure"
+            android:title="@string/preference_title_flag_secure"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="prefcat_reminder"

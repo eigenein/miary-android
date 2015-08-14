@@ -30,8 +30,6 @@ public class FeedActivity extends BaseActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSecureFlag();
-
         // Initialize view.
         setContentView(R.layout.activity_feed);
         initializeToolbar();
@@ -63,6 +61,12 @@ public class FeedActivity extends BaseActivity {
         } else {
             Log.i(LOG_TAG, "Already migrated.");
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setSecureFlag();
     }
 
     @Override

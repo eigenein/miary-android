@@ -143,4 +143,7 @@
     <string name="toast_thank_you">Thank you!</string>
     <string name="toast_unstarred">Unstarred.</string>
     <string name="yes_button">Yes</string>
+    <string name="prefkey_flag_secure_enabled" translatable="false">flag_secure_enabled</string>
+    <string name="preference_summary_flag_secure">Prevents from doing screenshots and displaying previews.</string>
+    <string name="preference_title_flag_secure">Screenshot protection</string>
 </resources>

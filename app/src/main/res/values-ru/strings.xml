@@ -123,4 +123,6 @@
     <string name="toast_thank_you">Спасибо!</string>
     <string name="toast_unstarred">Отметка снята.</string>
     <string name="yes_button">Да</string>
+    <string name="preference_summary_flag_secure">Предотвращает создание снимков экрана и предпросмотр текста в списке приложений.</string>
+    <string name="preference_title_flag_secure">Отключить снимки экранов</string>
 </resources>

@@ -61,7 +61,6 @@ public class NoteActivity extends BaseActivity
 
         super.onCreate(savedInstanceState);
 
-        setSecureFlag();
         setContentView(R.layout.activity_note);
         initializeToolbar();
 
@@ -70,6 +69,12 @@ public class NoteActivity extends BaseActivity
         }
 
         initializeNoteFragment(intent, fullscreen);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setSecureFlag();
     }
 
     @Override
