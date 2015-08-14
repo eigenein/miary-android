@@ -45,11 +45,11 @@ public class AboutActivity extends BaseActivity {
         }
 
         findViewById(R.id.about_vkontakte_text).setOnClickListener(
-                new StartUriOnClickListener(Uri.parse("http://vk.com/miaryapp")));
+                new StartUriOnClickListener(Uri.parse("https://vk.com/miaryapp")));
         findViewById(R.id.about_facebook_text).setOnClickListener(
-                new StartUriOnClickListener(Uri.parse("http://www.facebook.com/miaryapp")));
+                new StartUriOnClickListener(Uri.parse("https://www.facebook.com/miaryapp")));
         findViewById(R.id.about_google_plus_text).setOnClickListener(
-                new StartUriOnClickListener(Uri.parse("http://plus.google.com/communities/105005072306337762911")));
+                new StartUriOnClickListener(Uri.parse("https://plus.google.com/communities/105005072306337762911")));
 
         final TextView versionView = (TextView)findViewById(R.id.about_version);
         registerForContextMenu(versionView);
