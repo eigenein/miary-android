@@ -1,6 +1,8 @@
 package in.eigene.miary.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import in.eigene.miary.persistence.Feedback;
 
 public class FeedbackActivity extends FullscreenDialogActivity {
 
+    private TextInputLayout emailInputLayout;
     private EditText emailEditText;
     private EditText textEditText;
 
@@ -24,6 +27,7 @@ public class FeedbackActivity extends FullscreenDialogActivity {
         setContentView(R.layout.activity_feedback);
         initializeToolbar();
 
+        emailInputLayout = (TextInputLayout)findViewById(R.id.feedback_email_layout);
         emailEditText = (EditText)findViewById(R.id.feedback_email);
         textEditText = (EditText)findViewById(R.id.feedback_text);
 
@@ -50,6 +54,11 @@ public class FeedbackActivity extends FullscreenDialogActivity {
                             .setInstallation(ParseInstallation.getCurrentInstallation())
                             .setText(text);
                     if (!email.isEmpty()) {
+                        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                            emailInputLayout.setErrorEnabled(true);
+                            emailInputLayout.setError(getString(R.string.error_incorrect_email));
+                            return true;
+                        }
                         feedback.setEmail(email);
                     }
                     feedback.saveEventually();

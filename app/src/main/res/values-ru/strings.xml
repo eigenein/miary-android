@@ -124,4 +124,5 @@
     <string name="yes_button">Да</string>
     <string name="preference_summary_flag_secure">Предотвращает создание снимков экрана и предпросмотр текста в списке приложений.</string>
     <string name="preference_title_flag_secure">Отключить снимки экранов</string>
+    <string name="error_incorrect_email">Некорректный адрес</string>
 </resources>
