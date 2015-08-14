@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 59
-        versionName "0.9.4"
+        versionName "0.9.3"
     }
     buildTypes {
         debug {
