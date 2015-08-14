@@ -47,11 +47,4 @@ public class Util {
             return null;
         }
     }
-
-    /**
-     * Checks whether the object is null or string is empty.
-     */
-    public static boolean isNullOrEmpty(final String string) {
-        return (string == null) || string.isEmpty();
-    }
 }

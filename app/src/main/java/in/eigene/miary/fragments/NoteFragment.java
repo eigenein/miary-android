@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +30,6 @@ import in.eigene.miary.helpers.Substitutions;
 import in.eigene.miary.helpers.TextWatcher;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.helpers.TypefaceCache;
-import in.eigene.miary.helpers.Util;
 import in.eigene.miary.persistence.Note;
 
 public class NoteFragment extends BaseFragment {
@@ -314,7 +314,7 @@ public class NoteFragment extends BaseFragment {
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, note.getText().trim());
-        if (!Util.isNullOrEmpty(note.getTitle())) {
+        if (!TextUtils.isEmpty(note.getTitle())) {
             intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle().trim());
         }
         return intent;
