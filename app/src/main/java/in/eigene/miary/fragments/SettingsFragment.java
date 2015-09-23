@@ -322,7 +322,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
                         final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("application/json");
+                        intent.setType("*/*");
                         try {
                             startActivityForResult(intent, RESULT_CODE_RESTORE_JSON);
                         } catch (final ActivityNotFoundException e) {
