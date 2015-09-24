@@ -22,14 +22,12 @@
 -dontwarn com.parse.**
 -dontwarn org.apache.**
 -dontwarn org.bouncycastle.**
+-dontwarn com.dropbox.client2.**
 
 -keep class com.facebook.** { *; }
 -keep class com.parse.** { *; }
 -keep class org.apache.** { *; }
 -keep class org.bouncycastle.** { *; }
+-keep class com.dropbox.client2.** { *; }
 
 -keep class android.support.v7.widget.SearchView { *; }
-
--keep class android.support.design.widget.** { *; }
--keep interface android.support.design.widget.** { *; }
--dontwarn android.support.design.**
