@@ -271,7 +271,7 @@ public class SettingsFragment extends PreferenceFragment {
 
     private void setupBackupSettings() {
         // Plain text backup.
-        findPreference(R.string.prefkey_backup_plain_text).setOnPreferenceClickListener(
+        findPreference(R.string.prefkey_export_plain_text).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
@@ -281,7 +281,7 @@ public class SettingsFragment extends PreferenceFragment {
                 }
         );
         // JSON backup.
-        findPreference(R.string.prefkey_backup_json).setOnPreferenceClickListener(
+        findPreference(R.string.prefkey_backup_storage).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
@@ -317,7 +317,7 @@ public class SettingsFragment extends PreferenceFragment {
                 }
         );
         // JSON restore.
-        findPreference(R.string.prefkey_restore_json).setOnPreferenceClickListener(
+        findPreference(R.string.prefkey_restore_storage).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {

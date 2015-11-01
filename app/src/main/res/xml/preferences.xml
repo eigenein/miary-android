@@ -57,11 +57,13 @@
         <Preference
             android:key="@string/prefkey_backup_dropbox"
             android:persistent="false"
-            android:title="@string/preference_title_backup_dropbox"/>
+            android:title="@string/preference_title_backup_dropbox"
+            android:summary="@string/preference_summary_backup_dropbox"/>
         <Preference
-            android:key="@string/prefkey_backup_json"
+            android:key="@string/prefkey_backup_storage"
             android:persistent="false"
-            android:title="@string/preference_title_storage"/>
+            android:title="@string/preference_title_storage"
+            android:summary="@string/preference_summary_backup_storage"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/prefkey_restore"
@@ -71,11 +73,13 @@
         <Preference
             android:key="@string/prefkey_restore_dropbox"
             android:persistent="false"
-            android:title="@string/preference_title_dropbox"/>
+            android:title="@string/preference_title_dropbox"
+            android:summary="@string/preference_summary_restore_dropbox"/>
         <Preference
-            android:key="@string/prefkey_restore_json"
+            android:key="@string/prefkey_restore_storage"
             android:persistent="false"
-            android:title="@string/preference_title_storage"/>
+            android:title="@string/preference_title_storage"
+            android:summary="@string/preference_summary_restore_storage"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/prefkey_export"
@@ -83,8 +87,9 @@
         android:title="@string/preference_title_export">
 
         <Preference
-            android:key="@string/prefkey_backup_plain_text"
+            android:key="@string/prefkey_export_plain_text"
             android:persistent="false"
-            android:title="@string/preference_title_plain_text"/>
+            android:title="@string/preference_title_plain_text"
+            android:summary="@string/preference_summary_export_plain_text"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -122,4 +122,9 @@
     <string name="error_incorrect_email">Некорректный адрес</string>
     <string name="preference_title_export">Экспорт</string>
     <string name="preference_title_storage">Карта памяти</string>
+    <string name="preference_summary_backup_dropbox">Копирование в папку приложения.</string>
+    <string name="preference_summary_backup_storage">Копирование в память устройства или на карту памяти.</string>
+    <string name="preference_summary_restore_dropbox">Восстановить из папки приложения.</string>
+    <string name="preference_summary_restore_storage">Восстановить из ранее созданной копии.</string>
+    <string name="preference_summary_export_plain_text">Копирование в простой текстовый файл.</string>
 </resources>

@@ -101,14 +101,14 @@
     <string name="preference_title_substitution_table">View replacement table</string>
     <string name="prefkey_backup" translatable="false">backup</string>
     <string name="prefkey_backup_dropbox" translatable="false">backup_dropbox</string>
-    <string name="prefkey_backup_json" translatable="false">backup_json</string>
-    <string name="prefkey_backup_plain_text" translatable="false">backup_plain_text</string>
+    <string name="prefkey_backup_storage" translatable="false">backup_storage</string>
+    <string name="prefkey_export_plain_text" translatable="false">backup_plain_text</string>
     <string name="prefkey_pin_enabled" translatable="false">pin_enabled</string>
     <string name="prefkey_reminder_days" translatable="false">reminder_days</string>
     <string name="prefkey_reminder_time" translatable="false">reminder_time</string>
     <string name="prefkey_restore" translatable="false">restore</string>
     <string name="prefkey_restore_dropbox" translatable="false">restore_dropbox</string>
-    <string name="prefkey_restore_json" translatable="false">restore_json</string>
+    <string name="prefkey_restore_storage" translatable="false">restore_storage</string>
     <string name="prefkey_substitution_enabled" translatable="false">substitution_enabled</string>
     <string name="prefkey_substitution_table" translatable="false">substitution_table</string>
     <string name="rate_item_enjoying">Enjoying Miary?</string>
@@ -142,4 +142,9 @@
     <string name="preference_title_export">Export</string>
     <string name="preference_title_storage">Storage</string>
     <string name="preference_title_dropbox" translatable="false">Dropbox</string>
+    <string name="preference_summary_backup_dropbox">Backup your notes into Dropbox application folder.</string>
+    <string name="preference_summary_backup_storage">Backup your notes onto either internal storage or memory card.</string>
+    <string name="preference_summary_restore_dropbox">Restore your notes from Dropbox application folder.</string>
+    <string name="preference_summary_restore_storage">Restore from previously created backup file.</string>
+    <string name="preference_summary_export_plain_text">Export notes into a human-readable text file.</string>
 </resources>
