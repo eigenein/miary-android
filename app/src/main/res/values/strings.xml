@@ -86,26 +86,18 @@
     <string name="prefcat_title_security">Security</string>
     <string name="prefcat_title_substitution">Automatic Substitution</string>
     <string name="preference_summary_backup">Backup notes into a file or a cloud storage.</string>
-    <string name="preference_summary_backup_dropbox">Backup your notes into Dropbox application folder.</string>
-    <string name="preference_summary_backup_json">Supports restoring your notes from backup.</string>
-    <string name="preference_summary_backup_plain_text">Simple plain text file.</string>
     <string name="preference_summary_pin">We\'ll ask security passcode after 5 minutes of inactivity.</string>
     <string name="preference_summary_reminder_never">Never</string>
     <string name="preference_summary_restore">Restore your notes from a backup.</string>
-    <string name="preference_summary_restore_dropbox">Restore your notes from Dropbox application folder.</string>
-    <string name="preference_summary_restore_json">Restore from previously created JSON backup.</string>
     <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character.</string>
     <string name="preference_title_backup">Backup</string>
     <string name="preference_title_backup_dropbox" translatable="false">Dropbox</string>
-    <string name="preference_title_backup_json" translatable="false">JSON</string>
-    <string name="preference_title_backup_plain_text">Plain Text</string>
+    <string name="preference_title_plain_text">Plain text</string>
     <string name="preference_title_enabled">Enabled</string>
     <string name="preference_title_pin">Passcode protection</string>
     <string name="preference_title_reminder_days">Days of week</string>
     <string name="preference_title_reminder_time">Time</string>
     <string name="preference_title_restore">Restore</string>
-    <string name="preference_title_restore_dropbox" translatable="false">Dropbox</string>
-    <string name="preference_title_restore_json" translatable="false">JSON</string>
     <string name="preference_title_substitution_table">View replacement table</string>
     <string name="prefkey_backup" translatable="false">backup</string>
     <string name="prefkey_backup_dropbox" translatable="false">backup_dropbox</string>
@@ -146,4 +138,8 @@
     <string name="preference_summary_flag_secure">Prevents from doing screenshots and displaying previews.</string>
     <string name="preference_title_flag_secure">Screenshot protection</string>
     <string name="error_incorrect_email">Incorrect email address</string>
+    <string name="prefkey_export">export</string>
+    <string name="preference_title_export">Export</string>
+    <string name="preference_title_storage">Storage</string>
+    <string name="preference_title_dropbox" translatable="false">Dropbox</string>
 </resources>

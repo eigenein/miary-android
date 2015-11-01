@@ -82,17 +82,12 @@
     <string name="prefcat_title_security">Безопасность</string>
     <string name="prefcat_title_substitution">Автоматическая замена</string>
     <string name="preference_summary_backup">Сохранить заметки в файл или облако.</string>
-    <string name="preference_summary_backup_dropbox">Копирование в папку приложения.</string>
-    <string name="preference_summary_backup_json">Поддерживает восстановление заметок из резервной копии.</string>
-    <string name="preference_summary_backup_plain_text">Можно открыть любым текстовым редактором.</string>
     <string name="preference_summary_pin">Приложение будет запрашивать код доступа через 5 минут после выхода.</string>
     <string name="preference_summary_reminder_never">Никогда</string>
     <string name="preference_summary_restore">Восстановить заметки из резервной копии.</string>
-    <string name="preference_summary_restore_dropbox">Восстановить из папки приложения.</string>
-    <string name="preference_summary_restore_json">Восстановить из ранее созданной копии.</string>
     <string name="preference_summary_substitution">Автоматически заменять последовательности символов.</string>
     <string name="preference_title_backup">Сохранить копию</string>
-    <string name="preference_title_backup_plain_text">Текстовый файл</string>
+    <string name="preference_title_plain_text">Текстовый файл</string>
     <string name="preference_title_enabled">Включить</string>
     <string name="preference_title_pin">Установить код доступа</string>
     <string name="preference_title_reminder_days">Дни недели</string>
@@ -125,4 +120,6 @@
     <string name="preference_summary_flag_secure">Предотвращает создание снимков экрана и предпросмотр текста в списке приложений.</string>
     <string name="preference_title_flag_secure">Отключить снимки экранов</string>
     <string name="error_incorrect_email">Некорректный адрес</string>
+    <string name="preference_title_export">Экспорт</string>
+    <string name="preference_title_storage">Карта памяти</string>
 </resources>
