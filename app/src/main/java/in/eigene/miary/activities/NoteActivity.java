@@ -108,11 +108,6 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
     }
 
     @Override
-    public void onChangeBackgroundColor(final int color) {
-        getWindow().setBackgroundDrawable(new ColorDrawable(color));
-    }
-
-    @Override
     protected void initializeToolbar() {
         super.initializeToolbar();
         getSupportActionBar().setDisplayShowTitleEnabled(false);

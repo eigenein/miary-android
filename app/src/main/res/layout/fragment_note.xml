@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/note_edit_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:padding="16dp">
@@ -40,10 +40,10 @@
     <EditText
         android:id="@+id/note_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:inputType="textMultiLine|textCapSentences"
         android:gravity="top|start"
-        android:scrollbars="vertical"
         style="@android:style/TextAppearance.Medium"
         android:hint="@string/note_hint"
         android:background="@android:color/transparent"

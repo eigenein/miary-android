@@ -300,7 +300,7 @@ public class NoteFragment extends BaseFragment {
     private void updateLayoutColor() {
         final NoteColorHelper color = NoteColorHelper.fromIndex(getActivity(), note.getColor());
 
-        listener.onChangeBackgroundColor(color.primaryColor);
+        editLayout.setBackgroundColor(color.primaryColor);
         editTextTitle.setTextColor(color.foregroundColor);
         editTextTitle.setHintTextColor(color.secondaryColor);
         editTextText.setTextColor(color.foregroundColor);
@@ -324,6 +324,5 @@ public class NoteFragment extends BaseFragment {
 
         void onLeaveFullscreen();
         void onNoteRemoved();
-        void onChangeBackgroundColor(final int color);
     }
 }
