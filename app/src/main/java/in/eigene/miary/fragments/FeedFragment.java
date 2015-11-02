@@ -12,12 +12,10 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +29,7 @@ import in.eigene.miary.R;
 import in.eigene.miary.adapters.NotesAdapter;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.helpers.AccountManagerHelper;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.sync.SyncAdapter;
@@ -38,9 +37,6 @@ import in.eigene.miary.sync.SyncAdapter;
 public class FeedFragment
         extends BaseFragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
-
-    private static final String KEY_SORT_ORDER = "feed_sort_order";
-    private static final String KEY_MULTI_COLUMN = "feed_multi_column";
 
     private static final int LOADER_ID = 0;
 
@@ -78,8 +74,8 @@ public class FeedFragment
 
         setHasOptionsMenu(true);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sortOrder = Note.SortOrder.valueOf(preferences.getString(KEY_SORT_ORDER, Note.SortOrder.NEWEST_FIRST.name()));
+        preferences = PreferenceHelper.get(getActivity());
+        sortOrder = Note.SortOrder.valueOf(preferences.getString(PreferenceHelper.KEY_SORT_ORDER, Note.SortOrder.NEWEST_FIRST.name()));
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
@@ -123,7 +119,7 @@ public class FeedFragment
 
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
-        final boolean multiColumn = preferences.getBoolean(KEY_MULTI_COLUMN, false);
+        final boolean multiColumn = preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false);
         menu.findItem(R.id.menu_item_feed_set_single_column).setVisible(multiColumn);
         menu.findItem(R.id.menu_item_feed_set_multi_column).setVisible(!multiColumn);
     }
@@ -156,20 +152,19 @@ public class FeedFragment
                         Toast.makeText(getActivity(), R.string.feed_oldest_first, Toast.LENGTH_SHORT).show();
                         break;
                 }
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                        .putString(KEY_SORT_ORDER, sortOrder.name()).apply();
+                PreferenceHelper.edit(getActivity()).putString(PreferenceHelper.KEY_SORT_ORDER, sortOrder.name()).apply();
                 Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_SORTING_ORDER, sortOrder.toString());
                 return true;
 
             case R.id.menu_item_feed_set_single_column:
-                preferences.edit().putBoolean(KEY_MULTI_COLUMN, false).apply();
+                preferences.edit().putBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false).apply();
                 invalidateOptionsMenu();
                 updateLayoutManager();
                 Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Single Column");
                 return true;
 
             case R.id.menu_item_feed_set_multi_column:
-                preferences.edit().putBoolean(KEY_MULTI_COLUMN, true).apply();
+                preferences.edit().putBoolean(PreferenceHelper.KEY_MULTI_COLUMN, true).apply();
                 invalidateOptionsMenu();
                 updateLayoutManager();
                 Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Multi-column");
@@ -236,7 +231,7 @@ public class FeedFragment
      */
     private void updateLayoutManager() {
         final RecyclerView.LayoutManager layoutManager;
-        if (preferences.getBoolean(KEY_MULTI_COLUMN, false)) {
+        if (preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false)) {
             layoutManager = new StaggeredGridLayoutManager(
                     getResources().getInteger(R.integer.feed_multi_column_columns),
                     StaggeredGridLayoutManager.VERTICAL);

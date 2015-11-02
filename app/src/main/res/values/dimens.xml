@@ -10,8 +10,4 @@
     <dimen name="launcher_icon_size">48dp</dimen>
     <dimen name="modal_image_margin">40dp</dimen>
     <dimen name="note_edit_text_padding">8dp</dimen>
-    <!-- Material. -->
-    <dimen name="text_field_vertical_padding">16dp</dimen>
-    <dimen name="text_field_divider_padding">8dp</dimen>
-    <dimen name="text_field_helper_padding">4dp</dimen>
 </resources>

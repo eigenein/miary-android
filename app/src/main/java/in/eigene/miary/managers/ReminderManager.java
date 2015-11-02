@@ -4,42 +4,32 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.services.NotificationIntentService;
 
 public class ReminderManager {
 
     private static final String LOG_TAG = ReminderManager.class.getSimpleName();
 
-    private static final String KEY_REMINDER_HOUR = "reminder_hour";
-    private static final String KEY_REMINDER_MINUTE = "reminder_minute";
-    private static final String KEY_REMINDER_DAYS = "reminder_days";
-
     public static void setTime(final Context context, final int hour, final int minute) {
-        PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .edit()
-                .putInt(KEY_REMINDER_HOUR, hour)
-                .putInt(KEY_REMINDER_MINUTE, minute)
-                .commit();
+        PreferenceHelper.edit(context)
+                .putInt(PreferenceHelper.KEY_REMINDER_HOUR, hour)
+                .putInt(PreferenceHelper.KEY_REMINDER_MINUTE, minute)
+                .apply();
     }
 
     public static int getReminderHour(final Context context) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getInt(KEY_REMINDER_HOUR, 12);
+        return PreferenceHelper.get(context).getInt(PreferenceHelper.KEY_REMINDER_HOUR, 12);
     }
 
     public static int getReminderMinute(final Context context) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getInt(KEY_REMINDER_MINUTE, 0);
+        return PreferenceHelper.get(context).getInt(PreferenceHelper.KEY_REMINDER_MINUTE, 0);
     }
 
     public static Calendar getReminderTime(final Context context) {
@@ -51,9 +41,7 @@ public class ReminderManager {
     }
 
     public static Set<String> getReminderDays(final Context context) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getStringSet(KEY_REMINDER_DAYS, new HashSet<String>());
+        return PreferenceHelper.get(context).getStringSet(PreferenceHelper.KEY_REMINDER_DAYS, new HashSet<String>());
     }
 
     public static boolean isReminderDay(final Context context, final Calendar calendar) {
@@ -62,10 +50,9 @@ public class ReminderManager {
     }
 
     public static boolean isReminderEnabled(final Context context) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getStringSet(KEY_REMINDER_DAYS, new HashSet<String>())
-                .size() > 0;
+        return PreferenceHelper.get(context)
+                .getStringSet(PreferenceHelper.KEY_REMINDER_DAYS, new HashSet<String>())
+                .size() != 0;
     }
 
     public static void scheduleReminder(final Context context) {

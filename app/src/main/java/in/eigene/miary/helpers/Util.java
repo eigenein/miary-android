@@ -2,13 +2,9 @@ package in.eigene.miary.helpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import in.eigene.miary.exceptions.InternalRuntimeException;
-import in.eigene.miary.helpers.lang.Function;
 
 public class Util {
 
@@ -50,25 +46,5 @@ public class Util {
             InternalRuntimeException.throwForException("Could not parse date: " + string, e);
             return null;
         }
-    }
-
-    /**
-     * Checks whether the object is null or string is empty.
-     */
-    public static boolean isNullOrEmpty(final String string) {
-        return (string == null) || string.isEmpty();
-    }
-
-    /**
-     * Apply function to every item of collection and return a list of the results.
-     */
-    public static <TValue, TResult> List<TResult> map(
-            final Collection<TValue> from,
-            Function<TValue, TResult> function) {
-        final ArrayList<TResult> result = new ArrayList<TResult>();
-        for (final TValue value : from) {
-            result.add(function.apply(value));
-        }
-        return result;
     }
 }

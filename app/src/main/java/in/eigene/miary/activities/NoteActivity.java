@@ -2,6 +2,7 @@ package in.eigene.miary.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,7 @@ import in.eigene.miary.persistence.Note;
 /**
  * Displays a single note.
  */
-public class NoteActivity extends BaseActivity
-        implements NoteFragment.ChangedListener, NoteFragment.LeaveFullscreenListener {
+public class NoteActivity extends BaseActivity implements NoteFragment.Listener {
 
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
 
@@ -61,7 +61,6 @@ public class NoteActivity extends BaseActivity
 
         super.onCreate(savedInstanceState);
 
-        setSecureFlag();
         setContentView(R.layout.activity_note);
         initializeToolbar();
 
@@ -70,6 +69,12 @@ public class NoteActivity extends BaseActivity
         }
 
         initializeNoteFragment(intent, fullscreen);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setSecureFlag();
     }
 
     @Override
@@ -105,7 +110,6 @@ public class NoteActivity extends BaseActivity
     @Override
     protected void initializeToolbar() {
         super.initializeToolbar();
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.FeedFragment;
 import in.eigene.miary.helpers.MigrationHelper;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.widgets.Drawer;
@@ -21,11 +22,6 @@ import in.eigene.miary.widgets.Drawer;
  */
 public class FeedActivity extends BaseActivity {
 
-    /**
-     * #179. Specifies whether notes from previous app versions where migrated.
-     */
-    public static final String KEY_NOTES_MIGRATED = "notes_migrated";
-
     private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
     private Drawer drawer;
@@ -33,8 +29,6 @@ public class FeedActivity extends BaseActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setSecureFlag();
 
         // Initialize view.
         setContentView(R.layout.activity_feed);
@@ -53,7 +47,7 @@ public class FeedActivity extends BaseActivity {
         drawer.showForFirstTime();
 
         // #179: migrate notes from previous app versions. To be removed.
-        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(KEY_NOTES_MIGRATED, false)) {
+        if (!PreferenceHelper.get(this).getBoolean(PreferenceHelper.KEY_NOTES_MIGRATED, false)) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -67,6 +61,12 @@ public class FeedActivity extends BaseActivity {
         } else {
             Log.i(LOG_TAG, "Already migrated.");
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setSecureFlag();
     }
 
     @Override

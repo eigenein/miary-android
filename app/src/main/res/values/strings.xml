@@ -58,7 +58,6 @@
     <string name="feed_set_multi_column">Multi-column view</string>
     <string name="feed_set_single_column">Single-column view</string>
     <string name="feedback_hint">Your feedback</string>
-    <string name="helper_optional">Optional</string>
     <string name="no_button">No</string>
     <string name="not_really_button">Not really</string>
     <string name="note_color">Change color</string>
@@ -87,37 +86,29 @@
     <string name="prefcat_title_security">Security</string>
     <string name="prefcat_title_substitution">Automatic Substitution</string>
     <string name="preference_summary_backup">Backup notes into a file or a cloud storage.</string>
-    <string name="preference_summary_backup_dropbox">Backup your notes into Dropbox application folder.</string>
-    <string name="preference_summary_backup_json">Supports restoring your notes from backup.</string>
-    <string name="preference_summary_backup_plain_text">Simple plain text file.</string>
     <string name="preference_summary_pin">We\'ll ask security passcode after 5 minutes of inactivity.</string>
     <string name="preference_summary_reminder_never">Never</string>
     <string name="preference_summary_restore">Restore your notes from a backup.</string>
-    <string name="preference_summary_restore_dropbox">Restore your notes from Dropbox application folder.</string>
-    <string name="preference_summary_restore_json">Restore from previously created JSON backup.</string>
     <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character.</string>
     <string name="preference_title_backup">Backup</string>
     <string name="preference_title_backup_dropbox" translatable="false">Dropbox</string>
-    <string name="preference_title_backup_json" translatable="false">JSON</string>
-    <string name="preference_title_backup_plain_text">Plain Text</string>
+    <string name="preference_title_plain_text">Plain text</string>
     <string name="preference_title_enabled">Enabled</string>
     <string name="preference_title_pin">Passcode protection</string>
     <string name="preference_title_reminder_days">Days of week</string>
     <string name="preference_title_reminder_time">Time</string>
     <string name="preference_title_restore">Restore</string>
-    <string name="preference_title_restore_dropbox" translatable="false">Dropbox</string>
-    <string name="preference_title_restore_json" translatable="false">JSON</string>
     <string name="preference_title_substitution_table">View replacement table</string>
     <string name="prefkey_backup" translatable="false">backup</string>
     <string name="prefkey_backup_dropbox" translatable="false">backup_dropbox</string>
-    <string name="prefkey_backup_json" translatable="false">backup_json</string>
-    <string name="prefkey_backup_plain_text" translatable="false">backup_plain_text</string>
+    <string name="prefkey_backup_storage" translatable="false">backup_storage</string>
+    <string name="prefkey_export_plain_text" translatable="false">backup_plain_text</string>
     <string name="prefkey_pin_enabled" translatable="false">pin_enabled</string>
     <string name="prefkey_reminder_days" translatable="false">reminder_days</string>
     <string name="prefkey_reminder_time" translatable="false">reminder_time</string>
     <string name="prefkey_restore" translatable="false">restore</string>
     <string name="prefkey_restore_dropbox" translatable="false">restore_dropbox</string>
-    <string name="prefkey_restore_json" translatable="false">restore_json</string>
+    <string name="prefkey_restore_storage" translatable="false">restore_storage</string>
     <string name="prefkey_substitution_enabled" translatable="false">substitution_enabled</string>
     <string name="prefkey_substitution_table" translatable="false">substitution_table</string>
     <string name="rate_item_enjoying">Enjoying Miary?</string>
@@ -143,4 +134,17 @@
     <string name="toast_thank_you">Thank you!</string>
     <string name="toast_unstarred">Unstarred.</string>
     <string name="yes_button">Yes</string>
+    <string name="prefkey_flag_secure_enabled" translatable="false">flag_secure_enabled</string>
+    <string name="preference_summary_flag_secure">Prevents from doing screenshots and displaying previews.</string>
+    <string name="preference_title_flag_secure">Screenshot protection</string>
+    <string name="error_incorrect_email">Incorrect email address</string>
+    <string name="prefkey_export">export</string>
+    <string name="preference_title_export">Export</string>
+    <string name="preference_title_storage">Storage</string>
+    <string name="preference_title_dropbox" translatable="false">Dropbox</string>
+    <string name="preference_summary_backup_dropbox">Backup your notes into Dropbox application folder.</string>
+    <string name="preference_summary_backup_storage">Backup your notes onto either internal storage or memory card.</string>
+    <string name="preference_summary_restore_dropbox">Restore your notes from Dropbox application folder.</string>
+    <string name="preference_summary_restore_storage">Restore from previously created backup file.</string>
+    <string name="preference_summary_export_plain_text">Export notes into a human-readable text file.</string>
 </resources>

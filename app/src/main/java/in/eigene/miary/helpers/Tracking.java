@@ -14,6 +14,9 @@ public class Tracking {
     }
 
     public static void sendEvent(final String category, final String action, final String label) {
+        if (Application.getTracker() == null) {
+            return;
+        }
         final HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action);
@@ -32,6 +35,9 @@ public class Tracking {
             final String action,
             final long value,
             final String label) {
+        if (Application.getTracker() == null) {
+            return;
+        }
         final HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action)

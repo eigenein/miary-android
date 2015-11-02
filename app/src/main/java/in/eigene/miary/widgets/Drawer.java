@@ -3,7 +3,6 @@ package in.eigene.miary.widgets;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,19 +14,17 @@ import android.widget.ListView;
 import in.eigene.miary.R;
 import in.eigene.miary.activities.FeedActivity;
 import in.eigene.miary.adapters.DrawerAdapter;
+import in.eigene.miary.helpers.PreferenceHelper;
 
 public class Drawer {
 
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
-
-    private final Context context;
 
     private final DrawerLayout layout;
     private final ActionBarDrawerToggle toggle;
     private final ListView view;
 
     public Drawer(final FeedActivity activity, final Toolbar toolbar) {
-        this.context = activity;
         final DrawerAdapter adapter = new DrawerAdapter(activity);
 
         // Initialize drawer itself.
@@ -70,7 +67,7 @@ public class Drawer {
      * Shows drawer if it was not shown since application installed.
      */
     public void showForFirstTime() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences preferences = PreferenceHelper.get(getContext());
         if (!preferences.getBoolean(KEY_DRAWER_SHOWN, false)) {
             // Open drawer for the first time.
             new Handler().postDelayed(new Runnable() {

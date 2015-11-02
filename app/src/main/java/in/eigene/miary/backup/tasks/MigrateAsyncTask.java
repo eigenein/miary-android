@@ -5,10 +5,10 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import in.eigene.miary.R;
-import in.eigene.miary.activities.FeedActivity;
 import in.eigene.miary.backup.Result;
 import in.eigene.miary.backup.inputs.LocalDatastoreRestoreInput;
 import in.eigene.miary.backup.storages.LocalDatastoreStorage;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Tracking;
 
 /**
@@ -39,8 +39,7 @@ public class MigrateAsyncTask extends RestoreAsyncTask {
         super.onPostExecute(result);
 
         if (result == Result.OK) {
-            PreferenceManager.getDefaultSharedPreferences(context)
-                    .edit().putBoolean(FeedActivity.KEY_NOTES_MIGRATED, true).apply();
+            PreferenceHelper.edit(context).putBoolean(PreferenceHelper.KEY_NOTES_MIGRATED, true).apply();
         }
         Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.MIGRATE, noteCount, result.toString());
     }

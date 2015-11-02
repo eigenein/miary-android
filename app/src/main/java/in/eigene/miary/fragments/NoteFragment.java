@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -26,11 +25,11 @@ import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
 import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
 import in.eigene.miary.helpers.Debouncer;
 import in.eigene.miary.helpers.NoteColorHelper;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Substitutions;
 import in.eigene.miary.helpers.TextWatcher;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.helpers.TypefaceCache;
-import in.eigene.miary.helpers.Util;
 import in.eigene.miary.persistence.Note;
 
 public class NoteFragment extends BaseFragment {
@@ -42,16 +41,13 @@ public class NoteFragment extends BaseFragment {
 
     private final Debouncer saveDebouncer = new Debouncer("saveNote", 3000L, false);
 
-    private ChangedListener changedListener;
-    private LeaveFullscreenListener leaveFullscreenListener;
+    private Listener listener;
 
-    private LinearLayout editLayout;
+    private View editLayout;
     private EditText editTextTitle;
     private EditText editTextText;
 
     private Note note;
-
-    private boolean substitutionEnabled = true;
 
     public static NoteFragment create(final Uri noteUri, final boolean fullscreen) {
         final Bundle arguments = new Bundle();
@@ -65,8 +61,7 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        changedListener = (ChangedListener)activity;
-        leaveFullscreenListener = (LeaveFullscreenListener)activity;
+        listener = (Listener)activity;
     }
 
     @Override
@@ -84,17 +79,16 @@ public class NoteFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_note, container, false);
         final View leaveFullscreenView = view.findViewById(R.id.note_button_leave_fullscreen);
-        editLayout = (LinearLayout)view.findViewById(R.id.note_edit_layout);
+        editLayout = view.findViewById(R.id.note_edit_layout);
 
         if (getArguments().getBoolean(EXTRA_FULLSCREEN, false)) {
-            editLayout.setPadding(0, 0, 0, 0);
             leaveFullscreenView.setVisibility(View.VISIBLE);
         }
 
         leaveFullscreenView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                leaveFullscreenListener.onLeaveFullscreen();
+                listener.onLeaveFullscreen();
             }
         });
 
@@ -114,6 +108,8 @@ public class NoteFragment extends BaseFragment {
                 // Automatic substitution.
                 final String currentText = editTextText.getText().toString();
                 final String replacedText;
+                final boolean substitutionEnabled = PreferenceHelper.get(getActivity()).getBoolean(getString(
+                        R.string.prefkey_substitution_enabled), true);
                 if (substitutionEnabled) {
                     replacedText = Substitutions.replace(currentText);
                     if (!currentText.equals(replacedText)) {
@@ -152,10 +148,7 @@ public class NoteFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-
         refresh();
-        substitutionEnabled = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(
-                getString(R.string.prefkey_substitution_enabled), true);
     }
 
     @Override
@@ -235,7 +228,7 @@ public class NoteFragment extends BaseFragment {
                                 note.setDeleted(true);
                                 saveNote(false);
                                 Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
-                                changedListener.onNoteRemoved();
+                                listener.onNoteRemoved();
                                 Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.REMOVE);
                             }
                         })
@@ -264,6 +257,12 @@ public class NoteFragment extends BaseFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 
     /**
@@ -315,19 +314,15 @@ public class NoteFragment extends BaseFragment {
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, note.getText().trim());
-        if (!Util.isNullOrEmpty(note.getTitle())) {
+        if (!TextUtils.isEmpty(note.getTitle())) {
             intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle().trim());
         }
         return intent;
     }
 
-    public interface ChangedListener {
-
-        void onNoteRemoved();
-    }
-
-    public interface LeaveFullscreenListener {
+    public interface Listener {
 
         void onLeaveFullscreen();
+        void onNoteRemoved();
     }
 }

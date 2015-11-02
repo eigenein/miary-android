@@ -17,6 +17,8 @@ public class Application extends android.app.Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
+
         ParseHelper.initialize(this);
 
         tracker = GoogleAnalytics.getInstance(this).newTracker("UA-65034198-1");

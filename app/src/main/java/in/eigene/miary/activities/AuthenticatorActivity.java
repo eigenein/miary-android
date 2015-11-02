@@ -6,13 +6,13 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import in.eigene.miary.R;
-import in.eigene.miary.helpers.Util;
 import in.eigene.miary.helpers.lang.Consumer;
 import in.eigene.miary.sync.Credentials;
 import in.eigene.miary.sync.SignInAsyncTask;
@@ -98,7 +98,7 @@ public class AuthenticatorActivity extends FullscreenDialogActivity implements C
         final AccountManager accountManager = AccountManager.get(this);
         final Bundle result = new Bundle();
 
-        if (Util.isNullOrEmpty(authToken)) {
+        if (TextUtils.isEmpty(authToken)) {
             result.putString(AccountManager.KEY_ERROR_MESSAGE, getString(R.string.account_auth_failed));
             Toast.makeText(this, R.string.account_auth_failed, Toast.LENGTH_LONG).show();
             return;
