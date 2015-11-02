@@ -8,8 +8,8 @@ android {
         applicationId "in.eigene.miary"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 71
-        versionName "0.9.5"
+        versionCode 72
+        versionName "0.9.6b"
     }
     buildTypes {
         debug {
