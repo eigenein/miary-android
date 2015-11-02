@@ -101,7 +101,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
             final Context context = itemView.getContext();
 
-            final NoteColorHelper color = NoteColorHelper.fromIndex(context, note.getColor());
+            final NoteColorHelper color = NoteColorHelper.fromPrimaryColor(
+                    context, Note.LEGACY_COLORS.get(note.getColor(), note.getColor()));
             // Set layout style.
             layout.setCardBackgroundColor(color.primaryColor);
             // Set title text and visibility.

@@ -1,6 +1,7 @@
 package in.eigene.miary.fragments;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,11 +17,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+
 import java.util.Date;
 
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.base.BaseFragment;
-import in.eigene.miary.fragments.dialogs.ColorPickerDialogFragment;
 import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
 import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
 import in.eigene.miary.helpers.Debouncer;
@@ -206,18 +211,29 @@ public class NoteFragment extends BaseFragment {
                 return true;
 
             case R.id.menu_item_note_color:
-                new ColorPickerDialogFragment()
-                        .setActiveColor(note.getColor())
-                        .setListener(new ColorPickerDialogFragment.Listener() {
+                ColorPickerDialogBuilder
+                        .with(getActivity())
+                        .lightnessSliderOnly()
+                        .setTitle(getString(R.string.dialog_colorpicker_title))
+                        .initialColor(Note.LEGACY_COLORS.get(note.getColor(), note.getColor()))
+                        .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                        .setPositiveButton(getString(android.R.string.ok), new ColorPickerClickListener() {
                             @Override
-                            public void colorChosen(final int color) {
+                            public void onClick(final DialogInterface dialogInterface, final int color, final Integer[] allColors) {
                                 note.setColor(color);
                                 saveNote(false);
                                 updateLayoutColor();
-                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_COLOR, Integer.toString(color));
+                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_COLOR, null);
                             }
                         })
-                        .show(getFragmentManager());
+                        .setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialogInterface, final int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
                 return true;
 
             case R.id.menu_item_note_remove:
@@ -298,7 +314,8 @@ public class NoteFragment extends BaseFragment {
      * Updates layout according to the note color.
      */
     private void updateLayoutColor() {
-        final NoteColorHelper color = NoteColorHelper.fromIndex(getActivity(), note.getColor());
+        final NoteColorHelper color = NoteColorHelper.fromPrimaryColor(
+                getActivity(), Note.LEGACY_COLORS.get(note.getColor(), note.getColor()));
 
         editLayout.setBackgroundColor(color.primaryColor);
         editTextTitle.setTextColor(color.foregroundColor);

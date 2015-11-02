@@ -6,10 +6,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.SparseIntArray;
 
 import java.security.SecureRandom;
 import java.util.Date;
 
+import in.eigene.miary.Application;
 import in.eigene.miary.R;
 import in.eigene.miary.sync.ContentProvider;
 
@@ -31,6 +33,11 @@ public class Note implements Entity {
             Contract.DELETED,
     };
 
+    /**
+     * Maps legacy color codes into normal color values.
+     */
+    public static final SparseIntArray LEGACY_COLORS = new SparseIntArray();
+
     private static final SecureRandom RANDOM = new SecureRandom();
 
     /**
@@ -46,6 +53,17 @@ public class Note implements Entity {
     private boolean draft;
     private boolean starred;
     private boolean deleted;
+
+    static {
+        LEGACY_COLORS.put(0, 0xFFFFFFFF); // white
+        LEGACY_COLORS.put(1, 0xFFEF5350); // red
+        LEGACY_COLORS.put(2, 0xFFFFA726); // orange
+        LEGACY_COLORS.put(3, 0xFFFFEB3B); // yellow
+        LEGACY_COLORS.put(4, 0xFFF5F5F5); // gray
+        LEGACY_COLORS.put(5, 0xFF8BC34A); // green
+        LEGACY_COLORS.put(6, 0xFF90CAF9); // blue
+        LEGACY_COLORS.put(7, 0xFFCE93D8); // purple
+    }
 
     /**
      * Initializes a new note instance.
@@ -229,21 +247,6 @@ public class Note implements Entity {
         values.put(Contract.STARRED, starred);
         values.put(Contract.DELETED, deleted);
         return values;
-    }
-
-    /**
-     * Note background color.
-     */
-    public static class Color {
-
-        public static final int WHITE = 0;
-        public static final int RED = 1;
-        public static final int ORANGE = 2;
-        public static final int YELLOW = 3;
-        public static final int GRAY = 4;
-        public static final int GREEN = 5;
-        public static final int BLUE = 6;
-        public static final int PURPLE = 7;
     }
 
     public static class Contract implements BaseColumns {
