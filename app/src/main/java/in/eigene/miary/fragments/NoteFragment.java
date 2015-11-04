@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
@@ -28,8 +27,8 @@ import in.eigene.miary.R;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
 import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
+import in.eigene.miary.helpers.ColorHelper;
 import in.eigene.miary.helpers.Debouncer;
-import in.eigene.miary.helpers.NoteColorHelper;
 import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Substitutions;
 import in.eigene.miary.helpers.TextWatcher;
@@ -215,7 +214,7 @@ public class NoteFragment extends BaseFragment {
                         .with(getActivity())
                         .lightnessSliderOnly()
                         .setTitle(getString(R.string.dialog_colorpicker_title))
-                        .initialColor(Note.LEGACY_COLORS.get(note.getColor(), note.getColor()))
+                        .initialColor(note.getColor())
                         .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                         .setPositiveButton(getString(android.R.string.ok), new ColorPickerClickListener() {
                             @Override
@@ -314,14 +313,13 @@ public class NoteFragment extends BaseFragment {
      * Updates layout according to the note color.
      */
     private void updateLayoutColor() {
-        final NoteColorHelper color = NoteColorHelper.fromPrimaryColor(
-                getActivity(), Note.LEGACY_COLORS.get(note.getColor(), note.getColor()));
+        final boolean isLight = ColorHelper.isLight(note.getColor());
 
-        editLayout.setBackgroundColor(color.primaryColor);
-        editTextTitle.setTextColor(color.foregroundColor);
-        editTextTitle.setHintTextColor(color.secondaryColor);
-        editTextText.setTextColor(color.foregroundColor);
-        editTextText.setHintTextColor(color.secondaryColor);
+        editLayout.setBackgroundColor(note.getColor());
+        editTextTitle.setTextColor(ColorHelper.getTextColor(isLight));
+        editTextTitle.setHintTextColor(ColorHelper.getHintColor(isLight));
+        editTextText.setTextColor(ColorHelper.getTextColor(isLight));
+        editTextText.setHintTextColor(ColorHelper.getHintColor(isLight));
     }
 
     /**

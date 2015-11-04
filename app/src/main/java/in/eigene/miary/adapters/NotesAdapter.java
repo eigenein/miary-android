@@ -16,7 +16,7 @@ import java.util.Date;
 
 import in.eigene.miary.R;
 import in.eigene.miary.activities.NoteActivity;
-import in.eigene.miary.helpers.NoteColorHelper;
+import in.eigene.miary.helpers.ColorHelper;
 import in.eigene.miary.helpers.TypefaceCache;
 import in.eigene.miary.persistence.Note;
 
@@ -101,19 +101,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
             final Context context = itemView.getContext();
 
-            final NoteColorHelper color = NoteColorHelper.fromPrimaryColor(
-                    context, Note.LEGACY_COLORS.get(note.getColor(), note.getColor()));
+            final boolean isLight = ColorHelper.isLight(note.getColor());
             // Set layout style.
-            layout.setCardBackgroundColor(color.primaryColor);
+            layout.setCardBackgroundColor(note.getColor());
             // Set title text and visibility.
             title.setText(note.getTitle());
-            title.setTextColor(color.foregroundColor);
+            title.setTextColor(ColorHelper.getTextColor(isLight));
             title.setVisibility(!note.getTitle().isEmpty() ? View.VISIBLE : View.GONE);
             // Set text.
             text.setText(note.getText());
-            text.setTextColor(color.foregroundColor);
+            text.setTextColor(ColorHelper.getTextColor(isLight));
             // Set creation date text and style.
-            creationDate.setTextColor(color.secondaryColor);
+            creationDate.setTextColor(ColorHelper.getHintColor(isLight));
             creationDate.setText(getRelativeDateTimeString(context, note.getCustomDate()));
         }
 

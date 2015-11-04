@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String LOG_TAG = DatabaseHelper.class.getSimpleName();
     private static final String NAME = "notes.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     private static final SparseArray<Consumer<SQLiteDatabase>> UPGRADES = new SparseArray<>();
 
@@ -23,14 +23,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              */
             @Override
             public void accept(final SQLiteDatabase db) {
-                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = %s;", Note.Contract.TABLE, 0xFFFFFF, 0)); // white
-                // TODO: LEGACY_COLORS.put(1, 0xFFEF5350); // red
-                // TODO: LEGACY_COLORS.put(2, 0xFFFFA726); // orange
-                // TODO: LEGACY_COLORS.put(3, 0xFFFFEB3B); // yellow
-                // TODO: LEGACY_COLORS.put(4, 0xFFF5F5F5); // gray
-                // TODO: LEGACY_COLORS.put(5, 0xFF8BC34A); // green
-                // TODO: LEGACY_COLORS.put(6, 0xFF90CAF9); // blue
-                // TODO: LEGACY_COLORS.put(7, 0xFFCE93D8); // purple
+                db.execSQL(String.format("UPDATE %s SET color = 0xFFFFFFFF WHERE color = 0; -- white", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = 0xFFEF5350 WHERE color = 1; -- red", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = 0xFFFFA726 WHERE color = 2; -- orange", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = 0xFFFFEB3B WHERE color = 3; -- yellow", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = 0xFFF5F5F5 WHERE color = 4; -- gray", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = 0xFF8BC34A WHERE color = 5; -- green", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = 0xFF90CAF9 WHERE color = 6; -- blue", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = 0xFFCE93D8 WHERE color = 7; -- purple", Note.Contract.TABLE));
             }
         });
     }

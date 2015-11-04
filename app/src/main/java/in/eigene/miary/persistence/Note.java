@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.SparseIntArray;
@@ -33,11 +34,6 @@ public class Note implements Entity {
             Contract.DELETED,
     };
 
-    /**
-     * Maps legacy color codes into normal color values.
-     */
-    public static final SparseIntArray LEGACY_COLORS = new SparseIntArray();
-
     private static final SecureRandom RANDOM = new SecureRandom();
 
     /**
@@ -54,17 +50,6 @@ public class Note implements Entity {
     private boolean starred;
     private boolean deleted;
 
-    static {
-        LEGACY_COLORS.put(0, 0xFFFFFFFF); // white
-        LEGACY_COLORS.put(1, 0xFFEF5350); // red
-        LEGACY_COLORS.put(2, 0xFFFFA726); // orange
-        LEGACY_COLORS.put(3, 0xFFFFEB3B); // yellow
-        LEGACY_COLORS.put(4, 0xFFF5F5F5); // gray
-        LEGACY_COLORS.put(5, 0xFF8BC34A); // green
-        LEGACY_COLORS.put(6, 0xFF90CAF9); // blue
-        LEGACY_COLORS.put(7, 0xFFCE93D8); // purple
-    }
-
     /**
      * Initializes a new note instance.
      */
@@ -73,6 +58,7 @@ public class Note implements Entity {
         note.id = Math.abs(RANDOM.nextLong());
         note.title = "";
         note.text = "";
+        note.color = Color.WHITE;
         note.createdDate = new Date();
         note.updatedDate = note.createdDate;
         note.customDate = note.createdDate;

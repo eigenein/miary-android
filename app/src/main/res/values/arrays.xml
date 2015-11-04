@@ -34,4 +34,19 @@
         <item>But to be frank, and give it thee again.\nAnd yet I wish but for the thing I have:\nMy bounty is as boundless as the sea,\nMy love as deep; the more I give to thee,\nThe more I have, for both are infinite.</item>
         <item>True, I talk of dreams,\nWhich are the children of an idle brain,\nBegot of nothing but vain fantasy,\nWhich is as thin of substance as the air\nAnd more inconstant than the wind, who wooes\nEven now the frozen bosom of the north,\nAnd, being anger\'d, puffs away from thence,\nTurning his face to the dew-dropping south.</item>
     </string-array>
+    <integer-array name="sample_colors">
+        <item>0xFF8BC34A</item>
+        <item>0xFF90CAF9</item>
+        <item>0xFFCE93D8</item>
+        <item>0xFFFFFFFF</item>
+        <item>0xFFEF5350</item>
+        <item>0xFFFFA726</item>
+        <item>0xFFFFEB3B</item>
+        <item>0xFFF5F5F5</item>
+        <item>0xFF8BC34A</item>
+        <item>0xFF90CAF9</item>
+        <item>0xFFCE93D8</item>
+        <item>0xFFFFFFFF</item>
+        <item>0xFFEF5350</item>
+    </integer-array>
 </resources>
