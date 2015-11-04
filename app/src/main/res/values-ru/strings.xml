@@ -43,9 +43,9 @@
     <string name="dialog_replacement_table_title">Таблица замены</string>
     <string name="drawer_basic_account">Базовый аккаунт</string>
     <string name="drawer_close">Закрыть</string>
-    <string name="drawer_item_diary">Дневник</string>
-    <string name="drawer_item_drafts">Черновики</string>
-    <string name="drawer_item_starred">Отмеченные</string>
+    <string name="drawer_diary">Дневник</string>
+    <string name="drawer_drafts">Черновики</string>
+    <string name="drawer_starred">Отмеченные</string>
     <string name="drawer_open">Открыть</string>
     <string name="drawer_sign_in">Войти</string>
     <string name="feed_change_sorting_order">Изменить порядок сортировки</string>

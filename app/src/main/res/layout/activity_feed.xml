@@ -6,9 +6,8 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_50"
->
-    <!-- Activity. -->
+        android:fitsSystemWindows="true">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,7 +28,7 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
             <include layout="@layout/toolbar"/>
         </android.support.design.widget.CoordinatorLayout>
-        <!-- FAB. -->
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_button"
             android:layout_width="wrap_content"
@@ -39,15 +38,12 @@
             app:borderWidth="0dp"
             style="@style/Miary.Theme.Fab"/>
     </FrameLayout>
-    <!-- Navigation drawer. -->
-    <ListView
-        android:id="@+id/drawer"
-        android:layout_width="300dp"
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        android:clickable="true"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-    />
+        app:menu="@menu/navigation_view"
+        app:headerLayout="@layout/drawer_header"/>
 </android.support.v4.widget.DrawerLayout>

@@ -7,12 +7,10 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.SparseIntArray;
 
 import java.security.SecureRandom;
 import java.util.Date;
 
-import in.eigene.miary.Application;
 import in.eigene.miary.R;
 import in.eigene.miary.sync.ContentProvider;
 
@@ -262,7 +260,7 @@ public class Note implements Entity {
 
             @Override
             public int getTitleResourceId() {
-                return R.string.drawer_item_diary;
+                return R.string.drawer_diary;
             }
 
             @Override
@@ -278,7 +276,7 @@ public class Note implements Entity {
 
             @Override
             public int getTitleResourceId() {
-                return R.string.drawer_item_starred;
+                return R.string.drawer_starred;
             }
 
             @Override
@@ -294,7 +292,7 @@ public class Note implements Entity {
 
             @Override
             public int getTitleResourceId() {
-                return R.string.drawer_item_drafts;
+                return R.string.drawer_drafts;
             }
 
             @Override

@@ -46,9 +46,9 @@
     <string name="dialog_replacement_table_title">Replacement Table</string>
     <string name="drawer_basic_account">Basic account</string>
     <string name="drawer_close">Close</string>
-    <string name="drawer_item_diary">Diary</string>
-    <string name="drawer_item_drafts">Drafts</string>
-    <string name="drawer_item_starred">Starred</string>
+    <string name="drawer_diary">Diary</string>
+    <string name="drawer_drafts">Drafts</string>
+    <string name="drawer_starred">Starred</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_sign_in">Sign In</string>
     <string name="email_hint" translatable="false">Email</string>
