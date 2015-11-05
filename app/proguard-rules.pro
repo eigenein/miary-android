@@ -19,18 +19,19 @@
 -dontobfuscate
 
 -dontwarn com.facebook.**
--dontwarn com.parse.**
--dontwarn org.apache.**
--dontwarn org.bouncycastle.**
--dontwarn com.dropbox.client2.**
-
 -keep class com.facebook.** { *; }
--keep class com.parse.** { *; }
--keep class org.apache.** { *; }
--keep class org.bouncycastle.** { *; }
--keep class com.dropbox.client2.** { *; }
 
--keep class android.support.v7.widget.SearchView { *; }
+-dontwarn com.parse.**
+-keep class com.parse.** { *; }
+
+-dontwarn org.apache.**
+-keep class org.apache.** { *; }
+
+-dontwarn org.bouncycastle.**
+-keep class org.bouncycastle.** { *; }
+
+-dontwarn com.dropbox.client2.**
+-keep class com.dropbox.client2.** { *; }
 
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
@@ -38,3 +39,6 @@
 
 -keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
+
+-keep class android.support.v7.widget.** { *; }
+-dontwarn android.support.v7.widget.**
