@@ -106,13 +106,18 @@ public class AboutActivity extends BaseActivity {
                 dialog.show();
                 return true;
 
-            case R.id.menu_item_developer_add_sample_notes:
+            case R.id.menu_item_developer_add_welcome_notes:
                 final Resources resources = getResources();
                 final ContentResolver contentResolver = getContentResolver();
-                final String[] texts = resources.getStringArray(R.array.sample_texts);
-                final int [] colors = resources.getIntArray(R.array.sample_colors);
+                final String[] titles = resources.getStringArray(R.array.welcome_titles);
+                final String[] texts = resources.getStringArray(R.array.welcome_texts);
+                final int [] colors = resources.getIntArray(R.array.welcome_colors);
                 for (int i = 0; i < texts.length; i++) {
-                    Note.createEmpty().setText(texts[i]).setColor(colors[i]).insert(contentResolver);
+                    Note.createEmpty()
+                            .setTitle(titles[i])
+                            .setText(texts[i])
+                            .setColor(colors[i])
+                            .insert(contentResolver);
                 }
                 return true;
 

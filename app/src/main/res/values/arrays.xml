@@ -19,22 +19,23 @@
         <item>7</item>
         <item>1</item>
     </string-array>
-    <string-array name="sample_texts">
-        <item>Not proud, you have; but thankful, that you have:\nProud can I never be of what I hate;\nBut thankful even for hate, that is meant love.</item>
-        <item>Care keeps his watch in every old man\'s eye,\nAnd where care lodges, sleep will never lie.</item>
-        <item>Therefore love moderately; long love doth so;\nToo swift arrives as tardy as too slow.</item>
-        <item>But, soft! what light through yonder window breaks?\nIt is the east, and Juliet is the sun.</item>
-        <item>A plague on both your houses.</item>
-        <item>By Love, that first did prompt me to inquire;\nHe lent me counsel, and I lent him eyes.\nI am no pilot; yet, wert thou as far\nAs that vast shore wash\'d with the furthest sea,\nI would adventure for such merchandise.</item>
-        <item>I, measuring his affections by my own,\nThat most are busied when they\'re most alone,\nPursued my humour not pursuing his,\nAnd gladly shunn\'d who gladly fled from me.</item>
-        <item>Alas, that love, whose view is muffled still,\nShould, without eyes, see pathways to his will!\nWhere shall we dine? O me! What fray was here?\nYet tell me not, for I have heard it all.</item>
-        <item>True, I talk of dreams,\nWhich are the children of an idle brain,\nBegot of nothing but vain fantasy,\nWhich is as thin of substance as the air\nAnd more inconstant than the wind, who wooes\nEven now the frozen bosom of the north,\nAnd, being anger\'d, puffs away from thence,\nTurning his face to the dew-dropping south.</item>
-        <item>If love be rough with you, be rough with love;\nPrick love for pricking, and you beat love down.\nGive me a case to put my visage in:\nA visor for a visor! what care I\nWhat curious eye doth quote deformities?\nHere are the beetle brows shall blush for me.</item>
-        <item>A thousand times the worse, to want thy light.\nLove goes toward love, as schoolboys from\ntheir books,\nBut love from love, toward school with heavy looks.</item>
-        <item>But to be frank, and give it thee again.\nAnd yet I wish but for the thing I have:\nMy bounty is as boundless as the sea,\nMy love as deep; the more I give to thee,\nThe more I have, for both are infinite.</item>
-        <item>True, I talk of dreams,\nWhich are the children of an idle brain,\nBegot of nothing but vain fantasy,\nWhich is as thin of substance as the air\nAnd more inconstant than the wind, who wooes\nEven now the frozen bosom of the north,\nAnd, being anger\'d, puffs away from thence,\nTurning his face to the dew-dropping south.</item>
+    <string-array name="welcome_titles">
+        <item>Welcome!</item>
+        <item>Did you say it\'s private?</item>
+        <item>Organize</item>
+        <item>Never forget to write</item>
+        <item>And never lose your texts</item>
+        <item>What\'s next?</item>
     </string-array>
-    <integer-array name="sample_colors">
+    <string-array name="welcome_texts">
+        <item>This is your private place for your thoughts and feelings.</item>
+        <item>Go to preferences to set your passcode that will protect you from curious eyes.</item>
+        <item>You can star your note or move it to drafts. And you can choose any color.</item>
+        <item>There is also a customizable reminder that will kindly remind you to write something.</item>
+        <item>You can backup your notes to internal storage, memory card and Dropbox. So you will not lose them.</item>
+        <item>Now start writing!</item>
+    </string-array>
+    <integer-array name="welcome_colors">
         <item>0xFF8BC34A</item>
         <item>0xFF90CAF9</item>
         <item>0xFFCE93D8</item>
@@ -42,11 +43,5 @@
         <item>0xFFEF5350</item>
         <item>0xFFFFA726</item>
         <item>0xFFFFEB3B</item>
-        <item>0xFFF5F5F5</item>
-        <item>0xFF8BC34A</item>
-        <item>0xFF90CAF9</item>
-        <item>0xFFCE93D8</item>
-        <item>0xFFFFFFFF</item>
-        <item>0xFFEF5350</item>
     </integer-array>
 </resources>
