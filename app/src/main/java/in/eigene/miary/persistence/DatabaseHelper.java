@@ -23,14 +23,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              */
             @Override
             public void accept(final SQLiteDatabase db) {
-                db.execSQL(String.format("UPDATE %s SET color = 0xFFFFFFFF WHERE color = 0; -- white", Note.Contract.TABLE));
-                db.execSQL(String.format("UPDATE %s SET color = 0xFFEF5350 WHERE color = 1; -- red", Note.Contract.TABLE));
-                db.execSQL(String.format("UPDATE %s SET color = 0xFFFFA726 WHERE color = 2; -- orange", Note.Contract.TABLE));
-                db.execSQL(String.format("UPDATE %s SET color = 0xFFFFEB3B WHERE color = 3; -- yellow", Note.Contract.TABLE));
-                db.execSQL(String.format("UPDATE %s SET color = 0xFFF5F5F5 WHERE color = 4; -- gray", Note.Contract.TABLE));
-                db.execSQL(String.format("UPDATE %s SET color = 0xFF8BC34A WHERE color = 5; -- green", Note.Contract.TABLE));
-                db.execSQL(String.format("UPDATE %s SET color = 0xFF90CAF9 WHERE color = 6; -- blue", Note.Contract.TABLE));
-                db.execSQL(String.format("UPDATE %s SET color = 0xFFCE93D8 WHERE color = 7; -- purple", Note.Contract.TABLE));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 0; -- white",
+                        Note.Contract.TABLE, 0xFFFFFFFF));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 1; -- red",
+                        Note.Contract.TABLE, 0xFFEF5350));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 2; -- orange",
+                        Note.Contract.TABLE, 0xFFFFA726));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 3; -- yellow",
+                        Note.Contract.TABLE, 0xFFFFEB3B));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 4; -- gray",
+                        Note.Contract.TABLE, 0xFFF5F5F5));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 5; -- green",
+                        Note.Contract.TABLE, 0xFF8BC34A));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 6; -- blue",
+                        Note.Contract.TABLE, 0xFF90CAF9));
+                db.execSQL(String.format("UPDATE %s SET color = %s WHERE color = 7; -- purple",
+                        Note.Contract.TABLE, 0xFFCE93D8));
             }
         });
     }
