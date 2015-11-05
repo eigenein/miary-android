@@ -108,6 +108,7 @@ public class FeedFragment
                 }
             }
         });
+        swipeRefresh.setEnabled(false); // TODO: temporarily disabled to not confuse users.
 
         return view;
     }
@@ -231,7 +232,7 @@ public class FeedFragment
      */
     private void updateLayoutManager() {
         final RecyclerView.LayoutManager layoutManager;
-        if (preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false)) {
+        if (preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, true)) {
             layoutManager = new StaggeredGridLayoutManager(
                     getResources().getInteger(R.integer.feed_multi_column_columns),
                     StaggeredGridLayoutManager.VERTICAL);
