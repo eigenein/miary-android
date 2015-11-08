@@ -89,7 +89,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
             layout = (CardView)itemView.findViewById(R.id.feed_item_layout);
             title = (TextView)itemView.findViewById(R.id.feed_item_title);
-            title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_BOLD));
+            title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_CONDENSED_BOLD));
             text = (TextView)itemView.findViewById(R.id.feed_item_text);
             text.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_REGULAR));
             creationDate = (TextView)itemView.findViewById(R.id.feed_item_creation_date);

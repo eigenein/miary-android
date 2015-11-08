@@ -136,7 +136,7 @@ public class NoteFragment extends BaseFragment {
 
     private void createTitleView(final View view) {
         editTextTitle = (EditText)view.findViewById(R.id.note_edit_title);
-        editTextTitle.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_BOLD));
+        editTextTitle.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_CONDENSED_BOLD));
         editTextTitle.addTextChangedListener(new TextWatcher() {
 
             @Override
