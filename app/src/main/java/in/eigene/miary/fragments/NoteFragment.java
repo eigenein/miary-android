@@ -106,7 +106,7 @@ public class NoteFragment extends BaseFragment {
         editTextText = (EditText)view.findViewById(R.id.note_edit_text);
         editTextText.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_REGULAR));
         editTextText.setTextSize(Float.valueOf(PreferenceHelper.get(getActivity()).getString(
-                getString(R.string.prefkey_font_size), "14")));
+                getString(R.string.prefkey_font_size), "18")));
         editTextText.addTextChangedListener(new TextWatcher() {
 
             @Override
