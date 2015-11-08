@@ -127,4 +127,10 @@
     <string name="preference_summary_restore_dropbox">Восстановить из папки приложения.</string>
     <string name="preference_summary_restore_storage">Восстановить из ранее созданной копии.</string>
     <string name="preference_summary_export_plain_text">Копирование в простой текстовый файл.</string>
+    <plurals name="drawer_header_counter">
+        <item quantity="one">%d заметка</item>
+        <item quantity="few">%d заметки</item>
+        <item quantity="many">%d заметок</item>
+        <item quantity="other">%d заметок</item>
+    </plurals>
 </resources>

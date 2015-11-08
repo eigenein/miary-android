@@ -1,14 +1,17 @@
 package in.eigene.miary.widgets;
 
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import in.eigene.miary.R;
 import in.eigene.miary.activities.AboutActivity;
@@ -28,48 +31,47 @@ public class Drawer implements NavigationView.OnNavigationItemSelectedListener {
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
     private static final long HANDLER_DELAY = 500;
 
-    public final DrawerLayout layout;
+    public final DrawerLayout drawerLayout;
     public final ActionBarDrawerToggle toggle;
-    public final NavigationView view;
+    public final NavigationView navigationView;
 
     private final FeedActivity activity;
+    private final TextView textViewCounter;
+
 
     public Drawer(final FeedActivity activity, final Toolbar toolbar) {
         this.activity = activity;
-        // Initialize drawer itself.
-        view = (NavigationView)activity.findViewById(R.id.navigation_view);
-        layout = (DrawerLayout)activity.findViewById(R.id.drawer_layout);
-        layout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        toggle = new ActionBarDrawerToggle(activity, layout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+
+        navigationView = (NavigationView)activity.findViewById(R.id.navigation_view);
+        // Header view.
+        final View headerView = LayoutInflater.from(activity).inflate(R.layout.drawer_header, navigationView, false);
+        navigationView.addHeaderView(headerView);
+        // Header content.
+        textViewCounter = (TextView)headerView.findViewById(R.id.drawer_header_counter);
+        // Layout.
+        drawerLayout = (DrawerLayout)activity.findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        // Toggle.
+        toggle = new ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(final View view) {
-                // TODO: refresh counters.
+                final Cursor cursor = activity.getContentResolver().query(
+                        Note.Contract.CONTENT_URI, new String[]{"COUNT(*)"}, Note.Contract.DELETED + " = 0", null, null);
+                assert cursor != null;
+                cursor.moveToFirst();
+                textViewCounter.setText(activity.getResources().getQuantityString(
+                        R.plurals.drawer_header_counter, cursor.getInt(0), cursor.getInt(0)));
+                cursor.close();
             }
         };
-        layout.setDrawerListener(toggle);
-        view.setNavigationItemSelectedListener(this);
-    }
-
-    /**
-     * Shows drawer if it was not shown since application installed.
-     */
-    public void showForFirstTime() {
-        final SharedPreferences preferences = PreferenceHelper.get(view.getContext());
-        if (!preferences.getBoolean(KEY_DRAWER_SHOWN, false)) {
-            // Open drawer for the first time.
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    layout.openDrawer(GravityCompat.START);
-                    preferences.edit().putBoolean(KEY_DRAWER_SHOWN, true).apply();
-                }
-            }, 1000);
-        }
+        drawerLayout.setDrawerListener(toggle);
+        // Listener.
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
-        layout.closeDrawers();
+        drawerLayout.closeDrawers();
 
         switch (item.getItemId()) {
 
@@ -138,6 +140,23 @@ public class Drawer implements NavigationView.OnNavigationItemSelectedListener {
 
             default:
                 return false;
+        }
+    }
+
+    /**
+     * Shows drawer if it was not shown since application installed.
+     */
+    public void showForFirstTime() {
+        final SharedPreferences preferences = PreferenceHelper.get(navigationView.getContext());
+        if (!preferences.getBoolean(KEY_DRAWER_SHOWN, false)) {
+            // Open drawer for the first time.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                    preferences.edit().putBoolean(KEY_DRAWER_SHOWN, true).apply();
+                }
+            }, 1000);
         }
     }
 }

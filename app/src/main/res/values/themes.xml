@@ -2,7 +2,7 @@
 <resources>
     <style name="Miary.Theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/blue_700</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/primary</item>
         <item name="android:textColor">@color/light_text_primary</item>
     </style>
