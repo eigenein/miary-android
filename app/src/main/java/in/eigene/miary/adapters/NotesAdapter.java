@@ -17,6 +17,7 @@ import java.util.Date;
 import in.eigene.miary.R;
 import in.eigene.miary.activities.NoteActivity;
 import in.eigene.miary.helpers.ColorHelper;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.TypefaceCache;
 import in.eigene.miary.persistence.Note;
 
@@ -111,6 +112,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             // Set text.
             text.setText(note.getText());
             text.setTextColor(ColorHelper.getTextColor(isLight));
+            text.setTextSize(Float.valueOf(PreferenceHelper.get(context).getString(
+                    context.getString(R.string.prefkey_font_size), "14.0")));
             // Set creation date text and style.
             creationDate.setTextColor(ColorHelper.getHintColor(isLight));
             creationDate.setText(getRelativeDateTimeString(context, note.getCustomDate()));

@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="weekdays">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+    <string-array name="font_size_titles">
+        <item>Наименьший</item>
+        <item>Меньше среднего</item>
+        <item>Больше среднего</item>
+        <item>Наибольший</item>
+    </string-array>
     <string-array name="welcome_titles">
         <item>Привет!</item>
         <item/>

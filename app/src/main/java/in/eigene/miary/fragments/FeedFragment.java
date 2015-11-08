@@ -129,6 +129,7 @@ public class FeedFragment
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(syncFinishedReceiver, new IntentFilter(SyncAdapter.SYNC_FINISHED_EVENT_NAME));
+
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
@@ -136,6 +137,7 @@ public class FeedFragment
     public void onPause() {
         getActivity().unregisterReceiver(syncFinishedReceiver);
         super.onPause();
+
         swipeRefresh.setRefreshing(false);
     }
 
