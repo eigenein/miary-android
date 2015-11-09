@@ -37,14 +37,20 @@
             android:visibility="gone"
             android:scaleType="center"/>
     </LinearLayout>
-    <EditText
-        android:id="@+id/note_edit_text"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:inputType="textMultiLine|textCapSentences"
-        android:gravity="top|start"
-        android:hint="@string/note_hint"
-        android:background="@android:color/transparent"
-        android:padding="@dimen/note_edit_text_padding"
-        style="@style/TextAppearance.AppCompat.Body2"/>
+        android:fillViewport="true">
+
+        <EditText
+            android:id="@+id/note_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine|textCapSentences"
+            android:gravity="top|start"
+            android:hint="@string/note_hint"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/note_edit_text_padding"
+            style="@style/TextAppearance.AppCompat.Body2"/>
+    </ScrollView>
 </LinearLayout>
