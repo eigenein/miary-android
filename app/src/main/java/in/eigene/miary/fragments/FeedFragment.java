@@ -120,7 +120,7 @@ public class FeedFragment
 
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
-        final boolean multiColumn = preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false);
+        final boolean multiColumn = preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, true);
         menu.findItem(R.id.menu_item_feed_set_single_column).setVisible(multiColumn);
         menu.findItem(R.id.menu_item_feed_set_multi_column).setVisible(!multiColumn);
     }
