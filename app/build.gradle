@@ -7,6 +7,7 @@ android {
     defaultConfig {
         applicationId "in.eigene.miary"
         minSdkVersion 14
+        //noinspection OldTargetApi https://bitbucket.org/miaryapp/miary-android/issues/230/android-m
         targetSdkVersion 22
         versionCode 79
         versionName "0.9.6b"
