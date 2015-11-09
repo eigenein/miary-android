@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "in.eigene.miary"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 79
         versionName "0.9.6b"
     }
