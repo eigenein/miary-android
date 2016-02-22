@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.text.TextUtils;
@@ -98,6 +99,16 @@ public class SettingsFragment extends PreferenceFragment {
                 }
         );
 
+        findPreference(R.string.prefkey_font_size).setOnPreferenceChangeListener(
+                new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                        refreshFontSizePreference();
+                        return true;
+                    }
+                }
+        );
+
         findPreference(R.string.prefkey_reminder_days).setOnPreferenceChangeListener(
                 new Preference.OnPreferenceChangeListener() {
                     @Override
@@ -135,7 +146,7 @@ public class SettingsFragment extends PreferenceFragment {
                                         }
                                     }
                                 })
-                        .show(getFragmentManager());
+                                .show(getFragmentManager());
 
                         return true;
                     }
@@ -146,6 +157,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         refreshReminderDaysPreference();
         refreshReminderTimePreference();
+        refreshFontSizePreference();
 
         setupBackupSettings();
     }
@@ -267,6 +279,11 @@ public class SettingsFragment extends PreferenceFragment {
     private void refreshReminderTimePreference() {
         findPreference(R.string.prefkey_reminder_time).setSummary(DateFormat.getTimeFormat(getActivity()).format(
                 ReminderManager.getReminderTime(getActivity()).getTime()));
+    }
+
+    private void refreshFontSizePreference() {
+        final ListPreference preference = (ListPreference)findPreference(R.string.prefkey_font_size);
+        preference.setSummary(preference.getEntry());
     }
 
     private void setupBackupSettings() {

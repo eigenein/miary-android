@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -40,7 +41,7 @@ public class ContentProvider extends android.content.ContentProvider {
 
     @Override
     public Cursor query(
-            final Uri uri,
+            @NonNull final Uri uri,
             final String[] projection,
             final String selection,
             final String[] selectionArgs,

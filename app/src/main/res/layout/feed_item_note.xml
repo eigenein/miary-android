@@ -26,14 +26,14 @@
                     android:id="@+id/feed_item_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_marginBottom="@dimen/feed_item_internal_margin"
+                    style="@style/TextAppearance.AppCompat.Title"
             />
             <TextView
                     android:id="@+id/feed_item_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/TextAppearance.AppCompat.Body2"
             />
         </LinearLayout>
         <View
@@ -45,8 +45,8 @@
                 android:id="@+id/feed_item_creation_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_margin="@dimen/feed_item_internal_margin"
+                style="@style/TextAppearance.AppCompat.Body2"
         />
     </LinearLayout>
 </android.support.v7.widget.CardView>

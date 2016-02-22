@@ -108,6 +108,7 @@ public class FeedFragment
                 }
             }
         });
+        swipeRefresh.setEnabled(false); // TODO: temporarily disabled to not confuse users.
 
         return view;
     }
@@ -119,7 +120,7 @@ public class FeedFragment
 
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
-        final boolean multiColumn = preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false);
+        final boolean multiColumn = preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, true);
         menu.findItem(R.id.menu_item_feed_set_single_column).setVisible(multiColumn);
         menu.findItem(R.id.menu_item_feed_set_multi_column).setVisible(!multiColumn);
     }
@@ -128,6 +129,7 @@ public class FeedFragment
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(syncFinishedReceiver, new IntentFilter(SyncAdapter.SYNC_FINISHED_EVENT_NAME));
+
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
@@ -135,6 +137,7 @@ public class FeedFragment
     public void onPause() {
         getActivity().unregisterReceiver(syncFinishedReceiver);
         super.onPause();
+
         swipeRefresh.setRefreshing(false);
     }
 
@@ -231,7 +234,7 @@ public class FeedFragment
      */
     private void updateLayoutManager() {
         final RecyclerView.LayoutManager layoutManager;
-        if (preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false)) {
+        if (preferences.getBoolean(PreferenceHelper.KEY_MULTI_COLUMN, true)) {
             layoutManager = new StaggeredGridLayoutManager(
                     getResources().getInteger(R.integer.feed_multi_column_columns),
                     StaggeredGridLayoutManager.VERTICAL);

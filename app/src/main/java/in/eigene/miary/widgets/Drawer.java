@@ -1,79 +1,159 @@
 package in.eigene.miary.widgets;
 
-import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import in.eigene.miary.R;
+import in.eigene.miary.activities.AboutActivity;
 import in.eigene.miary.activities.FeedActivity;
-import in.eigene.miary.adapters.DrawerAdapter;
+import in.eigene.miary.activities.FeedbackActivity;
+import in.eigene.miary.activities.SettingsActivity;
+import in.eigene.miary.helpers.ActivityHelper;
 import in.eigene.miary.helpers.PreferenceHelper;
+import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.persistence.Note;
 
-public class Drawer {
+/**
+ * Drawer initialization. Moved out to not clog the activity code.
+ */
+public class Drawer implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String KEY_DRAWER_SHOWN = "drawer_shown";
+    private static final long HANDLER_DELAY = 500;
 
-    private final DrawerLayout layout;
-    private final ActionBarDrawerToggle toggle;
-    private final ListView view;
+    public final DrawerLayout drawerLayout;
+    public final ActionBarDrawerToggle toggle;
+    public final NavigationView navigationView;
+
+    private final FeedActivity activity;
+    private final TextView textViewCounter;
+
 
     public Drawer(final FeedActivity activity, final Toolbar toolbar) {
-        final DrawerAdapter adapter = new DrawerAdapter(activity);
+        this.activity = activity;
 
-        // Initialize drawer itself.
-        view = (ListView)activity.findViewById(R.id.drawer);
-        layout = (DrawerLayout)activity.findViewById(R.id.drawer_layout);
-        layout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        toggle = new ActionBarDrawerToggle(activity, layout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        navigationView = (NavigationView)activity.findViewById(R.id.navigation_view);
+        // Header view.
+        final View headerView = LayoutInflater.from(activity).inflate(R.layout.drawer_header, navigationView, false);
+        navigationView.addHeaderView(headerView);
+        // Header content.
+        textViewCounter = (TextView)headerView.findViewById(R.id.drawer_header_counter);
+        // Layout.
+        drawerLayout = (DrawerLayout)activity.findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        // Toggle.
+        toggle = new ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(final View view) {
-                adapter.triggerUpdateData();
+                final Cursor cursor = activity.getContentResolver().query(
+                        Note.Contract.CONTENT_URI, new String[]{"COUNT(*)"}, Note.Contract.DELETED + " = 0", null, null);
+                assert cursor != null;
+                cursor.moveToFirst();
+                textViewCounter.setText(activity.getResources().getQuantityString(
+                        R.plurals.drawer_header_counter, cursor.getInt(0), cursor.getInt(0)));
+                cursor.close();
             }
         };
-        layout.setDrawerListener(toggle);
+        drawerLayout.setDrawerListener(toggle);
+        // Listener.
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 
-        // Initialize navigation list view.
-        view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+    @Override
+    public boolean onNavigationItemSelected(final MenuItem item) {
+        drawerLayout.closeDrawers();
+
+        switch (item.getItemId()) {
+
+            case R.id.menu_item_drawer_diary:
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.getItem(position).onClick();
+                        final Note.Section section = Note.Section.DIARY;
+                        activity.getFeedFragment().setSection(section);
+                        activity.setTitle(section.getTitleResourceId());
+                        Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
                     }
-                }, 500L);
-                layout.closeDrawer(Drawer.this.view);
-            }
-        });
-        view.setAdapter(adapter);
-    }
+                }, HANDLER_DELAY);
+                return true;
 
-    public ActionBarDrawerToggle getToggle() {
-        return toggle;
-    }
+            case R.id.menu_item_drawer_starred:
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Note.Section section = Note.Section.STARRED;
+                        activity.getFeedFragment().setSection(section);
+                        activity.setTitle(section.getTitleResourceId());
+                        Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
+                    }
+                }, HANDLER_DELAY);
+                return true;
 
-    public Context getContext() {
-        return view.getContext();
+            case R.id.menu_item_drawer_drafts:
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Note.Section section = Note.Section.DRAFTS;
+                        activity.getFeedFragment().setSection(section);
+                        activity.setTitle(section.getTitleResourceId());
+                        Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
+                    }
+                }, HANDLER_DELAY);
+                return true;
+
+            case R.id.menu_item_drawer_settings:
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityHelper.start(activity, SettingsActivity.class);
+                    }
+                }, HANDLER_DELAY);
+                return true;
+
+            case R.id.menu_item_drawer_feedback:
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityHelper.start(activity, FeedbackActivity.class);
+                    }
+                }, HANDLER_DELAY);
+                return true;
+
+            case R.id.menu_item_drawer_about:
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityHelper.start(activity, AboutActivity.class);
+                    }
+                }, HANDLER_DELAY);
+                return true;
+
+            default:
+                return false;
+        }
     }
 
     /**
      * Shows drawer if it was not shown since application installed.
      */
     public void showForFirstTime() {
-        final SharedPreferences preferences = PreferenceHelper.get(getContext());
+        final SharedPreferences preferences = PreferenceHelper.get(navigationView.getContext());
         if (!preferences.getBoolean(KEY_DRAWER_SHOWN, false)) {
             // Open drawer for the first time.
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    layout.openDrawer(GravityCompat.START);
+                    drawerLayout.openDrawer(GravityCompat.START);
                     preferences.edit().putBoolean(KEY_DRAWER_SHOWN, true).apply();
                 }
             }, 1000);

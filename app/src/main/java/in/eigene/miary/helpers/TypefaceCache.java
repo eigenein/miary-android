@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class TypefaceCache {
 
     public static final String ROBOTO_SLAB_REGULAR = "fonts/RobotoSlab-Regular.ttf";
-    public static final String ROBOTO_SLAB_BOLD = "fonts/RobotoSlab-Bold.ttf";
+    public static final String ROBOTO_CONDENSED_BOLD = "fonts/RobotoCondensed-Bold.ttf";
 
     private static final HashMap<String, Typeface> CACHE = new HashMap<>();
 

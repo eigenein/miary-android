@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -105,12 +106,18 @@ public class AboutActivity extends BaseActivity {
                 dialog.show();
                 return true;
 
-            case R.id.menu_item_developer_add_sample_notes:
+            case R.id.menu_item_developer_add_welcome_notes:
+                final Resources resources = getResources();
                 final ContentResolver contentResolver = getContentResolver();
-                final String[] texts = getResources().getStringArray(R.array.sample_texts);
-                int color = 5;
-                for (final String text : texts) {
-                    Note.createEmpty().setText(text).setColor(color++ % 8).insert(contentResolver);
+                final String[] titles = resources.getStringArray(R.array.welcome_titles);
+                final String[] texts = resources.getStringArray(R.array.welcome_texts);
+                final int [] colors = resources.getIntArray(R.array.welcome_colors);
+                for (int i = 0; i < texts.length; i++) {
+                    Note.createEmpty()
+                            .setTitle(titles[i])
+                            .setText(texts[i])
+                            .setColor(colors[i])
+                            .insert(contentResolver);
                 }
                 return true;
 

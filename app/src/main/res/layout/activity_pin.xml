@@ -2,15 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
->
+              android:layout_height="match_parent">
     <include layout="@layout/toolbar"/>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:padding="@dimen/fullscreen_dialog_padding"
-    >
+            android:padding="@dimen/fullscreen_dialog_padding">
         <EditText
                 android:id="@+id/pin_edit_text"
                 android:layout_width="match_parent"

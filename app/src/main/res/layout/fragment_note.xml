@@ -22,12 +22,12 @@
             android:id="@+id/note_edit_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@android:style/TextAppearance.Medium"
             android:hint="@string/note_title_hint"
             android:background="@android:color/transparent"
             android:padding="@dimen/note_edit_text_padding"
             android:layout_weight="1"
-            android:inputType="textCapSentences"/>
+            android:inputType="textCapSentences"
+            style="@style/TextAppearance.AppCompat.Title"/>
         <ImageButton
             android:id="@+id/note_button_leave_fullscreen"
             android:layout_width="@dimen/launcher_icon_size"
@@ -37,15 +37,20 @@
             android:visibility="gone"
             android:scaleType="center"/>
     </LinearLayout>
-    <EditText
-        android:id="@+id/note_edit_text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:inputType="textMultiLine|textCapSentences"
-        android:gravity="top|start"
-        style="@android:style/TextAppearance.Medium"
-        android:hint="@string/note_hint"
-        android:background="@android:color/transparent"
-        android:padding="@dimen/note_edit_text_padding"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <EditText
+            android:id="@+id/note_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine|textCapSentences"
+            android:gravity="top|start"
+            android:hint="@string/note_hint"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/note_edit_text_padding"
+            style="@style/TextAppearance.AppCompat.Body2"/>
+    </ScrollView>
 </LinearLayout>

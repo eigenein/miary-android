@@ -1,7 +1,9 @@
 package in.eigene.miary.backup.inputs;
 
+import android.graphics.Color;
 import android.util.JsonReader;
 import android.util.Log;
+import android.util.SparseIntArray;
 
 import in.eigene.miary.backup.RestoreInput;
 import in.eigene.miary.persistence.Note;
@@ -15,11 +17,27 @@ public class JsonRestoreInput extends RestoreInput {
 
     private static final String LOG_TAG = JsonRestoreInput.class.getSimpleName();
 
+    /**
+     * Used to restore old color codes.
+     */
+    private static final SparseIntArray LEGACY_COLORS = new SparseIntArray();
+
     private final JsonReader reader;
 
     private int schemaVersion;
 
     private int count;
+
+    static {
+        LEGACY_COLORS.put(0, Color.WHITE);
+        LEGACY_COLORS.put(1, 0xFFEF5350);
+        LEGACY_COLORS.put(2, 0xFFFFA726);
+        LEGACY_COLORS.put(3, 0xFFFFEB3B);
+        LEGACY_COLORS.put(4, 0xFFF5F5F5);
+        LEGACY_COLORS.put(5, 0xFF8BC34A);
+        LEGACY_COLORS.put(6, 0xFF90CAF9);
+        LEGACY_COLORS.put(7, 0xFFCE93D8);
+    }
 
     public JsonRestoreInput(final InputStream inputStream) {
         super(inputStream);
@@ -31,21 +49,26 @@ public class JsonRestoreInput extends RestoreInput {
     public int start() throws IOException {
         Log.d(LOG_TAG, "Starting.");
         reader.beginObject();
+        label:
         while (reader.hasNext()) {
             final String name = reader.nextName();
             Log.d(LOG_TAG, "Read property name: " + name);
-            if (name.equals("schemaVersion")) {
-                schemaVersion = reader.nextInt();
-                Log.i(LOG_TAG, "Schema version: " + schemaVersion);
-            } else if (name.equals("count")) {
-                count = reader.nextInt();
-                Log.i(LOG_TAG, "Count: " + count);
-            } else if (name.equals("notes")) {
-                Log.d(LOG_TAG, "Begin array.");
-                reader.beginArray();
-                break;
-            } else {
-                reader.skipValue();
+            switch (name) {
+                case "schemaVersion":
+                    schemaVersion = reader.nextInt();
+                    Log.i(LOG_TAG, "Schema version: " + schemaVersion);
+                    break;
+                case "count":
+                    count = reader.nextInt();
+                    Log.i(LOG_TAG, "Count: " + count);
+                    break;
+                case "notes":
+                    Log.d(LOG_TAG, "Begin array.");
+                    reader.beginArray();
+                    break label;
+                default:
+                    reader.skipValue();
+                    break;
             }
         }
         return count;
@@ -67,7 +90,8 @@ public class JsonRestoreInput extends RestoreInput {
             } else if (name.equals("text")) {
                 note.setText(reader.nextString());
             } else if (name.equals("color")) {
-                note.setColor(reader.nextInt());
+                final int color = reader.nextInt();
+                note.setColor(LEGACY_COLORS.get(color, color));
             } else if (name.equals("isStarred")) {
                 note.setStarred(reader.nextBoolean());
             } else if (name.equals("isDraft")) {

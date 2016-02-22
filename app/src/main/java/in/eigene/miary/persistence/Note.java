@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -55,6 +56,7 @@ public class Note implements Entity {
         note.id = Math.abs(RANDOM.nextLong());
         note.title = "";
         note.text = "";
+        note.color = Color.WHITE;
         note.createdDate = new Date();
         note.updatedDate = note.createdDate;
         note.customDate = note.createdDate;
@@ -231,21 +233,6 @@ public class Note implements Entity {
         return values;
     }
 
-    /**
-     * Note background color.
-     */
-    public static class Color {
-
-        public static final int WHITE = 0;
-        public static final int RED = 1;
-        public static final int ORANGE = 2;
-        public static final int YELLOW = 3;
-        public static final int GRAY = 4;
-        public static final int GREEN = 5;
-        public static final int BLUE = 6;
-        public static final int PURPLE = 7;
-    }
-
     public static class Contract implements BaseColumns {
 
         public static final String TABLE = "notes";
@@ -273,7 +260,7 @@ public class Note implements Entity {
 
             @Override
             public int getTitleResourceId() {
-                return R.string.drawer_item_diary;
+                return R.string.drawer_diary;
             }
 
             @Override
@@ -289,7 +276,7 @@ public class Note implements Entity {
 
             @Override
             public int getTitleResourceId() {
-                return R.string.drawer_item_starred;
+                return R.string.drawer_starred;
             }
 
             @Override
@@ -305,7 +292,7 @@ public class Note implements Entity {
 
             @Override
             public int getTitleResourceId() {
-                return R.string.drawer_item_drafts;
+                return R.string.drawer_drafts;
             }
 
             @Override

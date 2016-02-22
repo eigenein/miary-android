@@ -7,9 +7,10 @@ android {
     defaultConfig {
         applicationId "in.eigene.miary"
         minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 71
-        versionName "0.9.5"
+        //noinspection OldTargetApi https://bitbucket.org/miaryapp/miary-android/issues/230/android-m
+        targetSdkVersion 22
+        versionCode 80
+        versionName "0.9.6"
     }
     buildTypes {
         debug {
@@ -35,7 +36,8 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile 'com.android.support:cardview-v7:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile 'com.google.android.gms:play-services-analytics:8.1.0'
+    compile 'com.google.android.gms:play-services-analytics:8.3.0'
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile 'com.parse:parse-android:1.10.3'
+    compile 'com.github.QuadFlask:colorpicker:0.0.9'
 }

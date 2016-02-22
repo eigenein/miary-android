@@ -33,22 +33,15 @@
     <string name="dialog_new_pin_title">New passcode</string>
     <string name="dialog_pin_hint">4-digit passcode</string>
     <string name="dialog_reminder_days_title">Reminder days</string>
-    <string name="dialog_reminder_friday">Friday</string>
-    <string name="dialog_reminder_monday">Monday</string>
-    <string name="dialog_reminder_saturday">Saturday</string>
-    <string name="dialog_reminder_sunday">Sunday</string>
-    <string name="dialog_reminder_thursday">Thursday</string>
     <string name="dialog_reminder_time_title">Reminder time</string>
-    <string name="dialog_reminder_tuesday">Tuesday</string>
-    <string name="dialog_reminder_wednesday">Wednesday</string>
     <string name="dialog_remove_note_message">It will be impossible to restore.</string>
     <string name="dialog_remove_note_title">Remove note?</string>
     <string name="dialog_replacement_table_title">Replacement Table</string>
     <string name="drawer_basic_account">Basic account</string>
     <string name="drawer_close">Close</string>
-    <string name="drawer_item_diary">Diary</string>
-    <string name="drawer_item_drafts">Drafts</string>
-    <string name="drawer_item_starred">Starred</string>
+    <string name="drawer_diary">Diary</string>
+    <string name="drawer_drafts">Drafts</string>
+    <string name="drawer_starred">Starred</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_sign_in">Sign In</string>
     <string name="email_hint" translatable="false">Email</string>
@@ -147,4 +140,12 @@
     <string name="preference_summary_restore_dropbox">Restore your notes from Dropbox application folder.</string>
     <string name="preference_summary_restore_storage">Restore from previously created backup file.</string>
     <string name="preference_summary_export_plain_text">Export notes into a human-readable text file.</string>
+    <string name="prefcat_title_appearance">Appearance</string>
+    <string name="prefkey_font_size" translatable="false">font_size</string>
+    <string name="preference_title_font_size">Font size</string>
+    <plurals name="drawer_header_counter">
+        <item quantity="zero">No notes</item>
+        <item quantity="one">%d note</item>
+        <item quantity="other">%d notes</item>
+    </plurals>
 </resources>

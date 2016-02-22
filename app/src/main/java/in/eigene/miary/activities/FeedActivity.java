@@ -72,12 +72,12 @@ public class FeedActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(final Configuration newConfiguration) {
         super.onConfigurationChanged(newConfiguration);
-        drawer.getToggle().onConfigurationChanged(newConfiguration);
+        drawer.toggle.onConfigurationChanged(newConfiguration);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        return drawer.getToggle().onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        return drawer.toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     public FeedFragment getFeedFragment() {
@@ -87,7 +87,7 @@ public class FeedActivity extends BaseActivity {
     @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        drawer.getToggle().syncState();
+        drawer.toggle.syncState();
     }
 
     private void initializeFloatingActionButton() {
