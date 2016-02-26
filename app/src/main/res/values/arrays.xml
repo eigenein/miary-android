@@ -22,10 +22,12 @@
     <string-array name="font_size_titles">
         <item>Smallest</item>
         <item>Smaller</item>
+        <item>Normal</item>
         <item>Larger</item>
         <item>Largest</item>
     </string-array>
     <string-array name="font_size_values" translatable="false">
+        <item>12</item>
         <item>14</item>
         <item>16</item>
         <item>18</item>
