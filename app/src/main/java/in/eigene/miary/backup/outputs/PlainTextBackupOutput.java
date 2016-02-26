@@ -13,7 +13,7 @@ import in.eigene.miary.persistence.Note;
  */
 public class PlainTextBackupOutput extends BackupOutput {
 
-    private PrintWriter writer;
+    private final PrintWriter writer;
 
     public PlainTextBackupOutput(final String name, final OutputStream outputStream) {
         super(name, outputStream);

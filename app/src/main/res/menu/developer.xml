@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_item_developer_clear_shared_preferences" android:title="Clear shared preferences"/>
-    <item android:id="@+id/menu_item_developer_reset_migrated" android:title="Reset migrated flag"/>
-    <item android:id="@+id/menu_item_developer_log_out" android:title="Log out"/>
-    <item android:id="@+id/menu_item_developer_add_welcome_notes" android:title="Add welcome notes"/>
-    <item android:id="@+id/menu_item_developer_delete_all_notes" android:title="Delete all notes"/>
+<menu xmlns:tools="http://schemas.android.com/tools"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item_developer_clear_shared_preferences"
+        android:title="Clear shared preferences"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/menu_item_developer_reset_migrated"
+        android:title="Reset migrated flag"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/menu_item_developer_log_out"
+        android:title="Log out"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/menu_item_developer_add_welcome_notes"
+        android:title="Add welcome notes"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/menu_item_developer_delete_all_notes"
+        android:title="Delete all notes"
+        tools:ignore="HardcodedText"/>
 </menu>

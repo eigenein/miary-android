@@ -25,7 +25,7 @@
         <item>Larger</item>
         <item>Largest</item>
     </string-array>
-    <string-array name="font_size_values">
+    <string-array name="font_size_values" translatable="false">
         <item>14</item>
         <item>16</item>
         <item>18</item>

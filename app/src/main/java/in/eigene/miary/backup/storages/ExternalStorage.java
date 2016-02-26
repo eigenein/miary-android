@@ -1,5 +1,6 @@
 package in.eigene.miary.backup.storages;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import in.eigene.miary.helpers.Tracking;
  */
 public class ExternalStorage extends Storage {
 
+    @SuppressLint("SimpleDateFormat")
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
     private static final File DOWNLOADS = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
