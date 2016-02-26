@@ -4,10 +4,7 @@ import android.content.Context;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import in.eigene.miary.persistence.Feedback;
 
 public class ParseHelper {
 
@@ -16,7 +13,6 @@ public class ParseHelper {
 
     public static void initialize(final Context context) {
         Parse.enableLocalDatastore(context);
-        ParseObject.registerSubclass(Feedback.class);
         Parse.initialize(context, APPLICATION_ID, CLIENT_KEY);
     }
 
