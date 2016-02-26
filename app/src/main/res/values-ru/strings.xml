@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_copyright">© 2014–2015\nПавел Пересторонин, Андрей Меньков</string>
+    <string name="about_copyright">© 2014–2016\nПавел Пересторонин, Андрей Меньков</string>
     <string name="about_facebook">Фейсбук</string>
     <string name="about_version">Версия %1$s\nСборка %2$d</string>
     <string name="about_vkontakte">ВКонтакте</string>
