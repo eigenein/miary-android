@@ -9,8 +9,8 @@ android {
         minSdkVersion 14
         //noinspection OldTargetApi https://bitbucket.org/miaryapp/miary-android/issues/230/android-m
         targetSdkVersion 22
-        versionCode 80
-        versionName "0.9.6"
+        versionCode 81
+        versionName "0.9.7"
     }
     buildTypes {
         debug {
