@@ -3,6 +3,7 @@ package in.eigene.miary.adapters;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.provider.BaseColumns;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -23,8 +26,15 @@ import in.eigene.miary.persistence.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
+    private float displayHeight;
     private Cursor cursor = null;
     private int idColumnIndex;
+
+    public NotesAdapter(final Context context) {
+        final Point displaySize = new Point();
+        ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(displaySize);
+        this.displayHeight = displaySize.y;
+    }
 
     public void setCursor(final Cursor cursor) {
         if (this.cursor != null) {
@@ -48,6 +58,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         if (!cursor.moveToPosition(position)) {
             throw new IndexOutOfBoundsException(String.format("%d of %d", cursor.getCount(), position));
         }
+        runEnterAnimation(holder.itemView);
         holder.bind(Note.getByCursor(cursor));
     }
 
@@ -72,6 +83,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     @Override
     public void setHasStableIds(boolean hasStableIds) {
         super.setHasStableIds(true);
+    }
+
+    private void runEnterAnimation(final View view) {
+        view.setTranslationY(displayHeight);
+        view.animate()
+                .translationY(0)
+                .setInterpolator(new DecelerateInterpolator(3.f))
+                .setDuration(700)
+                .start();
     }
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -53,7 +53,7 @@ public class FeedFragment
     /**
      * Notes cursor adapter.
      */
-    private final NotesAdapter notesAdapter = new NotesAdapter();
+    private NotesAdapter notesAdapter;
 
     private SharedPreferences preferences;
 
@@ -76,6 +76,7 @@ public class FeedFragment
 
         preferences = PreferenceHelper.get(getActivity());
         sortOrder = Note.SortOrder.valueOf(preferences.getString(PreferenceHelper.KEY_SORT_ORDER, Note.SortOrder.NEWEST_FIRST.name()));
+        notesAdapter = new NotesAdapter(getActivity());
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
