@@ -42,3 +42,5 @@
 
 -keep class android.support.v7.widget.** { *; }
 -dontwarn android.support.v7.widget.**
+
+-dontwarn okio.**
