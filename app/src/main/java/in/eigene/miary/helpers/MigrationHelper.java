@@ -1,7 +1,6 @@
 package in.eigene.miary.helpers;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.parse.CountCallback;

@@ -1,5 +1,7 @@
 package in.eigene.miary.helpers;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +12,7 @@ public class Util {
 
     public static final Date EPOCH = new Date(0);
 
+    @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     /**

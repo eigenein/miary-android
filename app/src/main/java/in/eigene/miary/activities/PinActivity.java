@@ -54,7 +54,7 @@ public class PinActivity extends ActionBarActivity {
                 } else {
                     Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                     pinEditText.setText("");
-                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.INCORRECT);;
+                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.INCORRECT);
                 }
             }
         });

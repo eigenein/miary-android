@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_copyright">© 2014–2015\nPavel Perestoronin, Andrei Menkou</string>
+    <string name="about_copyright">© 2014–2016\nPavel Perestoronin, Andrei Menkou</string>
     <string name="about_facebook">Facebook</string>
     <string name="about_google_plus" translatable="false">Google+</string>
     <string name="about_version">Version %1$s\nBuild %2$d</string>
     <string name="about_vkontakte">VKontakte</string>
     <string name="account_auth_failed">Authentication failed. Please check email and password.</string>
-    <string name="account_auth_retry">Please remove existing account in System Settings and try again.</string>
     <string name="account_auth_success">Successfully signed in.</string>
-    <string name="account_basic">Basic Account</string>
-    <string name="account_offline">Offline Account</string>
     <string name="activity_about">About</string>
     <string name="activity_authenticator" translatable="false">@string/app_name</string>
     <string name="activity_feedback">Feedback</string>
     <string name="activity_note">Note</string>
-    <string name="activity_pin">Passcode Required</string>
     <string name="activity_settings">Settings</string>
     <string name="app_name" translatable="false">Miary</string>
-    <string name="app_subname">Personal Diary</string>
     <string name="auth_sign_in">Sign In</string>
     <string name="auth_sign_up">Sign Up</string>
     <string name="backup_message_creating">Creating backup…</string>
@@ -37,13 +32,11 @@
     <string name="dialog_remove_note_message">It will be impossible to restore.</string>
     <string name="dialog_remove_note_title">Remove note?</string>
     <string name="dialog_replacement_table_title">Replacement Table</string>
-    <string name="drawer_basic_account">Basic account</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_diary">Diary</string>
     <string name="drawer_drafts">Drafts</string>
     <string name="drawer_starred">Starred</string>
     <string name="drawer_open">Open</string>
-    <string name="drawer_sign_in">Sign In</string>
     <string name="email_hint" translatable="false">Email</string>
     <string name="feed_change_sorting_order">Change sorting order</string>
     <string name="feed_oldest_first">Oldest first.</string>
@@ -51,13 +44,10 @@
     <string name="feed_set_multi_column">Multi-column view</string>
     <string name="feed_set_single_column">Single-column view</string>
     <string name="feedback_hint">Your feedback</string>
-    <string name="no_button">No</string>
-    <string name="not_really_button">Not really</string>
     <string name="note_color">Change color</string>
     <string name="note_draft">Mark as a draft</string>
     <string name="note_fullscreen">Fullscreen</string>
     <string name="note_hint">Text</string>
-    <string name="note_new">New note</string>
     <string name="note_not_draft">Mark as not a draft</string>
     <string name="note_remove">Remove note</string>
     <string name="note_removed">The note is removed.</string>
@@ -74,14 +64,11 @@
     <string name="pin_incorrect">Incorrect passcode.</string>
     <string name="pin_required">Passcode</string>
     <string name="pin_too_short">Passcode is too short.</string>
-    <string name="prefcat_title_backup_and_restore">Backup and Restore</string>
     <string name="prefcat_title_reminder">Reminder</string>
     <string name="prefcat_title_security">Security</string>
     <string name="prefcat_title_substitution">Automatic Substitution</string>
-    <string name="preference_summary_backup">Backup notes into a file or a cloud storage.</string>
     <string name="preference_summary_pin">We\'ll ask security passcode after 5 minutes of inactivity.</string>
     <string name="preference_summary_reminder_never">Never</string>
-    <string name="preference_summary_restore">Restore your notes from a backup.</string>
     <string name="preference_summary_substitution">Automatically replaces the sequence of characters with a single character.</string>
     <string name="preference_title_backup">Backup</string>
     <string name="preference_title_backup_dropbox" translatable="false">Dropbox</string>
@@ -104,10 +91,6 @@
     <string name="prefkey_restore_storage" translatable="false">restore_storage</string>
     <string name="prefkey_substitution_enabled" translatable="false">substitution_enabled</string>
     <string name="prefkey_substitution_table" translatable="false">substitution_table</string>
-    <string name="rate_item_enjoying">Enjoying Miary?</string>
-    <string name="rate_item_feedback">Would you mind giving us some feedback?</string>
-    <string name="rate_item_rating">How about rating on Google Play, then?</string>
-    <string name="rate_item_welcome">Welcome back!</string>
     <string name="send">Send</string>
     <string name="settings">Settings</string>
     <string name="toast_backup_finished">%1$d notes are saved to %2$s</string>
@@ -126,12 +109,11 @@
     <string name="toast_storage_unready">Storage is not ready.</string>
     <string name="toast_thank_you">Thank you!</string>
     <string name="toast_unstarred">Unstarred.</string>
-    <string name="yes_button">Yes</string>
     <string name="prefkey_flag_secure_enabled" translatable="false">flag_secure_enabled</string>
     <string name="preference_summary_flag_secure">Prevents from doing screenshots and displaying previews.</string>
     <string name="preference_title_flag_secure">Screenshot protection</string>
     <string name="error_incorrect_email">Incorrect email address</string>
-    <string name="prefkey_export">export</string>
+    <string name="prefkey_export" translatable="false">export</string>
     <string name="preference_title_export">Export</string>
     <string name="preference_title_storage">Storage</string>
     <string name="preference_title_dropbox" translatable="false">Dropbox</string>

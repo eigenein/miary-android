@@ -2,7 +2,6 @@ package in.eigene.miary.backup.tasks;
 
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 import in.eigene.miary.R;
 import in.eigene.miary.backup.Result;

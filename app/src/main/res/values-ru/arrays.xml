@@ -12,6 +12,7 @@
     <string-array name="font_size_titles">
         <item>Наименьший</item>
         <item>Меньше среднего</item>
+        <item>Средний</item>
         <item>Больше среднего</item>
         <item>Наибольший</item>
     </string-array>

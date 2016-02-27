@@ -7,5 +7,5 @@ public interface Function<TValue, TResult> {
     /**
      * Applies this function to the given argument.
      */
-    public TResult apply(TValue value);
+    TResult apply(TValue value);
 }
