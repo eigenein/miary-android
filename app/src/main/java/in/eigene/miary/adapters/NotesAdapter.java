@@ -29,6 +29,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private float displayHeight;
     private Cursor cursor = null;
     private int idColumnIndex;
+    private int lastAnimatedPosition;
 
     public NotesAdapter(final Context context) {
         final Point displaySize = new Point();
@@ -45,6 +46,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
         }
         notifyDataSetChanged();
+        lastAnimatedPosition = -1;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         if (!cursor.moveToPosition(position)) {
             throw new IndexOutOfBoundsException(String.format("%d of %d", cursor.getCount(), position));
         }
-        runEnterAnimation(holder.itemView);
+        runEnterAnimation(holder.itemView, position);
         holder.bind(Note.getByCursor(cursor));
     }
 
@@ -85,7 +87,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         super.setHasStableIds(true);
     }
 
-    private void runEnterAnimation(final View view) {
+    private void runEnterAnimation(final View view, final int position) {
+        if (position <= lastAnimatedPosition) {
+            return;
+        }
+        lastAnimatedPosition = position;
         view.setTranslationY(displayHeight);
         view.animate()
                 .translationY(0)

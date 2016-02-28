@@ -218,16 +218,20 @@ public class FeedFragment
     }
 
     public void setSection(final Note.Section section) {
-        this.section = section;
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
+        if (this.section != section) {
+            this.section = section;
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+        }
     }
 
     /**
      * Sets note sort order.
      */
     private void setSortOrder(final Note.SortOrder sortOrder) {
-        this.sortOrder = sortOrder;
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
+        if (this.sortOrder != sortOrder) {
+            this.sortOrder = sortOrder;
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+        }
     }
 
     /**
