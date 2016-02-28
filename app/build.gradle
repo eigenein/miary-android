@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         //noinspection OldTargetApi https://bitbucket.org/miaryapp/miary-android/issues/230/android-m
         targetSdkVersion 22
-        versionCode 81
+        versionCode 82
         versionName "0.9.7"
     }
     buildTypes {
