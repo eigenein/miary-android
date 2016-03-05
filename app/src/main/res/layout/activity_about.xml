@@ -1,87 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <include layout="@layout/toolbar"/>
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:textSize="32sp"
-                    android:textColor="?android:textColorPrimary"
-                    android:textStyle="normal"
-                    android:text="@string/app_name"
-            />
-            <TextView
-                    android:id="@+id/about_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:lineSpacingMultiplier="1.2"
-                    android:textColor="?android:textColorHint"
-            />
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
-            <include layout="@layout/divider"/>
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textSize="32sp"
+                android:textColor="?android:textColorPrimary"
+                android:textStyle="normal"
+                android:text="@string/app_name"/>
             <TextView
-                    android:id="@+id/about_vkontakte_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:textSize="16sp"
-                    android:textColor="?android:textColorPrimary"
-                    android:text="@string/about_vkontakte"/>
-            <include layout="@layout/divider"/>
-            <TextView
-                    android:id="@+id/about_facebook_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:textSize="16sp"
-                    android:textColor="?android:textColorPrimary"
-                    android:text="@string/about_facebook"/>
-            <include layout="@layout/divider"/>
-            <TextView
-                    android:id="@+id/about_google_plus_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:textSize="16sp"
-                    android:textColor="?android:textColorPrimary"
-                    android:text="@string/about_google_plus"/>
-            <include layout="@layout/divider"/>
-        </LinearLayout>
-        <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/about_version"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:gravity="center"
-                android:padding="16dp"
                 android:textSize="16sp"
                 android:lineSpacingMultiplier="1.2"
-                android:textColor="?android:textColorHint"
-                android:text="@string/about_copyright"/>
-    </LinearLayout>
-</LinearLayout>
+                android:textColor="?android:textColorHint"/>
+        </LinearLayout>
+        <ListView
+            android:id="@+id/about_links_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:divider="@null"/>
+    </android.support.design.widget.AppBarLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="?android:textColorHint"
+        android:text="@string/about_copyright"/>
+</RelativeLayout>

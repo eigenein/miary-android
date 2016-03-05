@@ -66,4 +66,16 @@
         <item>Miary.Theme</item>
         <item>Miary.Theme.Dark</item>
     </string-array>
+    <string-array name="about_titles">
+        <item>Facebook</item>
+        <item>Telegram</item>
+        <item>Google+</item>
+        <item>VKontakte</item>
+    </string-array>
+    <string-array name="about_links">
+        <item>https://www.facebook.com/miaryapp</item>
+        <item>https://telegram.me/joinchat/AA5T1QjPdksR3YgiQiv9zA</item>
+        <item>https://plus.google.com/communities/105005072306337762911</item>
+        <item>https://vk.com/miaryapp</item>
+    </string-array>
 </resources>

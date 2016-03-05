@@ -15,11 +15,11 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.parse.ParseInstallation;
-import com.parse.ParseUser;
 
 import in.eigene.miary.R;
 import in.eigene.miary.helpers.PreferenceHelper;
@@ -45,25 +45,29 @@ public class AboutActivity extends BaseActivity {
             // Do nothing.
         }
 
-        findViewById(R.id.about_vkontakte_text).setOnClickListener(
-                new StartUriOnClickListener(Uri.parse("https://vk.com/miaryapp")));
-        findViewById(R.id.about_facebook_text).setOnClickListener(
-                new StartUriOnClickListener(Uri.parse("https://www.facebook.com/miaryapp")));
-        findViewById(R.id.about_google_plus_text).setOnClickListener(
-                new StartUriOnClickListener(Uri.parse("https://plus.google.com/communities/105005072306337762911")));
-
         final TextView versionView = (TextView)findViewById(R.id.about_version);
         registerForContextMenu(versionView);
         versionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                // Copy version, build and installation ID to the clipboard.
+                // Copy version and build number to the clipboard.
                 final ClipboardManager manager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-                manager.setPrimaryClip(ClipData.newPlainText(
-                        getString(R.string.app_name),
-                        versionView.getText() + "\n" + ParseInstallation.getCurrentInstallation().getInstallationId()
-                ));
+                manager.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_name), versionView.getText()));
                 Toast.makeText(AboutActivity.this, R.string.toast_copied, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final ListView aboutLinksListView = (ListView)findViewById(R.id.about_links_list);
+        aboutLinksListView.setAdapter(new ArrayAdapter<>(
+                this,
+                R.layout.single_list_item,
+                R.id.single_list_item_text_view,
+                getResources().getStringArray(R.array.about_titles)));
+        final String[] uris = getResources().getStringArray(R.array.about_links);
+        aboutLinksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uris[position])));
             }
         });
     }
@@ -121,34 +125,8 @@ public class AboutActivity extends BaseActivity {
                 }
                 return true;
 
-            case R.id.menu_item_developer_log_out:
-                ParseUser.logOut();
-                return true;
-
-            case R.id.menu_item_developer_reset_migrated:
-                PreferenceHelper.edit(this).putBoolean(PreferenceHelper.KEY_NOTES_MIGRATED, false).apply();
-                return true;
-
             default:
                 return super.onContextItemSelected(item);
-        }
-    }
-
-    /**
-     * Starts URI view activity on click.
-     */
-    private class StartUriOnClickListener implements View.OnClickListener {
-
-        private final Uri uri;
-
-        public StartUriOnClickListener(final Uri uri) {
-            this.uri = uri;
-        }
-
-        @Override
-        public void onClick(final View view) {
-            final Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(browserIntent);
         }
     }
 }
