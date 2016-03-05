@@ -1,5 +1,6 @@
 package in.eigene.miary.activities;
 
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import in.eigene.miary.R;
 import in.eigene.miary.helpers.PreferenceHelper;
@@ -16,10 +18,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String LOG_TAG = BaseActivity.class.getSimpleName();
 
     private static final long TIMEOUT = 5 * 60 * 1000;
+    private static final HashMap<String, Integer> THEMES = new HashMap<>();
 
     private static long lastActivityTime = 0;
 
     private Toolbar toolbar;
+
+    static {
+        THEMES.put("Miary.Theme", R.style.Miary_Theme);
+        THEMES.put("Miary.Theme.Dark", R.style.Miary_Theme_Dark);
+    }
 
     public static void refreshLastActivityTime() {
         lastActivityTime = new Date().getTime();
@@ -27,6 +35,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static void resetLastActivityTime() {
         lastActivityTime = 0;
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        final String themeName = PreferenceHelper.get(this).getString(
+                getString(R.string.prefkey_theme), "Miary.Theme");
+        setTheme(THEMES.get(themeName));
+
+        super.onCreate(savedInstanceState);
     }
 
     @Override

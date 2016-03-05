@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Miary.Theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary</item>
         <item name="android:textColor">@color/light_text_primary</item>
+        <item name="android:textColorHint">@color/light_text_hint</item>
+        <item name="colorAccent">@color/blue_500</item>
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorPrimaryDark">@color/blue_700</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
+    <style name="Miary.Theme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@color/dark_text_primary</item>
+        <item name="android:textColorHint">@color/dark_text_hint</item>
+        <item name="colorAccent">@color/blue_500</item>
+        <item name="colorPrimary">@color/grey_900</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+    <!-- TODO: why is it inherited? -->
     <style name="Miary.Theme.Modal" parent="Miary.Theme">
-        <item name="colorControlActivated">@color/primary</item>
-        <item name="colorControlHighlight">@color/primary</item>
+        <item name="colorControlActivated">?colorPrimary</item>
+        <item name="colorControlHighlight">?colorPrimary</item>
     </style>
     <style name="Miary.Theme.Fab">
         <item name="android:layout_marginLeft">0dp</item>

@@ -125,6 +125,8 @@
     <string name="prefcat_title_appearance">Appearance</string>
     <string name="prefkey_font_size" translatable="false">font_size</string>
     <string name="preference_title_font_size">Font size</string>
+    <string name="prefkey_theme" translatable="false">theme</string>
+    <string name="preference_title_theme">Theme</string>
     <plurals name="drawer_header_counter">
         <item quantity="zero">No notes</item>
         <item quantity="one">%d note</item>

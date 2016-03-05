@@ -99,11 +99,21 @@ public class SettingsFragment extends PreferenceFragment {
                 }
         );
 
+        findPreference(R.string.prefkey_theme).setOnPreferenceChangeListener(
+                new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                        refreshListPreferenceSummary(R.string.prefkey_theme);
+                        return true;
+                    }
+                }
+        );
+
         findPreference(R.string.prefkey_font_size).setOnPreferenceChangeListener(
                 new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-                        refreshFontSizePreference();
+                        refreshListPreferenceSummary(R.string.prefkey_font_size);
                         return true;
                     }
                 }
@@ -157,7 +167,8 @@ public class SettingsFragment extends PreferenceFragment {
 
         refreshReminderDaysPreference();
         refreshReminderTimePreference();
-        refreshFontSizePreference();
+        refreshListPreferenceSummary(R.string.prefkey_theme);
+        refreshListPreferenceSummary(R.string.prefkey_font_size);
 
         setupBackupSettings();
     }
@@ -281,8 +292,8 @@ public class SettingsFragment extends PreferenceFragment {
                 ReminderManager.getReminderTime(getActivity()).getTime()));
     }
 
-    private void refreshFontSizePreference() {
-        final ListPreference preference = (ListPreference)findPreference(R.string.prefkey_font_size);
+    private void refreshListPreferenceSummary(final int preferenceKeyResourceId) {
+        final ListPreference preference = (ListPreference)findPreference(preferenceKeyResourceId);
         preference.setSummary(preference.getEntry());
     }
 

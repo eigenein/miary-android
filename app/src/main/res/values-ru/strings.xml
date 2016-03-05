@@ -104,6 +104,7 @@
     <string name="preference_summary_export_plain_text">Копирование в простой текстовый файл.</string>
     <string name="prefcat_title_appearance">Внешний вид</string>
     <string name="preference_title_font_size">Размер шрифта</string>
+    <string name="preference_title_theme">Тема</string>
     <plurals name="drawer_header_counter">
         <item quantity="one">%d заметка</item>
         <item quantity="few">%d заметки</item>

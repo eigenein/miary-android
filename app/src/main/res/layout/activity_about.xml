@@ -20,7 +20,7 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:textSize="32sp"
-                    android:textColor="@color/light_text_primary"
+                    android:textColor="?android:textColorPrimary"
                     android:textStyle="normal"
                     android:text="@string/app_name"
             />
@@ -31,7 +31,7 @@
                     android:gravity="center"
                     android:textSize="16sp"
                     android:lineSpacingMultiplier="1.2"
-                    android:textColor="@color/light_text_hint"
+                    android:textColor="?android:textColorHint"
             />
         </LinearLayout>
         <LinearLayout
@@ -45,10 +45,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:background="@drawable/drawer_item_background"
+                    android:background="?selectableItemBackground"
                     android:clickable="true"
                     android:textSize="16sp"
-                    android:textColor="@color/light_text_primary"
+                    android:textColor="?android:textColorPrimary"
                     android:text="@string/about_vkontakte"/>
             <include layout="@layout/divider"/>
             <TextView
@@ -56,10 +56,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:background="@drawable/drawer_item_background"
+                    android:background="?selectableItemBackground"
                     android:clickable="true"
                     android:textSize="16sp"
-                    android:textColor="@color/light_text_primary"
+                    android:textColor="?android:textColorPrimary"
                     android:text="@string/about_facebook"/>
             <include layout="@layout/divider"/>
             <TextView
@@ -67,10 +67,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:background="@drawable/drawer_item_background"
+                    android:background="?selectableItemBackground"
                     android:clickable="true"
                     android:textSize="16sp"
-                    android:textColor="@color/light_text_primary"
+                    android:textColor="?android:textColorPrimary"
                     android:text="@string/about_google_plus"/>
             <include layout="@layout/divider"/>
         </LinearLayout>
@@ -81,7 +81,7 @@
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:lineSpacingMultiplier="1.2"
-                android:textColor="@color/light_text_hint"
+                android:textColor="?android:textColorHint"
                 android:text="@string/about_copyright"/>
     </LinearLayout>
 </LinearLayout>
