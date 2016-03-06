@@ -40,6 +40,6 @@ public class MigrateAsyncTask extends RestoreAsyncTask {
         if (result == Result.OK) {
             PreferenceHelper.edit(context).putBoolean(PreferenceHelper.KEY_NOTES_MIGRATED, true).apply();
         }
-        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.MIGRATE, noteCount, result.toString());
+        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.MIGRATE, (long)noteCount, result.toString());
     }
 }
