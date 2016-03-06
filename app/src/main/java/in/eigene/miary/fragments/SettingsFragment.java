@@ -112,11 +112,13 @@ public class SettingsFragment extends PreferenceFragment {
                 }
         );
 
-        findPreference(R.string.prefkey_font_size).setOnPreferenceChangeListener(
+        final ListPreference fontSizePreference = (ListPreference)findPreference(R.string.prefkey_font_size);
+        fontSizePreference.setOnPreferenceChangeListener(
                 new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-                        refreshListPreferenceSummary(R.string.prefkey_font_size);
+                        final int newValueIndex = fontSizePreference.findIndexOfValue(newValue.toString());
+                        fontSizePreference.setSummary(fontSizePreference.getEntries()[newValueIndex]);
                         Tracking.setFontSize(newValue.toString());
                         return true;
                     }
