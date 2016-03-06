@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import in.eigene.miary.R;
 import in.eigene.miary.helpers.PreferenceHelper;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 
 /**
@@ -68,6 +69,7 @@ public class AboutActivity extends BaseActivity {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uris[position])));
+                Tracking.sendEvent("about", "click", uris[position]);
             }
         });
     }
