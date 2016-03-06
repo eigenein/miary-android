@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/feed_item_external_margin"
         android:clickable="true"
-        android:foreground="@drawable/feed_item_foreground"
+        android:foreground="?selectableItemBackground"
         cardview:cardCornerRadius="2dp"
         cardview:cardUseCompatPadding="true"
 >
