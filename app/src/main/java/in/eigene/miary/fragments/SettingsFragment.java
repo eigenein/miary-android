@@ -104,6 +104,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                         refreshListPreferenceSummary(R.string.prefkey_theme);
+                        Tracking.sendEvent(Tracking.Category.THEME, Tracking.Action.SET, newValue.toString());
                         return true;
                     }
                 }
@@ -114,6 +115,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                         refreshListPreferenceSummary(R.string.prefkey_font_size);
+                        Tracking.sendEvent(Tracking.Category.FONT_SIZE, Tracking.Action.SET, newValue.toString());
                         return true;
                     }
                 }

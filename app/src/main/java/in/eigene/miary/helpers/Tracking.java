@@ -57,6 +57,8 @@ public class Tracking {
         public static final String VIEW = "View";
         public static final String DRAWER = "Drawer";
         public static final String ABOUT = "About";
+        public static final String FONT_SIZE = "Font Size";
+        public static final String THEME = "Theme";
     }
 
     public static class Action {
@@ -79,5 +81,6 @@ public class Tracking {
         public static final String REMOVE = "Remove";
         public static final String CHANGE_SECTION = "Change Section";
         public static final String CLICK = "Click";
+        public static final String SET = "Set";
     }
 }
