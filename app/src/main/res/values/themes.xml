@@ -7,6 +7,7 @@
         <item name="colorPrimary">@color/blue_500</item>
         <item name="colorPrimaryDark">@color/blue_700</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="navigationItemIconTint">@color/grey_600</item>
     </style>
     <style name="Miary.Theme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/dark_text_primary</item>
@@ -15,6 +16,7 @@
         <item name="colorPrimary">@color/grey_900</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="navigationItemIconTint">@color/white</item>
     </style>
     <!-- TODO: why is it inherited? -->
     <style name="Miary.Theme.Modal" parent="Miary.Theme">
