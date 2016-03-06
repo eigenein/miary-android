@@ -1,6 +1,9 @@
 package in.eigene.miary.helpers;
 
 import com.google.android.gms.analytics.HitBuilders;
+import com.yandex.metrica.YandexMetrica;
+
+import java.util.HashMap;
 
 import in.eigene.miary.Application;
 
@@ -14,16 +17,7 @@ public class Tracking {
     }
 
     public static void sendEvent(final String category, final String action, final String label) {
-        if (Application.getTracker() == null) {
-            return;
-        }
-        final HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder()
-                .setCategory(category)
-                .setAction(action);
-        if (label != null) {
-            builder.setLabel(label);
-        }
-        Application.getTracker().send(builder.build());
+        sendEvent(category, action, null, label);
     }
 
     public static void sendEvent(final String category, final String action, final long value) {
@@ -33,15 +27,31 @@ public class Tracking {
     public static void sendEvent(
             final String category,
             final String action,
-            final long value,
+            final Long value,
             final String label) {
+        // Yandex.Metrica
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Category", category);
+        eventAttributes.put("Action", action);
+        if (value != null) {
+            eventAttributes.put("Value", value);
+        }
+        if (label != null) {
+            eventAttributes.put("Label", label);
+        }
+        // Let's first try to pass the event "as is" and then decide how to make this better.
+        YandexMetrica.reportEvent("Google Analytics", eventAttributes);
+
+        // Google Analytics.
         if (Application.getTracker() == null) {
             return;
         }
         final HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder()
                 .setCategory(category)
-                .setAction(action)
-                .setValue(value);
+                .setAction(action);
+        if (value != null) {
+            builder.setValue(value);
+        }
         if (label != null) {
             builder.setLabel(label);
         }

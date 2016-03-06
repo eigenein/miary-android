@@ -41,4 +41,5 @@ dependencies {
     compile 'com.parse:parse-android:1.10.3'
     compile 'com.github.QuadFlask:colorpicker:0.0.9'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.yandex.android:mobmetricalib:2.32'
 }
