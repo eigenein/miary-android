@@ -69,7 +69,7 @@ public class AboutActivity extends BaseActivity {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uris[position])));
-                Tracking.sendEvent("about", "click", uris[position]);
+                Tracking.sendEvent(Tracking.Category.ABOUT, Tracking.Action.CLICK, uris[position]);
             }
         });
     }
