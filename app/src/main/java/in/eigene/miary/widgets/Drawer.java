@@ -82,7 +82,7 @@ public class Drawer implements NavigationView.OnNavigationItemSelectedListener {
                         final Note.Section section = Note.Section.DIARY;
                         activity.getFeedFragment().setSection(section);
                         activity.setTitle(section.getTitleResourceId());
-                        Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
+                        Tracking.selectSection(section.toString());
                     }
                 }, HANDLER_DELAY);
                 return true;
@@ -94,7 +94,7 @@ public class Drawer implements NavigationView.OnNavigationItemSelectedListener {
                         final Note.Section section = Note.Section.STARRED;
                         activity.getFeedFragment().setSection(section);
                         activity.setTitle(section.getTitleResourceId());
-                        Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
+                        Tracking.selectSection(section.toString());
                     }
                 }, HANDLER_DELAY);
                 return true;
@@ -106,7 +106,7 @@ public class Drawer implements NavigationView.OnNavigationItemSelectedListener {
                         final Note.Section section = Note.Section.DRAFTS;
                         activity.getFeedFragment().setSection(section);
                         activity.setTitle(section.getTitleResourceId());
-                        Tracking.sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, section.toString());
+                        Tracking.selectSection(section.toString());
                     }
                 }, HANDLER_DELAY);
                 return true;

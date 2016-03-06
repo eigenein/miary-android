@@ -184,7 +184,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_drafted, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
-                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_DRAFT, "True");
+                Tracking.setDraft(true);
                 return true;
 
             case R.id.menu_item_note_not_draft:
@@ -192,7 +192,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_note_undrafted, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
-                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_DRAFT, "False");
+                Tracking.setDraft(false);
                 return true;
 
             case R.id.menu_item_note_not_starred:
@@ -200,7 +200,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_starred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
-                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_STARRED, "False");
+                Tracking.setStarred(false);
                 return true;
 
             case R.id.menu_item_note_starred:
@@ -208,7 +208,7 @@ public class NoteFragment extends BaseFragment {
                 saveNote(false);
                 Toast.makeText(getActivity(), R.string.toast_unstarred, Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
-                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_STARRED, "True");
+                Tracking.setStarred(true);
                 return true;
 
             case R.id.menu_item_note_color:
@@ -224,7 +224,7 @@ public class NoteFragment extends BaseFragment {
                                 note.setColor(color);
                                 saveNote(false);
                                 updateLayoutColor();
-                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_COLOR, null);
+                                Tracking.setColor(color);
                             }
                         })
                         .setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
@@ -246,7 +246,7 @@ public class NoteFragment extends BaseFragment {
                                 saveNote(false);
                                 Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
                                 listener.onNoteRemoved();
-                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.REMOVE);
+                                Tracking.removeNote();
                             }
                         })
                         .show(getFragmentManager());
@@ -259,7 +259,7 @@ public class NoteFragment extends BaseFragment {
                             public void onPositiveButtonClicked(final Date date) {
                                 note.setCustomDate(date);
                                 saveNote(false);
-                                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.SET_CUSTOM_DATE);
+                                Tracking.setCustomDate();
                             }
                         })
                         .setCreationDate(note.getCreatedDate())

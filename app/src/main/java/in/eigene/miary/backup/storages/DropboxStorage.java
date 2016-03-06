@@ -73,7 +73,7 @@ public class DropboxStorage extends Storage {
         if (uiThread) {
             return;
         }
-        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.DROPBOX, tempFile.length());
+        Tracking.finishDropboxBackup(tempFile.length());
         try {
             api.putFileOverwrite(output.getName(), new FileInputStream(tempFile), tempFile.length(), null);
         } catch (final DropboxException e) {

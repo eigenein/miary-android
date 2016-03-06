@@ -157,21 +157,21 @@ public class FeedFragment
                         break;
                 }
                 PreferenceHelper.edit(getActivity()).putString(PreferenceHelper.KEY_SORT_ORDER, sortOrder.name()).apply();
-                Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_SORTING_ORDER, sortOrder.toString());
+                Tracking.sortFeed(sortOrder.toString());
                 return true;
 
             case R.id.menu_item_feed_set_single_column:
                 preferences.edit().putBoolean(PreferenceHelper.KEY_MULTI_COLUMN, false).apply();
                 invalidateOptionsMenu();
                 updateLayoutManager();
-                Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Single Column");
+                Tracking.setSingleColumn();
                 return true;
 
             case R.id.menu_item_feed_set_multi_column:
                 preferences.edit().putBoolean(PreferenceHelper.KEY_MULTI_COLUMN, true).apply();
                 invalidateOptionsMenu();
                 updateLayoutManager();
-                Tracking.sendEvent(Tracking.Category.VIEW, Tracking.Action.SET_LAYOUT, "Multi-column");
+                Tracking.setMultiColumn();
                 return true;
 
             default:

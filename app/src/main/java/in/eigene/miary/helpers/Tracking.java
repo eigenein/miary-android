@@ -8,41 +8,155 @@ import java.util.HashMap;
 import in.eigene.miary.Application;
 
 /**
- * Google Analytics helper.
+ * Analytics helper.
  */
 public class Tracking {
 
-    public static void sendEvent(final String category, final String action) {
-        sendEvent(category, action, null);
+    public static void clickAboutLink(final String uri) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("URI", uri);
+        YandexMetrica.reportEvent("Click About Link", eventAttributes);
+
+        sendEvent(Category.ABOUT, Action.CLICK, null, uri);
     }
 
-    public static void sendEvent(final String category, final String action, final String label) {
-        sendEvent(category, action, null, label);
+    public static void newNote() {
+        YandexMetrica.reportEvent("New Note");
+        sendEvent(Category.NOTE, Action.NEW, null, null);
     }
 
-    public static void sendEvent(final String category, final String action, final long value) {
-        sendEvent(category, action, value, null);
+    public static void enterFullscreen() {
+        YandexMetrica.reportEvent("Enter Fullscreen");
+        sendEvent(Category.FULLSCREEN, Action.ENTER, null, null);
     }
 
-    public static void sendEvent(
+    public static void enterCorrectPin() {
+        YandexMetrica.reportEvent("Enter Correct Pin");
+        sendEvent(Category.PASSCODE, Action.CORRECT, null, null);
+    }
+
+    public static void enterIncorrectPin() {
+        YandexMetrica.reportEvent("Enter Incorrect Pin");
+        sendEvent(Category.PASSCODE, Action.INCORRECT, null, null);
+    }
+
+    public static void finishDropboxBackup(final long length) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Length", length);
+        YandexMetrica.reportEvent("Finish Dropbox Backup", eventAttributes);
+
+        sendEvent(Tracking.Category.BACKUP, Tracking.Action.DROPBOX, length, null);
+    }
+
+    public static void finishExternalStorageBackup(final long length) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Length", length);
+        YandexMetrica.reportEvent("Finish External Storage Backup", eventAttributes);
+
+        sendEvent(Tracking.Category.BACKUP, Tracking.Action.EXTERNAL, length, null);
+    }
+
+    public static void finishMigration(final long noteCount, final String result) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Note Count", noteCount);
+        eventAttributes.put("Result", result);
+        YandexMetrica.reportEvent("Finish Migration", eventAttributes);
+
+        sendEvent(Category.BACKUP, Action.MIGRATE, noteCount, result);
+    }
+
+    public static void sortFeed(final String sortOrder) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Sort Order", sortOrder);
+        YandexMetrica.reportEvent("Sort Feed", eventAttributes);
+
+        sendEvent(Category.VIEW, Action.SET_SORTING_ORDER, null, sortOrder);
+    }
+
+    public static void setSingleColumn() {
+        YandexMetrica.reportEvent("Set Single Column");
+        sendEvent(Category.VIEW, Action.SET_LAYOUT, null, "Single Column");
+    }
+
+    public static void setMultiColumn() {
+        YandexMetrica.reportEvent("Set Multi-Column");
+        sendEvent(Category.VIEW, Action.SET_LAYOUT, null, "Multi-column");
+    }
+
+    public static void setDraft(final boolean draft) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Is Draft", draft);
+        YandexMetrica.reportEvent("Set Draft", eventAttributes);
+
+        sendEvent(Category.NOTE, Action.SET_DRAFT, null, Boolean.toString(draft));
+    }
+
+    public static void setStarred(final boolean starred) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Is Starred", starred);
+        YandexMetrica.reportEvent("Set Starred", eventAttributes);
+
+        sendEvent(Category.NOTE, Action.SET_STARRED, null, Boolean.toString(starred));
+    }
+
+    public static void setColor(final int color) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Color", String.format("#%06X", color));
+        YandexMetrica.reportEvent("Set Color", eventAttributes);
+
+        sendEvent(Category.NOTE, Action.SET_COLOR, null, null);
+    }
+
+    public static void removeNote() {
+        YandexMetrica.reportEvent("Remove Note");
+        sendEvent(Category.NOTE, Action.REMOVE, null, null);
+    }
+
+    public static void setCustomDate() {
+        YandexMetrica.reportEvent("Set Custom Date");
+        sendEvent(Category.NOTE, Action.SET_CUSTOM_DATE, null, null);
+    }
+
+    public static void selectSection(final String sectionName) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Name", sectionName);
+        YandexMetrica.reportEvent("Select Section", eventAttributes);
+
+        sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, null, sectionName);
+    }
+
+    public static void setFontSize(final String fontSize) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Size", fontSize);
+        YandexMetrica.reportEvent("Set Font Size", eventAttributes);
+
+        sendEvent(Category.FONT_SIZE, Action.SET, null, fontSize);
+    }
+
+    public static void setTheme(final String theme) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Theme", theme);
+        YandexMetrica.reportEvent("Set Theme", eventAttributes);
+
+        sendEvent(Category.THEME, Action.SET, null, theme);
+    }
+
+    public static void enablePasscode() {
+        YandexMetrica.reportEvent("Enable Passcode");
+        sendEvent(Category.PASSCODE, Action.ENABLE, null, null);
+    }
+
+    public static void disablePasscode() {
+        YandexMetrica.reportEvent("Disable Passcode");
+        sendEvent(Category.PASSCODE, Action.DISABLE, null, null);
+    }
+
+    private static void sendEvent(
             final String category,
             final String action,
             final Long value,
             final String label) {
-        // Yandex.Metrica
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Category", category);
-        eventAttributes.put("Action", action);
-        if (value != null) {
-            eventAttributes.put("Value", value);
-        }
-        if (label != null) {
-            eventAttributes.put("Label", label);
-        }
-        // Let's first try to pass the event "as is" and then decide how to make this better.
-        YandexMetrica.reportEvent("Google Analytics", eventAttributes);
 
-        // Google Analytics.
         if (Application.getTracker() == null) {
             return;
         }
@@ -58,7 +172,7 @@ public class Tracking {
         Application.getTracker().send(builder.build());
     }
 
-    public static class Category {
+    private static class Category {
 
         public static final String NOTE = "Note";
         public static final String FULLSCREEN = "Fullscreen";
@@ -71,7 +185,7 @@ public class Tracking {
         public static final String THEME = "Theme";
     }
 
-    public static class Action {
+    private static class Action {
 
         public static final String NEW = "New";
         public static final String ENTER = "Enter";

@@ -88,7 +88,7 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
 
             case R.id.menu_item_note_fullscreen:
                 restart(true);
-                Tracking.sendEvent(Tracking.Category.FULLSCREEN, Tracking.Action.ENTER);
+                Tracking.enterFullscreen();
                 return true;
 
             default:

@@ -104,7 +104,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                         refreshListPreferenceSummary(R.string.prefkey_theme);
-                        Tracking.sendEvent(Tracking.Category.THEME, Tracking.Action.SET, newValue.toString());
+                        Tracking.setTheme(newValue.toString());
                         return true;
                     }
                 }
@@ -115,7 +115,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                         refreshListPreferenceSummary(R.string.prefkey_font_size);
-                        Tracking.sendEvent(Tracking.Category.FONT_SIZE, Tracking.Action.SET, newValue.toString());
+                        Tracking.setFontSize(newValue.toString());
                         return true;
                     }
                 }
@@ -228,7 +228,7 @@ public class SettingsFragment extends PreferenceFragment {
                         if (pin.length() == 4) {
                             PinManager.set(getActivity(), pin);
                             Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
-                            Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.ENABLE);
+                            Tracking.enablePasscode();
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(false);
@@ -255,7 +255,7 @@ public class SettingsFragment extends PreferenceFragment {
                     public void onPositiveButtonClicked(final String pin) {
                         if (PinManager.check(getActivity(), pin)) {
                             Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
-                            Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.DISABLE);
+                            Tracking.disablePasscode();
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(true);

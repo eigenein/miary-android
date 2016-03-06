@@ -98,7 +98,7 @@ public class FeedActivity extends BaseActivity {
                         .addToSection(getFeedFragment().getSection())
                         .insert(view.getContext().getContentResolver());
                 NoteActivity.start(view.getContext(), noteUri, false);
-                Tracking.sendEvent(Tracking.Category.NOTE, Tracking.Action.NEW);
+                Tracking.newNote();
             }
         });
     }

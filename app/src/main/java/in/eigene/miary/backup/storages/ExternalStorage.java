@@ -79,7 +79,7 @@ public class ExternalStorage extends Storage {
                 file.getAbsolutePath(),
                 file.length(),
                 true);
-        Tracking.sendEvent(Tracking.Category.BACKUP, Tracking.Action.EXTERNAL, file.length());
+        Tracking.finishExternalStorageBackup(file.length());
     }
 
     public class Input extends Storage.Input {

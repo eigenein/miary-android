@@ -50,11 +50,11 @@ public class PinActivity extends ActionBarActivity {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(getIntent().<Intent>getParcelableExtra(EXTRA_INTENT));
-                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.CORRECT);
+                    Tracking.enterCorrectPin();
                 } else {
                     Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
                     pinEditText.setText("");
-                    Tracking.sendEvent(Tracking.Category.PASSCODE, Tracking.Action.INCORRECT);
+                    Tracking.enterIncorrectPin();
                 }
             }
         });
