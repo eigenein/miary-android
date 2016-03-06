@@ -12,22 +12,17 @@ import java.util.HashMap;
 
 import in.eigene.miary.R;
 import in.eigene.miary.helpers.PreferenceHelper;
+import in.eigene.miary.helpers.Themes;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = BaseActivity.class.getSimpleName();
 
     private static final long TIMEOUT = 5 * 60 * 1000;
-    private static final HashMap<String, Integer> THEMES = new HashMap<>();
 
     private static long lastActivityTime = 0;
 
     private Toolbar toolbar;
-
-    static {
-        THEMES.put("Miary.Theme", R.style.Miary_Theme);
-        THEMES.put("Miary.Theme.Dark", R.style.Miary_Theme_Dark);
-    }
 
     public static void refreshLastActivityTime() {
         lastActivityTime = new Date().getTime();
@@ -41,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(final Bundle savedInstanceState) {
         final String themeName = PreferenceHelper.get(this).getString(
                 getString(R.string.prefkey_theme), "Miary.Theme");
-        setTheme(THEMES.get(themeName));
+        setTheme(Themes.getThemeResourceId(themeName));
 
         super.onCreate(savedInstanceState);
     }

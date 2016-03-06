@@ -4,21 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import in.eigene.miary.R;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.TextWatcher;
+import in.eigene.miary.helpers.Themes;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.managers.PinManager;
 
 /**
  * Asks for passcode.
  */
-public class PinActivity extends ActionBarActivity {
+public class PinActivity extends AppCompatActivity {
 
     private static final String EXTRA_INTENT = "intent";
 
@@ -28,6 +30,10 @@ public class PinActivity extends ActionBarActivity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        final String themeName = PreferenceHelper.get(this).getString(
+                getString(R.string.prefkey_theme), "Miary.Theme");
+        setTheme(Themes.getThemeResourceId(themeName));
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_pin);
