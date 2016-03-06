@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import in.eigene.miary.R;
+
 /**
  * Helper around {@see SharedPreferences}.
  */
@@ -42,5 +44,9 @@ public class PreferenceHelper {
      */
     public static void clear(final Context context) {
         edit(context).clear().apply();
+    }
+
+    public static String getCurrentThemeName(final Context context) {
+        return get(context).getString(context.getString(R.string.prefkey_theme), "Miary.Theme");
     }
 }

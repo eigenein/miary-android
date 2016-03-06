@@ -103,8 +103,10 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-                        refreshListPreferenceSummary(R.string.prefkey_theme);
                         Tracking.setTheme(newValue.toString());
+                        // getActivity().recreate() doesn't work properly here. I don't know why.
+                        getActivity().finish();
+                        startActivity(getActivity().getIntent());
                         return true;
                     }
                 }

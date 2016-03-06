@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import java.util.Date;
-import java.util.HashMap;
 
 import in.eigene.miary.R;
 import in.eigene.miary.helpers.PreferenceHelper;
@@ -23,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static long lastActivityTime = 0;
 
     private Toolbar toolbar;
+    private String currentTheme;
 
     public static void refreshLastActivityTime() {
         lastActivityTime = new Date().getTime();
@@ -34,10 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        final String themeName = PreferenceHelper.get(this).getString(
-                getString(R.string.prefkey_theme), "Miary.Theme");
-        setTheme(Themes.getThemeResourceId(themeName));
-
+        setTheme();
         super.onCreate(savedInstanceState);
     }
 
@@ -54,6 +51,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkPasscodeProtection();
+        if (
+                !isFinishing() &&
+                (currentTheme != null) &&
+                currentTheme.compareTo(PreferenceHelper.getCurrentThemeName(this)) != 0
+        ) {
+            Log.i(LOG_TAG, "Recreate activity due to theme change.");
+            recreate();
+        }
     }
 
     @Override
@@ -110,5 +115,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private boolean isPasscodeEnabled() {
         return PreferenceHelper.get(this).getBoolean(getString(R.string.prefkey_pin_enabled), false);
+    }
+
+    private void setTheme() {
+        currentTheme = PreferenceHelper.getCurrentThemeName(this);
+        setTheme(Themes.getThemeResourceId(currentTheme));
     }
 }

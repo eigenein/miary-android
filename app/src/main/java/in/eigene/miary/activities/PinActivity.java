@@ -30,9 +30,7 @@ public class PinActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        final String themeName = PreferenceHelper.get(this).getString(
-                getString(R.string.prefkey_theme), "Miary.Theme");
-        setTheme(Themes.getThemeResourceId(themeName));
+        setTheme(Themes.getThemeResourceId(PreferenceHelper.getCurrentThemeName(this)));
 
         super.onCreate(savedInstanceState);
 
