@@ -1,56 +1,36 @@
 package in.eigene.miary.helpers;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Automatic substitutions helper.
- * https://github.com/eigenein/miary-android/issues/73
  */
-@Deprecated
 public class Substitutions {
 
-    private static class TableEntry {
+    private static final Pattern PATTERN = Pattern.compile("(--| - |<<|>>|\\.\\.\\.)");
+    private static final HashMap<String, String> TABLE = new HashMap<>();
 
-        public final String target;
-        public final String replacement;
-
-        public TableEntry(final String target, final String replacement) {
-            this.target = target;
-            this.replacement = replacement;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s \u2192 %s", target, replacement);
-        }
-    }
-
-    public static final String[] REPRS;
-
-    /**
-     * Replacement table.
-     */
-    private static final TableEntry[] TABLE = new TableEntry[] {
-            new TableEntry("--", "\u2014"),
-            new TableEntry(" - ", " \u2014 "),
-            new TableEntry(">>", "\u00BB"),
-            new TableEntry("<<", "\u00AB"),
-            new TableEntry("...", "\u2026")
-    };
-
-    /**
-     * Generates string representation of table entries.
-     */
     static {
-        REPRS = new String[TABLE.length];
-        for (int i = 0; i < TABLE.length; i += 1) {
-            REPRS[i] = TABLE[i].toString();
-        }
+        TABLE.put("--", "–");
+        TABLE.put(" - ", " – ");
+        TABLE.put("<<", "«");
+        TABLE.put(">>", "»");
+        TABLE.put("...", "…");
     }
 
-    public static String replace(final String string) {
-        String result = string;
-        for (final TableEntry entry : TABLE) {
-            result = result.replace(entry.target, entry.replacement);
+    @NonNull
+    public static String replaceAll(final String string) {
+        final Matcher matcher = PATTERN.matcher(string);
+        final StringBuffer buffer = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(buffer, TABLE.get(matcher.group()));
         }
-        return result;
+        matcher.appendTail(buffer);
+        return buffer.toString();
     }
 }

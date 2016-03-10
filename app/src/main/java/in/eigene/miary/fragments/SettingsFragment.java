@@ -64,26 +64,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences);
 
-        findPreference(R.string.prefkey_substitution_table).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(final Preference preference) {
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle(R.string.dialog_replacement_table_title);
-                        builder.setItems(Substitutions.REPRS, null);
-                        builder.setCancelable(true);
-                        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.show();
-                        return true;
-                    }
-                }
-        );
-
         findPreference(R.string.prefkey_pin_enabled).setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override

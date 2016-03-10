@@ -109,29 +109,31 @@ public class NoteFragment extends BaseFragment {
                 getString(R.string.prefkey_font_size), "18")));
         editTextText.addTextChangedListener(new TextWatcher() {
 
+            private boolean isChanging = false;
+
             @Override
             public void afterTextChanged(final Editable s) {
-                // Automatic substitution.
-                final String currentText = editTextText.getText().toString();
-                final String replacedText;
-                final boolean substitutionEnabled = PreferenceHelper.get(getActivity()).getBoolean(getString(
-                        R.string.prefkey_substitution_enabled), true);
-                if (substitutionEnabled) {
-                    replacedText = Substitutions.replace(currentText);
-                    if (!currentText.equals(replacedText)) {
-                        Log.d(LOG_TAG, "Setting replaced text.");
-                        final int selectionStart = editTextText.getSelectionStart();
-                        editTextText.setText(replacedText);
-                        editTextText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
-                    }
-                } else {
-                    replacedText = currentText;
+                if (isChanging) {
+                    // Prevent from infinite recursion.
+                    return;
                 }
-                // Update field.
+                isChanging = true;
+
+                final String currentText = editTextText.getText().toString();
+                final String replacedText = Substitutions.replaceAll(currentText);
+                if (!currentText.equals(replacedText)) {
+                    Log.d(LOG_TAG, "Setting replaced text.");
+                    final int selectionStart = editTextText.getSelectionStart();
+                    editTextText.setText(replacedText);
+                    editTextText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
+                }
+
                 if (note != null) {
                     note.setText(replacedText);
                     saveNote(true);
                 }
+
+                isChanging = false;
             }
         });
     }
