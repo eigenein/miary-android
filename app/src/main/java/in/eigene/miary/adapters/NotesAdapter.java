@@ -38,10 +38,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     }
 
     public void setCursor(final Cursor cursor) {
-        if (this.cursor != null) {
-            this.cursor.close();
-        }
+        final Cursor oldCursor = this.cursor;
         this.cursor = cursor;
+        if (oldCursor != null) {
+            oldCursor.close();
+        }
         if (cursor != null) {
             idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
         }
@@ -57,6 +58,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     @Override
     public void onBindViewHolder(final NoteViewHolder holder, final int position) {
+        final Cursor cursor = this.cursor;
         if (!cursor.moveToPosition(position)) {
             throw new IndexOutOfBoundsException(String.format("%d of %d", cursor.getCount(), position));
         }
