@@ -108,7 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, "Passcode protection is disabled.");
             }
         } else {
-            Log.i(LOG_TAG, "Passcode is not required: " + (currentTime - lastActivityTime) + "ms.");
+            Log.i(LOG_TAG, "Passcode is not required.");
             refreshLastActivityTime();
         }
     }
