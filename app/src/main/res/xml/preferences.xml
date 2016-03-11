@@ -57,6 +57,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/prefkey_dropbox"
+        android:persistent="false"
+        android:title="@string/preference_title_dropbox">
+
+        <Preference
+            android:key="@string/prefkey_link_dropbox"
+            android:persistent="false"
+            android:title="@string/preference_title_link_dropbox"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="@string/prefkey_backup"
         android:persistent="false"
         android:title="@string/preference_title_backup">

@@ -1,5 +1,7 @@
 package in.eigene.miary.helpers;
 
+import android.util.Log;
+
 import com.google.android.gms.analytics.HitBuilders;
 import com.yandex.metrica.YandexMetrica;
 
@@ -11,6 +13,8 @@ import in.eigene.miary.Application;
  * Analytics helper.
  */
 public class Tracking {
+
+    private static final String LOG_TAG = Tracking.class.getSimpleName();
 
     public static void clickAboutLink(final String uri) {
         final HashMap<String, Object> eventAttributes = new HashMap<>();
@@ -149,6 +153,19 @@ public class Tracking {
     public static void disablePasscode() {
         YandexMetrica.reportEvent("Disable Passcode");
         sendEvent(Category.PASSCODE, Action.DISABLE, null, null);
+    }
+
+    public static void linkDropbox() {
+        YandexMetrica.reportEvent("Link Dropbox");
+        sendEvent("Dropbox", "Link", null, null);
+    }
+
+    public static void error(final String message, final Throwable error) {
+        Log.e(LOG_TAG, message, error);
+        YandexMetrica.reportError(message, error);
+        if (Application.getTracker() != null) {
+            Application.getTracker().send(new HitBuilders.ExceptionBuilder().setDescription(message).build());
+        }
     }
 
     private static void sendEvent(

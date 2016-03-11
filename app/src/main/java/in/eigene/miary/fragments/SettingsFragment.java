@@ -1,10 +1,11 @@
 package in.eigene.miary.fragments;
 
-import android.app.AlertDialog;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -15,9 +16,14 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
+
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.logging.Handler;
 
 import in.eigene.miary.R;
 import in.eigene.miary.backup.inputs.JsonRestoreInput;
@@ -29,7 +35,8 @@ import in.eigene.miary.backup.tasks.BackupAsyncTask;
 import in.eigene.miary.backup.tasks.RestoreAsyncTask;
 import in.eigene.miary.fragments.dialogs.PinDialogFragment;
 import in.eigene.miary.fragments.dialogs.TimePickerDialogFragment;
-import in.eigene.miary.helpers.Substitutions;
+import in.eigene.miary.helpers.AccountHelper;
+import in.eigene.miary.helpers.DropboxHelper;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.managers.PinManager;
 import in.eigene.miary.managers.ReminderManager;
@@ -39,17 +46,13 @@ public class SettingsFragment extends PreferenceFragment {
     private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
 
     private static final int RESULT_CODE_RESTORE_JSON = 1;
-
     private static final String[] SHORT_WEEKDAYS = new DateFormatSymbols().getShortWeekdays();
 
-    /**
-     * Fragment state.
-     */
-    private State state = State.DEFAULT;
-    /**
-     * Fragment state object.
-     */
-    private Object stateTag;
+    private boolean isDropboxAuthenticationInProgress;
+
+    private Preference linkDropboxPreference;
+    private Preference backupDropboxPreference;
+    private Preference restoreDropboxPreference;
 
     /**
      * Caches weekdays from resources.
@@ -163,24 +166,39 @@ public class SettingsFragment extends PreferenceFragment {
     public void onResume() {
         super.onResume();
 
-        DropboxStorage storage;
+        final DropboxAPI<AndroidAuthSession> dropboxApi = DropboxHelper.createApi(getActivity());
+        final AndroidAuthSession dropboxSession = dropboxApi.getSession();
+        final AccountManager accountManager = AccountManager.get(getActivity());
+        final Account account = AccountHelper.getAccount(accountManager);
 
-        switch (state) {
-            case DROPBOX_BACKUP_IN_PROGRESS:
-                state = State.DEFAULT;
-                storage = (DropboxStorage)stateTag;
-                storage.finishAuthentication();
-                new BackupAsyncTask(getActivity(), storage, new JsonBackupOutput.Factory()).execute();
-                break;
-            case DROPBOX_RESTORE_IN_PROGRESS:
-                state = State.DEFAULT;
-                storage = (DropboxStorage)stateTag;
-                storage.finishAuthentication();
-                new RestoreAsyncTask(getActivity(), storage.new Input(".json"), new JsonRestoreInput.Factory()).execute();
-                break;
-            case DEFAULT:
-                // Do nothing.
-                break;
+        if (isDropboxAuthenticationInProgress) {
+            isDropboxAuthenticationInProgress = false;
+            finishDropboxAuthentication(dropboxApi, accountManager, account);
+        }
+
+        backupDropboxPreference.setEnabled(dropboxSession.isLinked());
+        restoreDropboxPreference.setEnabled(dropboxSession.isLinked());
+        linkDropboxPreference.setSummary(null);
+
+        // Update current user email.
+        if (dropboxSession.isLinked()) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        final String email = dropboxApi.accountInfo().email;
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                linkDropboxPreference.setSummary(getString(R.string.preference_summary_current_account, email));
+                            }
+                        });
+                    } catch (final DropboxException e) {
+                        // Just ignore the error.
+                        Tracking.error("Failed to get Dropbox user email.", e);
+                    }
+                }
+            });
         }
     }
 
@@ -304,28 +322,40 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 }
         );
+        // Link Dropbox account.
+        linkDropboxPreference = findPreference(R.string.prefkey_link_dropbox);
+        linkDropboxPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(final Preference preference) {
+                isDropboxAuthenticationInProgress = true;
+                DropboxHelper.createApi(getActivity()).getSession().startOAuth2Authentication(getActivity());
+                return true;
+            }
+        });
         // Dropbox backup.
-        findPreference(R.string.prefkey_backup_dropbox).setOnPreferenceClickListener(
+        backupDropboxPreference = findPreference(R.string.prefkey_backup_dropbox);
+        backupDropboxPreference.setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        state = State.DROPBOX_BACKUP_IN_PROGRESS;
-                        final DropboxStorage storage = new DropboxStorage();
-                        stateTag = storage;
-                        storage.authenticate(getActivity());
+                        new BackupAsyncTask(
+                                getActivity(),
+                                new DropboxStorage(DropboxHelper.createApi(getActivity())),
+                                new JsonBackupOutput.Factory()).execute();
                         return true;
                     }
                 }
         );
         // Dropbox restore.
-        findPreference(R.string.prefkey_restore_dropbox).setOnPreferenceClickListener(
+        restoreDropboxPreference = findPreference(R.string.prefkey_restore_dropbox);
+        restoreDropboxPreference.setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        state = State.DROPBOX_RESTORE_IN_PROGRESS;
-                        final DropboxStorage storage = new DropboxStorage();
-                        stateTag = storage;
-                        storage.authenticate(getActivity());
+                        new RestoreAsyncTask(
+                                getActivity(),
+                                new DropboxStorage(DropboxHelper.createApi(getActivity())).new Input(".json"),
+                                new JsonRestoreInput.Factory()).execute();
                         return true;
                     }
                 }
@@ -348,19 +378,29 @@ public class SettingsFragment extends PreferenceFragment {
         );
     }
 
+    private void finishDropboxAuthentication(
+            final DropboxAPI<AndroidAuthSession> api,
+            final AccountManager accountManager,
+            final Account account
+    ) {
+        final AndroidAuthSession session = api.getSession();
+        if (!session.authenticationSuccessful()) {
+            return;
+        }
+        try {
+            session.finishAuthentication();
+        } catch (final IllegalStateException e) {
+            Tracking.error("Dropbox authentication failed.", e);
+            return;
+        }
+        accountManager.setUserData(account, AccountHelper.KEY_DROPBOX_ACCESS_TOKEN, session.getOAuth2AccessToken());
+        Tracking.linkDropbox();
+    }
+
     /**
      * Find preference by key resource ID.
      */
     private Preference findPreference(final int keyResourceId) {
         return findPreference(getString(keyResourceId));
-    }
-
-    /**
-     * Settings fragment state.
-     */
-    private enum State {
-        DEFAULT,
-        DROPBOX_BACKUP_IN_PROGRESS,
-        DROPBOX_RESTORE_IN_PROGRESS,
     }
 }

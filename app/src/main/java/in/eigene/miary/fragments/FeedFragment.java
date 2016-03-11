@@ -1,6 +1,7 @@
 package in.eigene.miary.fragments;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -28,7 +29,7 @@ import android.widget.Toast;
 import in.eigene.miary.R;
 import in.eigene.miary.adapters.NotesAdapter;
 import in.eigene.miary.fragments.base.BaseFragment;
-import in.eigene.miary.helpers.AccountManagerHelper;
+import in.eigene.miary.helpers.AccountHelper;
 import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
@@ -98,15 +99,11 @@ public class FeedFragment
 
             @Override
             public void onRefresh() {
-                final Account account = AccountManagerHelper.getAccount(getActivity());
-                if (account != null) {
-                    final Bundle extras = new Bundle();
-                    extras.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                    extras.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-                    ContentResolver.requestSync(account, SyncAdapter.AUTHORITY, extras);
-                } else {
-                    swipeRefresh.setRefreshing(false);
-                }
+                final Account account = AccountHelper.getAccount(AccountManager.get(getActivity()));
+                final Bundle extras = new Bundle();
+                extras.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+                extras.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+                ContentResolver.requestSync(account, SyncAdapter.AUTHORITY, extras);
             }
         });
         swipeRefresh.setEnabled(false); // TODO: temporarily disabled to not confuse users.

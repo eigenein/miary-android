@@ -10,10 +10,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.parse.ParseUser;
-
-import java.util.Date;
-
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
@@ -51,25 +47,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void onPerformSync(final Account account, final SyncResult syncResult) {
-        Log.i(LOG_TAG, "Starting.");
-        if (ParseUser.getCurrentUser() == null) {
-            Log.w(LOG_TAG, "No current user.");
-            return;
-        }
-        // Initialize last sync date.
-        final String lastSyncDateString = accountManager.getUserData(account, KEY_LAST_SYNC_TIME);
-        final Date lastSyncDate = (lastSyncDateString != null) ? new Date(Long.parseLong(lastSyncDateString)) : null;
-        final Date currentSyncDate = new Date();
         // TODO.
-        // Update last sync time.
-        accountManager.setUserData(account, KEY_LAST_SYNC_TIME, Long.toString(currentSyncDate.getTime()));
-        Log.i(LOG_TAG, "Finished.");
-        // TODO: ParseAnalytics.trackEventInBackground("syncSuccess");
     }
 
     private static void handleIoException(final String message, final String reason, final SyncResult syncResult, final Throwable e) {
         Log.e(LOG_TAG, message, e);
         syncResult.stats.numIoExceptions += 1;
-        // TODO: ParseHelper.trackEvent("syncFailed", "reason", reason);
     }
 }

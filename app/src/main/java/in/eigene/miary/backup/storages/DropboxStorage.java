@@ -7,7 +7,6 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxServerException;
-import com.dropbox.client2.session.AppKeyPair;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,7 +22,7 @@ import in.eigene.miary.exceptions.InternalRuntimeException;
 import in.eigene.miary.helpers.Tracking;
 
 /**
- * Google Drive backup storage.
+ * Dropbox backup storage.
  */
 public class DropboxStorage extends Storage {
 
@@ -33,24 +32,8 @@ public class DropboxStorage extends Storage {
 
     private File tempFile;
 
-    public DropboxStorage() {
-        final AppKeyPair appKeys = new AppKeyPair("cvklgjd9ykfi561", "2sxel7scug156mz");
-        final AndroidAuthSession session = new AndroidAuthSession(appKeys);
-        api = new DropboxAPI<>(session);
-    }
-
-    public void authenticate(final Context context) {
-        api.getSession().startOAuth2Authentication(context);
-    }
-
-    public void finishAuthentication() {
-        if (api.getSession().authenticationSuccessful()) {
-            try {
-                api.getSession().finishAuthentication();
-            } catch (final IllegalStateException e) {
-                InternalRuntimeException.throwForException("Authentication failure.", e);
-            }
-        }
+    public DropboxStorage(final DropboxAPI<AndroidAuthSession> api) {
+        this.api = api;
     }
 
     @Override

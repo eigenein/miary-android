@@ -60,11 +60,6 @@
                 android:label="@string/app_name"
                 android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
         />
-        <activity
-                android:name=".activities.AuthenticatorActivity"
-                android:label="@string/activity_authenticator"
-                android:windowSoftInputMode="stateAlwaysVisible"
-        />
 
         <!-- Dropbox Android Core SDK. -->
         <activity

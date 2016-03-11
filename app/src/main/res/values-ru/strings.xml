@@ -101,6 +101,8 @@
     <string name="prefcat_title_appearance">Внешний вид</string>
     <string name="preference_title_font_size">Размер шрифта</string>
     <string name="preference_title_theme">Тема</string>
+    <string name="preference_title_link_dropbox">Привязать аккаунт Dropbox</string>
+    <string name="preference_summary_current_account">Текущий аккаунт: %1$s</string>
     <plurals name="drawer_header_counter">
         <item quantity="one">%d заметка</item>
         <item quantity="few">%d заметки</item>

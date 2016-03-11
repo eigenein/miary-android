@@ -121,6 +121,10 @@
     <string name="preference_title_font_size">Font size</string>
     <string name="prefkey_theme" translatable="false">theme</string>
     <string name="preference_title_theme">Theme</string>
+    <string name="prefkey_dropbox" translatable="false">dropbox</string>
+    <string name="prefkey_link_dropbox" translatable="false">link_dropbox</string>
+    <string name="preference_title_link_dropbox">Link Dropbox account</string>
+    <string name="preference_summary_current_account">Current account: %1$s</string>
     <plurals name="drawer_header_counter">
         <item quantity="zero">No notes</item>
         <item quantity="one">%d note</item>
