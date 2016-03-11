@@ -66,7 +66,7 @@
     <string name="pin_too_short">Passcode is too short.</string>
     <string name="prefcat_title_reminder">Reminder</string>
     <string name="prefcat_title_security">Security</string>
-    <string name="preference_summary_pin">We\'ll ask security passcode after 5 minutes of inactivity.</string>
+    <string name="preference_summary_pin">We\'ll ask security passcode after specified time of inactivity.</string>
     <string name="preference_summary_reminder_never">Never</string>
     <string name="preference_title_backup">Backup</string>
     <string name="preference_title_backup_dropbox" translatable="false">Dropbox</string>
@@ -125,6 +125,8 @@
     <string name="prefkey_link_dropbox" translatable="false">link_dropbox</string>
     <string name="preference_title_link_dropbox">Link Dropbox account</string>
     <string name="preference_summary_current_account">Current account: %1$s</string>
+    <string name="prefkey_pin_timeout" translatable="false">pin_timeout</string>
+    <string name="preference_title_pin_timeout">Lock timeout</string>
     <plurals name="drawer_header_counter">
         <item quantity="zero">No notes</item>
         <item quantity="one">%d note</item>

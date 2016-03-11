@@ -23,7 +23,6 @@ import com.dropbox.client2.exception.DropboxException;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.logging.Handler;
 
 import in.eigene.miary.R;
 import in.eigene.miary.backup.inputs.JsonRestoreInput;
@@ -67,16 +66,28 @@ public class SettingsFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences);
 
-        findPreference(R.string.prefkey_pin_enabled).setOnPreferenceClickListener(
+        final CheckBoxPreference pinEnabledPreference = (CheckBoxPreference)findPreference(R.string.prefkey_pin_enabled);
+        pinEnabledPreference.setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        final CheckBoxPreference checkBox = (CheckBoxPreference)preference;
-                        if (!checkBox.isChecked()) {
-                            disablePin(checkBox);
+                        if (!pinEnabledPreference.isChecked()) {
+                            disablePin(pinEnabledPreference);
                         } else {
-                            enablePin(checkBox);
+                            enablePin(pinEnabledPreference);
                         }
+                        return true;
+                    }
+                }
+        );
+
+        final ListPreference pinTimeoutPreference = (ListPreference)findPreference(R.string.prefkey_pin_timeout);
+        pinTimeoutPreference.setOnPreferenceChangeListener(
+                new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                        refreshListPreferenceSummary(pinTimeoutPreference, newValue);
+                        Tracking.setPasscodeTimeout(newValue.toString());
                         return true;
                     }
                 }
@@ -100,8 +111,7 @@ public class SettingsFragment extends PreferenceFragment {
                 new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-                        final int newValueIndex = fontSizePreference.findIndexOfValue(newValue.toString());
-                        fontSizePreference.setSummary(fontSizePreference.getEntries()[newValueIndex]);
+                        refreshListPreferenceSummary(fontSizePreference, newValue);
                         Tracking.setFontSize(newValue.toString());
                         return true;
                     }
@@ -156,6 +166,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         refreshReminderDaysPreference();
         refreshReminderTimePreference();
+        refreshListPreferenceSummary(R.string.prefkey_pin_timeout);
         refreshListPreferenceSummary(R.string.prefkey_theme);
         refreshListPreferenceSummary(R.string.prefkey_font_size);
 
@@ -221,7 +232,7 @@ public class SettingsFragment extends PreferenceFragment {
     /**
      * Passcode protection enable handler.
      */
-    private void enablePin(final CheckBoxPreference checkBox) {
+    private void enablePin(final CheckBoxPreference checkBoxPreference) {
         new PinDialogFragment()
                 .setTitle(R.string.dialog_new_pin_title)
                 .setListener(new PinDialogFragment.Listener() {
@@ -233,13 +244,13 @@ public class SettingsFragment extends PreferenceFragment {
                             Tracking.enablePasscode();
                         } else {
                             Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
-                            checkBox.setChecked(false);
+                            checkBoxPreference.setChecked(false);
                         }
                     }
 
                     @Override
                     public void onCancelled() {
-                        checkBox.setChecked(false);
+                        checkBoxPreference.setChecked(false);
                     }
                 })
                 .show(getFragmentManager());
@@ -299,6 +310,11 @@ public class SettingsFragment extends PreferenceFragment {
     private void refreshListPreferenceSummary(final int preferenceKeyResourceId) {
         final ListPreference preference = (ListPreference)findPreference(preferenceKeyResourceId);
         preference.setSummary(preference.getEntry());
+    }
+
+    private void refreshListPreferenceSummary(final ListPreference preference, final Object newValue) {
+        final int newValueIndex = preference.findIndexOfValue(newValue.toString());
+        preference.setSummary(preference.getEntries()[newValueIndex]);
     }
 
     private void setupBackupSettings() {

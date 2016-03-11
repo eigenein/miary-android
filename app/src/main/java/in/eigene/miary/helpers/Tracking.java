@@ -160,6 +160,14 @@ public class Tracking {
         sendEvent("Dropbox", "Link", null, null);
     }
 
+    public static void setPasscodeTimeout(final String timeout) {
+        final HashMap<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Timeout", timeout);
+        YandexMetrica.reportEvent("Set Passcode Timeout", eventAttributes);
+
+        sendEvent(Category.PASSCODE, "Set Timeout", null, timeout);
+    }
+
     public static void error(final String message, final Throwable error) {
         Log.e(LOG_TAG, message, error);
         YandexMetrica.reportError(message, error);

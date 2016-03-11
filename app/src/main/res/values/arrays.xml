@@ -78,4 +78,18 @@
         <item>https://plus.google.com/communities/105005072306337762911</item>
         <item>https://vk.com/miaryapp</item>
     </string-array>
+    <string-array name="pin_timeout_titles">
+        <item>1 minute</item>
+        <item>2 minutes</item>
+        <item>3 minutes</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+    </string-array>
+    <string-array name="pin_timeout_values" translatable="false">
+        <item>60000</item>
+        <item>120000</item>
+        <item>180000</item>
+        <item>300000</item>
+        <item>600000</item>
+    </string-array>
 </resources>

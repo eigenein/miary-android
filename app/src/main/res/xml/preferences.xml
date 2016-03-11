@@ -10,6 +10,12 @@
             android:key="@string/prefkey_pin_enabled"
             android:summary="@string/preference_summary_pin"
             android:title="@string/preference_title_pin"/>
+        <ListPreference
+            android:key="@string/prefkey_pin_timeout"
+            android:title="@string/preference_title_pin_timeout"
+            android:defaultValue="300000"
+            android:entries="@array/pin_timeout_titles"
+            android:entryValues="@array/pin_timeout_values"/>
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/prefkey_flag_secure_enabled"

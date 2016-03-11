@@ -1,5 +1,6 @@
 package in.eigene.miary.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +17,6 @@ import in.eigene.miary.helpers.Themes;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = BaseActivity.class.getSimpleName();
-
-    private static final long TIMEOUT = 5 * 60 * 1000;
 
     private static long lastActivityTime = 0;
 
@@ -98,9 +97,13 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Checks if passcode is required and starts passcode activity if needed.
      */
     private void checkPasscodeProtection() {
+        final SharedPreferences preferences = PreferenceHelper.get(this);
         final long currentTime = new Date().getTime();
-        if ((currentTime - lastActivityTime) > TIMEOUT) {
-            if (isPasscodeEnabled()) {
+        final long timeout = Long.valueOf(preferences.getString(getString(R.string.prefkey_pin_timeout), "300000"));
+
+        if ((currentTime - lastActivityTime) > timeout) {
+            final boolean isPasscodeEnabled = preferences.getBoolean(getString(R.string.prefkey_pin_enabled), false);
+            if (isPasscodeEnabled) {
                 Log.w(LOG_TAG, "Passcode required.");
                 finish();
                 PinActivity.start(this, getIntent());
@@ -111,10 +114,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             Log.i(LOG_TAG, "Passcode is not required.");
             refreshLastActivityTime();
         }
-    }
-
-    private boolean isPasscodeEnabled() {
-        return PreferenceHelper.get(this).getBoolean(getString(R.string.prefkey_pin_enabled), false);
     }
 
     private void setTheme() {

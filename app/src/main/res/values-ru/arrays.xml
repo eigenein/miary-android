@@ -48,4 +48,11 @@
         <item>https://telegram.me/joinchat/AA5T1QjPdksR3YgiQiv9zA</item>
         <item>https://plus.google.com/communities/105005072306337762911</item>
     </string-array>
+    <string-array name="pin_timeout_titles">
+        <item>1 минута</item>
+        <item>2 минуты</item>
+        <item>3 минуты</item>
+        <item>5 минут</item>
+        <item>10 минут</item>
+    </string-array>
 </resources>
