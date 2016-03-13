@@ -49,8 +49,7 @@ public class JsonRestoreInput extends RestoreInput {
     public int start() throws IOException {
         Log.d(LOG_TAG, "Starting.");
         reader.beginObject();
-        label:
-        while (reader.hasNext()) {
+        loop: while (reader.hasNext()) {
             final String name = reader.nextName();
             Log.d(LOG_TAG, "Read property name: " + name);
             switch (name) {
@@ -65,7 +64,7 @@ public class JsonRestoreInput extends RestoreInput {
                 case "notes":
                     Log.d(LOG_TAG, "Begin array.");
                     reader.beginArray();
-                    break label;
+                    break loop;
                 default:
                     reader.skipValue();
                     break;

@@ -66,6 +66,9 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
             case NOT_FOUND:
                 Toast.makeText(context, R.string.toast_restore_not_found, Toast.LENGTH_LONG).show();
                 break;
+            case FAILURE:
+                Toast.makeText(context, R.string.toast_backup_failed, Toast.LENGTH_LONG).show();
+                break;
         }
     }
 
@@ -73,8 +76,12 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Progress, Result> {
      * Allows progress dialog to refresh its state at the end of task.
      * https://github.com/eigenein/miary-android/issues/112
      */
-    protected void sleepCheat() throws InterruptedException {
-        Thread.sleep(100L);
+    protected void sleepCheat() {
+        try {
+            Thread.sleep(100L);
+        } catch (final InterruptedException e) {
+            // Do nothing.
+        }
     }
 
     /**

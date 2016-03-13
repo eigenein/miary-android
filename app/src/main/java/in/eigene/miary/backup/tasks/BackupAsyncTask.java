@@ -10,6 +10,7 @@ import in.eigene.miary.backup.BackupOutput;
 import in.eigene.miary.backup.Progress;
 import in.eigene.miary.backup.Result;
 import in.eigene.miary.backup.Storage;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 
@@ -44,8 +45,8 @@ public class BackupAsyncTask extends BaseAsyncTask {
             publishProgress(Progress.FINISHING);
             storage.finish(context, false, output);
             return result;
-        } catch (final Exception e) {
-            InternalRuntimeException.throwForException("Backup failed.", e);
+        } catch (final IOException e) {
+            Tracking.error("Backup failed.", e);
             return Result.FAILURE;
         }
     }

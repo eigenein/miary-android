@@ -13,6 +13,7 @@ import in.eigene.miary.backup.Progress;
 import in.eigene.miary.backup.RestoreInput;
 import in.eigene.miary.backup.Result;
 import in.eigene.miary.backup.Storage;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.exceptions.InternalRuntimeException;
 
@@ -43,8 +44,11 @@ public class RestoreAsyncTask extends BaseAsyncTask {
             sleepCheat();
             publishProgress(Progress.FINISHING);
             return result;
-        } catch (final Exception e) {
-            InternalRuntimeException.throwForException("Restore failed.", e);
+        } catch (final IOException e) {
+            Tracking.error("Restore failed", e);
+            return Result.FAILURE;
+        } catch (final IllegalStateException e) {
+            Tracking.error("Restore failed.", e);
             return Result.FAILURE;
         }
     }

@@ -130,6 +130,7 @@
     <string name="feedback_comment">
         Please feel free to post any feature requests, improvement suggestions and questions here.
     </string>
+    <string name="toast_backup_failed">Please check that you selected a correct device or file.</string>
     <plurals name="drawer_header_counter">
         <item quantity="zero">No notes</item>
         <item quantity="one">%d note</item>
