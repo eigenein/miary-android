@@ -14,7 +14,7 @@ public abstract class Storage {
     /**
      * Checks if the storage is ready.
      */
-    public abstract boolean checkReady();
+    public abstract boolean checkReady(final Context context);
 
     /**
      * Gets new backup name.
@@ -37,8 +37,8 @@ public abstract class Storage {
 
     public abstract class Input {
 
-        public boolean checkReady() {
-            return Storage.this.checkReady();
+        public boolean checkReady(final Context context) {
+            return Storage.this.checkReady(context);
         }
 
         public abstract InputStream getInputStream() throws IOException;

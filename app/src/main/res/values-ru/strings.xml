@@ -85,7 +85,7 @@
     <string name="toast_restore_finished">Восстановлено %1$d заметок.</string>
     <string name="toast_restore_not_found">Резервная копия не найдена.</string>
     <string name="toast_starred">Добавлена отметка.</string>
-    <string name="toast_storage_unready">Диск не готов.</string>
+    <string name="toast_storage_unready">Нет доступа к диску.</string>
     <string name="toast_thank_you">Спасибо!</string>
     <string name="toast_unstarred">Отметка снята.</string>
     <string name="preference_summary_flag_secure">Предотвращает создание снимков экрана и предпросмотр текста в списке приложений.</string>

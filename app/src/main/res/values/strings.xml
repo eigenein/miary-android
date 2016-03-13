@@ -100,7 +100,7 @@
     <string name="toast_restore_finished">%1$d notes are restored.</string>
     <string name="toast_restore_not_found">Backup is not found.</string>
     <string name="toast_starred">Starred.</string>
-    <string name="toast_storage_unready">Storage is not ready.</string>
+    <string name="toast_storage_unready">External storage is not available.</string>
     <string name="toast_thank_you">Thank you!</string>
     <string name="toast_unstarred">Unstarred.</string>
     <string name="prefkey_flag_secure_enabled" translatable="false">flag_secure_enabled</string>

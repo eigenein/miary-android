@@ -37,7 +37,7 @@ public class DropboxStorage extends Storage {
     }
 
     @Override
-    public boolean checkReady() {
+    public boolean checkReady(final Context context) {
         return api.getSession().isLinked();
     }
 

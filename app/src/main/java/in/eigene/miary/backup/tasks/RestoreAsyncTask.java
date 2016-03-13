@@ -36,7 +36,7 @@ public class RestoreAsyncTask extends BaseAsyncTask {
 
     @Override
     protected Result doInBackground(final Void... params) {
-        if (!storageInput.checkReady()) {
+        if (!storageInput.checkReady(context)) {
             return Result.STORAGE_NOT_READY;
         }
         try {

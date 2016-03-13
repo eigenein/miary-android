@@ -15,7 +15,7 @@ import in.eigene.miary.backup.Storage;
 public class LocalDatastoreStorage extends Storage {
 
     @Override
-    public boolean checkReady() {
+    public boolean checkReady(final Context context) {
         return true;
     }
 

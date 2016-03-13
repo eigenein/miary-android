@@ -1,10 +1,13 @@
 package in.eigene.miary.backup.storages;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,8 +35,11 @@ public class ExternalStorage extends Storage {
     private static final File DOWNLOADS = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
     @Override
-    public boolean checkReady() {
-        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    public boolean checkReady(final Context context) {
+        return (
+                Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        );
     }
 
     @Override

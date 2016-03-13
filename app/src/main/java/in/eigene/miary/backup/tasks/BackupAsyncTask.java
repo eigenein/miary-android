@@ -35,7 +35,7 @@ public class BackupAsyncTask extends BaseAsyncTask {
 
     @Override
     protected Result doInBackground(final Void... params) {
-        if (!storage.checkReady()) {
+        if (!storage.checkReady(context)) {
             return Result.STORAGE_NOT_READY;
         }
         try {

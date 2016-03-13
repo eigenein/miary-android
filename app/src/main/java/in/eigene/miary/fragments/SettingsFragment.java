@@ -1,15 +1,20 @@
 package in.eigene.miary.fragments;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -51,6 +56,9 @@ public class SettingsFragment extends PreferenceFragment {
     private Preference linkDropboxPreference;
     private Preference backupDropboxPreference;
     private Preference restoreDropboxPreference;
+    private Preference exportPlainTextPreference;
+    private Preference backupStoragePreference;
+    private Preference restoreStoragePreference;
 
     /**
      * Caches weekdays from resources.
@@ -181,11 +189,13 @@ public class SettingsFragment extends PreferenceFragment {
         final AccountManager accountManager = AccountManager.get(getActivity());
         final Account account = AccountHelper.getAccount(accountManager);
 
+        // Finish Dropbox authentication process if any.
         if (isDropboxAuthenticationInProgress) {
             isDropboxAuthenticationInProgress = false;
             finishDropboxAuthentication(dropboxApi, accountManager, account);
         }
 
+        // Enable Dropbox options.
         backupDropboxPreference.setEnabled(dropboxSession.isLinked());
         restoreDropboxPreference.setEnabled(dropboxSession.isLinked());
         linkDropboxPreference.setSummary(null);
@@ -203,6 +213,12 @@ public class SettingsFragment extends PreferenceFragment {
                 }
             });
         }
+
+        // Enable external storage options.
+        final boolean isStorageAvailable = hasWritePermission() && isMediaMounted();
+        exportPlainTextPreference.setEnabled(isStorageAvailable);
+        backupStoragePreference.setEnabled(isStorageAvailable);
+        restoreStoragePreference.setEnabled(isStorageAvailable);
     }
 
     @Override
@@ -311,7 +327,8 @@ public class SettingsFragment extends PreferenceFragment {
 
     private void setupBackupSettings() {
         // Plain text backup.
-        findPreference(R.string.prefkey_export_plain_text).setOnPreferenceClickListener(
+        exportPlainTextPreference = findPreference(R.string.prefkey_export_plain_text);
+        exportPlainTextPreference.setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
@@ -321,7 +338,8 @@ public class SettingsFragment extends PreferenceFragment {
                 }
         );
         // JSON backup.
-        findPreference(R.string.prefkey_backup_storage).setOnPreferenceClickListener(
+        backupStoragePreference = findPreference(R.string.prefkey_backup_storage);
+        backupStoragePreference.setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
@@ -369,7 +387,8 @@ public class SettingsFragment extends PreferenceFragment {
                 }
         );
         // JSON restore.
-        findPreference(R.string.prefkey_restore_storage).setOnPreferenceClickListener(
+        restoreStoragePreference = findPreference(R.string.prefkey_restore_storage);
+        restoreStoragePreference.setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
@@ -384,6 +403,10 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 }
         );
+        // Request permission if needed.
+        if (!hasWritePermission() && isMediaMounted()) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
     }
 
     private void finishDropboxAuthentication(
@@ -403,6 +426,17 @@ public class SettingsFragment extends PreferenceFragment {
         }
         accountManager.setUserData(account, AccountHelper.KEY_DROPBOX_ACCESS_TOKEN, session.getOAuth2AccessToken());
         Tracking.linkDropbox();
+    }
+
+    private boolean hasWritePermission() {
+        return ContextCompat.checkSelfPermission(
+                getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isMediaMounted() {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
     /**
