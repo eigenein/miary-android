@@ -21,27 +21,27 @@ public class Tracking {
         eventAttributes.put("URI", uri);
         YandexMetrica.reportEvent("Click About Link", eventAttributes);
 
-        sendEvent(Category.ABOUT, Action.CLICK, null, uri);
+        sendEvent("About", Action.CLICK, null, uri);
     }
 
     public static void newNote() {
         YandexMetrica.reportEvent("New Note");
-        sendEvent(Category.NOTE, Action.NEW, null, null);
+        sendEvent("Note", Action.NEW, null, null);
     }
 
     public static void enterFullscreen() {
         YandexMetrica.reportEvent("Enter Fullscreen");
-        sendEvent(Category.FULLSCREEN, Action.ENTER, null, null);
+        sendEvent("Fullscreen", Action.ENTER, null, null);
     }
 
     public static void enterCorrectPin() {
         YandexMetrica.reportEvent("Enter Correct Pin");
-        sendEvent(Category.PASSCODE, Action.CORRECT, null, null);
+        sendEvent("Passcode", Action.CORRECT, null, null);
     }
 
     public static void enterIncorrectPin() {
         YandexMetrica.reportEvent("Enter Incorrect Pin");
-        sendEvent(Category.PASSCODE, Action.INCORRECT, null, null);
+        sendEvent("Passcode", Action.INCORRECT, null, null);
     }
 
     public static void finishDropboxBackup(final long length) {
@@ -49,7 +49,7 @@ public class Tracking {
         eventAttributes.put("Length", length);
         YandexMetrica.reportEvent("Finish Dropbox Backup", eventAttributes);
 
-        sendEvent(Tracking.Category.BACKUP, Tracking.Action.DROPBOX, length, null);
+        sendEvent("Backup", Tracking.Action.DROPBOX, length, null);
     }
 
     public static void finishExternalStorageBackup(final long length) {
@@ -57,7 +57,7 @@ public class Tracking {
         eventAttributes.put("Length", length);
         YandexMetrica.reportEvent("Finish External Storage Backup", eventAttributes);
 
-        sendEvent(Tracking.Category.BACKUP, Tracking.Action.EXTERNAL, length, null);
+        sendEvent("Backup", Tracking.Action.EXTERNAL, length, null);
     }
 
     public static void finishMigration(final long noteCount, final String result) {
@@ -66,7 +66,7 @@ public class Tracking {
         eventAttributes.put("Result", result);
         YandexMetrica.reportEvent("Finish Migration", eventAttributes);
 
-        sendEvent(Category.BACKUP, Action.MIGRATE, noteCount, result);
+        sendEvent("Backup", Action.MIGRATE, noteCount, result);
     }
 
     public static void sortFeed(final String sortOrder) {
@@ -74,17 +74,17 @@ public class Tracking {
         eventAttributes.put("Sort Order", sortOrder);
         YandexMetrica.reportEvent("Sort Feed", eventAttributes);
 
-        sendEvent(Category.VIEW, Action.SET_SORTING_ORDER, null, sortOrder);
+        sendEvent("View", Action.SET_SORTING_ORDER, null, sortOrder);
     }
 
     public static void setSingleColumn() {
         YandexMetrica.reportEvent("Set Single Column");
-        sendEvent(Category.VIEW, Action.SET_LAYOUT, null, "Single Column");
+        sendEvent("View", Action.SET_LAYOUT, null, "Single Column");
     }
 
     public static void setMultiColumn() {
         YandexMetrica.reportEvent("Set Multi-Column");
-        sendEvent(Category.VIEW, Action.SET_LAYOUT, null, "Multi-column");
+        sendEvent("View", Action.SET_LAYOUT, null, "Multi-column");
     }
 
     public static void setDraft(final boolean draft) {
@@ -92,7 +92,7 @@ public class Tracking {
         eventAttributes.put("Is Draft", draft);
         YandexMetrica.reportEvent("Set Draft", eventAttributes);
 
-        sendEvent(Category.NOTE, Action.SET_DRAFT, null, Boolean.toString(draft));
+        sendEvent("Note", Action.SET_DRAFT, null, Boolean.toString(draft));
     }
 
     public static void setStarred(final boolean starred) {
@@ -100,7 +100,7 @@ public class Tracking {
         eventAttributes.put("Is Starred", starred);
         YandexMetrica.reportEvent("Set Starred", eventAttributes);
 
-        sendEvent(Category.NOTE, Action.SET_STARRED, null, Boolean.toString(starred));
+        sendEvent("Note", Action.SET_STARRED, null, Boolean.toString(starred));
     }
 
     public static void setColor(final int color) {
@@ -108,17 +108,17 @@ public class Tracking {
         eventAttributes.put("Color", String.format("#%06X", color));
         YandexMetrica.reportEvent("Set Color", eventAttributes);
 
-        sendEvent(Category.NOTE, Action.SET_COLOR, null, null);
+        sendEvent("Note", Action.SET_COLOR, null, null);
     }
 
     public static void removeNote() {
         YandexMetrica.reportEvent("Remove Note");
-        sendEvent(Category.NOTE, Action.REMOVE, null, null);
+        sendEvent("Note", Action.REMOVE, null, null);
     }
 
     public static void setCustomDate() {
         YandexMetrica.reportEvent("Set Custom Date");
-        sendEvent(Category.NOTE, Action.SET_CUSTOM_DATE, null, null);
+        sendEvent("Note", Action.SET_CUSTOM_DATE, null, null);
     }
 
     public static void selectSection(final String sectionName) {
@@ -126,7 +126,7 @@ public class Tracking {
         eventAttributes.put("Name", sectionName);
         YandexMetrica.reportEvent("Select Section", eventAttributes);
 
-        sendEvent(Tracking.Category.DRAWER, Tracking.Action.CHANGE_SECTION, null, sectionName);
+        sendEvent("Drawer", Tracking.Action.CHANGE_SECTION, null, sectionName);
     }
 
     public static void setFontSize(final String fontSize) {
@@ -134,7 +134,7 @@ public class Tracking {
         eventAttributes.put("Size", fontSize);
         YandexMetrica.reportEvent("Set Font Size", eventAttributes);
 
-        sendEvent(Category.FONT_SIZE, Action.SET, null, fontSize);
+        sendEvent("Font Size", Action.SET, null, fontSize);
     }
 
     public static void setTheme(final String theme) {
@@ -142,17 +142,17 @@ public class Tracking {
         eventAttributes.put("Theme", theme);
         YandexMetrica.reportEvent("Set Theme", eventAttributes);
 
-        sendEvent(Category.THEME, Action.SET, null, theme);
+        sendEvent("Theme", Action.SET, null, theme);
     }
 
     public static void enablePasscode() {
         YandexMetrica.reportEvent("Enable Passcode");
-        sendEvent(Category.PASSCODE, Action.ENABLE, null, null);
+        sendEvent("Passcode", Action.ENABLE, null, null);
     }
 
     public static void disablePasscode() {
         YandexMetrica.reportEvent("Disable Passcode");
-        sendEvent(Category.PASSCODE, Action.DISABLE, null, null);
+        sendEvent("Passcode", Action.DISABLE, null, null);
     }
 
     public static void linkDropbox() {
@@ -165,7 +165,7 @@ public class Tracking {
         eventAttributes.put("Timeout", timeout);
         YandexMetrica.reportEvent("Set Passcode Timeout", eventAttributes);
 
-        sendEvent(Category.PASSCODE, "Set Timeout", null, timeout);
+        sendEvent("Passcode", "Set Timeout", null, timeout);
     }
 
     public static void rateApp() {
@@ -200,19 +200,6 @@ public class Tracking {
             builder.setLabel(label);
         }
         Application.getTracker().send(builder.build());
-    }
-
-    private static class Category {
-
-        public static final String NOTE = "Note";
-        public static final String FULLSCREEN = "Fullscreen";
-        public static final String PASSCODE = "Passcode";
-        public static final String BACKUP = "Backup";
-        public static final String VIEW = "View";
-        public static final String DRAWER = "Drawer";
-        public static final String ABOUT = "About";
-        public static final String FONT_SIZE = "Font Size";
-        public static final String THEME = "Theme";
     }
 
     private static class Action {
