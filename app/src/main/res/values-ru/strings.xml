@@ -39,7 +39,7 @@
     <string name="feed_newest_first">От новых к старым.</string>
     <string name="feed_set_multi_column">В несколько столбцов</string>
     <string name="feed_set_single_column">В один столбец</string>
-    <string name="feedback_hint">Ваш отзыв</string>
+    <string name="feedback_hint">Отзыв</string>
     <string name="note_color">Изменить цвет</string>
     <string name="note_draft">Переместить в черновики</string>
     <string name="note_fullscreen">На весь экран</string>
@@ -104,6 +104,9 @@
     <string name="preference_title_link_dropbox">Привязать аккаунт Dropbox</string>
     <string name="preference_summary_current_account">Текущий аккаунт: %1$s</string>
     <string name="preference_title_pin_timeout">Таймаут блокировки</string>
+    <string name="feedback_comment">
+        Здесь вы можете оставить свои предложения, идеи, пожелания или вопросы.
+    </string>
     <plurals name="drawer_header_counter">
         <item quantity="one">%d заметка</item>
         <item quantity="few">%d заметки</item>

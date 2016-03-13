@@ -127,6 +127,9 @@
     <string name="preference_summary_current_account">Current account: %1$s</string>
     <string name="prefkey_pin_timeout" translatable="false">pin_timeout</string>
     <string name="preference_title_pin_timeout">Lock timeout</string>
+    <string name="feedback_comment">
+        Please feel free to post any feature requests, improvement suggestions and questions here.
+    </string>
     <plurals name="drawer_header_counter">
         <item quantity="zero">No notes</item>
         <item quantity="one">%d note</item>
