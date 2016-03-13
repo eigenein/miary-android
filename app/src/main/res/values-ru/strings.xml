@@ -108,6 +108,7 @@
         Здесь вы можете оставить свои предложения, идеи, пожелания или вопросы.
     </string>
     <string name="toast_backup_failed">Пожалуйста, убедитесь, что вы выбрали верный файл или устройство.</string>
+    <string name="rate_app">Оценить</string>
     <plurals name="drawer_header_counter">
         <item quantity="one">%d заметка</item>
         <item quantity="few">%d заметки</item>

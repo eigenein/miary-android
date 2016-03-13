@@ -1,6 +1,7 @@
 package in.eigene.miary.activities;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentResolver;
@@ -13,6 +14,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -75,9 +77,37 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.about_activity, menu);
+        return true;
+    }
+
+    @Override
     public void onCreateContextMenu(final ContextMenu menu, final View view,final ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
         getMenuInflater().inflate(R.menu.developer, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_rate_app:
+                final String packageName = getPackageName();
+                try {
+                    startActivity(new Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=" + packageName)));
+                } catch (final ActivityNotFoundException e) {
+                    startActivity(new Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)
+                    ));
+                }
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
