@@ -92,6 +92,7 @@ public class AboutActivity extends BaseActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_rate_app:
+                Tracking.rateApp();
                 final String packageName = getPackageName();
                 try {
                     startActivity(new Intent(

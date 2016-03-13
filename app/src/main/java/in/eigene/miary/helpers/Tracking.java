@@ -168,6 +168,11 @@ public class Tracking {
         sendEvent(Category.PASSCODE, "Set Timeout", null, timeout);
     }
 
+    public static void rateApp() {
+        YandexMetrica.reportEvent("Rate App");
+        sendEvent("About", "Rate", null, null);
+    }
+
     public static void error(final String message, final Throwable error) {
         Log.e(LOG_TAG, message, error);
         YandexMetrica.reportError(message, error);
