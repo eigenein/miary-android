@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.exception.DropboxException;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -37,6 +35,7 @@ import in.eigene.miary.fragments.dialogs.TimePickerDialogFragment;
 import in.eigene.miary.helpers.AccountHelper;
 import in.eigene.miary.helpers.DropboxHelper;
 import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.helpers.lang.Consumer;
 import in.eigene.miary.managers.PinManager;
 import in.eigene.miary.managers.ReminderManager;
 
@@ -193,20 +192,13 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Update current user email.
         if (dropboxSession.isLinked()) {
-            AsyncTask.execute(new Runnable() {
+            DropboxHelper.getAccountInfo(getActivity(), dropboxApi, new Consumer<DropboxAPI.Account>() {
                 @Override
-                public void run() {
-                    try {
-                        final String email = dropboxApi.accountInfo().email;
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                linkDropboxPreference.setSummary(getString(R.string.preference_summary_current_account, email));
-                            }
-                        });
-                    } catch (final DropboxException e) {
-                        // Just ignore the error.
-                        Tracking.error("Failed to get Dropbox user email.", e);
+                public void accept(final DropboxAPI.Account account) {
+                    if (isAdded()) {
+                        linkDropboxPreference.setSummary(getString(
+                                R.string.preference_summary_current_account,
+                                account.email));
                     }
                 }
             });

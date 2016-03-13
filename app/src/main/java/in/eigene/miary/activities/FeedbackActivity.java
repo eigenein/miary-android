@@ -11,9 +11,15 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+
 import java.io.IOException;
 
 import in.eigene.miary.R;
+import in.eigene.miary.helpers.DropboxHelper;
+import in.eigene.miary.helpers.Tracking;
+import in.eigene.miary.helpers.lang.Consumer;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -49,18 +55,27 @@ public class FeedbackActivity extends FullscreenDialogActivity {
         } catch (PackageManager.NameNotFoundException e) {
             userAgent = "Miary/?";
         }
+
+        final DropboxAPI<AndroidAuthSession> dropboxApi = DropboxHelper.createApi(this);
+        if (dropboxApi.getSession().isLinked()) {
+            DropboxHelper.getAccountInfo(this, dropboxApi, new Consumer<DropboxAPI.Account>() {
+                @Override
+                public void accept(final DropboxAPI.Account account) {
+                    if (!isFinishing()) {
+                        emailEditText.setText(account.email);
+                        textEditText.requestFocus();
+                    }
+                }
+            });
+        }
+
+        sendOpen();
     }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.feedback_activity, menu);
         return true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        sendOpen();
     }
 
     @Override
@@ -102,7 +117,7 @@ public class FeedbackActivity extends FullscreenDialogActivity {
                     final Response response = httpClient.newCall(request).execute();
                     Log.i(LOG_TAG, "Open: " + response.code());
                 } catch (final IOException e) {
-                    Log.e(LOG_TAG, "Failed to track open.", e);
+                    Tracking.error("Failed to track feedback open.", e);
                 }
             }
         });
@@ -125,7 +140,7 @@ public class FeedbackActivity extends FullscreenDialogActivity {
                     final Response response = httpClient.newCall(request).execute();
                     Log.i(LOG_TAG, "Submit: " + response.code());
                 } catch (IOException e) {
-                    Log.e(LOG_TAG, "Failed to submit.", e);
+                    Tracking.error("Failed to submit feedback.", e);
                 }
             }
         });
