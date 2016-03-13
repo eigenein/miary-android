@@ -195,26 +195,15 @@ public class SettingsFragment extends PreferenceFragment {
             finishDropboxAuthentication(dropboxApi, accountManager, account);
         }
 
-        // Enable Dropbox options.
+        // Refresh Dropbox options.
         backupDropboxPreference.setEnabled(dropboxSession.isLinked());
         restoreDropboxPreference.setEnabled(dropboxSession.isLinked());
-        linkDropboxPreference.setSummary(null);
-
-        // Update current user email.
-        if (dropboxSession.isLinked()) {
-            DropboxHelper.getAccountInfo(getActivity(), dropboxApi, new Consumer<DropboxAPI.Account>() {
-                @Override
-                public void accept(final DropboxAPI.Account account) {
-                    if (isAdded()) {
-                        linkDropboxPreference.setSummary(getString(
-                                R.string.preference_summary_current_account,
-                                account.email));
-                    }
-                }
-            });
+        final String dropboxEmail = accountManager.getUserData(account, AccountHelper.KEY_DROPBOX_EMAIL);
+        if (dropboxEmail != null) {
+            linkDropboxPreference.setSummary(getString(R.string.preference_summary_current_account, dropboxEmail));
         }
 
-        // Enable external storage options.
+        // Refresh external storage options.
         final boolean isStorageAvailable = hasWritePermission() && isMediaMounted();
         exportPlainTextPreference.setEnabled(isStorageAvailable);
         backupStoragePreference.setEnabled(isStorageAvailable);
@@ -415,6 +404,7 @@ public class SettingsFragment extends PreferenceFragment {
             final Account account
     ) {
         final AndroidAuthSession session = api.getSession();
+        // Finish authentication.
         if (!session.authenticationSuccessful()) {
             return;
         }
@@ -424,7 +414,17 @@ public class SettingsFragment extends PreferenceFragment {
             Tracking.error("Dropbox authentication failed.", e);
             return;
         }
+        // Save account info.
         accountManager.setUserData(account, AccountHelper.KEY_DROPBOX_ACCESS_TOKEN, session.getOAuth2AccessToken());
+        DropboxHelper.getAccountInfo(getActivity(), api, new Consumer<DropboxAPI.Account>() {
+            @Override
+            public void accept(final DropboxAPI.Account accountInfo) {
+                accountManager.setUserData(account, AccountHelper.KEY_DROPBOX_EMAIL, accountInfo.email);
+                linkDropboxPreference.setSummary(getString(
+                        R.string.preference_summary_current_account,
+                        accountInfo.email));
+            }
+        });
         Tracking.linkDropbox();
     }
 

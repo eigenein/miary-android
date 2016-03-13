@@ -10,6 +10,7 @@ import in.eigene.miary.sync.SyncAdapter;
 public class AccountHelper {
 
     public static final String KEY_DROPBOX_ACCESS_TOKEN = "dropboxAccessToken";
+    public static final String KEY_DROPBOX_EMAIL = "dropboxEmail";
 
     public static Account getAccount(final AccountManager accountManager) {
         final Account[] accounts = accountManager.getAccountsByType(SyncAdapter.ACCOUNT_TYPE);
