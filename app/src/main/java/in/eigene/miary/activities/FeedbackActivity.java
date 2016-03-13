@@ -1,5 +1,6 @@
 package in.eigene.miary.activities;
 
+import android.accounts.AccountManager;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,15 +12,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
-
 import java.io.IOException;
 
 import in.eigene.miary.R;
-import in.eigene.miary.helpers.DropboxHelper;
+import in.eigene.miary.helpers.AccountHelper;
 import in.eigene.miary.helpers.Tracking;
-import in.eigene.miary.helpers.lang.Consumer;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -56,17 +53,12 @@ public class FeedbackActivity extends FullscreenDialogActivity {
             userAgent = "Miary/?";
         }
 
-        final DropboxAPI<AndroidAuthSession> dropboxApi = DropboxHelper.createApi(this);
-        if (dropboxApi.getSession().isLinked()) {
-            DropboxHelper.getAccountInfo(this, dropboxApi, new Consumer<DropboxAPI.Account>() {
-                @Override
-                public void accept(final DropboxAPI.Account account) {
-                    if (!isFinishing()) {
-                        emailEditText.setText(account.email);
-                        textEditText.requestFocus();
-                    }
-                }
-            });
+        final AccountManager accountManager = AccountManager.get(this);
+        final String dropboxEmail =  accountManager.getUserData(
+                AccountHelper.getAccount(accountManager), AccountHelper.KEY_DROPBOX_EMAIL);
+        if (dropboxEmail != null) {
+            emailEditText.setText(dropboxEmail);
+            textEditText.requestFocus();
         }
 
         sendOpen();
