@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <group
         android:id="@+id/drawer_diary"
         android:checkableBehavior="none">
@@ -7,15 +10,18 @@
         <item
             android:id="@+id/menu_item_drawer_diary"
             android:title="@string/drawer_diary"
-            android:icon="@drawable/ic_inbox_grey600_24dp"/>
+            android:icon="@drawable/ic_inbox_grey600_24dp"
+            app:actionLayout="@layout/action_counter"/>
         <item
             android:id="@+id/menu_item_drawer_starred"
             android:title="@string/drawer_starred"
-            android:icon="@drawable/ic_star_grey600_24dp"/>
+            android:icon="@drawable/ic_star_grey600_24dp"
+            app:actionLayout="@layout/action_counter"/>
         <item
             android:id="@+id/menu_item_drawer_drafts"
             android:title="@string/drawer_drafts"
-            android:icon="@drawable/ic_drafts_grey600_24dp"/>
+            android:icon="@drawable/ic_drafts_grey600_24dp"
+            app:actionLayout="@layout/action_counter"/>
     </group>
     <group android:id="@+id/drawer_other">
         <item
