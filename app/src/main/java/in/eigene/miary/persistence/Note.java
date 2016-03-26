@@ -122,7 +122,9 @@ public class Note implements Entity {
     }
 
     public int getColor() {
-        return color;
+        // A user has reported that after update he didn't see the correct color.
+        // I haven't received any response from him but zero alpha might be a cause.
+        return color | 0xFF000000;
     }
 
     public Note setColor(final int color) {
