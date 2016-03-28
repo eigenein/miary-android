@@ -35,13 +35,13 @@ import in.eigene.miary.backup.storages.DropboxStorage;
 import in.eigene.miary.backup.storages.ExternalStorage;
 import in.eigene.miary.backup.tasks.BackupAsyncTask;
 import in.eigene.miary.backup.tasks.RestoreAsyncTask;
-import in.eigene.miary.fragments.dialogs.PinDialogFragment;
+import in.eigene.miary.fragments.dialogs.PasscodeDialogFragment;
 import in.eigene.miary.fragments.dialogs.TimePickerDialogFragment;
 import in.eigene.miary.helpers.AccountHelper;
 import in.eigene.miary.helpers.DropboxHelper;
+import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.helpers.lang.Consumer;
-import in.eigene.miary.managers.PinManager;
 import in.eigene.miary.managers.ReminderManager;
 
 public class SettingsFragment extends PreferenceFragment {
@@ -79,7 +79,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
                         if (!pinEnabledPreference.isChecked()) {
-                            disablePin(pinEnabledPreference);
+                            disablePasscode(pinEnabledPreference);
                         } else {
                             enablePin(pinEnabledPreference);
                         }
@@ -230,19 +230,14 @@ public class SettingsFragment extends PreferenceFragment {
      * Passcode protection enable handler.
      */
     private void enablePin(final CheckBoxPreference checkBoxPreference) {
-        new PinDialogFragment()
-                .setTitle(R.string.dialog_new_pin_title)
-                .setListener(new PinDialogFragment.Listener() {
+        new PasscodeDialogFragment()
+                .setTitle(R.string.dialog_new_passcode_title)
+                .setListener(new PasscodeDialogFragment.Listener() {
                     @Override
-                    public void onPositiveButtonClicked(final String pin) {
-                        if (pin.length() == 4) {
-                            PinManager.set(getActivity(), pin);
-                            Toast.makeText(getActivity(), R.string.pin_enabled, Toast.LENGTH_SHORT).show();
-                            Tracking.enablePasscode();
-                        } else {
-                            Toast.makeText(getActivity(), R.string.pin_too_short, Toast.LENGTH_SHORT).show();
-                            checkBoxPreference.setChecked(false);
-                        }
+                    public void onPositiveButtonClicked(final String passcode) {
+                        PreferenceHelper.get(getActivity()).edit().putString(PreferenceHelper.KEY_PASSCODE, passcode).apply();
+                        Toast.makeText(getActivity(), R.string.passcode_enabled, Toast.LENGTH_SHORT).show();
+                        Tracking.enablePasscode(passcode.length());
                     }
 
                     @Override
@@ -256,18 +251,21 @@ public class SettingsFragment extends PreferenceFragment {
     /**
      * Passcode protection disable handler.
      */
-    private void disablePin(final CheckBoxPreference checkBox) {
-        new PinDialogFragment()
+    private void disablePasscode(final CheckBoxPreference checkBox) {
+        final String truePasscode = PreferenceHelper.get(getActivity()).getString(PreferenceHelper.KEY_PASSCODE, null);
+        assert truePasscode != null;
+
+        new PasscodeDialogFragment()
                 .setTitle(R.string.dialog_current_pin_title)
-                .setListener(new PinDialogFragment.Listener() {
+                .setListener(new PasscodeDialogFragment.Listener() {
 
                     @Override
-                    public void onPositiveButtonClicked(final String pin) {
-                        if (PinManager.check(getActivity(), pin)) {
-                            Toast.makeText(getActivity(), R.string.pin_disabled, Toast.LENGTH_SHORT).show();
+                    public void onPositiveButtonClicked(final String passcode) {
+                        if (passcode.equals(truePasscode)) {
+                            Toast.makeText(getActivity(), R.string.passcode_disabled, Toast.LENGTH_SHORT).show();
                             Tracking.disablePasscode();
                         } else {
-                            Toast.makeText(getActivity(), R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.passcode_incorrect, Toast.LENGTH_SHORT).show();
                             checkBox.setChecked(true);
                         }
                     }

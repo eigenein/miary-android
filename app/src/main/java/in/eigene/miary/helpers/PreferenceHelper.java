@@ -1,5 +1,6 @@
 package in.eigene.miary.helpers;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -19,7 +20,7 @@ public class PreferenceHelper {
     public static final String KEY_SORT_ORDER = "feed_sort_order";
     public static final String KEY_MULTI_COLUMN = "feed_multi_column";
 
-    public static final String KEY_PIN = "pin";
+    public static final String KEY_PASSCODE = "pin";
 
     public static final String KEY_REMINDER_HOUR = "reminder_hour";
     public static final String KEY_REMINDER_MINUTE = "reminder_minute";
@@ -30,6 +31,10 @@ public class PreferenceHelper {
      */
     public static SharedPreferences get(final Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public static SharedPreferences get(final Fragment fragment) {
+        return get(fragment.getActivity());
     }
 
     /**

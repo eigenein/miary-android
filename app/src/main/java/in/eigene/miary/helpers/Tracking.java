@@ -17,10 +17,7 @@ public class Tracking {
     private static final String LOG_TAG = Tracking.class.getSimpleName();
 
     public static void clickAboutLink(final String uri) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("URI", uri);
-        YandexMetrica.reportEvent("Click About Link", eventAttributes);
-
+        YandexMetrica.reportEvent("Click About Link", makeAttribute("URI", uri));
         sendEvent("About", Action.CLICK, null, uri);
     }
 
@@ -45,18 +42,12 @@ public class Tracking {
     }
 
     public static void finishDropboxBackup(final long length) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Length", length);
-        YandexMetrica.reportEvent("Finish Dropbox Backup", eventAttributes);
-
+        YandexMetrica.reportEvent("Finish Dropbox Backup", makeAttribute("Length", length));
         sendEvent("Backup", Tracking.Action.DROPBOX, length, null);
     }
 
     public static void finishExternalStorageBackup(final long length) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Length", length);
-        YandexMetrica.reportEvent("Finish External Storage Backup", eventAttributes);
-
+        YandexMetrica.reportEvent("Finish External Storage Backup", makeAttribute("Length", length));
         sendEvent("Backup", Tracking.Action.EXTERNAL, length, null);
     }
 
@@ -70,10 +61,7 @@ public class Tracking {
     }
 
     public static void sortFeed(final String sortOrder) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Sort Order", sortOrder);
-        YandexMetrica.reportEvent("Sort Feed", eventAttributes);
-
+        YandexMetrica.reportEvent("Sort Feed", makeAttribute("Sort Order", sortOrder));
         sendEvent("View", Action.SET_SORTING_ORDER, null, sortOrder);
     }
 
@@ -88,26 +76,17 @@ public class Tracking {
     }
 
     public static void setDraft(final boolean draft) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Is Draft", draft);
-        YandexMetrica.reportEvent("Set Draft", eventAttributes);
-
+        YandexMetrica.reportEvent("Set Draft", makeAttribute("Is Draft", draft));
         sendEvent("Note", Action.SET_DRAFT, null, Boolean.toString(draft));
     }
 
     public static void setStarred(final boolean starred) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Is Starred", starred);
-        YandexMetrica.reportEvent("Set Starred", eventAttributes);
-
+        YandexMetrica.reportEvent("Set Starred", makeAttribute("Is Starred", starred));
         sendEvent("Note", Action.SET_STARRED, null, Boolean.toString(starred));
     }
 
     public static void setColor(final int color) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Color", String.format("#%06X", color));
-        YandexMetrica.reportEvent("Set Color", eventAttributes);
-
+        YandexMetrica.reportEvent("Set Color", makeAttribute("Color", String.format("#%06X", color)));
         sendEvent("Note", Action.SET_COLOR, null, null);
     }
 
@@ -122,31 +101,22 @@ public class Tracking {
     }
 
     public static void selectSection(final String sectionName) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Name", sectionName);
-        YandexMetrica.reportEvent("Select Section", eventAttributes);
-
+        YandexMetrica.reportEvent("Select Section", makeAttribute("Name", sectionName));
         sendEvent("Drawer", Tracking.Action.CHANGE_SECTION, null, sectionName);
     }
 
     public static void setFontSize(final String fontSize) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Size", fontSize);
-        YandexMetrica.reportEvent("Set Font Size", eventAttributes);
-
+        YandexMetrica.reportEvent("Set Font Size", makeAttribute("Size", fontSize));
         sendEvent("Font Size", Action.SET, null, fontSize);
     }
 
     public static void setTheme(final String theme) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Theme", theme);
-        YandexMetrica.reportEvent("Set Theme", eventAttributes);
-
+        YandexMetrica.reportEvent("Set Theme", makeAttribute("Theme", theme));
         sendEvent("Theme", Action.SET, null, theme);
     }
 
-    public static void enablePasscode() {
-        YandexMetrica.reportEvent("Enable Passcode");
+    public static void enablePasscode(final int length) {
+        YandexMetrica.reportEvent("Enable Passcode", makeAttribute("Length", length));
         sendEvent("Passcode", Action.ENABLE, null, null);
     }
 
@@ -161,10 +131,7 @@ public class Tracking {
     }
 
     public static void setPasscodeTimeout(final String timeout) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Timeout", timeout);
-        YandexMetrica.reportEvent("Set Passcode Timeout", eventAttributes);
-
+        YandexMetrica.reportEvent("Set Passcode Timeout", makeAttribute("Timeout", timeout));
         sendEvent("Passcode", "Set Timeout", null, timeout);
     }
 
@@ -179,6 +146,12 @@ public class Tracking {
         if (Application.getTracker() != null) {
             Application.getTracker().send(new HitBuilders.ExceptionBuilder().setDescription(message).build());
         }
+    }
+
+    private static HashMap<String, Object> makeAttribute(final String key, final Object value) {
+        final HashMap<String, Object> attributes = new HashMap<>();
+        attributes.put(key, value);
+        return attributes;
     }
 
     private static void sendEvent(

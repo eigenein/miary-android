@@ -15,17 +15,16 @@ import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.TextWatcher;
 import in.eigene.miary.helpers.Themes;
 import in.eigene.miary.helpers.Tracking;
-import in.eigene.miary.managers.PinManager;
 
 /**
  * Asks for passcode.
  */
-public class PinActivity extends AppCompatActivity {
+public class PasscodeActivity extends AppCompatActivity {
 
     private static final String EXTRA_INTENT = "intent";
 
     public static void start(final Context context, final Intent intent) {
-        context.startActivity(new Intent().setClass(context, PinActivity.class).putExtra(EXTRA_INTENT, intent));
+        context.startActivity(new Intent().setClass(context, PasscodeActivity.class).putExtra(EXTRA_INTENT, intent));
     }
 
     @Override
@@ -34,30 +33,33 @@ public class PinActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_pin);
+        setContentView(R.layout.activity_passcode);
 
         setSupportActionBar((android.support.v7.widget.Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
-        final EditText pinEditText = (EditText)findViewById(R.id.pin_edit_text);
-        pinEditText.setTypeface(Typeface.DEFAULT);
-        pinEditText.addTextChangedListener(new TextWatcher() {
+        final String truePasscode = PreferenceHelper.get(this).getString(PreferenceHelper.KEY_PASSCODE, null);
+        assert truePasscode != null;
+
+        final EditText passcodeEditText = (EditText)findViewById(R.id.passcode_edit_text);
+        passcodeEditText.setTypeface(Typeface.DEFAULT);
+        passcodeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
-                final String pin = pinEditText.getText().toString();
-                if (pin.length() != 4) {
+                final String passcode = passcodeEditText.getText().toString();
+                if (passcode.length() != truePasscode.length()) {
                     return;
                 }
-                if (PinManager.check(PinActivity.this, pin)) {
+                if (passcode.equals(truePasscode)) {
                     finish();
                     BaseActivity.refreshLastActivityTime();
                     startActivity(getIntent().<Intent>getParcelableExtra(EXTRA_INTENT));
                     Tracking.enterCorrectPin();
                 } else {
-                    Toast.makeText(PinActivity.this, R.string.pin_incorrect, Toast.LENGTH_SHORT).show();
-                    pinEditText.setText("");
+                    Toast.makeText(PasscodeActivity.this, R.string.passcode_incorrect, Toast.LENGTH_SHORT).show();
+                    passcodeEditText.setText("");
                     Tracking.enterIncorrectPin();
                 }
             }

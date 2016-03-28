@@ -11,15 +11,19 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="@dimen/fullscreen_dialog_padding">
-        <EditText
-                android:id="@+id/pin_edit_text"
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/passcode_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberPassword"
-                android:maxLength="4"
                 android:gravity="center_horizontal"
-                android:hint="@string/pin_required"
-                style="@android:style/TextAppearance.Large"
-        />
+                android:hint="@string/passcode_required"
+                style="@android:style/TextAppearance.Large"/>
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 </LinearLayout>

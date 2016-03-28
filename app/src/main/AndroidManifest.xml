@@ -54,7 +54,7 @@
                 android:label="@string/activity_about"
         />
         <activity
-                android:name=".activities.PinActivity"
+                android:name=".activities.PasscodeActivity"
                 android:label="@string/app_name"
                 android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
         />

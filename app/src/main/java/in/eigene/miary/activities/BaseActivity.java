@@ -106,7 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (isPasscodeEnabled) {
                 Log.w(LOG_TAG, "Passcode required.");
                 finish();
-                PinActivity.start(this, getIntent());
+                PasscodeActivity.start(this, getIntent());
             } else {
                 Log.i(LOG_TAG, "Passcode protection is disabled.");
             }

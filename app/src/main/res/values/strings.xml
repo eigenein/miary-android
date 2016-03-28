@@ -25,8 +25,7 @@
     <string name="dialog_colorpicker_title">Choose Color</string>
     <string name="dialog_current_pin_title">Current passcode</string>
     <string name="dialog_custom_date_title">Set date and time</string>
-    <string name="dialog_new_pin_title">New passcode</string>
-    <string name="dialog_pin_hint">4-digit passcode</string>
+    <string name="dialog_new_passcode_title">New passcode</string>
     <string name="dialog_reminder_days_title">Reminder days</string>
     <string name="dialog_reminder_time_title">Reminder time</string>
     <string name="dialog_remove_note_message">It will be impossible to restore.</string>
@@ -59,11 +58,10 @@
     <string name="note_unstar">Unstar</string>
     <string name="notification_reminder_content_text">It\'s time to write something.</string>
     <string name="password_hint">Password</string>
-    <string name="pin_disabled">Passcode protection is disabled.</string>
-    <string name="pin_enabled">Passcode protection is enabled.</string>
-    <string name="pin_incorrect">Incorrect passcode.</string>
-    <string name="pin_required">Passcode</string>
-    <string name="pin_too_short">Passcode is too short.</string>
+    <string name="passcode_disabled">Passcode protection is disabled.</string>
+    <string name="passcode_enabled">Passcode protection is enabled.</string>
+    <string name="passcode_incorrect">Incorrect passcode.</string>
+    <string name="passcode_required">Enter passcode</string>
     <string name="prefcat_title_reminder">Reminder</string>
     <string name="prefcat_title_security">Security</string>
     <string name="preference_summary_pin">We\'ll ask security passcode after specified time of inactivity.</string>
