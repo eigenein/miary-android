@@ -62,6 +62,7 @@ public class NoteFragment extends BaseFragment {
         return fragment;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
@@ -258,6 +259,11 @@ public class NoteFragment extends BaseFragment {
                 startActivity(getShareIntent());
                 return true;
 
+            case R.id.menu_item_note_fullscreen:
+                listener.onEnterFullscreen();
+                Tracking.enterFullscreen();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -356,6 +362,7 @@ public class NoteFragment extends BaseFragment {
 
     public interface Listener {
 
+        void onEnterFullscreen();
         void onLeaveFullscreen();
         void onNoteRemoved();
     }

@@ -1,11 +1,11 @@
 package in.eigene.miary.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,13 +20,21 @@ import in.eigene.miary.persistence.Note;
  */
 public class NoteActivity extends BaseActivity implements NoteFragment.Listener {
 
+    public static final int RESULT_REMOVED = 1;
+
     private static final String LOG_TAG = NoteActivity.class.getSimpleName();
 
     private static final String EXTRA_NOTE_URI = "noteUri";
     private static final String EXTRA_FULLSCREEN = "fullscreen";
 
-    public static void start(final Context context, final Uri noteUri, final boolean fullscreen) {
-        start(context, noteUri, fullscreen, 0);
+    public static void startForResult(
+            final Activity activity, final Uri noteUri, final int requestCode) {
+
+        Log.i(LOG_TAG, "Starting note activity: " + noteUri);
+        final Intent intent = new Intent()
+                .setClass(activity, NoteActivity.class)
+                .putExtra(EXTRA_NOTE_URI, noteUri);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     public static void start(
@@ -34,17 +42,14 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
             final Uri noteUri,
             final boolean fullscreen,
             final int additionalFlags) {
+
         Log.i(LOG_TAG, "Starting note activity: " + noteUri);
-        context.startActivity(new Intent()
+        final Intent intent = new Intent()
                 .setClass(context, NoteActivity.class)
                 .addFlags(additionalFlags)
                 .putExtra(EXTRA_NOTE_URI, noteUri)
-                .putExtra(EXTRA_FULLSCREEN, fullscreen));
-    }
-
-    public void restart(final boolean fullscreen) {
-        finish();
-        startActivity(getIntent().putExtra(EXTRA_FULLSCREEN, fullscreen));
+                .putExtra(EXTRA_FULLSCREEN, fullscreen);
+        context.startActivity(intent);
     }
 
     @Override
@@ -77,12 +82,6 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.note_activity, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
 
@@ -98,7 +97,13 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
 
     @Override
     public void onNoteRemoved() {
+        setResult(RESULT_REMOVED);
         finish();
+    }
+
+    @Override
+    public void onEnterFullscreen() {
+        restart(true);
     }
 
     @Override
@@ -132,5 +137,10 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
                 .beginTransaction()
                 .replace(R.id.fragment_note, NoteFragment.create(noteUri, fullscreen))
                 .commit();
+    }
+
+    private void restart(final boolean fullscreen) {
+        finish();
+        startActivity(getIntent().putExtra(EXTRA_FULLSCREEN, fullscreen));
     }
 }

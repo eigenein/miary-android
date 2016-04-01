@@ -1,5 +1,6 @@
 package in.eigene.miary.adapters;
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,14 +27,17 @@ import in.eigene.miary.persistence.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
-    private float displayHeight;
+    private final Activity activity;
+    private final float displayHeight;
+
     private Cursor cursor = null;
     private int idColumnIndex;
     private int lastAnimatedPosition;
 
-    public NotesAdapter(final Context context) {
+    public NotesAdapter(final Activity activity) {
+        this.activity = activity;
         final Point displaySize = new Point();
-        ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(displaySize);
+        ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(displaySize);
         this.displayHeight = displaySize.y;
     }
 
@@ -53,7 +57,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     @Override
     public NoteViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new NoteViewHolder(itemView);
+        return new NoteViewHolder(activity, itemView);
     }
 
     @Override
@@ -104,6 +108,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        public final Activity activity;
         public final CardView layout;
         public final TextView title;
         public final TextView text;
@@ -111,17 +116,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         public Note note;
 
-        public NoteViewHolder(final View itemView) {
+        public NoteViewHolder(final Activity activity, final View itemView) {
             super(itemView);
 
-            final Context context = itemView.getContext();
+            this.activity = activity;
 
             layout = (CardView)itemView.findViewById(R.id.feed_item_layout);
             title = (TextView)itemView.findViewById(R.id.feed_item_title);
-            title.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_CONDENSED_BOLD));
+            title.setTypeface(TypefaceCache.get(activity, TypefaceCache.ROBOTO_CONDENSED_BOLD));
             text = (TextView)itemView.findViewById(R.id.feed_item_text);
-            text.setTypeface(TypefaceCache.get(context, TypefaceCache.ROBOTO_SLAB_REGULAR));
+            text.setTypeface(TypefaceCache.get(activity, TypefaceCache.ROBOTO_SLAB_REGULAR));
             creationDate = (TextView)itemView.findViewById(R.id.feed_item_creation_date);
+
             itemView.setOnClickListener(this);
         }
 
@@ -149,10 +155,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         @Override
         public void onClick(final View view) {
-            NoteActivity.start(
-                    itemView.getContext(),
+            NoteActivity.startForResult(
+                    activity,
                     ContentUris.withAppendedId(Note.Contract.CONTENT_URI, note.getId()),
-                    false);
+                    0);
         }
 
         /**

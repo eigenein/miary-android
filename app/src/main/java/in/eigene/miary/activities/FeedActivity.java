@@ -1,5 +1,6 @@
 package in.eigene.miary.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -70,6 +71,15 @@ public class FeedActivity extends BaseActivity {
     }
 
     @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (resultCode) {
+            case NoteActivity.RESULT_REMOVED:
+                // TODO.
+                break;
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(final Configuration newConfiguration) {
         super.onConfigurationChanged(newConfiguration);
         drawer.toggle.onConfigurationChanged(newConfiguration);
@@ -96,8 +106,8 @@ public class FeedActivity extends BaseActivity {
             public void onClick(final View view) {
                 final Uri noteUri = Note.createEmpty()
                         .addToSection(getFeedFragment().getSection())
-                        .insert(view.getContext().getContentResolver());
-                NoteActivity.start(view.getContext(), noteUri, false);
+                        .insert(FeedActivity.this.getContentResolver());
+                NoteActivity.startForResult(FeedActivity.this, noteUri, 0);
                 Tracking.newNote();
             }
         });
