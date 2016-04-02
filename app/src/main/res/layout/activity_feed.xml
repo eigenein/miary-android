@@ -28,14 +28,19 @@
             <include layout="@layout/toolbar"/>
         </android.support.design.widget.CoordinatorLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:src="@drawable/ic_create_white_24dp"
-            app:borderWidth="0dp"
-            style="@style/Miary.Theme.Fab"/>
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:src="@drawable/ic_create_white_24dp"
+                app:borderWidth="0dp"
+                style="@style/Miary.Theme.Fab"/>
+        </android.support.design.widget.CoordinatorLayout>
     </FrameLayout>
 
     <android.support.design.widget.NavigationView

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ public class FeedActivity extends BaseActivity {
     private static final String LOG_TAG = FeedActivity.class.getSimpleName();
 
     private Drawer drawer;
+    private View fabView;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -74,7 +76,15 @@ public class FeedActivity extends BaseActivity {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (resultCode) {
             case NoteActivity.RESULT_REMOVED:
-                // TODO.
+                Snackbar
+                        .make(fabView, R.string.note_removed, Snackbar.LENGTH_LONG)
+                        .setAction(android.R.string.cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(final View view) {
+                                // TODO.
+                            }
+                        })
+                        .show();
                 break;
         }
     }
@@ -101,7 +111,8 @@ public class FeedActivity extends BaseActivity {
     }
 
     private void initializeFloatingActionButton() {
-        findViewById(R.id.fab_button).setOnClickListener(new View.OnClickListener() {
+        fabView = findViewById(R.id.fab_button);
+        fabView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 final Uri noteUri = Note.createEmpty()

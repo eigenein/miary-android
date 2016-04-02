@@ -232,7 +232,6 @@ public class NoteFragment extends BaseFragment {
                             public void onPositiveButtonClicked() {
                                 note.setDeleted(true);
                                 saveNote(false);
-                                Toast.makeText(getActivity(), R.string.note_removed, Toast.LENGTH_SHORT).show();
                                 listener.onNoteRemoved();
                                 Tracking.removeNote();
                             }
