@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.NoteFragment;
+import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 
 /**
@@ -20,10 +21,10 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
 
     public static final int RESULT_REMOVED = 1;
 
-    private static final String LOG_TAG = NoteActivity.class.getSimpleName();
+    public static final String EXTRA_NOTE_URI = "noteUri";
+    public static final String EXTRA_FULLSCREEN = "fullscreen";
 
-    private static final String EXTRA_NOTE_URI = "noteUri";
-    private static final String EXTRA_FULLSCREEN = "fullscreen";
+    private static final String LOG_TAG = NoteActivity.class.getSimpleName();
 
     private Uri noteUri;
     private boolean isFullscreen;
@@ -68,6 +69,7 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
             }
             noteUri = note.insert(getContentResolver());
             isFullscreen = false;
+            Tracking.newNoteViaSend();
         } else if (savedInstanceState != null) {
             noteUri = savedInstanceState.getParcelable(EXTRA_NOTE_URI);
             isFullscreen = savedInstanceState.getBoolean(EXTRA_FULLSCREEN, false);
@@ -105,7 +107,7 @@ public class NoteActivity extends BaseActivity implements NoteFragment.Listener 
 
     @Override
     public void onNoteRemoved() {
-        setResult(RESULT_REMOVED);
+        setResult(RESULT_REMOVED, new Intent().putExtra(EXTRA_NOTE_URI, noteUri));
         finish();
     }
 

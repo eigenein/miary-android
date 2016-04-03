@@ -28,8 +28,6 @@
     <string name="dialog_new_passcode_title">New passcode</string>
     <string name="dialog_reminder_days_title">Reminder days</string>
     <string name="dialog_reminder_time_title">Reminder time</string>
-    <string name="dialog_remove_note_message">It will be impossible to restore.</string>
-    <string name="dialog_remove_note_title">Remove note?</string>
     <string name="dialog_replacement_table_title">Replacement Table</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_diary">Diary</string>

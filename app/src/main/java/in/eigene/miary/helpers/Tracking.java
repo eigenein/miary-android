@@ -140,6 +140,21 @@ public class Tracking {
         sendEvent("About", "Rate", null, null);
     }
 
+    public static void shareNote() {
+        YandexMetrica.reportEvent("Share Note");
+        sendEvent("Note", "Share", null, null);
+    }
+
+    public static void newNoteViaSend() {
+        YandexMetrica.reportEvent("New Note via Send");
+        sendEvent("Note", "New (via Send)", null, null);
+    }
+
+    public static void cancelRemovedNote() {
+        YandexMetrica.reportEvent("Cancel Removed Note");
+        sendEvent("Note", "Cancel Removed", null, null);
+    }
+
     public static void error(final String message, final Throwable error) {
         Log.e(LOG_TAG, message, error);
         YandexMetrica.reportError(message, error);

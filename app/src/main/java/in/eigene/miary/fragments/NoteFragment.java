@@ -26,7 +26,6 @@ import java.util.Date;
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.base.BaseFragment;
 import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
-import in.eigene.miary.fragments.dialogs.RemoveNoteDialogFragment;
 import in.eigene.miary.helpers.ColorHelper;
 import in.eigene.miary.helpers.Debouncer;
 import in.eigene.miary.helpers.PreferenceHelper;
@@ -226,17 +225,10 @@ public class NoteFragment extends BaseFragment {
                 return true;
 
             case R.id.menu_item_note_remove:
-                new RemoveNoteDialogFragment()
-                        .setListener(new RemoveNoteDialogFragment.Listener() {
-                            @Override
-                            public void onPositiveButtonClicked() {
-                                note.setDeleted(true);
-                                saveNote(false);
-                                listener.onNoteRemoved();
-                                Tracking.removeNote();
-                            }
-                        })
-                        .show(getFragmentManager());
+                note.setDeleted(true);
+                saveNote(false);
+                listener.onNoteRemoved();
+                Tracking.removeNote();
                 return true;
 
             case R.id.menu_item_note_custom_date:
@@ -256,6 +248,7 @@ public class NoteFragment extends BaseFragment {
 
             case R.id.menu_item_note_share:
                 startActivity(getShareIntent());
+                Tracking.shareNote();
                 return true;
 
             case R.id.menu_item_note_fullscreen:

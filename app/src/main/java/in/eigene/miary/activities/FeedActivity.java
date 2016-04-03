@@ -1,5 +1,6 @@
 package in.eigene.miary.activities;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -74,16 +75,23 @@ public class FeedActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        // Restores notes.
+        final View.OnClickListener removedActionListener = new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                final ContentValues values = new ContentValues();
+                values.put(Note.Contract.DELETED, false);
+                final Uri noteUri = data.getParcelableExtra(NoteActivity.EXTRA_NOTE_URI);
+                getContentResolver().update(noteUri, values, null, null);
+                Tracking.cancelRemovedNote();
+            }
+        };
+
         switch (resultCode) {
             case NoteActivity.RESULT_REMOVED:
                 Snackbar
                         .make(fabView, R.string.note_removed, Snackbar.LENGTH_LONG)
-                        .setAction(android.R.string.cancel, new View.OnClickListener() {
-                            @Override
-                            public void onClick(final View view) {
-                                // TODO.
-                            }
-                        })
+                        .setAction(android.R.string.cancel, removedActionListener)
                         .show();
                 break;
         }

@@ -68,7 +68,7 @@ public class ContentProvider extends android.content.ContentProvider {
     }
 
     @Override
-    public String getType(final Uri uri) {
+    public String getType(@NonNull final Uri uri) {
         switch (MATCHER.match(uri)) {
             case NOTE_ID:
                 return ContentResolver.CURSOR_ITEM_BASE_TYPE + Note.Contract.CONTENT_SUBTYPE;
@@ -80,7 +80,7 @@ public class ContentProvider extends android.content.ContentProvider {
     }
 
     @Override
-    public Uri insert(final Uri uri, final ContentValues values) {
+    public Uri insert(@NonNull final Uri uri, final ContentValues values) {
         Log.i(LOG_TAG, "insert " + uri);
         if (MATCHER.match(uri) != NOTES_ID) {
             throw new IllegalArgumentException(uri.toString());
@@ -93,7 +93,7 @@ public class ContentProvider extends android.content.ContentProvider {
     }
 
     @Override
-    public int delete(final Uri uri, final String selection, final String[] selectionArgs) {
+    public int delete(@NonNull final Uri uri, final String selection, final String[] selectionArgs) {
         Log.i(LOG_TAG, "delete " + uri);
         final SQLiteDatabase database = helper.getWritableDatabase();
         final int deleteCount;
@@ -113,7 +113,7 @@ public class ContentProvider extends android.content.ContentProvider {
 
     @Override
     public int update(
-            final Uri uri,
+            @NonNull final Uri uri,
             final ContentValues values,
             final String selection,
             final String[] selectionArgs
@@ -139,7 +139,7 @@ public class ContentProvider extends android.content.ContentProvider {
         final StringBuilder where = new StringBuilder(String.format("%s = %s",
                 Note.Contract._ID, uri.getLastPathSegment()));
         if (!TextUtils.isEmpty(selection)) {
-            where.append(" AND ").append(selection);
+            where.append(" AND (").append(selection).append(")");
         }
         return where.toString();
     }
