@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/feed_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/feed_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/feed_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:padding="@dimen/feed_item_external_margin"
-                android:animateLayoutChanges="false"/>
+            android:id="@+id/feed_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="@dimen/feed_item_external_margin"/>
     </android.support.v4.widget.SwipeRefreshLayout>
     <ImageView
             android:id="@+id/feed_empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="214dp"
+            android:layout_height="214dp"
+            android:layout_gravity="center"
             android:visibility="gone"
             android:scaleType="center"
             tools:ignore="ContentDescription">
     </ImageView>
-</RelativeLayout>
+</FrameLayout>
