@@ -3,10 +3,12 @@ package in.eigene.miary.persistence;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.text.TextUtils;
 
 import java.security.SecureRandom;
 import java.util.Date;
@@ -88,6 +90,19 @@ public class Note implements Entity {
         note.starred = cursor.getInt(8) != 0;
         note.deleted = cursor.getInt(9) != 0;
         return note;
+    }
+
+    /**
+     * Gets share intent for share action provider.
+     */
+    public Intent getShareIntent() {
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text.trim());
+        if (!TextUtils.isEmpty(text)) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, title.trim());
+        }
+        return intent;
     }
 
     private Note() {

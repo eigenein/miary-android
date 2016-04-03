@@ -106,7 +106,7 @@ public class NoteFragment extends BaseFragment {
         editTextText = (EditText)view.findViewById(R.id.note_edit_text);
         editTextText.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_REGULAR));
         editTextText.setTextSize(Float.valueOf(PreferenceHelper.get(getActivity()).getString(
-                getString(R.string.prefkey_font_size), "18")));
+                getString(R.string.prefkey_font_size), "16")));
         editTextText.addTextChangedListener(new SubstitutionsTextWatcher(editTextText) {
 
             @Override
@@ -247,7 +247,7 @@ public class NoteFragment extends BaseFragment {
                 return true;
 
             case R.id.menu_item_note_share:
-                startActivity(getShareIntent());
+                startActivity(note.getShareIntent());
                 Tracking.shareNote();
                 return true;
 
@@ -307,19 +307,6 @@ public class NoteFragment extends BaseFragment {
         editTextTitle.setHintTextColor(ColorHelper.getHintColor(isLight));
         editTextText.setTextColor(ColorHelper.getTextColor(isLight));
         editTextText.setHintTextColor(ColorHelper.getHintColor(isLight));
-    }
-
-    /**
-     * Gets share intent for share action provider.
-     */
-    private Intent getShareIntent() {
-        final Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, note.getText().trim());
-        if (!TextUtils.isEmpty(note.getTitle())) {
-            intent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle().trim());
-        }
-        return intent;
     }
 
     private static abstract class SubstitutionsTextWatcher extends TextWatcher {
