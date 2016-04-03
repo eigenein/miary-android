@@ -10,10 +10,6 @@
         android:title="Reset migrated flag"
         tools:ignore="HardcodedText"/>
     <item
-        android:id="@+id/menu_item_developer_log_out"
-        android:title="Log out"
-        tools:ignore="HardcodedText"/>
-    <item
         android:id="@+id/menu_item_developer_add_welcome_notes"
         android:title="Add welcome notes"
         tools:ignore="HardcodedText"/>
