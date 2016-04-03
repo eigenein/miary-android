@@ -18,111 +18,108 @@ public class Tracking {
 
     public static void clickAboutLink(final String uri) {
         YandexMetrica.reportEvent("Click About Link", makeAttribute("URI", uri));
-        sendEvent("About", Action.CLICK, null, uri);
+        sendEvent("About", "Click", null, uri);
     }
 
     public static void newNote() {
         YandexMetrica.reportEvent("New Note");
-        sendEvent("Note", Action.NEW, null, null);
+        sendEvent("Note", "New", null, null);
     }
 
     public static void enterFullscreen() {
         YandexMetrica.reportEvent("Enter Fullscreen");
-        sendEvent("Fullscreen", Action.ENTER, null, null);
+        sendEvent("Fullscreen", "Enter", null, null);
     }
 
     public static void enterCorrectPin() {
-        YandexMetrica.reportEvent("Enter Correct Pin");
-        sendEvent("Passcode", Action.CORRECT, null, null);
+        YandexMetrica.reportEvent("Enter Pin", makeAttribute("Status", "Correct"));
+        sendEvent("Passcode", "Correct", null, null);
     }
 
     public static void enterIncorrectPin() {
-        YandexMetrica.reportEvent("Enter Incorrect Pin");
-        sendEvent("Passcode", Action.INCORRECT, null, null);
+        YandexMetrica.reportEvent("Enter Pin", makeAttribute("Status", "Incorrect"));
+        sendEvent("Passcode", "Incorrect", null, null);
     }
 
     public static void finishDropboxBackup(final long length) {
         YandexMetrica.reportEvent("Finish Dropbox Backup", makeAttribute("Length", length));
-        sendEvent("Backup", Tracking.Action.DROPBOX, length, null);
+        sendEvent("Backup", "Dropbox", length, null);
     }
 
     public static void finishExternalStorageBackup(final long length) {
         YandexMetrica.reportEvent("Finish External Storage Backup", makeAttribute("Length", length));
-        sendEvent("Backup", Tracking.Action.EXTERNAL, length, null);
+        sendEvent("Backup", "External", length, null);
     }
 
     public static void finishMigration(final long noteCount, final String result) {
-        final HashMap<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Note Count", noteCount);
-        eventAttributes.put("Result", result);
-        YandexMetrica.reportEvent("Finish Migration", eventAttributes);
-
-        sendEvent("Backup", Action.MIGRATE, noteCount, result);
+        YandexMetrica.reportEvent("Finish Migration", makeAttributes(
+                "Note Count", noteCount, "Result", result));
+        sendEvent("Backup", "Migrate", noteCount, result);
     }
 
     public static void sortFeed(final String sortOrder) {
         YandexMetrica.reportEvent("Sort Feed", makeAttribute("Sort Order", sortOrder));
-        sendEvent("View", Action.SET_SORTING_ORDER, null, sortOrder);
+        sendEvent("View", "Set Sorting Order", null, sortOrder);
     }
 
     public static void setSingleColumn() {
-        YandexMetrica.reportEvent("Set Single Column");
-        sendEvent("View", Action.SET_LAYOUT, null, "Single Column");
+        YandexMetrica.reportEvent("Set Layout", makeAttribute("Layout", "Single Column"));
+        sendEvent("View", "Set Layout", null, "Single Column");
     }
 
     public static void setMultiColumn() {
-        YandexMetrica.reportEvent("Set Multi-Column");
-        sendEvent("View", Action.SET_LAYOUT, null, "Multi-column");
+        YandexMetrica.reportEvent("Set Layout", makeAttribute("Layout", "Multi-column"));
+        sendEvent("View", "Set Layout", null, "Multi-column");
     }
 
     public static void setDraft(final boolean draft) {
         YandexMetrica.reportEvent("Set Draft", makeAttribute("Is Draft", draft));
-        sendEvent("Note", Action.SET_DRAFT, null, Boolean.toString(draft));
+        sendEvent("Note", "Set Draft", null, Boolean.toString(draft));
     }
 
     public static void setStarred(final boolean starred) {
         YandexMetrica.reportEvent("Set Starred", makeAttribute("Is Starred", starred));
-        sendEvent("Note", Action.SET_STARRED, null, Boolean.toString(starred));
+        sendEvent("Note", "Set Starred", null, Boolean.toString(starred));
     }
 
     public static void setColor(final int color) {
         YandexMetrica.reportEvent("Set Color", makeAttribute("Color", String.format("#%06X", color)));
-        sendEvent("Note", Action.SET_COLOR, null, null);
+        sendEvent("Note", "Set Color", null, null);
     }
 
     public static void removeNote() {
         YandexMetrica.reportEvent("Remove Note");
-        sendEvent("Note", Action.REMOVE, null, null);
+        sendEvent("Note", "Remove", null, null);
     }
 
     public static void setCustomDate() {
         YandexMetrica.reportEvent("Set Custom Date");
-        sendEvent("Note", Action.SET_CUSTOM_DATE, null, null);
+        sendEvent("Note", "Set Custom Date", null, null);
     }
 
     public static void selectSection(final String sectionName) {
         YandexMetrica.reportEvent("Select Section", makeAttribute("Name", sectionName));
-        sendEvent("Drawer", Tracking.Action.CHANGE_SECTION, null, sectionName);
+        sendEvent("Drawer", "Select Section", null, sectionName);
     }
 
     public static void setFontSize(final String fontSize) {
         YandexMetrica.reportEvent("Set Font Size", makeAttribute("Size", fontSize));
-        sendEvent("Font Size", Action.SET, null, fontSize);
+        sendEvent("Font Size", "Set", null, fontSize);
     }
 
     public static void setTheme(final String theme) {
         YandexMetrica.reportEvent("Set Theme", makeAttribute("Theme", theme));
-        sendEvent("Theme", Action.SET, null, theme);
+        sendEvent("Theme", "Set", null, theme);
     }
 
     public static void enablePasscode(final int length) {
-        YandexMetrica.reportEvent("Enable Passcode", makeAttribute("Length", length));
-        sendEvent("Passcode", Action.ENABLE, null, null);
+        YandexMetrica.reportEvent("Passcode", makeAttributes("Action", "Enable", "Length", length));
+        sendEvent("Passcode", "Enable", null, null);
     }
 
     public static void disablePasscode() {
-        YandexMetrica.reportEvent("Disable Passcode");
-        sendEvent("Passcode", Action.DISABLE, null, null);
+        YandexMetrica.reportEvent("Passcode", makeAttribute("Action", "Disable"));
+        sendEvent("Passcode", "Disable", null, null);
     }
 
     public static void linkDropbox() {
@@ -169,6 +166,16 @@ public class Tracking {
         return attributes;
     }
 
+    private static HashMap<String, Object> makeAttributes(
+            final String key1, final Object value1,
+            final String key2, final Object value2
+    ) {
+        final HashMap<String, Object> attributes = new HashMap<>();
+        attributes.put(key1, value1);
+        attributes.put(key2, value2);
+        return attributes;
+    }
+
     private static void sendEvent(
             final String category,
             final String action,
@@ -188,28 +195,5 @@ public class Tracking {
             builder.setLabel(label);
         }
         Application.getTracker().send(builder.build());
-    }
-
-    private static class Action {
-
-        public static final String NEW = "New";
-        public static final String ENTER = "Enter";
-        public static final String CORRECT = "Correct";
-        public static final String INCORRECT = "Incorrect";
-        public static final String SET_CUSTOM_DATE = "Set Custom Date";
-        public static final String ENABLE = "Enable";
-        public static final String DISABLE = "Disable";
-        public static final String SET_COLOR = "Set Color";
-        public static final String DROPBOX = "Dropbox";
-        public static final String EXTERNAL = "External";
-        public static final String MIGRATE = "Migrate";
-        public static final String SET_SORTING_ORDER = "Set Sorting Order";
-        public static final String SET_LAYOUT = "Set Layout";
-        public static final String SET_DRAFT = "Set Draft";
-        public static final String SET_STARRED = "Set Starred";
-        public static final String REMOVE = "Remove";
-        public static final String CHANGE_SECTION = "Change Section";
-        public static final String CLICK = "Click";
-        public static final String SET = "Set";
     }
 }
