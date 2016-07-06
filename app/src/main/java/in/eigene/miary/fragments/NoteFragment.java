@@ -2,11 +2,9 @@ package in.eigene.miary.fragments;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +27,6 @@ import in.eigene.miary.fragments.dialogs.CustomDateDialogFragment;
 import in.eigene.miary.helpers.ColorHelper;
 import in.eigene.miary.helpers.Debouncer;
 import in.eigene.miary.helpers.PreferenceHelper;
-import in.eigene.miary.helpers.Substitutions;
 import in.eigene.miary.helpers.TextWatcher;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.helpers.TypefaceCache;
@@ -107,12 +104,10 @@ public class NoteFragment extends BaseFragment {
         editTextText.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_SLAB_REGULAR));
         editTextText.setTextSize(Float.valueOf(PreferenceHelper.get(getActivity()).getString(
                 getString(R.string.prefkey_font_size), "16")));
-        editTextText.addTextChangedListener(new SubstitutionsTextWatcher(editTextText) {
+        editTextText.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                super.afterTextChanged(s);
-
                 if (note != null) {
                     note.setText(editTextText.getText().toString());
                     saveNote(true);
@@ -124,12 +119,10 @@ public class NoteFragment extends BaseFragment {
     private void createTitleView(final View view) {
         editTextTitle = (EditText)view.findViewById(R.id.note_edit_title);
         editTextTitle.setTypeface(TypefaceCache.get(getActivity(), TypefaceCache.ROBOTO_CONDENSED_BOLD));
-        editTextTitle.addTextChangedListener(new SubstitutionsTextWatcher(editTextTitle) {
+        editTextTitle.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(final Editable s) {
-                super.afterTextChanged(s);
-
                 if (note != null) {
                     note.setTitle(editTextTitle.getText().toString());
                     saveNote(true);
@@ -307,36 +300,6 @@ public class NoteFragment extends BaseFragment {
         editTextTitle.setHintTextColor(ColorHelper.getHintColor(isLight));
         editTextText.setTextColor(ColorHelper.getTextColor(isLight));
         editTextText.setHintTextColor(ColorHelper.getHintColor(isLight));
-    }
-
-    private static abstract class SubstitutionsTextWatcher extends TextWatcher {
-
-        private final EditText editText;
-
-        private boolean isChanging = false;
-
-        public SubstitutionsTextWatcher(final EditText editText) {
-            this.editText = editText;
-        }
-
-        @Override
-        public void afterTextChanged(final Editable s) {
-            if (isChanging) {
-                // Prevent from infinite recursion.
-                return;
-            }
-            isChanging = true;
-
-            final String currentText = editText.getText().toString();
-            final String replacedText = Substitutions.replaceAll(currentText);
-            if (!currentText.equals(replacedText)) {
-                final int selectionStart = editText.getSelectionStart();
-                editText.setText(replacedText);
-                editText.setSelection(Math.max(0, selectionStart + replacedText.length() - currentText.length()));
-            }
-
-            isChanging = false;
-        }
     }
 
     public interface Listener {
