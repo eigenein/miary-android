@@ -19,13 +19,12 @@
             android:icon="@drawable/ic_launcher"
             android:theme="@style/Miary.Theme"
             android:name="in.eigene.miary.Application"
-            android:allowBackup="true"
-    >
+            android:allowBackup="true">
         <!-- Activities -->
         <activity
                 android:name=".activities.FeedActivity"
-                android:label="@string/app_name"
-        >
+                android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -33,8 +32,8 @@
         </activity>
         <activity
                 android:name=".activities.NoteActivity"
-                android:label="@string/activity_note"
-        >
+                android:label="@string/activity_note">
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -43,21 +42,17 @@
         </activity>
         <activity
                 android:name=".activities.SettingsActivity"
-                android:label="@string/activity_settings"
-        />
+                android:label="@string/activity_settings"/>
         <activity
                 android:name=".activities.FeedbackActivity"
-                android:label="@string/activity_feedback"
-        />
+                android:label="@string/activity_feedback"/>
         <activity
                 android:name=".activities.AboutActivity"
-                android:label="@string/activity_about"
-        />
+                android:label="@string/activity_about"/>
         <activity
                 android:name=".activities.PasscodeActivity"
                 android:label="@string/app_name"
-                android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
-        />
+                android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
 
         <!-- Dropbox Android Core SDK. -->
         <activity
@@ -75,61 +70,54 @@
         <!-- Services -->
         <service
                 android:name=".services.NotificationIntentService"
-                android:enabled="true"
-        />
+                android:enabled="true"/>
         <service android:name=".sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
             <meta-data
                     android:name="android.accounts.AccountAuthenticator"
-                    android:resource="@xml/authenticator"
-            />
+                    android:resource="@xml/authenticator"/>
         </service>
 
         <!-- Receivers -->
         <receiver
                 android:name=".receivers.BootReceiver"
-                android:enabled="true"
-        >
+                android:enabled="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
         <receiver
-                android:name=".receivers.CreateNewNoteReceiver"
-        />
+                android:name=".receivers.CreateNewNoteReceiver"/>
 
         <!-- Syncing. -->
         <provider
                 android:name=".sync.ContentProvider"
                 android:authorities="in.eigene.miary.provider"
                 android:exported="false"
-                android:syncable="true"
-        />
+                android:syncable="true"/>
         <service
                 android:name=".sync.SyncService"
                 android:exported="true"
-                android:process=":sync"
-        >
+                android:process=":sync">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
             <meta-data
                     android:name="android.content.SyncAdapter"
-                    android:resource="@xml/syncadapter"
-            />
+                    android:resource="@xml/syncadapter"/>
         </service>
 
         <!-- Google Analytics. -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"
-        />
+            android:value="@integer/google_play_services_version"/>
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-            android:enabled="true"
-        >
+            android:enabled="true">
+
             <intent-filter>
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH"/>
             </intent-filter>
