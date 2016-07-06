@@ -12,11 +12,6 @@ import in.eigene.miary.R;
  */
 public class PreferenceHelper {
 
-    /**
-     * #179. Specifies whether notes from previous app versions where migrated.
-     */
-    public static final String KEY_NOTES_MIGRATED = "notes_migrated";
-
     public static final String KEY_SORT_ORDER = "feed_sort_order";
     public static final String KEY_MULTI_COLUMN = "feed_multi_column";
 

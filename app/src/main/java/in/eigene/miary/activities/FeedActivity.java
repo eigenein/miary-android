@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import in.eigene.miary.R;
 import in.eigene.miary.fragments.FeedFragment;
-import in.eigene.miary.helpers.MigrationHelper;
-import in.eigene.miary.helpers.PreferenceHelper;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
 import in.eigene.miary.widgets.Drawer;
@@ -49,22 +45,6 @@ public class FeedActivity extends BaseActivity {
         // Initialize navigation drawer.
         drawer = new Drawer(this, getToolbar());
         drawer.showForFirstTime();
-
-        // #179: migrate notes from previous app versions. To be removed.
-        if (!PreferenceHelper.get(this).getBoolean(PreferenceHelper.KEY_NOTES_MIGRATED, false)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!isFinishing()) {
-                        MigrationHelper.migrate(FeedActivity.this);
-                    } else {
-                        Log.w(LOG_TAG, "Finishing. Could not migrate now.");
-                    }
-                }
-            }, 1000L);
-        } else {
-            Log.i(LOG_TAG, "Already migrated.");
-        }
     }
 
     @Override
