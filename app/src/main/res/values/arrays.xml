@@ -68,12 +68,10 @@
     </string-array>
     <string-array name="about_titles">
         <item>Facebook</item>
-        <item>Telegram</item>
         <item>VKontakte</item>
     </string-array>
     <string-array name="about_links">
         <item>https://www.facebook.com/miaryapp</item>
-        <item>https://telegram.me/miaryapp</item>
         <item>https://vk.com/miaryapp</item>
     </string-array>
     <string-array name="pin_timeout_titles">
