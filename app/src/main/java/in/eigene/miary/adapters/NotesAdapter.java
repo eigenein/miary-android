@@ -38,14 +38,16 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public void setCursor(final Cursor cursor) {
         final Cursor oldCursor = this.cursor;
         this.cursor = cursor;
+
+        lastAnimatedPosition = -1;
+        notifyDataSetChanged();
+
         if (oldCursor != null) {
             oldCursor.close();
         }
         if (cursor != null) {
             idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
         }
-        notifyDataSetChanged();
-        lastAnimatedPosition = -1;
     }
 
     @Override
