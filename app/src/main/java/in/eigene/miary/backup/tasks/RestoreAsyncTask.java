@@ -15,7 +15,6 @@ import in.eigene.miary.backup.Result;
 import in.eigene.miary.backup.Storage;
 import in.eigene.miary.helpers.Tracking;
 import in.eigene.miary.persistence.Note;
-import in.eigene.miary.exceptions.InternalRuntimeException;
 
 /**
  * Used to restore a backup.
