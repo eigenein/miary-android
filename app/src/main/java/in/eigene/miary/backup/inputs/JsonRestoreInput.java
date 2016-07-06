@@ -24,6 +24,7 @@ public class JsonRestoreInput extends RestoreInput {
 
     private final JsonReader reader;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private int schemaVersion;
 
     private int count;
